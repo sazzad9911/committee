@@ -1,9 +1,9 @@
-class Colors{
+export class AppColors{
     constructor(isDark){
         this.isDark=isDark
     }
     getBackgroundColor(){
-        return this.isDark?"#ffffff":"#000000"
+        return this.isDark?"#000000":"#ffffff"
     }
     getMainColor(){
         return this.isDark?"#2B32B2":"#2B32B2"
