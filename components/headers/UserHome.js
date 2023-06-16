@@ -54,5 +54,7 @@ const style = StyleSheet.create({
     padding: 8,
     borderRadius: 50,
     borderWidth: 1,
+    width:40,
+    height:40
   },
 });

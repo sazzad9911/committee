@@ -25,6 +25,7 @@ export default function UserBottomBar({ navigation, state }) {
   const mainColor = colors.getMainColor();
   const backgroundColor=colors.getBackgroundColor()
   const textColor=colors.getTextColor()
+  const borderColor=colors.getBorderColor()
 
   const press = (v) => {
     Animated.spring(translateValue, {
@@ -47,6 +48,8 @@ export default function UserBottomBar({ navigation, state }) {
       justifyContent: "space-between",
       paddingHorizontal: 0,
       paddingVertical: 8,
+      borderTopWidth:1,
+      borderTopColor:borderColor
     },
     buttons: {
       flex: 1,
@@ -80,25 +83,37 @@ export default function UserBottomBar({ navigation, state }) {
             />
           </Animated.View>
         </View>
-        <Pressable style={style.buttons} onPress={() => setRoute(0)}>
+        <Pressable style={style.buttons} onPress={() => {
+          setRoute(0)
+          navigation?.navigate("Home")
+        }}>
           <SvgXml xml={route == 0 ? homeActiveIcon : homeIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[0] : ""}
           </Text>
         </Pressable>
-        <Pressable style={style.buttons} onPress={() => setRoute(1)}>
+        <Pressable style={style.buttons}  onPress={() => {
+          setRoute(1)
+          navigation?.navigate("Subscription")
+        }}>
           <SvgXml xml={route == 1 ? subsActiveIcon : subsIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[1] : ""}
           </Text>
         </Pressable>
-        <Pressable style={style.buttons} onPress={() => setRoute(2)}>
+        <Pressable style={style.buttons} onPress={() => {
+          setRoute(2)
+          navigation?.navigate("Inbox")
+        }}>
           <SvgXml xml={route == 2 ? inboxActiveIcon : inboxIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[2] : ""}
           </Text>
         </Pressable>
-        <Pressable style={[style.buttons]} onPress={() => setRoute(3)}>
+        <Pressable style={[style.buttons]} onPress={() => {
+          setRoute(3)
+          navigation?.navigate("Profile")
+        }}>
           <SvgXml xml={route == 3 ? profileActiveIcon : profileIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[3] : ""}

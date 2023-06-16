@@ -12,4 +12,15 @@ export class AppValues {
       return ["Home","Donation","Inbox","Profile"]
     }
   }
+  getSignUpCartTitles(){
+    if(this.isBn){
+      return {
+        title:"দশে মিলে করি কাজ, হারি জিতি নাহি লাজ"
+      }
+    }else{
+      return{
+        title:"Two heads are better than one. We stand or fall together."
+      }
+    }
+  }
 }
