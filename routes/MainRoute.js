@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { setIsDark } from "../data/isDark";
 import { setIsBn } from "../data/isBn";
 import { AppColors } from "../functions/colors";
+import SignIn from "../screens/Authentication/SignIn";
+import BackHeader from "../components/main/BackHeader";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -38,6 +40,13 @@ export default function MainRoute() {
       <StatusBar backgroundColor={backgroundColor} barStyle={colorScheme=="dark"?"light-content":"dark-content"}/>
       <NavigationContainer theme={MyTheme}>
         <Stack.Navigator>
+        <Stack.Screen
+            options={{
+              header:(props)=><BackHeader onPress={()=>{}} {...props}/>
+            }}
+            name="SignIn"
+            component={SignIn}
+          />
           <Stack.Screen
             options={{
               headerShown: false,
