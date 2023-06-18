@@ -53,7 +53,7 @@ export default function BackHeader({title,onPress,navigation}) {
             color: textColor,
             maxWidth: width - 100,
           }}>
-          Phone number verification
+         {title}
         </Text>
       </View>
     </View>

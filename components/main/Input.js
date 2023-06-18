@@ -24,7 +24,8 @@ const Input = ({
   autoCapitalize,
   levelStyle,
   subLevel,
-  optionalLevel
+  optionalLevel,
+  placeholderTextColor
 }) => {
   const [Focus, setFocus] = React.useState(false);
   const [Error, setError] = React.useState();
@@ -37,8 +38,9 @@ const Input = ({
   const backgroundColor = colors.getBackgroundColor();
   const borderColor = colors.getBorderColor();
   const mainColor = colors.getMainColor();
+  
   return (
-    <View style={containerStyle}>
+    <View>
      {level&&(
          <View
          style={{
@@ -92,12 +94,12 @@ const Input = ({
             paddingHorizontal: 10,
           },
           { borderColor: !Focus ? borderColor : mainColor },
-          ,
+          ,containerStyle
         ]}>
         {leftIcon}
         <TextInput
           secureTextEntry={secureTextEntry}
-          placeholderTextColor={borderColor}
+          placeholderTextColor={placeholderTextColor?placeholderTextColor:borderColor}
           ref={innerRef}
           returnKeyType={returnKeyType}
           onSubmitEditing={() => {
@@ -116,7 +118,7 @@ const Input = ({
             }
           }}
           onFocus={() => {
-            setFocus(!Focus);
+            setFocus(v=>!v);
             if (onFocus) {
               onFocus();
             }
@@ -137,25 +139,26 @@ const Input = ({
             style,
           ]}
         />
-        {Error && (
+        
+
+        {rightIcon}
+      </View>
+      {Error && (
           <Text
             style={[
               {
                 fontSize: 12,
                 color: "red",
-                fontFamily: "Poppins-Light",
+                
                 borderWidth: 0,
                 marginTop: 0,
                 marginBottom: 0,
-                marginLeft: style.marginLeft,
+                marginLeft: style?.marginLeft,
               },
             ]}>
             {Error}
           </Text>
         )}
-
-        {rightIcon}
-      </View>
     </View>
   );
 };
