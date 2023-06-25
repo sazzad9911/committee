@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function SignUpCart({ title }) {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,marginHorizontal:20 }}>
       {/* <SvgXml style={{}}  width={"100%"} xml={vector} /> */}
       <Image
         style={{

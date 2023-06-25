@@ -9,7 +9,16 @@ const mainStyle=StyleSheet.create({
         paddingVertical:24,
         flexDirection:"row",
         justifyContent:"space-between"
-    }
+    },
+    headLine:{
+        fontSize:20,
+        fontWeight:"700",
+        marginVertical:24
+    },
+    moreButton:{
+        borderWidth:0
+    },
+    
     
 })
 export default mainStyle

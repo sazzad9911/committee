@@ -3,7 +3,7 @@ export class AppValues {
     this.isBn = isBn;
   }
   getAppName() {
-    return this.isBn ? "কমিটি" : "Committee";
+    return this.isBn ? "কমিটি" : "Comity";
   }
   getUserBottomBarName() {
     if (this.isBn) {
