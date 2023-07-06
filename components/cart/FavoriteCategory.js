@@ -30,6 +30,7 @@ export default function FavoriteCategory({ textColor }) {
         />
       </View>
       <FavoriteCategoryCart index={0} />
+      <View style={{height:24}}/>
       <FavoriteCategoryCart index={1} />
       
     </View>
@@ -40,7 +41,7 @@ export const FavoriteCategoryCart = ({ index, image }) => {
     <View
       style={{
         marginHorizontal: 20,
-        marginBottom:24
+        marginBottom:0
       }}>
       <Image
         style={{

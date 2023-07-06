@@ -27,6 +27,8 @@ export default function Home({ navigation }) {
         <SignUpCart title={signUpCartTitles?.title}/>
        <PopularCategory textColor={textColor}/>
        <FavoriteCategory textColor={textColor}/>
+       <PopularCategory textColor={textColor}/>
+       <View style={{height:24}}/>
       </View>}
       header={<UserHome navigation={navigation} />}
     />
