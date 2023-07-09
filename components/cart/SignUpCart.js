@@ -4,7 +4,7 @@ import { SvgXml } from "react-native-svg";
 import cart from "../../assets/cart.png";
 const { width, height } = Dimensions.get("window");
 
-export default function SignUpCart({ title }) {
+export default function SignUpCart({ title,onPress }) {
   return (
     <View style={{ flex: 1,marginHorizontal:20 }}>
       {/* <SvgXml style={{}}  width={"100%"} xml={vector} /> */}
@@ -64,7 +64,7 @@ export default function SignUpCart({ title }) {
               }}>
               একটি কমিটি ঘঠন করুন{" "}
             </Text>
-            <Pressable
+            <Pressable onPress={onPress}
               style={{
                 backgroundColor: "#7588FF",
                 marginLeft: 12,

@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
+const {width,height}=Dimensions.get("window")
 
 const mainStyle=StyleSheet.create({
     fullContainer:{
@@ -18,7 +19,41 @@ const mainStyle=StyleSheet.create({
     moreButton:{
         borderWidth:0
     },
-    
-    
+    mt24:{
+        marginTop:24
+    },
+    pdH20:{
+        paddingHorizontal:20,
+    },
+    level:{
+        fontSize:20,
+
+    },
+    subLevel:{
+        fontSize:16
+    },
+    mt12:{
+        marginTop:12
+    },
+    mt8:{
+        marginTop:8
+    },
+    flexBox:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center"
+    },
+    halfInput:{
+        width:(width/2-20)-6
+    },
+    ht32:{
+        height:32
+    },
+    pdV20:{
+        paddingVertical:20
+    },
+    text14:{
+        fontSize:14
+    }
 })
 export default mainStyle

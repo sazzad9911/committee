@@ -25,7 +25,8 @@ const Input = ({
   levelStyle,
   subLevel,
   optionalLevel,
-  placeholderTextColor
+  placeholderTextColor,
+  outSideStyle
 }) => {
   const [Focus, setFocus] = React.useState(false);
   const [Error, setError] = React.useState();
@@ -40,7 +41,7 @@ const Input = ({
   const mainColor = colors.getMainColor();
   
   return (
-    <View>
+    <View style={outSideStyle}>
      {level&&(
          <View
          style={{
@@ -61,6 +62,7 @@ const Input = ({
             style={[
               {
                 fontSize: 16,
+                color:borderColor
               },
               levelStyle,
             ]}>
@@ -73,7 +75,7 @@ const Input = ({
             style={[
               {
                 fontSize: 14,
-                color: textColor,
+                color: borderColor,
               },
               levelStyle,
             ]}>

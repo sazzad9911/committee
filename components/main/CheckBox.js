@@ -9,70 +9,81 @@ export const CheckBox = ({
   style,
   disabled,
   decline,
+  component,
 }) => {
   const [checked, setChecked] = React.useState(false);
   React.useEffect(() => {
     setChecked(value);
   }, [value]);
   return (
-    <Pressable
-      disabled={disabled}
-      onPress={() => {
-        if (decline) {
-          return;
-        }
-        if (onChange) {
-          onChange(title);
-        }
-        setChecked(!checked);
-      }}
-      style={[
-        {
-          flexDirection: "row",
-          alignItems: "center",
-          opacity: disabled ? 0.5 : 1,
-          flexWrap: "wrap",
-        },
-        style,
-      ]}>
-      <View
-        style={{
-          borderColor: "#D1D1D1",
-          height: 20,
-          width: 20,
-          borderWidth: 1.5,
-          borderRadius: 5,
-          justifyContent: "center",
-          alignItems: "center",
-          marginRight: 10,
-          marginTop: 2,
-        }}>
-        {checked && (
-          <SvgXml
-            style={{
-              marginBottom: 7,
-              marginLeft: 7,
-            }}
-            xml={tick}
-            height="50"
-            width="50"
-          />
-        )}
-      </View>
-      <Text
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        flex: 1,
+      }}>
+      <Pressable
+        disabled={disabled}
+        onPress={() => {
+          if (decline) {
+            return;
+          }
+          if (onChange) {
+            onChange(title);
+          }
+          setChecked(!checked);
+        }}
         style={[
-          styles.text,
           {
-            flex: 1,
-            color: style && style.color ? style.color : "black",
-            fontSize: style && style.fontSize ? style.fontSize : 16,
-            margin: 0,
-            lineHeight: style?.lineHeight,
+            flexDirection: "row",
+            alignItems: "center",
+            opacity: disabled ? 0.5 : 1,
+            flexWrap: "wrap",
           },
+          style,
         ]}>
-        {title}
-      </Text>
-    </Pressable>
+        <View
+          style={{
+            borderColor: "#D1D1D1",
+            height: 20,
+            width: 20,
+            borderWidth: 1.5,
+            borderRadius: 5,
+            justifyContent: "center",
+            alignItems: "center",
+            marginRight: 10,
+            marginTop: 2,
+          }}>
+          {checked && (
+            <SvgXml
+              style={{
+                marginBottom: 7,
+                marginLeft: 7,
+              }}
+              xml={tick}
+              height="50"
+              width="50"
+            />
+          )}
+        </View>
+        {!component && (
+          <Text
+            style={[
+              styles.text,
+              {
+                flex: 1,
+                color: style && style.color ? style.color : "black",
+                fontSize: style && style.fontSize ? style.fontSize : 16,
+                margin: 0,
+                lineHeight: style?.lineHeight,
+              },
+            ]}>
+            {title}
+          </Text>
+        )}
+      </Pressable>
+      {component&&(<View style={{ flex: 1 }}>{component}</View>)}
+    </View>
   );
 };
 const styles = StyleSheet.create({

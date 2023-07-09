@@ -23,4 +23,54 @@ export class AppValues {
       }
     }
   }
+  getComityHeadLine(){
+    return this.isBn?"কমিটির তথ্য":"Comity Information"
+  }
+  createCommitteeValues(){
+    if(this.isBn){
+      return {
+        name:"কমিটির নাম",
+        required:"বাধ্যতা মূলক",
+        highest30:"সর্বচ্চ ৩০ অক্ষর",
+        highest50:"সর্বচ্চ ৫০ অক্ষর",
+        notRequired:"বাধ্যতা মূলক নয়",
+        mobile:"মোবাইল",
+        write:"লিখুন",
+        select:"বাছাই করুন",
+        address:"ঠিকানা",
+        division:"ভিভাগ",
+        district:"জেলা",
+        thana:"থানা",
+        next:"পরবর্তী",
+        highest1000:"সর্বচ্চ ১০০০ অক্ষর",
+        about:"কমিটি সম্পর্কে",
+        confirm:"নিশ্চিত করুন",
+        text1:"আমি সকল",
+        text2:"নীতিমালার",
+        text3:"বিষয়ে সম্মতি দিলাম"
+      }
+    }else{
+      return {
+        name:"Comity Name",
+        required:"Require",
+        highest30:"Maxi. 30 Cha.",
+        highest50:"Maxi. 50 Cha.",
+        notRequired:"Optional",
+        mobile:"Mobile",
+        write:"Type here",
+        select:"Choose",
+        address:"Address",
+        division:"Division",
+        district:"District",
+        thana:"Thana",
+        next:"Next",
+        highest1000:"Maxi. 1000 Cha.",
+        about:"About Comity",
+        confirm:"Confirm",
+        text1:" agree to all",
+        text2:"terms and conditions",
+        text3:""
+      }
+    }
+  }
 }
