@@ -12,6 +12,13 @@ export class AppValues {
       return ["Home","Donation","Inbox","Profile"]
     }
   }
+  getLanguageHeadline() {
+    if (this.isBn) {
+      return "Blank"
+    } else {
+      return "Change Language"
+    }
+  }
   getSignUpCartTitles(){
     if(this.isBn){
       return {

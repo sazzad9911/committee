@@ -16,9 +16,9 @@ export default function CreateCommittee({ navigation }) {
   const createCommitteeValues = values.createCommitteeValues();
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
-
+  const backgroundColor = colors.getBackgroundColor();
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={{backgroundColor:backgroundColor}} showsVerticalScrollIndicator={false}>
       <View
         style={{
           paddingHorizontal: 20,

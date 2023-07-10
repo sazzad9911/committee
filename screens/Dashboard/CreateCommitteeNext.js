@@ -23,7 +23,7 @@ export default function CreateCommitteeNext({ navigation }) {
   const createCommitteeValues = values.createCommitteeValues();
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={{backgroundColor:backgroundColor}} showsVerticalScrollIndicator={false}>
       <View style={[{ paddingTop: inset?.top }]}>
         <Image
           source={committee}
