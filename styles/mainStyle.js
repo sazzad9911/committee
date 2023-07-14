@@ -54,6 +54,9 @@ const mainStyle=StyleSheet.create({
     },
     text14:{
         fontSize:14
+    },
+    mt32:{
+        marginTop:32
     }
 })
 export default mainStyle

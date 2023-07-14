@@ -11,7 +11,7 @@ export class AppColors{
         return this.isDark?"#ffffff":"#2B32B2"
     }
     getBorderColor(){
-        return this.isDark?"rgba(255, 255, 255, 0.20)":"rgba(0, 0, 0, 0.20)"
+        return this.isDark?"rgba(255, 255, 255, 0.60)":"rgba(0, 0, 0, 0.40)"
     }
     getTextColor(){
         return this.isDark?"#ffffff":"#000000"
@@ -22,4 +22,5 @@ export class AppColors{
     getTextPrimaryColor(){
         return this.isDark?"#fff":"#2B32B2"
     }
+    
 }

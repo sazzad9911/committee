@@ -14,7 +14,7 @@ export class AppValues {
   }
   getLanguageHeadline() {
     if (this.isBn) {
-      return "Blank"
+      return "Change Language"
     } else {
       return "Change Language"
     }
@@ -54,7 +54,8 @@ export class AppValues {
         confirm:"নিশ্চিত করুন",
         text1:"আমি সকল",
         text2:"নীতিমালার",
-        text3:"বিষয়ে সম্মতি দিলাম"
+        text3:"বিষয়ে সম্মতি দিলাম",
+        gender:"লিঙ্গ"
       }
     }else{
       return {
@@ -76,8 +77,24 @@ export class AppValues {
         confirm:"Confirm",
         text1:" agree to all",
         text2:"terms and conditions",
-        text3:""
+        text3:"",
+        gender:"Gender"
       }
     }
+  }
+  getEditProfileHeadLine(){
+    return this.isBn?"Address":"Address"
+  }
+  getSearch(){
+    return this.isBn?"খুঁজুন":"Search"
+  }
+  getCommitteeList(){
+    return this.isBn?"কমিটি লিস্ট":"Comity List"
+  }
+  createComityText(){
+    return this.isBn?"একটি কমিটি গঠন করুন ":"Create a comity"
+  }
+  noComityFound(){
+    return this.isBn?"আপনি এখন পর্যন্ত নিজের কোন কমিটি গঠন করেননি ":"You have not created your own comity"
   }
 }

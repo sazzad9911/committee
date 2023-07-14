@@ -6,20 +6,22 @@ import ProfileScreen from './ProfileScreen';
 import { useSelector } from 'react-redux';
 import { AppValues } from '../../functions/values';
 import LanguageScreen from './LanguageScreen';
+import EditProfileInfo from './EditProfileInfo';
+import CommitteeList from './CommitteeList';
 
 export default function Profile() {
   const isBn=useSelector(state=>state.isBn)
   const values=new AppValues(isBn)
   const languageTitle=values.getLanguageHeadline()
+  const editProfileInfo=values.getEditProfileHeadLine()
   return (
     <Stack.Navigator>
       <Stack.Screen options={{
         headerShown:false
       }} name="ProfileScree" component={ProfileScreen} />
       <Stack.Screen options={{
-        header:props=><BackHeader title={languageTitle} {...props}/>
-      }} name="LanguageScreen" component={LanguageScreen} />
-     
+        headerShown:false
+      }} name="CommitteeList" component={CommitteeList} />
     </Stack.Navigator>
   );
   

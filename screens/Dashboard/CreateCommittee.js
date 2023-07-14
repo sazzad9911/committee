@@ -68,13 +68,13 @@ export default function CreateCommittee({ navigation }) {
             <Text style={[{ color: textColor }, mainStyle.subLevel]}>
               {createCommitteeValues.district}
             </Text>
-            <Input placeholder={createCommitteeValues.write} outSideStyle={mainStyle.halfInput} />
+            <Input editable={false} onPress={() => console.log("ok")} placeholder={createCommitteeValues.select} outSideStyle={mainStyle.halfInput} />
           </View>
           <View>
             <Text style={[{ color: textColor }, mainStyle.subLevel]}>
               {createCommitteeValues.thana}
             </Text>
-            <Input placeholder={createCommitteeValues.write} outSideStyle={mainStyle.halfInput} />
+            <Input editable={false} onPress={() => console.log("ok")} placeholder={createCommitteeValues.select} outSideStyle={mainStyle.halfInput} />
           </View>
         </View>
 

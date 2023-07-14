@@ -5,7 +5,7 @@ import Home from "../screens/User/Home";
 import Profile from "../screens/User/Profile";
 import UserTabRoute from "./UserTabRoute";
 import { StatusBar, useColorScheme, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIsDark } from "../data/isDark";
 import { setIsBn } from "../data/isBn";
 import { AppColors } from "../functions/colors";
@@ -16,6 +16,9 @@ import SignUp from "../screens/Authentication/SignUp";
 import Information from "../screens/Authentication/Information";
 import { PaperProvider } from "react-native-paper";
 import Recovery from "../screens/Authentication/Recovery";
+import LanguageScreen from "../screens/User/LanguageScreen";
+import EditProfileInfo from "../screens/User/EditProfileInfo";
+import { AppValues } from "../functions/values";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -24,6 +27,11 @@ export default function MainRoute() {
   const colors = new AppColors(colorScheme == "dark" ? true : false);
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
+  const isBn = useSelector((state) => state.isBn);
+  const values = new AppValues(isBn);
+  const languageTitle = values.getLanguageHeadline();
+  const editProfileInfo = values.getEditProfileHeadLine();
+
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
     dispatch(setIsBn(true));
@@ -100,6 +108,24 @@ export default function MainRoute() {
               }}
               name="Dashboard"
               component={UserTabRoute}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={languageTitle} {...props} />
+                ),
+              }}
+              name="LanguageScreen"
+              component={LanguageScreen}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={editProfileInfo} {...props} />
+                ),
+              }}
+              name="EditProfileInfo"
+              component={EditProfileInfo}
             />
           </Stack.Navigator>
         </NavigationContainer>

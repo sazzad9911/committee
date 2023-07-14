@@ -24,6 +24,7 @@ const Button = ({
   const primaryColor = colors.getMainColor();
   const ac=["#1488CC", "#2B32B2"]
   const dc=[backgroundColor,backgroundColor]
+  const borderColor=colors.getBorderColor()
 
   return (
     <TouchableOpacity
@@ -46,7 +47,7 @@ const Button = ({
             alignItems: "center",
             height: 45,
             borderWidth: active ? 0 : 1,
-            borderColor: "#e5e5e5",
+            borderColor: borderColor,
           },
           style,
         ]}
@@ -66,8 +67,9 @@ const Button = ({
                 ? "white"
                 : color
                 ? color
-                : textColor,
+                : borderColor,
               opacity: disabled ? 0.4 : 1,
+              fontWeight:"600"
             }}>
             {title}
           </Text>

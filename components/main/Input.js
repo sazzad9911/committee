@@ -39,6 +39,7 @@ const Input = ({
   const backgroundColor = colors.getBackgroundColor();
   const borderColor = colors.getBorderColor();
   const mainColor = colors.getMainColor();
+  const subTextColor=colors.getSubTextColor();
   
   return (
     <View style={outSideStyle}>
@@ -94,9 +95,10 @@ const Input = ({
             borderRadius: 4,
             minHeight: 45,
             paddingHorizontal: 10,
+            backgroundColor:isDark?"rgba(255, 255, 255, 0.2)":"#ffff"
           },
           { borderColor: !Focus ? borderColor : mainColor },
-          ,containerStyle
+          ,containerStyle,onPress?{backgroundColor:null}:null
         ]}>
         {leftIcon}
         <TextInput
@@ -135,7 +137,9 @@ const Input = ({
               paddingLeft:leftIcon?10:0,
               fontSize: 15,
               color: textColor,
-              paddingRight:rightIcon?10:0
+              paddingRight:rightIcon?10:0,
+
+
             },
 
             style,

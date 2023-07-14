@@ -98,6 +98,7 @@ const TextArea = ({
             borderRadius: 4,
             minHeight: 90,
             paddingHorizontal: 10,
+            backgroundColor:isDark?"rgba(255, 255, 255, 0.2)":"#ffff"
           },
           { borderColor: !Focus ? borderColor : mainColor },
           ,
