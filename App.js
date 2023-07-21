@@ -4,13 +4,18 @@ import MainRoute from "./routes/MainRoute";
 import mainStyle from "./styles/mainStyle";
 import { Provider } from "react-redux";
 import store from "./store";
+import 'react-native-reanimated'
+import 'react-native-gesture-handler'
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <View style={mainStyle.fullContainer}>
-        <MainRoute />
-      </View>
-    </Provider>
+    
+      <Provider store={store}>
+        <View style={mainStyle.fullContainer}>
+          <MainRoute />
+          
+        </View>
+      </Provider>
+ 
   );
 }

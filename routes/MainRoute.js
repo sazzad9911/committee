@@ -6,7 +6,7 @@ import Profile from "../screens/User/Profile";
 import UserTabRoute from "./UserTabRoute";
 import { StatusBar, useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsDark } from "../data/isDark";
+import isDark, { setIsDark } from "../data/isDark";
 import { setIsBn } from "../data/isBn";
 import { AppColors } from "../functions/colors";
 import SignIn from "../screens/Authentication/SignIn";
@@ -14,11 +14,16 @@ import BackHeader from "../components/main/BackHeader";
 import Otp from "../screens/Authentication/Otp";
 import SignUp from "../screens/Authentication/SignUp";
 import Information from "../screens/Authentication/Information";
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, MD3LightTheme } from "react-native-paper";
 import Recovery from "../screens/Authentication/Recovery";
 import LanguageScreen from "../screens/User/LanguageScreen";
 import EditProfileInfo from "../screens/User/EditProfileInfo";
 import { AppValues } from "../functions/values";
+import CreateCommittee from "../screens/Dashboard/CreateCommittee";
+import CreateCommitteeNext from "../screens/Dashboard/CreateCommitteeNext";
+import DashboardRoute from "./DashboardRoute";
+import DateShort from "../screens/Dashboard/DateShort";
+import SelectDate from "../screens/Dashboard/SelectDate";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -28,7 +33,10 @@ export default function MainRoute() {
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const isBn = useSelector((state) => state.isBn);
+
   const values = new AppValues(isBn);
+  const getComityHeadLine = values.getComityHeadLine();
+  const headlines = values.getDashboardHeadlines();
   const languageTitle = values.getLanguageHeadline();
   const editProfileInfo = values.getEditProfileHeadLine();
 
@@ -43,7 +51,17 @@ export default function MainRoute() {
       primary: "rgb(255, 45, 85)",
       background: backgroundColor,
     },
-    dark: true,
+    dark: false,
+  };
+  const theme = {
+    ...MD3LightTheme, // or MD3DarkTheme
+    roundness: 2,
+    colors: {
+      ...MD3LightTheme.colors,
+      primary: "#000",
+      secondary: "#000",
+      tertiary: "#000",
+    },
   };
 
   return (
@@ -55,9 +73,16 @@ export default function MainRoute() {
         backgroundColor={backgroundColor}
         barStyle={colorScheme == "dark" ? "light-content" : "dark-content"}
       />
-      <PaperProvider>
+      <PaperProvider theme={colorScheme == "dark" ? null : theme}>
         <NavigationContainer theme={MyTheme}>
           <Stack.Navigator>
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Dashboard"
+              component={DashboardRoute}
+            />
             <Stack.Screen
               options={{
                 //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
@@ -102,13 +127,7 @@ export default function MainRoute() {
               name="Recovery"
               component={Recovery}
             />
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="Dashboard"
-              component={UserTabRoute}
-            />
+
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -126,6 +145,37 @@ export default function MainRoute() {
               }}
               name="EditProfileInfo"
               component={EditProfileInfo}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={getComityHeadLine} {...props} />
+                ),
+              }}
+              name="CreateCommittee"
+              component={CreateCommittee}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="CreateCommitteeNext"
+              component={CreateCommitteeNext}
+            />
+
+            <Stack.Screen
+              options={{
+                header: (props) => <BackHeader title={headlines._settings} {...props} />,
+              }}
+              name="DateShort"
+              component={DateShort}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => <BackHeader title={headlines._chooseDateHeadline} {...props} />,
+              }}
+              name="SelectDate"
+              component={SelectDate}
             />
           </Stack.Navigator>
         </NavigationContainer>

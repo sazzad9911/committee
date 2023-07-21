@@ -13,6 +13,9 @@ import BackHeader from "../../components/main/BackHeader";
 import CreateCommittee from "../Dashboard/CreateCommittee";
 import CreateCommitteeNext from "../Dashboard/CreateCommitteeNext";
 import CommitteeProfile from "../Dashboard/CommitteeProfile";
+import EditCommitteeInfo from "../Dashboard/EditCommitteeInfo";
+import MemberPage from "../Dashboard/MemberPage";
+import CurrentBalance from "../Dashboard/CurrentBalance";
 const Stack = createNativeStackNavigator();
 
 export default function Home({ navigation }) {
@@ -24,6 +27,7 @@ export default function Home({ navigation }) {
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const getComityHeadLine=values.getComityHeadLine()
+  const headlines=values.getHeadLines()
 
   const HomeScreen=()=>{
     return (
@@ -52,15 +56,8 @@ export default function Home({ navigation }) {
       <Stack.Screen options={{
         headerShown:false
       }} name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen options={{
-        header:props=><BackHeader title={getComityHeadLine} {...props}/>
-      }} name="CreateCommittee" component={CreateCommittee} />
-      <Stack.Screen options={{
-        headerShown:false
-      }} name="CreateCommitteeNext" component={CreateCommitteeNext} />
-      <Stack.Screen options={{
-        headerShown:false
-      }} name="CommitteeProfile" component={CommitteeProfile} />
+      
+      
     </Stack.Navigator>
   );
   

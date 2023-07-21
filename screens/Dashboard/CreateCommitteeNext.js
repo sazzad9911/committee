@@ -71,7 +71,7 @@ export default function CreateCommitteeNext({ navigation }) {
             <Text style={[mainStyle.text14,{color:textColor}]}>{createCommitteeValues.text1} <Text style={{color:"#737AFF"}}>{createCommitteeValues.text2}</Text> {createCommitteeValues.text3}</Text>
           </View>}/>
           <Button onPress={()=>{
-            navigation?.navigate("CommitteeProfile")
+            //navigation?.navigate("CommitteeProfile")
           }} style={mainStyle.mt12} active={true} title={createCommitteeValues.confirm}/>
           <View style={{height:16}}/>
         </View>
