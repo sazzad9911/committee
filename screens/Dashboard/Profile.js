@@ -9,6 +9,7 @@ import EditProfileInfo from "../User/EditProfileInfo";
 import MemberPage from "./MemberPage";
 import CurrentBalance from "./CurrentBalance";
 import EditCommitteeInfo from "./EditCommitteeInfo";
+import Notice from "./Notice";
 
 export default function Profile() {
   const isBn = useSelector((state) => state.isBn);
@@ -50,6 +51,13 @@ export default function Profile() {
         }}
         name="CurrentBalance"
         component={CurrentBalance}
+      />
+      <Stack.Screen
+        options={{
+          headerShown:false
+        }}
+        name="Notice"
+        component={Notice}
       />
     </Stack.Navigator>
   );

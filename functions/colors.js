@@ -22,5 +22,8 @@ export class AppColors{
     getTextPrimaryColor(){
         return this.isDark?"#fff":"#2B32B2"
     }
+    getSchemeColor(){
+        return this.isDark?"#000":"#fff"
+    }
     
 }

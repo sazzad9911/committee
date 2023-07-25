@@ -25,8 +25,12 @@ const mainStyle = StyleSheet.create({
   pdH20: {
     paddingHorizontal: 20,
   },
+  mH20: {
+    marginHorizontal: 20,
+  },
   level: {
     fontSize: 20,
+    fontWeight:"500"
   },
   subLevel: {
     fontSize: 16,

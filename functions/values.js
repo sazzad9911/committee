@@ -177,4 +177,29 @@ export class AppValues {
       };
     }
   }
+  getNoticeHeadLines(){
+    if(this.isBn){
+      return{
+        totalNotice:"সর্বমোট নোটিশ",
+        onlyMembers:"শুধু সদস্য",
+        search:"সদস্য খুঁজুন",
+        notice:"নোটিশ",
+        delete:"নোটিশটি চিরতরে মুছে ফেলুন",
+        subject:"বিষয়",
+        details:"বিবরণ",
+        publish:"প্রকাশিত করুন",
+      }
+    }else{
+      return{
+        totalNotice:"Total Notice",
+        onlyMembers:"Members Oly",
+        search:"Search members",
+        notice:"Notice",
+        delete:"Delete Permanantly",
+        subject:"Subject",
+        details:"Details",
+        publish:"Publish",
+      }
+    }
+  }
 }

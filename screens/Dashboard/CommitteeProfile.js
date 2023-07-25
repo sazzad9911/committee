@@ -116,7 +116,9 @@ export default function CommitteeProfile({ navigation }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-        <ProfileCart
+        <ProfileCart onPress={() => {
+            navigation.navigate("Notice");
+          }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
           number={"0"}

@@ -11,6 +11,7 @@ import DashboardBottomBar from '../components/DashboardBottomBar';
 import Dashboard from '../screens/Dashboard/Dashboard';
 import Member from '../screens/Dashboard/Member';
 import DashboardRoutes from './ExpenseRoutes';
+import Message from './Message';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +21,8 @@ export default function DashboardRoute() {
       headerShown:false,
     }} >
      
-      <Tab.Screen name="Subscription" component={Subscription} />
-      <Tab.Screen name="Inbox" component={Inbox} />
+     <Tab.Screen name="Subscription" component={Subscription} />
+      <Tab.Screen name="Inbox" component={Message} />
       {/* <Tab.Screen name="Notification" component={Notification} /> */}
       <Tab.Screen name="Member" component={Member} />
       <Tab.Screen name="Dashboard" component={DashboardRoutes} />

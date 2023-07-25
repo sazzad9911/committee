@@ -24,6 +24,9 @@ import CreateCommitteeNext from "../screens/Dashboard/CreateCommitteeNext";
 import DashboardRoute from "./DashboardRoute";
 import DateShort from "../screens/Dashboard/DateShort";
 import SelectDate from "../screens/Dashboard/SelectDate";
+import AddNotice from "../screens/Dashboard/AddNotice";
+import ViewNotice from "../screens/Dashboard/ViewNotice";
+import EditNotice from "../screens/Dashboard/EditNotice";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -39,6 +42,7 @@ export default function MainRoute() {
   const headlines = values.getDashboardHeadlines();
   const languageTitle = values.getLanguageHeadline();
   const editProfileInfo = values.getEditProfileHeadLine();
+  const noticeValue=values.getNoticeHeadLines()
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -81,7 +85,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="Dashboard"
-              component={DashboardRoute}
+              component={UserTabRoute}
             />
             <Stack.Screen
               options={{
@@ -165,17 +169,56 @@ export default function MainRoute() {
 
             <Stack.Screen
               options={{
-                header: (props) => <BackHeader title={headlines._settings} {...props} />,
+                header: (props) => (
+                  <BackHeader title={headlines._settings} {...props} />
+                ),
               }}
               name="DateShort"
               component={DateShort}
             />
             <Stack.Screen
               options={{
-                header: (props) => <BackHeader title={headlines._chooseDateHeadline} {...props} />,
+                header: (props) => (
+                  <BackHeader
+                    title={headlines._chooseDateHeadline}
+                    {...props}
+                  />
+                ),
               }}
               name="SelectDate"
               component={SelectDate}
+            />
+
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={noticeValue.notice}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AddNotice"
+              component={AddNotice}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={noticeValue.notice}
+                    {...props}
+                  />
+                ),
+              }}
+              name="EditNotice"
+              component={EditNotice}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="ViewNotice"
+              component={ViewNotice}
             />
           </Stack.Navigator>
         </NavigationContainer>
