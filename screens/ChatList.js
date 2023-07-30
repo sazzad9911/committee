@@ -25,6 +25,8 @@ import ChatCart from "../components/cart/ChatCard";
 import ContactList from "./ContactList";
 import { AppColors } from "../functions/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { AppValues } from "../functions/values";
+import ComitteeList from "./ComitteeList";
 const { height, width } = Dimensions.get("window");
 
 export default function ChatList(props) {
@@ -44,6 +46,7 @@ export default function ChatList(props) {
   const [type, setType] = useState("");
   const dispatch = useDispatch();
   const [data, setData] = useState();
+
   const snapPoints = useMemo(() => ["90%"], []);
   const handleSheetChange = useCallback((index) => {
     setIndex(index);
@@ -53,7 +56,7 @@ export default function ChatList(props) {
   }, []);
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
-    dispatch(setChatBottomRef(null));
+    //dispatch(setChatBottomRef(null));
   }, []);
   const [newMessage, setNewMessage] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -72,11 +75,11 @@ export default function ChatList(props) {
         color={colors.getTextColor()}
         borderColor={colors.getBorderColor()}
         onContact={() => {
-          //setType("Contact");
+          setType("Contact");
           setIndex(0);
         }}
         onSearch={() => {
-          //setType("Search");
+          setType("Search");
           setIndex(0);
         }}
         {...props}
@@ -104,7 +107,9 @@ export default function ChatList(props) {
             minHeight: "100%",
           }}>
           <View style={{ height: 0 }} />
-          <ChatCart active={true} number={1} />
+          <ChatCart onPress={()=>{
+            props?.navigation?.navigate("ChatScreen")
+          }} active={true} number={1} />
           <ChatCart />
           <ChatCart />
           {Conversations && Conversations.length == 0 && (
@@ -149,7 +154,7 @@ export default function ChatList(props) {
           )}
           <BottomSheetScrollView style={{ backgroundColor: colors.getBackgroundColor() }}>
             {type == "Search" ? (
-              <SellerList
+              <ComitteeList
                 bottomRef={sheetRef}
                 data={data}
                 onClose={setData}
@@ -330,6 +335,8 @@ const noResult = `<svg width="165" height="216" viewBox="0 0 165 216" fill="none
 `;
 const Header = ({ type, onConfirm, onChange, value }) => {
   const isDark = useSelector((state) => state.isDark);
+  const isBn=useSelector(state=>state.isBn)
+  const values=new AppValues(isBn).getValues()
   const ac = ["#1488CC", "#2B32B2"];
   const colors = new AppColors(isDark);
   return (
@@ -358,7 +365,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontWeight: "700",
               color: "#fff",
             }}>
-            {type == "Search" ? "Seller List" : "Member List"}
+            {type == "Search" ? values.comityList : values.memberList}
           </Text>
           <Text
             onPress={onConfirm}
@@ -367,7 +374,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontWeight: "400",
               color: "#fff",
             }}>
-            Done
+            {values.done}
           </Text>
         </View>
         <View

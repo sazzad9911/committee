@@ -13,7 +13,7 @@ import { AppColors } from "../../functions/colors";
 import { dateDifference, serverTimeToLocal, timeConverter } from "../../functions/action";
 import Avatar from "../main/Avatar";
 
-const ChatCart = ({ navigation, active, data, number, readOnly }) => {
+const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
   const [Active, setActive] = React.useState(active);
   //const navigation = props.navigation;
   const isDark = useSelector((state) => state.isDark);
@@ -82,7 +82,7 @@ const ChatCart = ({ navigation, active, data, number, readOnly }) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        {}
+        onPress&&onPress()
       }
       style={[styles.outBox, {}]}>
       <View style={styles.image}>

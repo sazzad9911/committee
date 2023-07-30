@@ -25,5 +25,8 @@ export class AppColors{
     getSchemeColor(){
         return this.isDark?"#000":"#fff"
     }
+    getShadowColor(){
+        return this.isDark?"rgba(255, 255, 255, 0.20)":"rgba(0, 0, 0, 0.20)"
+    }
     
 }

@@ -73,7 +73,7 @@ const Header = ({ textColor, borderColor, headlines }) => {
       <Text
         style={{
           fontSize: 16,
-          color: borderColor,
+          color: "#B0B0B0",
         }}>
         {headlines?._currentBalance}
       </Text>
@@ -81,14 +81,14 @@ const Header = ({ textColor, borderColor, headlines }) => {
         style={{
           fontSize: 40,
           fontWeight: "800",
-          color: textColor,
+          color: "#fff",
         }}>
         500000
       </Text>
       <Text
         style={{
           fontSize: 16,
-          color: borderColor,
+          color: "#fff",
         }}>
         1 June 2023
       </Text>

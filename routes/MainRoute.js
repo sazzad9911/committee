@@ -27,6 +27,7 @@ import SelectDate from "../screens/Dashboard/SelectDate";
 import AddNotice from "../screens/Dashboard/AddNotice";
 import ViewNotice from "../screens/Dashboard/ViewNotice";
 import EditNotice from "../screens/Dashboard/EditNotice";
+import ChatScreen from "../screens/ChatScreen";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -85,7 +86,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="Dashboard"
-              component={UserTabRoute}
+              component={DashboardRoute}
             />
             <Stack.Screen
               options={{
@@ -219,6 +220,13 @@ export default function MainRoute() {
               }}
               name="ViewNotice"
               component={ViewNotice}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="ChatScreen"
+              component={ChatScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

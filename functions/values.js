@@ -146,9 +146,9 @@ export class AppValues {
         _last3: "সর্বশেষ ৩ মাসের কালেকশন",
         _last6: "সর্বশেষ ৬ মাসের কালেকশন",
         _last1: "সর্বশেষ ১ বছরের কালেকশন",
-        _allCollection:"সকল কালেকশন",
-        _allExpenses:"সকল খরচ",
-        _placeholder:"নাম,তারিখ অথবা টাকার সংখ্যা"
+        _allCollection: "সকল কালেকশন",
+        _allExpenses: "সকল খরচ",
+        _placeholder: "নাম,তারিখ অথবা টাকার সংখ্যা",
       };
     } else {
       return {
@@ -171,35 +171,60 @@ export class AppValues {
         _last3: "Last 3 months collection",
         _last6: "Last 6 months collection",
         _last1: "Last 1 years collection",
-        _allCollection:"All Collection",
-        _allExpenses:"All Expenses",
-        _placeholder:"Name, Date Or Amount"
+        _allCollection: "All Collection",
+        _allExpenses: "All Expenses",
+        _placeholder: "Name, Date Or Amount",
       };
     }
   }
-  getNoticeHeadLines(){
-    if(this.isBn){
-      return{
-        totalNotice:"সর্বমোট নোটিশ",
-        onlyMembers:"শুধু সদস্য",
-        search:"সদস্য খুঁজুন",
-        notice:"নোটিশ",
-        delete:"নোটিশটি চিরতরে মুছে ফেলুন",
-        subject:"বিষয়",
-        details:"বিবরণ",
-        publish:"প্রকাশিত করুন",
-      }
-    }else{
-      return{
-        totalNotice:"Total Notice",
-        onlyMembers:"Members Oly",
-        search:"Search members",
-        notice:"Notice",
-        delete:"Delete Permanantly",
-        subject:"Subject",
-        details:"Details",
-        publish:"Publish",
-      }
+  getNoticeHeadLines() {
+    if (this.isBn) {
+      return {
+        totalNotice: "সর্বমোট নোটিশ",
+        onlyMembers: "শুধু সদস্য",
+        search: "সদস্য খুঁজুন",
+        notice: "নোটিশ",
+        delete: "নোটিশটি চিরতরে মুছে ফেলুন",
+        subject: "বিষয়",
+        details: "বিবরণ",
+        publish: "প্রকাশিত করুন",
+      };
+    } else {
+      return {
+        totalNotice: "Total Notice",
+        onlyMembers: "Members Oly",
+        search: "Search members",
+        notice: "Notice",
+        delete: "Delete Permanantly",
+        subject: "Subject",
+        details: "Details",
+        publish: "Publish",
+      };
     }
+  }
+  getValues() {
+    return this.isBn
+      ? {
+          write: "লিখুন",
+          inbox:"ইনবক্স",
+          memberList:"সদস্য তালিকা",
+          done:"সম্পন্ন",
+          comityList:"কমিটি তালিকা",
+          _paid:"পরিশোধ",
+          _unPaid:"অপরিশোধ",
+          _nameDateTaka:"নাম,তারিখ অথবা টাকার সংখ্যা",
+          _allSubscription:"সকল চাঁদা"
+        }
+      : {
+          write: "Write",
+          inbox:"Inbox",
+          memberList:"Member List",
+          done:"Done",
+          comityList:"Comity List",
+          _paid:"Paid",
+          _unPaid:"Unpaid",
+          _nameDateTaka:"Name, date or Amout",
+          _allSubscription:"All Subscription"
+        };
   }
 }
