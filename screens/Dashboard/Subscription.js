@@ -14,6 +14,8 @@ import AllCollections from "./AllCollections";
 import AllExpenses from "./AllExpenses";
 import { SvgXml } from "react-native-svg";
 import Input from "../../components/main/Input";
+import Paid from "./Paid";
+import Unpaid from "./Unpaid";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -45,8 +47,8 @@ export default function Subscription() {
           {...props}
         />
       )}>
-      <Tab.Screen name={headlines._paid} component={Collection} />
-      <Tab.Screen name={headlines._unPaid} component={Expenses} />
+      <Tab.Screen name={headlines._paid} component={Paid} />
+      <Tab.Screen name={headlines._unPaid} component={Unpaid} />
     </Tab.Navigator>
   );
 }

@@ -28,6 +28,8 @@ import AddNotice from "../screens/Dashboard/AddNotice";
 import ViewNotice from "../screens/Dashboard/ViewNotice";
 import EditNotice from "../screens/Dashboard/EditNotice";
 import ChatScreen from "../screens/ChatScreen";
+import AddSubscription from "../screens/Dashboard/AddSubscription";
+import SubscriptionDetails from "../screens/Dashboard/SubscriptionDetails";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -227,6 +229,25 @@ export default function MainRoute() {
               }}
               name="ChatScreen"
               component={ChatScreen}
+            />
+             <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._aboutSubscription}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AddSubscription"
+              component={AddSubscription}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="SubscriptionDetails"
+              component={SubscriptionDetails}
             />
           </Stack.Navigator>
         </NavigationContainer>

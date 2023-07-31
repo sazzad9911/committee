@@ -213,7 +213,16 @@ export class AppValues {
           _paid:"পরিশোধ",
           _unPaid:"অপরিশোধ",
           _nameDateTaka:"নাম,তারিখ অথবা টাকার সংখ্যা",
-          _allSubscription:"সকল চাঁদা"
+          _allSubscription:"সকল চাঁদা",
+          _details:"বিস্তারিত",
+          _aboutSubscription:"চাঁদার সম্পর্কে",
+          _subscriptionName:"চাঁদার নাম লিখুন",
+          _required:"বাধ্যতা মূলক",
+          _max20:"সর্বচ্চ ২০ অক্ষর",
+          _ok:"নিশ্চিত করুন",
+          _placeholder1:"উদাহরণ: বেতন, এলাকার উন্নয়ন ইত্যাদি",
+          _placeholder2:"উদাহরণ: ১০০০০৳,২০০০০৳",
+          _ammoutSubs:"পরিমাণের লক্ষ"
         }
       : {
           write: "Write",
@@ -224,7 +233,15 @@ export class AppValues {
           _paid:"Paid",
           _unPaid:"Unpaid",
           _nameDateTaka:"Name, date or Amout",
-          _allSubscription:"All Subscription"
+          _allSubscription:"All Subscription",
+          _details:"Details",
+          _aboutSubscription:"About Subscription",
+          _subscriptionName:"Write Subscription Name",
+          _required:"required",
+          _max20:"Max 20 character",
+          _placeholder1:"Example:Salary, Developmemt etc",
+          _placeholder2:"Example:1000, 2000",
+          _ammoutSubs:"Amounnt"
         };
   }
 }

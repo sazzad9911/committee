@@ -36,22 +36,32 @@ export default function PopularCategory({ textColor }) {
     </View>
   );
 }
-export const PopularCategoryCart = ({ index, image }) => {
+export const PopularCategoryCart = ({ index, image ,style,title}) => {
   return (
     <View
-      style={{
+      style={[{
         marginHorizontal: 6,
-      }}>
+      },style]}>
       <Image
         style={{
-          height: 177,
+          height:style?.height?style.height: 177,
           borderRadius: 16,
-          width: width / 3,
+          width:style?.width?style.width: width / 3,
         }}
         source={{
           uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
         }}
       />
+      {title&&(<Text style={{
+        position:"absolute",
+        bottom:0,
+        left:0,
+        paddingHorizontal:8,
+        paddingVertical:12,
+        fontSize:16,
+        fontWeight:"500",
+        color:"#fff"
+      }}>{title}</Text>)}
     </View>
   );
 };

@@ -634,7 +634,7 @@ const BottomBar = (props) => {
             setMessage(value);
             //console.log(value)
           }}
-          style={styles.input}
+          style={[styles.input,{color:textColor}]}
           placeholder={allValues.write}
           placeholderTextColor={colors.getBorderColor()}
           showsVerticalScrollIndicator={false}
