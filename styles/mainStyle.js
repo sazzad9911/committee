@@ -34,6 +34,7 @@ const mainStyle = StyleSheet.create({
   },
   subLevel: {
     fontSize: 16,
+    fontWeight:"400"
   },
   mt12: {
     marginTop: 12,
@@ -60,6 +61,13 @@ const mainStyle = StyleSheet.create({
   },
   mt32: {
     marginTop: 32,
+  },
+  text20: {
+    fontSize: 20,
+    fontWeight:"400"
+  },
+  ml16:{
+    marginLeft:16
   },
 
   mediumText: {

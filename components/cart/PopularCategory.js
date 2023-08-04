@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, Image, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import mainStyle from "../../styles/mainStyle";
 import Button from "../main/Button";
@@ -36,9 +36,9 @@ export default function PopularCategory({ textColor }) {
     </View>
   );
 }
-export const PopularCategoryCart = ({ index, image ,style,title}) => {
+export const PopularCategoryCart = ({ index, image ,style,title,onPress}) => {
   return (
-    <View
+    <Pressable onPress={onPress}
       style={[{
         marginHorizontal: 6,
       },style]}>
@@ -62,6 +62,6 @@ export const PopularCategoryCart = ({ index, image ,style,title}) => {
         fontWeight:"500",
         color:"#fff"
       }}>{title}</Text>)}
-    </View>
+    </Pressable>
   );
 };

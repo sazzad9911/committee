@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, SafeAreaView, ScrollView, Text, View } from "react-native";
-import Collection from "./Collection";
-import Expenses from "./Expenses";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import TabBarLayout from "../../layouts/TabBarLayout";
@@ -10,21 +8,16 @@ import { MotiView } from "moti";
 import mainStyle from "../../styles/mainStyle";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
-import AllCollections from "./AllCollections";
-import AllExpenses from "./AllExpenses";
 import { SvgXml } from "react-native-svg";
 import Input from "../../components/main/Input";
 import Paid from "./Paid";
-import Unpaid from "./Unpaid";
-import ComitySubscriptionRoute from "../../routes/ComitySubscriptionRoute";
+import UnPaid from "./UnPaid";
+
+
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function Subscription(){
-  return <ComitySubscriptionRoute/>
-}
-
-export  function SubscriptionList() {
+export default function SubscriptionList() {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -52,8 +45,9 @@ export  function SubscriptionList() {
           {...props}
         />
       )}>
-      <Tab.Screen name={headlines._paid} component={Paid} />
-      <Tab.Screen name={headlines._unPaid} component={Unpaid} />
+      <Tab.Screen name={headlines._paid} component={Paid
+      } />
+      <Tab.Screen name={headlines._unPaid} component={UnPaid} />
     </Tab.Navigator>
   );
 }

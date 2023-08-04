@@ -1,70 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Animated, SafeAreaView, ScrollView, Text, View } from "react-native";
-import Collection from "./Collection";
-import Expenses from "./Expenses";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import TabBarLayout from "../../layouts/TabBarLayout";
+import React from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
-import { MotiView } from "moti";
-import mainStyle from "../../styles/mainStyle";
+import MemberCard from "../../components/cart/MemberCard";
+import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
-import AllCollections from "./AllCollections";
-import AllExpenses from "./AllExpenses";
-import { SvgXml } from "react-native-svg";
-import Input from "../../components/main/Input";
-import Paid from "./Paid";
-import Unpaid from "./Unpaid";
-import ComitySubscriptionRoute from "../../routes/ComitySubscriptionRoute";
-const Tab = createMaterialTopTabNavigator();
-const Stack = createNativeStackNavigator();
+import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
+import mainStyle from "../../styles/mainStyle";
 
-export default function Subscription(){
-  return <ComitySubscriptionRoute/>
-}
-
-export  function SubscriptionList() {
-  const [activeIndex, setActiveIndex] = useState();
+export default function AllMember({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
 
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
-  const textColor = colors.getTextColor();
-  const borderColor = colors.getBorderColor();
 
   return (
-    <Tab.Navigator
-      tabBar={(props) => (
-        <TabBarLayout
-          color={
-            props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
-          }
-          header={
-            <Header
-              headlines={headlines}
-              borderColor={borderColor}
-              textColor={textColor}
-            />
-          }
-          {...props}
+    <HidableHeaderLayout
+      header={
+        <Header onPress={()=>navigation.goBack()}
+          backgroundColor={colors.getSchemeColor()}
+          textColor={colors.getTextColor()}
+          isDark={isDark}
+          schemeColor={colors.getBackgroundColor()}
         />
-      )}>
-      <Tab.Screen name={headlines._paid} component={Paid} />
-      <Tab.Screen name={headlines._unPaid} component={Unpaid} />
-    </Tab.Navigator>
+      }
+      component={
+        <View>
+          {[2, 3, 2, 1, 2, 3, 4, 2, 2, 2].map((doc, i) => (
+            <MemberCard
+              onPress={() => navigation?.navigate("AddMember")}
+              key={i}
+              borderColor={colors.getShadowColor()}
+              backgroundColor={colors.getBackgroundColor()}
+              textColor={colors.getTextColor()}
+            />
+          ))}
+        </View>
+      }
+    />
   );
 }
-
-const Header = ({ textColor, borderColor, headlines }) => {
-  const newDate = new Date();
-  const isDark=useSelector(state=>state.isDark)
-  const day = newDate.getDay();
-  const month = newDate.getMonth();
-  const year = newDate.getFullYear();
-  const scrollValue = useSelector((state) => state.scrollValue);
+const Header = ({ backgroundColor, textColor, isDark, schemeColor,onPress }) => {
+  const inset = useSafeAreaInsets();
   const search = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M8.11036 0.0408841C5.04858 0.326439 2.23492 2.29256 0.900663 5.06853C-0.124611 7.19849 -0.279105 9.62805 0.460591 11.8563C1.92126 16.2473 6.44838 18.8033 10.9849 17.7968C12.1834 17.53 13.3631 17.001 14.3088 16.3035L14.6084 16.0835L16.4858 17.956C17.5157 18.9858 18.438 19.8659 18.527 19.9127C18.7376 20.0251 19.2432 20.0298 19.4399 19.9221C19.6225 19.8238 19.8238 19.6225 19.9221 19.4399C20.0298 19.2433 20.0251 18.7377 19.9127 18.5271C19.8659 18.4381 18.9858 17.5159 17.9558 16.4861L16.0832 14.6089L16.3032 14.3093C18.2367 11.6878 18.555 8.0692 17.1225 5.09662C15.4699 1.67464 11.9259 -0.31489 8.11036 0.0408841ZM10.395 2.18489C13.1618 2.77473 15.2498 4.8766 15.8444 7.66662C15.9661 8.23305 15.9661 9.8153 15.8444 10.3677C15.5401 11.7487 14.8987 12.9377 13.9156 13.9161C12.4596 15.3766 10.5869 16.0788 8.5083 15.943C5.7555 15.7698 3.33979 13.902 2.42219 11.2478C2.14597 10.4566 2.07107 9.97447 2.07575 9.00077C2.07575 8.26113 2.09448 8.03175 2.17875 7.63385C2.46901 6.2997 3.06357 5.17152 3.98585 4.21655C4.50551 3.67352 4.95963 3.31307 5.55419 2.97134C6.27516 2.55471 7.27703 2.2083 8.08695 2.09595C8.60661 2.02573 9.87533 2.07254 10.395 2.18489Z" fill="${textColor}" fill-opacity="${
     isDark ? 1 : 0.4
@@ -74,39 +55,54 @@ const Header = ({ textColor, borderColor, headlines }) => {
   }"/>
   </svg>  
   `;
+  const icon = `<svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 16.5L1.5 9L9 1.5" stroke="${textColor}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
   return (
     <View
-      style={{
-        paddingHorizontal: 20,
-        width: "100%",
-      }}
-      
-      transition={{
-        type: "timing",
-      }}>
+      style={[
+        {
+          paddingTop: inset?.top + 12,
+          backgroundColor: backgroundColor,
+          paddingHorizontal: 20,
+          paddingBottom: 12,
+        },
+      ]}>
+      <Pressable
+        onPress={() => {
+          if (onPress) {
+            onPress();
+            return;
+          }
+          navigation?.goBack();
+        }}
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          left: 20,
+          top:inset?.top + 16
+        }}>
+        <SvgXml xml={icon} />
+      </Pressable>
       <Text
-        style={[
-          {
-            color: "#fff",
-            fontSize: 24,
-          },
-          mainStyle.mt24,
-        ]}>
-        {headlines._allSubscription}
+        style={[mainStyle.level, { color: textColor, textAlign: "center" }]}>
+        All Members
       </Text>
       <Input
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {
             borderRadius: 30,
+            paddingHorizontal: 15,
             minHeight: 40,
             borderWidth: 0,
-            
+            backgroundColor: schemeColor,
           },
           mainStyle.mt12,
         ]}
-        outSideStyle={{marginVertical:10}}
-        placeholder={headlines._nameDateTaka}
+        placeholder={"Search"}
       />
     </View>
   );

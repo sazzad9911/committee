@@ -30,6 +30,11 @@ import EditNotice from "../screens/Dashboard/EditNotice";
 import ChatScreen from "../screens/ChatScreen";
 import AddSubscription from "../screens/Dashboard/AddSubscription";
 import SubscriptionDetails from "../screens/Dashboard/SubscriptionDetails";
+import AddMember from "../screens/Dashboard/AddMember";
+import AllMember from "../screens/Dashboard/AllMember";
+import SelectMemberType from "../screens/Dashboard/SelectMemberType";
+import CreateOwnMember from "../screens/Dashboard/CreateOwnMember";
+import UserProfile from "../screens/Dashboard/UserProfile";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -242,12 +247,55 @@ export default function MainRoute() {
               name="AddSubscription"
               component={AddSubscription}
             />
+             <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._positionAndQualification}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AddMember"
+              component={AddMember}
+            />
             <Stack.Screen
               options={{
                 headerShown:false
               }}
-              name="SubscriptionDetails"
-              component={SubscriptionDetails}
+              name="AllMember"
+              component={AllMember}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._selectProvider}
+                    {...props}
+                  />
+                ),
+              }}
+              name="SelectMemberType"
+              component={SelectMemberType}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._memberInfo}
+                    {...props}
+                  />
+                ),
+              }}
+              name="CreateOwnMember"
+              component={CreateOwnMember}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="UserProfile"
+              component={UserProfile}
             />
           </Stack.Navigator>
         </NavigationContainer>

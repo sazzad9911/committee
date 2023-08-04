@@ -10,11 +10,14 @@ import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
+import UserSubscriptionRoute from "../../routes/UserSubscriptionRoute";
 import mainStyle from "../../styles/mainStyle";
 
 const {width,height}=Dimensions.get("window")
-
-export default function Subscription() {
+export default function Subscription(){
+  return<UserSubscriptionRoute/>
+}
+export function ComityList({navigation}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
@@ -39,7 +42,9 @@ export default function Subscription() {
             marginHorizontal: 14,
             marginVertical:6
           }}>
-          <PopularCategoryCart title={"Bangladesh Aumiliag Party public meeting"}
+          <PopularCategoryCart onPress={()=>{
+            navigation.navigate("Subscription List")
+          }} title={"Bangladesh Aumiliag Party public meeting"}
             style={{
               marginVertical: 6,
               width:width/2-26,
