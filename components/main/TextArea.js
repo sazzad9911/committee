@@ -38,7 +38,7 @@ const TextArea = ({
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const backgroundColor = colors.getBackgroundColor();
-  const borderColor = colors.getBorderColor();
+  const borderColor = colors.getShadowColor();
   const mainColor = colors.getMainColor();
 
   return (

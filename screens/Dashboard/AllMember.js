@@ -13,7 +13,7 @@ import mainStyle from "../../styles/mainStyle";
 export default function AllMember({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
-
+  const ac = ["#1488CC", "#2B32B2"];
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);

@@ -1,9 +1,14 @@
 import React from "react";
 import { Animated, ScrollView,View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+import { AppColors } from "../functions/colors";
 
 export default function HidableHeaderLayout({ header, component, bottom }) {
   const scrollY = new Animated.Value(0);
+  const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
+  const colors = new AppColors(isDark);
   const diffClamp = Animated.diffClamp(scrollY, 0, 200);
   const translateY = diffClamp.interpolate({
     inputRange: [0, 200],
@@ -11,7 +16,7 @@ export default function HidableHeaderLayout({ header, component, bottom }) {
   });
   const inset=useSafeAreaInsets()
   return (
-    <View style={{flex:1}}>
+    <View style={{flex:1,backgroundColor:colors.getBackgroundColor()}}>
       <ScrollView
         style={{ flexGrow: 1 }}
         stickyHeaderIndices={[0]}

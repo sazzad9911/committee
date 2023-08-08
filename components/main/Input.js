@@ -37,7 +37,7 @@ const Input = ({
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const backgroundColor = colors.getBackgroundColor();
-  const borderColor = colors.getBorderColor();
+  const borderColor = colors.getShadowColor();
   const mainColor = colors.getMainColor();
   const subTextColor=colors.getSubTextColor();
   
@@ -98,7 +98,7 @@ const Input = ({
             backgroundColor:isDark?"rgba(255, 255, 255, 0.2)":"#ffff"
           },
           { borderColor: !Focus ? borderColor : mainColor },
-          ,containerStyle,onPress?{backgroundColor:null}:null
+          ,containerStyle
         ]}>
         {leftIcon}
         <TextInput

@@ -125,6 +125,24 @@ const cmt = `<svg width="38" height="19" viewBox="0 0 38 19" fill="none" xmlns="
             icon={cmt}
             title={"Comity"}
           />
+          <Clickable onPress={()=>{
+            navigation?.navigate("Support")
+          }}
+            subTextColor={subTextColor}
+            border={borderColor}
+            color={textColor}
+            icon={cmt}
+            title={"Support"}
+          />
+          <Clickable onPress={()=>{
+            navigation?.navigate("ContactUs")
+          }}
+            subTextColor={subTextColor}
+            border={borderColor}
+            color={textColor}
+            icon={cmt}
+            title={"Contact Us"}
+          />
           <Clickable
             subTextColor={subTextColor}
             border={borderColor}

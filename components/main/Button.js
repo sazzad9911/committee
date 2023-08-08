@@ -24,7 +24,7 @@ const Button = ({
   const primaryColor = colors.getMainColor();
   const ac=["#1488CC", "#2B32B2"]
   const dc=[backgroundColor,backgroundColor]
-  const borderColor=colors.getBorderColor()
+  const borderColor=colors.getShadowColor()
 
   return (
     <TouchableOpacity

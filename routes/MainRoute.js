@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/User/Home";
 import Profile from "../screens/User/Profile";
 import UserTabRoute from "./UserTabRoute";
-import { StatusBar, useColorScheme, View } from "react-native";
+import { useColorScheme, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import isDark, { setIsDark } from "../data/isDark";
 import { setIsBn } from "../data/isBn";
@@ -35,6 +35,11 @@ import AllMember from "../screens/Dashboard/AllMember";
 import SelectMemberType from "../screens/Dashboard/SelectMemberType";
 import CreateOwnMember from "../screens/Dashboard/CreateOwnMember";
 import UserProfile from "../screens/Dashboard/UserProfile";
+import DeleteConfirmation from "../screens/Dashboard/DeleteCofirmation";
+import Support from "../screens/Support";
+import { StatusBar } from "expo-status-bar";
+import ContactUs from "../screens/ContactUs";
+import ContactSuccess from "../screens/ContactSuccess";
 const Stack = createNativeStackNavigator();
 
 export default function MainRoute() {
@@ -44,13 +49,13 @@ export default function MainRoute() {
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const isBn = useSelector((state) => state.isBn);
-
+  const isDark = useSelector((state) => state.isDark);
   const values = new AppValues(isBn);
   const getComityHeadLine = values.getComityHeadLine();
   const headlines = values.getDashboardHeadlines();
   const languageTitle = values.getLanguageHeadline();
   const editProfileInfo = values.getEditProfileHeadLine();
-  const noticeValue=values.getNoticeHeadLines()
+  const noticeValue = values.getNoticeHeadLines();
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -83,7 +88,7 @@ export default function MainRoute() {
       }}>
       <StatusBar
         backgroundColor={backgroundColor}
-        barStyle={colorScheme == "dark" ? "light-content" : "dark-content"}
+        style={isDark ? "light" : "dark"}
       />
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>
         <NavigationContainer theme={MyTheme}>
@@ -93,7 +98,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="Dashboard"
-              component={DashboardRoute}
+              component={UserTabRoute}
             />
             <Stack.Screen
               options={{
@@ -200,10 +205,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader
-                    title={noticeValue.notice}
-                    {...props}
-                  />
+                  <BackHeader title={noticeValue.notice} {...props} />
                 ),
               }}
               name="AddNotice"
@@ -212,10 +214,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader
-                    title={noticeValue.notice}
-                    {...props}
-                  />
+                  <BackHeader title={noticeValue.notice} {...props} />
                 ),
               }}
               name="EditNotice"
@@ -223,19 +222,19 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="ViewNotice"
               component={ViewNotice}
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="ChatScreen"
               component={ChatScreen}
             />
-             <Stack.Screen
+            <Stack.Screen
               options={{
                 header: (props) => (
                   <BackHeader
@@ -247,7 +246,7 @@ export default function MainRoute() {
               name="AddSubscription"
               component={AddSubscription}
             />
-             <Stack.Screen
+            <Stack.Screen
               options={{
                 header: (props) => (
                   <BackHeader
@@ -261,7 +260,7 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="AllMember"
               component={AllMember}
@@ -292,10 +291,44 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="UserProfile"
               component={UserProfile}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={values.getValues()._account} {...props} />
+                ),
+              }}
+              name="DeleteConfirmation"
+              component={DeleteConfirmation}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={values.getValues()._support} {...props} />
+                ),
+              }}
+              name="Support"
+              component={Support}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={values.getValues()._contact} {...props} />
+                ),
+              }}
+              name="ContactUs"
+              component={ContactUs}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="ContactSuccess"
+              component={ContactSuccess}
             />
           </Stack.Navigator>
         </NavigationContainer>

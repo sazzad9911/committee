@@ -248,7 +248,24 @@ export class AppValues {
           _address:"ঠিকানা",
           _max50:"সর্বচ্চ ৫০  অক্ষর",
           _positionPlaceholder:"উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",
-          _notRequired:"বাধ্যতা মূলক নয়"
+          _notRequired:"বাধ্যতা মূলক নয়",
+          _account:"একাউন্ট",
+          _deleteCofirmation:"একাউন্টটি এখান থেকে আলাদা করতে চাইলে নিশ্চিত করুন",
+          _support:"সাপোর্ট",
+          _supportCaution:"সংবেদনশীল তথ্য শেয়ার করবেন না। যেমন,  আপনার ক্রেডিট কার্ডের বিবরণ বা ব্যক্তিগত আইডি নম্বর",
+          _subject:"বিষয়",
+          _details:"বিবরণ",
+          _canncel:"বাতিল করুন",
+          _send:"পাঠান",
+          _select:"নির্বাচন করুন",
+          _contact:"যোগাযোগ",
+          _yourMessage:"আপনার মেসেজ",
+          _max1000:"সর্বোচ্চ ১০০০ অক্ষর",
+          _officeLocation:"অফিস লোকেশন",
+          _location:"এসএস এস \nরোড, রূপালী,বন্দর, নারায়ণগঞ্জ, ঢাকা, বাংলাদেশ",
+          _googleMap:"গুগল ম্যাপে দেখুন",
+          _successfulMessage:"রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে",
+          _infoMessage:"আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ৷।আমাদের টিম আপনার ম্যাসেজটি রিভিউ করছে এবং যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করবে৷।"
         }
       : {
           write: "Write",
@@ -293,7 +310,24 @@ export class AppValues {
           _address:"Address",
           _max50:"Max 50 character",
           _positionPlaceholder:"Example:General Member,Member, Chairman E.T.C",
-          _notRequired:"Not Required"
+          _notRequired:"Not Required",
+          _account:"Account",
+          _deleteCofirmation:"Confirm if you want to separate the account from here",
+          _support:"Support",
+          _supportCaution:"Do not share sensitive information (attachments or text).ex.Your credit card details or personal ID number",
+          _subject:"Subject",
+          _details:"Details",
+          _canncel:"Cancel",
+          _send:"Send",
+          _select:"Select",
+          _contact:"Contact Us",
+          _yourMessage:"Your Message",
+          _max1000:"Max 1000 characters",
+          _officeLocation:"Office Location",
+          _location:"SS S \nRoad,Rupali,Bandar,Narayanganaj,Dhaka,Bangladesh",
+          _googleMap:"View in google map",
+          _successfulMessage:"Request Successfully sent",
+          _infoMessage:"Thank you for contacting us. Our team is reviewing your message and will be in touch with you as soon as possible."
         };
   }
 }

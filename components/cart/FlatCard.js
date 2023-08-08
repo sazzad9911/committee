@@ -13,7 +13,8 @@ export default function FlatCard({
   type,
   disableGo,
   onPress,
-  Private
+  Private,
+  color
 }) {
   const isDark=useSelector(state=>state.isDark)
   const colors=new AppColors(isDark)
@@ -51,7 +52,8 @@ export default function FlatCard({
               fontSize: 14,
              color:colors.getTextColor(),
               fontWeight: "500",
-              opacity:Private?.4:1
+              opacity:Private?.4:1,
+              color:color
             }}>
             {title}
           </Text>

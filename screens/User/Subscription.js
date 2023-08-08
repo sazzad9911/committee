@@ -40,7 +40,8 @@ export function ComityList({navigation}) {
             flexDirection: "row",
             flexWrap: "wrap",
             marginHorizontal: 14,
-            marginVertical:6
+            marginVertical:6,
+            backgroundColor:colors.getBackgroundColor()
           }}>
           <PopularCategoryCart onPress={()=>{
             navigation.navigate("Subscription List")
