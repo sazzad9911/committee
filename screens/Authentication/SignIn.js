@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Platform,
+  Alert,
 } from "react-native";
 const { width, height } = Dimensions.get("window");
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +16,8 @@ import Input from "../../components/main/Input";
 import Button from "../../components/main/Button";
 import { AppColors } from "../../functions/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { userLogin } from "../../apis/authApi";
+import loader from "../../data/loader";
 
 const LogIn = ({ navigation }) => {
   const [Email, setEmail] = React.useState();
@@ -22,19 +25,18 @@ const LogIn = ({ navigation }) => {
   const [EmailError, setEmailError] = React.useState();
   const [PasswordError, setPasswordError] = React.useState();
   const dispatch = useDispatch();
-  const [loader,setLoader]=useState(false)
-  const [error,setError]=useState()
-  const userRef=useRef()
-  const passRef=useRef()
-  const isDark=useSelector(state=>state.isDark)
-  const colors=new AppColors(isDark)
-  const textColor=colors.getTextColor()
-  const inset=useSafeAreaInsets()
-
+  const [error, setError] = useState();
+  const userRef = useRef();
+  const passRef = useRef();
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
+  const textColor = colors.getTextColor();
+  const inset = useSafeAreaInsets();
+  
   const login = () => {
     setEmailError(null);
     setPasswordError(null);
-    navigation.navigate("Dashboard")
+    
     if (!Email) {
       setEmailError("Username field is required");
       return;
@@ -43,13 +45,21 @@ const LogIn = ({ navigation }) => {
       setEmailError("Password field is required");
       return;
     }
-
-    
+    dispatch(loader.show())
+    userLogin(Email, Password)
+      .then((res) => {
+        dispatch(loader.hide())
+        navigation.navigate("Dashboard");
+      })
+      .catch((e) => {
+        dispatch(loader.hide())
+        Alert.alert(e.response.data.msg);
+      });
   };
- 
+
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1,paddingTop:inset?.top }}
+      style={{ flex: 1, paddingTop: inset?.top }}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -64,45 +74,76 @@ const LogIn = ({ navigation }) => {
             width={"100%"}
             xml={icon}
           />
-          <Text style={[styles.lebel,{color:textColor,textAlign:"center",marginTop:35}]}>Make each day count! </Text>
+          <Text
+            style={[
+              styles.lebel,
+              { color: textColor, textAlign: "center", marginTop: 35 },
+            ]}>
+            Make each day count!{" "}
+          </Text>
           <View
             style={{
               marginVertical: 64,
             }}>
-            <Text style={[styles.lebel,{color:textColor}]}>Username</Text>
-            <Input autoCapitalize={"none"} style={{color:"#000"}} onSubmitEditing={()=>{
-              if(passRef){
-                passRef.current.focus()
-              }
-            }} returnKeyType={"next"} innerRef={userRef} value={Email} onChange={setEmail} placeholder={" "} containerStyle={styles.input} />
+            <Text style={[styles.lebel, { color: textColor }]}>Username</Text>
+            <Input
+              autoCapitalize={"none"}
+              style={{ color: "#000" }}
+              onSubmitEditing={() => {
+                if (passRef) {
+                  passRef.current.focus();
+                }
+              }}
+              returnKeyType={"next"}
+              innerRef={userRef}
+              value={Email}
+              onChange={setEmail}
+              placeholder={" "}
+              containerStyle={styles.input}
+            />
             <View style={{ height: 20 }} />
-            <Text style={[styles.lebel,{color:textColor}]}>Password</Text>
-            <Input onSubmitEditing={()=>{
-              login()
-            }} secureTextEntry={true} style={{color:"#000"}} returnKeyType={"go"} innerRef={passRef} value={Password} onChange={setPassword} placeholder={" "} containerStyle={styles.input} />
+            <Text style={[styles.lebel, { color: textColor }]}>Password</Text>
+            <Input
+              onSubmitEditing={() => {
+                login();
+              }}
+              secureTextEntry={true}
+              style={{ color: "#000" }}
+              returnKeyType={"go"}
+              innerRef={passRef}
+              value={Password}
+              onChange={setPassword}
+              placeholder={" "}
+              containerStyle={styles.input}
+            />
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-end",
                 marginTop: 8,
               }}>
-              
-                <Text
+              <Text
                 style={[
                   styles.text,
                   { color: "#EC2700", flex: 1, textAlign: "left" },
                 ]}>
                 {EmailError}
               </Text>
-            
-              <Text onPress={()=>{
-                navigation.navigate("Recovery")
-              }} style={[styles.text, { textDecorationLine: "underline",color:textColor }]}>
+
+              <Text
+                onPress={() => {
+                  navigation.navigate("Recovery");
+                }}
+                style={[
+                  styles.text,
+                  { textDecorationLine: "underline", color: textColor },
+                ]}>
                 Forget id and password
               </Text>
             </View>
           </View>
-          <Button onPress={login}
+          <Button
+            onPress={login}
             active={true}
             style={[
               styles.button,
@@ -120,12 +161,13 @@ const LogIn = ({ navigation }) => {
               alignItems: "center",
             }}>
             <View style={styles.line} />
-            <Text style={[styles.text,{color:textColor}]}>or</Text>
+            <Text style={[styles.text, { color: textColor }]}>or</Text>
             <View style={styles.line} />
           </View>
-          <Button onPress={()=>{
-            navigation.navigate("SignUp")
-          }}
+          <Button
+            onPress={() => {
+              navigation.navigate("SignUp");
+            }}
             style={[styles.button, { marginBottom: 20 }]}
             title={"Create an account"}
           />
@@ -133,7 +175,6 @@ const LogIn = ({ navigation }) => {
       </ScrollView>
     </KeyboardAvoidingView>
   );
-  
 };
 
 export default LogIn;
@@ -144,7 +185,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    
+
     fontWeight: "400",
   },
   input: {
@@ -154,14 +195,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginHorizontal: 0,
     borderBottomWidth: 0,
-    borderWidth:0
+    borderWidth: 0,
   },
   button: {
     borderColor: "#D1D1D1",
     height: 40,
     borderRadius: 4,
     width: "100%",
-    borderRadius:28
+    borderRadius: 28,
   },
   line: {
     flex: 1,

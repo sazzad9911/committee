@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/User/Home";
 import Profile from "../screens/User/Profile";
 import UserTabRoute from "./UserTabRoute";
-import { useColorScheme, View } from "react-native";
+import { LogBox, useColorScheme, View, YellowBox } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import isDark, { setIsDark } from "../data/isDark";
 import { setIsBn } from "../data/isBn";
@@ -40,7 +40,13 @@ import Support from "../screens/Support";
 import { StatusBar } from "expo-status-bar";
 import ContactUs from "../screens/ContactUs";
 import ContactSuccess from "../screens/ContactSuccess";
+import { checkUser } from "../apis/authApi";
+import * as SplashScreen from "expo-splash-screen";
+import { storeUser } from "../data/user";
+SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
+LogBox.ignoreLogs(["Require cycle:"])
+LogBox.ignoreLogs(["Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45"])
 
 export default function MainRoute() {
   const colorScheme = useColorScheme();
@@ -56,6 +62,7 @@ export default function MainRoute() {
   const languageTitle = values.getLanguageHeadline();
   const editProfileInfo = values.getEditProfileHeadLine();
   const noticeValue = values.getNoticeHeadLines();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -81,6 +88,14 @@ export default function MainRoute() {
     },
   };
 
+  useEffect(() => {
+    const fetch = async () => {
+      const user = await checkUser();
+      dispatch(storeUser(user));
+      await SplashScreen.hideAsync();
+    };
+    fetch()
+  }, []);
   return (
     <View
       style={{
@@ -93,21 +108,25 @@ export default function MainRoute() {
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>
         <NavigationContainer theme={MyTheme}>
           <Stack.Navigator>
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="Dashboard"
-              component={UserTabRoute}
-            />
-            <Stack.Screen
-              options={{
-                //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
-                headerShown: false,
-              }}
-              name="SignIn"
-              component={SignIn}
-            />
+            {user ? (
+              <Stack.Screen
+                options={{
+                  headerShown: false,
+                }}
+                name="Dashboard"
+                component={UserTabRoute}
+              />
+            ) : (
+              <Stack.Screen
+                options={{
+                  //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
+                  headerShown: false,
+                }}
+                name="SignIn"
+                component={SignIn}
+              />
+            )}
+
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -325,7 +344,7 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="ContactSuccess"
               component={ContactSuccess}

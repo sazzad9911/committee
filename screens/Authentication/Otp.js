@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
+import { checkOTP, resetUser, sendOTP } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
@@ -26,6 +27,7 @@ export default function Otp({ navigation, route }) {
   const colors=new AppColors(isDark)
   const textColor=colors.getTextColor()
   const scrollRef=useRef()
+  
 
   useEffect(() => {
     const timer =
@@ -34,14 +36,55 @@ export default function Otp({ navigation, route }) {
   }, [counter]);
   const resendOTP = async () => {
     setError();
+    console.log(number);
     setCounter(90);
     setOtp()
-    
+    if(reset){
+      try {
+        await resetUser(number);
+        setLoader(false);
+      } catch (err) {
+        setLoader(false);
+        console.error(err.message);
+      }
+      return
+    }
+    try {
+      await sendOTP(number);
+      setLoader(false);
+    } catch (err) {
+      setLoader(false);
+      console.error(err.message);
+    }
   };
   const check = () => {
     setError();
     setLoader(true);
-   navigation?.navigate("Information")
+    if(reset){
+      checkResetUser(number,otp)
+      .then((res) => {
+        setLoader(false);
+        //console.log(res.data);
+        navigation.navigate("Recovery",{token:res.data?.token,username:res.data?.username})
+        //console.log(res.data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        setError(err.response.data.msg);
+      });
+      return
+    }
+    checkOTP(number, otp)
+      .then((res) => {
+        setLoader(false);
+        navigation.navigate("Information",{token:res.data?.token})
+        
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log(err);
+        setError(err.response.data.msg);
+      });
   };
   
   return (

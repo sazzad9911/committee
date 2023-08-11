@@ -10,20 +10,22 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { sendOTP } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
 export default function SignUp({ navigation, route }) {
   const [number, setNumber] = useState("");
   const [error, setError] = useState();
-  const [loader, setLoader] = useState(false);
   const isDark=useSelector(state=>state.isDark)
   const colors=new AppColors(isDark)
   const textColor=colors.getTextColor()
   const scrollRef=useRef()
   const inset=useSafeAreaInsets()
+  const dispatch=useDispatch()
 
   
   return (
@@ -63,8 +65,8 @@ export default function SignUp({ navigation, route }) {
       <Button
         active={number ? true : false}
         disabled={number ? false : true}
-        onPress={() => {
-            navigation?.navigate("Otp")
+        onPress={async() => {
+            
           let arr = number.split("");
           if (arr.length != 11) {
             setError("*Number must is not valid");
@@ -76,9 +78,16 @@ export default function SignUp({ navigation, route }) {
             scrollRef?.current?.scrollToEnd()
             return;
           }
+          dispatch(loader.show())
           
-          
-          //sendOtp();
+          try{
+            await sendOTP(number)
+            dispatch(loader.hide())
+            navigation?.navigate("Otp")
+          }catch(e){
+            dispatch(loader.hide())
+            Alert.alert(e.message)
+          }
         }}
         style={signUpStyle.button}
         title={"Continue"}
