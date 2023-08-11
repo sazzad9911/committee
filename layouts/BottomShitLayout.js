@@ -10,6 +10,7 @@ export default function BottomShitLayout({
   component,
   scrollable,
   screen,
+  ref
 }) {
   // ref
   const bottomSheetRef = useRef(null);
@@ -35,7 +36,7 @@ export default function BottomShitLayout({
       {index!=-1&&(<View  style={{flex:1,position:"absolute",backgroundColor:colors.getSchemeColor(),width:Dimensions.get("window").width,height:Dimensions.get("window").height,opacity:.1}}></View>)}
       <BottomSheet
       handleIndicatorStyle={{backgroundColor:colors.getBorderColor()}}
-        ref={bottomSheetRef}
+        ref={ref?ref:bottomSheetRef}
         index={index?index:0}
         snapPoints={snapPoints}
         enablePanDownToClose={true}

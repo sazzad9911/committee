@@ -18,6 +18,8 @@ import { AppColors } from "../../functions/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { userLogin } from "../../apis/authApi";
 import loader from "../../data/loader";
+import localStorage from "../../functions/localStorage";
+import mainStyle from "../../styles/mainStyle";
 
 const LogIn = ({ navigation }) => {
   const [Email, setEmail] = React.useState();
@@ -32,11 +34,11 @@ const LogIn = ({ navigation }) => {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const inset = useSafeAreaInsets();
-  
+
   const login = () => {
     setEmailError(null);
     setPasswordError(null);
-    
+
     if (!Email) {
       setEmailError("Username field is required");
       return;
@@ -45,14 +47,16 @@ const LogIn = ({ navigation }) => {
       setEmailError("Password field is required");
       return;
     }
-    dispatch(loader.show())
+    dispatch(loader.show());
     userLogin(Email, Password)
       .then((res) => {
-        dispatch(loader.hide())
-        navigation.navigate("Dashboard");
+        dispatch(loader.hide());
+        dispatch({ type: "SET_USER", value: res });
+        //navigation.navigate("Dashboard");
+        localStorage.login(res);
       })
       .catch((e) => {
-        dispatch(loader.hide())
+        dispatch(loader.hide());
         Alert.alert(e.response.data.msg);
       });
   };
@@ -171,6 +175,11 @@ const LogIn = ({ navigation }) => {
             style={[styles.button, { marginBottom: 20 }]}
             title={"Create an account"}
           />
+          <View style={[mainStyle.flexBox,{justifyContent:"center"}]}>
+            <Text onPress={()=>{
+              navigation.navigate("ContactUs")
+            }} style={[mainStyle.text14]}>Contact Us</Text>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

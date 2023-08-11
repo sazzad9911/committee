@@ -118,6 +118,20 @@ const removeDeviceToken=async(token,deviceToken)=>{
   });
   return res;
 }
+export const createComity=async(name,phone,division,district,thana,address,about,token)=>{
+    const res = await axios.post(`${url}/comity/create`,{
+      name:name,
+      phone,
+      division,
+      district,
+      thana,
+      address,
+      about
+    },{
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res;
+  }
 export {
   userLogin,
   checkUser,

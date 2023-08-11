@@ -74,6 +74,8 @@ export default function Otp({ navigation, route }) {
       });
       return
     }
+    //console.log(number);
+    //console.log(otp);
     checkOTP(number, otp)
       .then((res) => {
         setLoader(false);

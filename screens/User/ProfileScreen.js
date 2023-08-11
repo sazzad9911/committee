@@ -7,6 +7,7 @@ import Avatar from "../../components/main/Avatar";
 import { setIsBn } from "../../data/isBn";
 import { setIsDark } from "../../data/isDark";
 import { AppColors } from "../../functions/colors";
+import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
@@ -143,7 +144,10 @@ const cmt = `<svg width="38" height="19" viewBox="0 0 38 19" fill="none" xmlns="
             icon={cmt}
             title={"Contact Us"}
           />
-          <Clickable
+          <Clickable onPress={()=>{
+            dispatch({type:"SET_USER",value:null})
+            localStorage.logout()
+          }}
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}

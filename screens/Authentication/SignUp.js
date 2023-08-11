@@ -83,7 +83,7 @@ export default function SignUp({ navigation, route }) {
           try{
             await sendOTP(number)
             dispatch(loader.hide())
-            navigation?.navigate("Otp")
+            navigation?.navigate("Otp",{number:number})
           }catch(e){
             dispatch(loader.hide())
             Alert.alert(e.message)

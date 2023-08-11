@@ -12,9 +12,11 @@ import {
 const { width, height } = Dimensions.get("window");
 import { Menu } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import { registerUser, userLogin } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import { CheckBox } from "../../components/main/CheckBox";
 import Input from "../../components/main/Input";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
 export default function Information({ navigation, route }) {
@@ -34,15 +36,16 @@ export default function Information({ navigation, route }) {
   const [RePasswordError, setRePasswordError] = useState();
   const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
-  const [loader, setLoader] = useState(false);
+
   var regName = /^[a-zA-Z ]+$/;
   const openMenu = () => setVisible(true);
   //console.log("df")
   const closeMenu = () => setVisible(false);
-  const isDark=useSelector(state=>state.isDark)
-  const colors=new AppColors(isDark)
-  const textColor=colors.getTextColor()
-  const background=colors.getBackgroundColor()
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
+  const textColor = colors.getTextColor();
+  const background = colors.getBackgroundColor();
+ 
   const verify = async () => {
     setNameError();
     setUserNameError();
@@ -80,6 +83,28 @@ export default function Information({ navigation, route }) {
       setRePasswordError("Password not matched");
       return;
     }
+    dispatch(loader.show());
+    registerUser(token, name, userName, password, age, gender)
+      .then((res) => {
+        userLogin(userName, password)
+          .then((res) => {
+            dispatch(loader.hide());
+            //console.log(res);
+            if (res) {
+              dispatch({ type: "SET_USER", value: res });
+              //navigation.navigate("Feed");
+            }
+          })
+          .catch((err) => {
+            dispatch(loader.hide());
+            Alert.alert(err.response.data.msg);
+          });
+      })
+      .catch((err) => {
+        //console.log()
+        dispatch(loader.hide());
+        setUserNameError(err.response.data.msg);
+      });
   };
 
   return (
@@ -89,7 +114,7 @@ export default function Information({ navigation, route }) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.mt37, { paddingHorizontal: 20 }]}>
-          <Text style={[styles.label,{color:textColor}]}>Your name</Text>
+          <Text style={[styles.label, { color: textColor }]}>Your name</Text>
           <Input
             onChange={(e) => {
               setName(e);
@@ -110,7 +135,7 @@ export default function Information({ navigation, route }) {
               }}>
               {nameError}
             </Text>
-            <Text style={{color:textColor}}>min 4 max 20 character</Text>
+            <Text style={{ color: textColor }}>min 4 max 20 character</Text>
           </View>
           <View
             style={[
@@ -124,10 +149,10 @@ export default function Information({ navigation, route }) {
               style={{
                 width: width / 2 - 36,
               }}>
-              <Text style={[styles.label,{color:textColor}]}>Gender</Text>
+              <Text style={[styles.label, { color: textColor }]}>Gender</Text>
               <Menu
                 contentStyle={{
-                  backgroundColor:background,
+                  backgroundColor: background,
                 }}
                 visible={visible}
                 onDismiss={closeMenu}
@@ -170,7 +195,7 @@ export default function Information({ navigation, route }) {
               style={{
                 width: width / 2 - 36,
               }}>
-              <Text style={[styles.label,{color:textColor}]}>Age</Text>
+              <Text style={[styles.label, { color: textColor }]}>Age</Text>
               <Input
                 value={age}
                 onChange={setAge}
@@ -183,7 +208,9 @@ export default function Information({ navigation, route }) {
               />
             </View>
           </View>
-          <Text style={[styles.label, styles.mt20,{color:textColor}]}>Create a username</Text>
+          <Text style={[styles.label, styles.mt20, { color: textColor }]}>
+            Create a username
+          </Text>
           <Input
             autoCapitalize={"none"}
             value={userName}
@@ -204,9 +231,11 @@ export default function Information({ navigation, route }) {
               }}>
               {userNameError}
             </Text>
-            <Text style={{color:textColor}}>min 4 max 20 character</Text>
+            <Text style={{ color: textColor }}>min 4 max 20 character</Text>
           </View>
-          <Text style={[styles.label, styles.mt20,{color:textColor}]}>Password</Text>
+          <Text style={[styles.label, styles.mt20, { color: textColor }]}>
+            Password
+          </Text>
           <Input
             error={passwordError}
             value={password}
@@ -217,7 +246,9 @@ export default function Information({ navigation, route }) {
             placeholderTextColor={"#A3A3A3"}
             style={{ color: "#000" }}
           />
-          <Text style={[styles.label, styles.mt20,{color:textColor}]}>Retype</Text>
+          <Text style={[styles.label, styles.mt20, { color: textColor }]}>
+            Retype
+          </Text>
           <Input
             error={RePasswordError}
             value={RePassword}
@@ -238,6 +269,7 @@ export default function Information({ navigation, route }) {
             style={{
               flexDirection: "row",
               marginBottom: 10,
+              flex:1
             }}>
             <CheckBox
               value={check}
@@ -248,8 +280,9 @@ export default function Information({ navigation, route }) {
             <Text
               style={{
                 fontWeight: "500",
-                color:textColor,
+                color: textColor,
                 fontSize: 14,
+                width:"90%"
               }}>
               I agree with all of Duty's{" "}
               <Text style={{ color: "#7566FF", fontWeight: "400" }}>
