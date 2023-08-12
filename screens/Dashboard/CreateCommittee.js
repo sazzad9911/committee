@@ -41,15 +41,16 @@ export default function CreateCommittee({ navigation }) {
             paddingHorizontal: 20,
             paddingVertical: 10,
           }}>
-          <Input
+          <Input value={name} onChange={setName}
             level={`${createCommitteeValues.name} `}
             optionalLevel={`${createCommitteeValues.required}`}
             subLevel={`${createCommitteeValues.highest30}`}
             placeholder={createCommitteeValues.write}
           />
 
-          <Input
+          <Input value={mobile} onChange={setMobile}
             outSideStyle={mainStyle.mt24}
+            keyboardType="numeric"
             level={`${createCommitteeValues.mobile} `}
             optionalLevel={`${createCommitteeValues.required}`}
             placeholder={createCommitteeValues.write}
@@ -117,19 +118,20 @@ export default function CreateCommittee({ navigation }) {
             </View>
           </View>
 
-          <TextArea
+          <TextArea value={address}
+          onChange={setAddress}
             outSideStyle={mainStyle.mt12}
             level={`${createCommitteeValues.address} `}
-            optionalLevel={createCommitteeValues.notRequired}
+            optionalLevel={createCommitteeValues.required}
             placeholder={createCommitteeValues.write}
           />
 
           <Button
             disabled={
-              name && mobile && division && district && area ? false : true
+              name && mobile && division && district && area&&address ? false : true
             }
             active={
-              name && mobile && division && district && area ? true : false
+              name && mobile && division && district && area &&address? true : false
             }
             onPress={async () => {
               navigation?.navigate("CreateCommitteeNext", {

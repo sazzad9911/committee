@@ -1,29 +1,38 @@
-import React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createComity } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import { CheckBox } from "../../components/main/CheckBox";
 import Input from "../../components/main/Input";
 import TextArea from "../../components/main/TextArea";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
+import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import committee from "./../../assets/committee.png";
 
-export default function CreateCommitteeNext({ navigation }) {
+export default function CreateCommitteeNext({ navigation, route }) {
   const inset = useSafeAreaInsets();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
   const values = new AppValues(isBn);
   const backgroundColor = colors.getBackgroundColor();
-  const textColor=colors.getTextColor()
+  const textColor = colors.getTextColor();
   const createCommitteeValues = values.createCommitteeValues();
-
+  const [about, setAbout] = useState();
+  const [check, setCheck] = useState(false);
+  const { name, mobile, division, district, area, address } = route?.params;
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   return (
-    <ScrollView style={{backgroundColor:backgroundColor}} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: backgroundColor }}
+      showsVerticalScrollIndicator={false}>
       <View style={[{ paddingTop: inset?.top }]}>
         <Image
           source={committee}
@@ -34,9 +43,12 @@ export default function CreateCommitteeNext({ navigation }) {
           }}
         />
         <View style={[mainStyle.flexBox, mainStyle.pdV20, mainStyle.pdH20]}>
-          <SvgXml onPress={()=>{
-            navigation?.goBack()
-          }} xml={back} />
+          <SvgXml
+            onPress={() => {
+              navigation?.goBack();
+            }}
+            xml={back}
+          />
           <SvgXml xml={camera} />
         </View>
         <View
@@ -53,6 +65,8 @@ export default function CreateCommitteeNext({ navigation }) {
             mainStyle.pdH20,
           ]}>
           <TextArea
+            value={about}
+            onChange={setAbout}
             optionalLevel={createCommitteeValues.required}
             placeholder={createCommitteeValues.write}
             bottomLevel={createCommitteeValues.highest1000}
@@ -67,13 +81,51 @@ export default function CreateCommitteeNext({ navigation }) {
           }}
         />
         <View style={mainStyle.pdH20}>
-          <CheckBox component={<View>
-            <Text style={[mainStyle.text14,{color:textColor}]}>{createCommitteeValues.text1} <Text style={{color:"#737AFF"}}>{createCommitteeValues.text2}</Text> {createCommitteeValues.text3}</Text>
-          </View>}/>
-          <Button onPress={()=>{
-            //navigation?.navigate("CommitteeProfile")
-          }} style={mainStyle.mt12} active={true} title={createCommitteeValues.confirm}/>
-          <View style={{height:16}}/>
+          <CheckBox
+            value={check}
+            onChange={() => setCheck((v) => !v)}
+            component={
+              <View>
+                <Text style={[mainStyle.text14, { color: textColor }]}>
+                  {createCommitteeValues.text1}{" "}
+                  <Text style={{ color: "#737AFF" }}>
+                    {createCommitteeValues.text2}
+                  </Text>{" "}
+                  {createCommitteeValues.text3}
+                </Text>
+              </View>
+            }
+          />
+          <Button
+            onPress={async () => {
+              dispatch(loader.show());
+              try {
+                const res = await createComity(
+                  name,
+                  mobile,
+                  division,
+                  district,
+                  area,
+                  address,
+                  about,
+                  user.token
+                );
+                dispatch(loader.hide());
+                //console.log(res.data.comity);
+                dispatch({ type: "SET_COMITY", value: res.data.comity });
+                localStorage.storeData("SET_COMITY", res.data.comity);
+              } catch (e) {
+                Alert.alert(e.message);
+                dispatch(loader.hide());
+              }
+              //navigation?.navigate("CommitteeProfile")
+            }}
+            style={mainStyle.mt12}
+            active={check && about ? true : false}
+            disabled={check && about ? false : true}
+            title={createCommitteeValues.confirm}
+          />
+          <View style={{ height: 16 }} />
         </View>
       </View>
     </ScrollView>

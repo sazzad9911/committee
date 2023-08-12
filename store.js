@@ -1,4 +1,5 @@
 import { createStore,combineReducers } from 'redux'
+import comity from './data/comity'
 import isBn from './data/isBn'
 import isDark from './data/isDark'
 import loader from './data/loader'
@@ -10,7 +11,8 @@ const reducers=combineReducers({
     isDark:isDark,
     scrollValue:scrollValue,
     user:user,
-    loader:loader
+    loader:loader,
+    comity:comity
 })
 const store=createStore(reducers)
 export default store

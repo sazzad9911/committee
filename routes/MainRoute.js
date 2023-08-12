@@ -43,6 +43,7 @@ import ContactSuccess from "../screens/ContactSuccess";
 import { checkUser } from "../apis/authApi";
 import * as SplashScreen from "expo-splash-screen";
 import { storeUser } from "../data/user";
+import localStorage from "../functions/localStorage";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"])
@@ -63,6 +64,7 @@ export default function MainRoute() {
   const editProfileInfo = values.getEditProfileHeadLine();
   const noticeValue = values.getNoticeHeadLines();
   const user = useSelector((state) => state.user);
+  const comity=useSelector(state=>state.comity)
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -92,6 +94,9 @@ export default function MainRoute() {
     const fetch = async () => {
       const user = await checkUser();
       dispatch(storeUser(user));
+      const com=await localStorage.getData("SET_COMITY")
+      //console.log(com);
+      dispatch({type:"SET_COMITY",value:com})
       await SplashScreen.hideAsync();
     };
     fetch()
@@ -114,7 +119,7 @@ export default function MainRoute() {
                   headerShown: false,
                 }}
                 name="Dashboard"
-                component={UserTabRoute}
+                component={comity?DashboardRoute:UserTabRoute}
               />
             ) : (
               <Stack.Screen
