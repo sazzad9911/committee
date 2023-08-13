@@ -84,7 +84,7 @@ export default function Expenses({ navigation }) {
         />
         <View style={{ height: 90 }} />
       </ScrollView>
-      <FloatingButton/>
+      <FloatingButton onPress={()=>navigation.navigate("AddExpenses")}/>
     </View>
   );
 }

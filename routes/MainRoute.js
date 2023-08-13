@@ -44,6 +44,7 @@ import { checkUser } from "../apis/authApi";
 import * as SplashScreen from "expo-splash-screen";
 import { storeUser } from "../data/user";
 import localStorage from "../functions/localStorage";
+import AddExpenses from "../screens/Dashboard/AddExpenses";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"])
@@ -97,10 +98,14 @@ export default function MainRoute() {
       const com=await localStorage.getData("SET_COMITY")
       //console.log(com);
       dispatch({type:"SET_COMITY",value:com})
-      await SplashScreen.hideAsync();
+      try{
+        await SplashScreen.hideAsync();
+      }catch(e){
+        console.log(e.message);
+      }
     };
     fetch()
-  }, []);
+  }, [comity]);
   return (
     <View
       style={{
@@ -353,6 +358,15 @@ export default function MainRoute() {
               }}
               name="ContactSuccess"
               component={ContactSuccess}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Add Expense"} {...props} />
+                ),
+              }}
+              name="AddExpenses"
+              component={AddExpenses}
             />
           </Stack.Navigator>
         </NavigationContainer>
