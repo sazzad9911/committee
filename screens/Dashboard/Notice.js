@@ -1,10 +1,11 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
+import { getAllNotices } from "../../apis/api";
 import NoticeCart from "../../components/cart/NoticeCart";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
@@ -13,6 +14,8 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
+import loader from "../../data/loader";
+
 const { width, height } = Dimensions.get("window");
 
 export default function Notice({ navigation, route }) {
@@ -24,6 +27,7 @@ export default function Notice({ navigation, route }) {
   const textColor = colors.getTextColor();
   const backgroudColor = colors.getBackgroundColor();
   const isBn = useSelector((state) => state.isBn);
+  const comity = useSelector((state) => state.comity);
   const values = new AppValues(isBn);
   const searchText = values.getSearch();
   const comityListText = values.getNoticeHeadLines();
@@ -31,7 +35,8 @@ export default function Notice({ navigation, route }) {
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
   const special = route?.params?.special;
-
+  const [notices, setNotices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
 
   const openMenu = () => setVisible(true);
@@ -57,6 +62,26 @@ export default function Notice({ navigation, route }) {
   }"/>
   </svg>  
   `;
+
+  const fetchData = async () => {
+    try {
+      const { data } = await getAllNotices(comity.id);
+      setNotices(data.notices);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <HidableHeaderLayout
       header={
@@ -70,18 +95,21 @@ export default function Notice({ navigation, route }) {
             },
           ]}
           start={{ x: 0.2, y: 0 }}
-          colors={!isDark ? ac : dc}>
+          colors={!isDark ? ac : dc}
+        >
           <View
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: "#B0B0B0",
                 fontSize: 16,
                 fontWeight: "500",
-              }}>
+              }}
+            >
               {comityListText.onlyMembers}
               {"   "}
               <Text
@@ -89,7 +117,8 @@ export default function Notice({ navigation, route }) {
                   fontSize: 20,
                   fontWeight: "800",
                   color: textColor,
-                }}>
+                }}
+              >
                 2000
               </Text>
             </Text>
@@ -103,7 +132,8 @@ export default function Notice({ navigation, route }) {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <SvgXml xml={eye} />
                   <Text
                     style={{
@@ -111,12 +141,14 @@ export default function Notice({ navigation, route }) {
                         ? "rgba(255, 255, 255, 1)"
                         : "rgba(255, 255, 255, 1)",
                       marginHorizontal: 5,
-                    }}>
+                    }}
+                  >
                     {comityListText.onlyMembers}
                   </Text>
                   <SvgXml xml={bottom} />
                 </Pressable>
-              }>
+              }
+            >
               <Menu.Item
                 titleStyle={{ color: textColor }}
                 onPress={() => setVisible(false)}
@@ -149,46 +181,25 @@ export default function Notice({ navigation, route }) {
       component={
         <>
           <View style={{ flex: 1, height: 10 }}></View>
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
-          <NoticeCart onPress={()=>{
-            navigation.navigate("ViewNotice")
-          }} borderColor={borderColor} color={textColor} />
+          {notices.map((notice) => (
+            <NoticeCart
+              onPress={() => {
+                navigation.navigate("ViewNotice", {
+                  notice,
+                });
+              }}
+              notice={notice}
+              borderColor={borderColor}
+              color={textColor}
+            />
+          ))}
+
           <View style={{ flex: 1, height: 80 }}></View>
         </>
       }
-      bottom={<FloatingButton onPress={()=>navigation.navigate("AddNotice")} />}
+      bottom={
+        <FloatingButton onPress={() => navigation.navigate("AddNotice")} />
+      }
     />
   );
 }

@@ -3,9 +3,10 @@ import { Pressable, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import mainStyle from "../../styles/mainStyle";
 
-export default function NoticeCart({ borderColor, color,onPress }) {
+export default function NoticeCart({ borderColor, color, onPress, notice }) {
   return (
-    <Pressable onPress={onPress}
+    <Pressable
+      onPress={onPress}
       style={{
         flexDirection: "row",
         marginHorizontal: 20,
@@ -14,7 +15,8 @@ export default function NoticeCart({ borderColor, color,onPress }) {
         borderBottomColor: borderColor,
         borderBottomWidth: 1,
         justifyContent: "space-between",
-      }}>
+      }}
+    >
       <View style={mainStyle.flexBox}>
         <View
           style={{
@@ -29,8 +31,9 @@ export default function NoticeCart({ borderColor, color,onPress }) {
             fontSize: 14,
             color: color,
             marginHorizontal: 10,
-          }}>
-          বিস্তারিত বিস্তারিতবিস্তারিতবিস্তারিত
+          }}
+        >
+          {notice.subject}
         </Text>
       </View>
       <View style={mainStyle.flexBox}>
@@ -39,8 +42,9 @@ export default function NoticeCart({ borderColor, color,onPress }) {
             fontSize: 14,
             color: color,
             marginHorizontal: 10,
-          }}>
-          01/12/2023
+          }}
+        >
+          {notice.createdAt}
         </Text>
         <SvgXml xml={icon} />
       </View>
