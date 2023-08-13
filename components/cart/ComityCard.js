@@ -21,7 +21,6 @@ export default function ComityCard({ title, subTitle, uri, onPress }) {
             width: 48,
           }}
         />
-
         <View
           style={{
             marginLeft: 7,

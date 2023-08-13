@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
+import { get } from "../../apis/multipleApi";
 import ExpensesCart from "../../components/cart/ExpesesCart";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
+import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
 import { setScrollValue } from "../../data/setScrollValue";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
@@ -13,16 +16,27 @@ import mainStyle from "../../styles/mainStyle";
 export default function Expenses({ navigation }) {
   const ref = useRef();
   const dispatch = useDispatch();
-  const isDark = useSelector((state) => state.isDark);
+  const {isDark,user,comity} = useSelector((state) => state);
   const isBn = useSelector((state) => state.isBn);
-
   const values = new AppValues(isBn);
   const headlines = values.getDashboardHeadlines();
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
-
+  const [data,setData]=useState()
+  
+  
+  React.useEffect(()=>{
+    const fetch=async()=>{
+      dispatch(loader.show())
+      const res=await get(`/comity/expense/get/${comity.id}`,user.token)
+      //console.log(res.data.expenses);
+      dispatch(loader.hide())
+      setData(res.data.expenses)
+    }
+    fetch()
+  },[])
   return (
     <View style={{ flex: 1 }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
@@ -46,42 +60,18 @@ export default function Expenses({ navigation }) {
             title={headlines._more}
           />
         </View>
-        <ExpensesCart
+        {data?.slice(0,5).map((doc,i)=>(
+          <ExpensesCart key={i}
           isDark={isDark}
           textColor={textColor}
           borderColor={borderColor}
         />
+        ))}
+        {data?.length==0&&(
+          <NoOption/>
+        )}
 
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
+       
         <View style={{ height: 90 }} />
       </ScrollView>
       <FloatingButton onPress={()=>navigation.navigate("AddExpenses")}/>
