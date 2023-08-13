@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
+import { createNotice } from "../../apis/api";
 import Button from "../../components/main/Button";
 import CustomHeader from "../../components/main/CustomHeader";
 import Input from "../../components/main/Input";
@@ -15,6 +16,8 @@ export default function AddNotice({ navigation }) {
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
+  const [subject, setSubject] = React.useState("");
+  const [details, setDetails] = React.useState("");
 
   const values = new AppValues(isBn);
   const headlines = values.getNoticeHeadLines();
@@ -31,10 +34,37 @@ export default function AddNotice({ navigation }) {
 </svg>
 `;
 
+  const reset = () => {
+    setSubject("");
+    setDetails("");
+  };
+
+  const handelSubmit = async () => {
+    if (!subject || !details) {
+      Alert.alert("Please fill all the fields!");
+      return;
+    }
+    try {
+      dispatch(loader.show());
+      await createNotice({
+        subject,
+        details,
+      });
+      reset();
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.response.data.msg);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <ScrollView>
       <View style={[mainStyle.pdH20]}>
         <Input
+          value={subject}
+          onChange={setSubject}
           level={headlines.subject}
           outSideStyle={[mainStyle.mt32]}
           optionalLevel={createCommitteeValues.required}
@@ -42,16 +72,23 @@ export default function AddNotice({ navigation }) {
           subLevel={createCommitteeValues.highest30}
         />
         <TextArea
+          value={details}
+          onChange={setDetails}
           level={headlines.details}
           style={{
-            height:200
+            height: 200,
           }}
           outSideStyle={[mainStyle.mt32]}
           optionalLevel={createCommitteeValues.required}
           placeholder={createCommitteeValues.write}
           subLevel={createCommitteeValues.highest1000}
         />
-        <Button active={true} style={mainStyle.mt32} title={headlines.publish}/>
+        <Button
+          onPress={handelSubmit}
+          active={true}
+          style={mainStyle.mt32}
+          title={headlines.publish}
+        />
       </View>
     </ScrollView>
   );

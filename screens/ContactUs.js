@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, Text, View, Alert } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector, useDispatch } from "react-redux";
-import { newContact } from "../apis/contactApi";
+import { newContact } from "../apis/api";
 import Button from "../components/main/Button";
 import Input from "../components/main/Input";
 import TextArea from "../components/main/TextArea";
@@ -12,10 +12,10 @@ import mainStyle from "../styles/mainStyle";
 import loader from "../data/loader";
 
 export default function ContactUs({ navigation }) {
-  const [name, setName] = React.useState();
-  const [email, setEmail] = React.useState();
-  const [phone, setPhone] = React.useState();
-  const [message, setMessage] = React.useState();
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [message, setMessage] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
