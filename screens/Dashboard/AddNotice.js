@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View, Alert } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
 import { createNotice } from "../../apis/api";
@@ -10,6 +10,7 @@ import TextArea from "../../components/main/TextArea";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import loader from "../../data/loader";
 
 export default function AddNotice({ navigation }) {
   const ref = useRef();
@@ -18,6 +19,7 @@ export default function AddNotice({ navigation }) {
   const isBn = useSelector((state) => state.isBn);
   const [subject, setSubject] = React.useState("");
   const [details, setDetails] = React.useState("");
+  const comity = useSelector((state) => state.comity);
 
   const values = new AppValues(isBn);
   const headlines = values.getNoticeHeadLines();
@@ -49,8 +51,10 @@ export default function AddNotice({ navigation }) {
       await createNotice({
         subject,
         details,
+        comityId: comity.id,
       });
       reset();
+      navigation.navigate("Profile");
     } catch (error) {
       console.log(error);
       Alert.alert(error.response.data.msg);
