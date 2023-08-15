@@ -26,3 +26,7 @@ export const newSupport = (formData) =>
 export const createNotice = (formData) => API.post("/notice/create", formData);
 export const getAllNotices = (comityId) =>
   API.get(`/notice/get-all/${comityId}`);
+export const deleteNotice = (noticeId) =>
+  API.delete(`/notice/delete/${noticeId}`);
+export const updateNotice = (noticeId, formData) =>
+  API.put(`/notice/update/${noticeId}`, formData);

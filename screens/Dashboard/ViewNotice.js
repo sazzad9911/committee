@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View, Alert } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/main/Button";
@@ -7,6 +7,8 @@ import CustomHeader from "../../components/main/CustomHeader";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import loader from "../../data/loader";
+import { deleteNotice } from "../../apis/api";
 
 export default function ViewNotice({ route, navigation }) {
   const ref = useRef();
@@ -27,6 +29,19 @@ export default function ViewNotice({ route, navigation }) {
 </svg>
 `;
 
+  const haandelDelete = async () => {
+    try {
+      dispatch(loader.show());
+      await deleteNotice(notice.id);
+      navigation.navigate("Notice");
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.response.data.msg);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <View
       style={{
@@ -37,7 +52,9 @@ export default function ViewNotice({ route, navigation }) {
         rightIcon={
           <SvgXml
             onPress={() => {
-              navigation.navigate("EditNotice");
+              navigation.navigate("EditNotice", {
+                notice,
+              });
             }}
             style={{
               position: "absolute",
@@ -94,6 +111,7 @@ export default function ViewNotice({ route, navigation }) {
           </Text>
         </View>
         <Button
+          onPress={haandelDelete}
           color={"#FF0000"}
           style={[mainStyle.mt32, mainStyle.mH20, { borderColor: "#FF0000" }]}
           title={headlines.delete}
