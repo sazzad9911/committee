@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Image, ScrollView, Text, View } from "react-native";
+import { Alert, Image, Platform, ScrollView, Text, View,KeyboardAvoidingView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,105 +30,111 @@ export default function CreateCommitteeNext({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   return (
-    <ScrollView
-      style={{ backgroundColor: backgroundColor }}
-      showsVerticalScrollIndicator={false}>
-      <View style={[{ paddingTop: inset?.top }]}>
-        <Image
-          source={committee}
-          style={{
-            position: "absolute",
-            top: 0,
-            height: 350,
-          }}
-        />
-        <View style={[mainStyle.flexBox, mainStyle.pdV20, mainStyle.pdH20]}>
-          <SvgXml
-            onPress={() => {
-              navigation?.goBack();
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      <ScrollView
+        style={{ backgroundColor: backgroundColor }}
+        showsVerticalScrollIndicator={false}>
+        <View style={[{ paddingTop: inset?.top }]}>
+          <Image
+            source={committee}
+            style={{
+              position: "absolute",
+              top: 0,
+              height: 350,
             }}
-            xml={back}
           />
-          <SvgXml xml={camera} />
-        </View>
-        <View
-          style={{
-            height: inset?.top + 220,
-          }}></View>
-        <View
-          style={[
-            {
-              backgroundColor: backgroundColor,
-              borderRadius: 25,
-              paddingTop: 24,
-            },
-            mainStyle.pdH20,
-          ]}>
-          <TextArea
-            value={about}
-            onChange={setAbout}
-            optionalLevel={createCommitteeValues.required}
-            placeholder={createCommitteeValues.write}
-            bottomLevel={createCommitteeValues.highest1000}
-            level={`${createCommitteeValues.about} `}
+          <View style={[mainStyle.flexBox, mainStyle.pdV20, mainStyle.pdH20]}>
+            <SvgXml
+              onPress={() => {
+                navigation?.goBack();
+              }}
+              xml={back}
+            />
+            <SvgXml xml={camera} />
+          </View>
+          <View
+            style={{
+              height: inset?.top + 220,
+            }}></View>
+          <View
+            style={[
+              {
+                backgroundColor: backgroundColor,
+                borderRadius: 25,
+                paddingTop: 24,
+              },
+              mainStyle.pdH20,
+            ]}>
+            <TextArea
+              value={about}
+              onChange={setAbout}
+              optionalLevel={createCommitteeValues.required}
+              placeholder={createCommitteeValues.write}
+              bottomLevel={createCommitteeValues.highest1000}
+              level={`${createCommitteeValues.about} `}
+            />
+          </View>
+          <View
+            style={{
+              height: 1,
+              backgroundColor: "#F1F1F1",
+              marginVertical: 20,
+            }}
           />
-        </View>
-        <View
-          style={{
-            height: 1,
-            backgroundColor: "#F1F1F1",
-            marginVertical: 20,
-          }}
-        />
-        <View style={mainStyle.pdH20}>
-          <CheckBox
-            value={check}
-            onChange={() => setCheck((v) => !v)}
-            component={
-              <View>
-                <Text style={[mainStyle.text14, { color: textColor }]}>
-                  {createCommitteeValues.text1}{" "}
-                  <Text style={{ color: "#737AFF" }}>
-                    {createCommitteeValues.text2}
-                  </Text>{" "}
-                  {createCommitteeValues.text3}
-                </Text>
-              </View>
-            }
-          />
-          <Button
-            onPress={async () => {
-              dispatch(loader.show());
-              try {
-                const res = await createComity(
-                  name,
-                  mobile,
-                  division,
-                  district,
-                  area,
-                  address,
-                  about,
-                  user.token
-                );
-                dispatch(loader.hide());
-                //console.log(res.data.comity);
-                dispatch({ type: "SET_COMITY", value: res.data.comity });
-                localStorage.storeData("SET_COMITY", res.data.comity);
-              } catch (e) {
-                Alert.alert(e.message);
-                dispatch(loader.hide());
+          <View style={mainStyle.pdH20}>
+            <CheckBox
+              value={check}
+              onChange={() => setCheck((v) => !v)}
+              component={
+                <View>
+                  <Text style={[mainStyle.text14, { color: textColor }]}>
+                    {createCommitteeValues.text1}{" "}
+                    <Text style={{ color: "#737AFF" }}>
+                      {createCommitteeValues.text2}
+                    </Text>{" "}
+                    {createCommitteeValues.text3}
+                  </Text>
+                </View>
               }
-              //navigation?.navigate("CommitteeProfile")
-            }}
-            style={mainStyle.mt12}
-            active={check && about ? true : false}
-            disabled={check && about ? false : true}
-            title={createCommitteeValues.confirm}
-          />
-          <View style={{ height: 16 }} />
+            />
+            <Button
+              onPress={async () => {
+                dispatch(loader.show());
+                try {
+                  const res = await createComity(
+                    name,
+                    mobile,
+                    division,
+                    district,
+                    area,
+                    address,
+                    about,
+                    user.token
+                  );
+                  dispatch(loader.hide());
+                  //console.log(res.data.comity);
+                  dispatch({ type: "SET_COMITY", value: res.data.comity });
+                  localStorage.storeData("SET_COMITY", res.data.comity);
+                  navigation.navigate("Dashboard")
+                } catch (e) {
+                  Alert.alert(e.message);
+                  dispatch(loader.hide());
+                }
+                //navigation?.navigate("CommitteeProfile")
+              }}
+              style={mainStyle.mt12}
+              active={check && about ? true : false}
+              disabled={check && about ? false : true}
+              title={createCommitteeValues.confirm}
+            />
+            <View style={{ height: 16 }} />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

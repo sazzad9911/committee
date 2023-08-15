@@ -19,4 +19,4 @@ const hide=()=>{
 }
 loader.show=show;
 loader.hide=hide;
-export default loader
+export default loader 

@@ -82,9 +82,9 @@ export default function Collection({ navigation }) {
           textColor={textColor}
           borderColor={borderColor}
         />
-        <View style={{ height: 90 }} />
+        <View style={{ height: 32 }} />
       </ScrollView>
-      <FloatingButton />
+      {/* <FloatingButton /> */}
     </View>
   );
 }

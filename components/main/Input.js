@@ -1,5 +1,5 @@
-import React from "react";
-import { View, TextInput, Text } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, Text, Pressable } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { AppColors } from "../../functions/colors";
 
@@ -26,7 +26,8 @@ const Input = ({
   subLevel,
   optionalLevel,
   placeholderTextColor,
-  outSideStyle
+  outSideStyle,
+  type,
 }) => {
   const [Focus, setFocus] = React.useState(false);
   const [Error, setError] = React.useState();
@@ -39,52 +40,53 @@ const Input = ({
   const backgroundColor = colors.getBackgroundColor();
   const borderColor = colors.getShadowColor();
   const mainColor = colors.getMainColor();
-  const subTextColor=colors.getSubTextColor();
+  const subTextColor = colors.getSubTextColor();
   
+
   return (
     <View style={outSideStyle}>
-     {level&&(
-         <View
-         style={{
-           flexDirection: "row",
-           justifyContent: "space-between",
-           marginBottom: 12,
-           alignItems:"center"
-         }}>
-         <Text
-           style={{
-             fontSize: 20,
-             fontWeight: "400",
-             color: textColor,
-           }}>
-           {level}
-           {optionalLevel&&(
-            <Text
-            style={[
-              {
-                fontSize: 16,
-                color:borderColor
-              },
-              levelStyle,
-            ]}>
-            ( {optionalLevel} )
+      {level && (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 12,
+            alignItems: "center",
+          }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "400",
+              color: textColor,
+            }}>
+            {level}
+            {optionalLevel && (
+              <Text
+                style={[
+                  {
+                    fontSize: 16,
+                    color: borderColor,
+                  },
+                  levelStyle,
+                ]}>
+                ( {optionalLevel} )
+              </Text>
+            )}
           </Text>
-           )}
-         </Text>
-         {subLevel&&(
+          {subLevel && (
             <Text
-            style={[
-              {
-                fontSize: 14,
-                color: borderColor,
-              },
-              levelStyle,
-            ]}>
-            {subLevel}
-          </Text>
-         )}
-       </View>
-     )}
+              style={[
+                {
+                  fontSize: 14,
+                  color: borderColor,
+                },
+                levelStyle,
+              ]}>
+              {subLevel}
+            </Text>
+          )}
+        </View>
+      )}
       <View
         style={[
           {
@@ -95,76 +97,77 @@ const Input = ({
             borderRadius: 4,
             minHeight: 45,
             paddingHorizontal: 10,
-            backgroundColor:isDark?"rgba(255, 255, 255, 0.2)":"#ffff"
+            backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
           },
           { borderColor: !Focus ? borderColor : mainColor },
-          ,containerStyle
+          ,
+          containerStyle,
         ]}>
         {leftIcon}
-        <TextInput
-          secureTextEntry={secureTextEntry}
-          placeholderTextColor={placeholderTextColor?placeholderTextColor:borderColor}
-          ref={innerRef}
-          returnKeyType={returnKeyType}
-          onSubmitEditing={() => {
-            if (onSubmitEditing) {
-              onSubmitEditing();
-            }
-          }}
-          autoCapitalize={autoCapitalize}
-          onPressIn={onPress}
-          editable={editable}
-          keyboardType={keyboardType}
-          value={value}
-          onChangeText={(val) => {
-            if (onChange) {
-              onChange(val);
-            }
-          }}
-          onFocus={() => {
-            setFocus(v=>!v);
-            if (onFocus) {
-              onFocus();
-            }
-          }}
-          onEndEditing={() => {
-            setFocus(!Focus);
-          }}
-          placeholder={placeholder ? placeholder : "Type here"}
-          style={[
-            {
-              flex: 1,
-              paddingLeft:leftIcon?10:0,
-              fontSize: 15,
-              color: textColor,
-              paddingRight:rightIcon?10:0,
-
-
-            },
-
-            style,
-          ]}
-        />
         
-
+            <TextInput
+              secureTextEntry={secureTextEntry}
+              placeholderTextColor={
+                placeholderTextColor ? placeholderTextColor : borderColor
+              }
+              ref={innerRef}
+              returnKeyType={returnKeyType}
+              onSubmitEditing={() => {
+                if (onSubmitEditing) {
+                  onSubmitEditing();
+                }
+              }}
+              autoCapitalize={autoCapitalize}
+              onPressIn={onPress}
+              editable={editable}
+              keyboardType={keyboardType}
+              value={value}
+              onChangeText={(val) => {
+                if (onChange) {
+                  onChange(val);
+                }
+              }}
+              onFocus={() => {
+                setFocus((v) => !v);
+                if (onFocus) {
+                  onFocus();
+                }
+              }}
+              onEndEditing={() => {
+                setFocus(!Focus);
+              }}
+              placeholder={placeholder ? placeholder : "Type here"}
+              style={[
+                {
+                  flex: 1,
+                  paddingLeft: leftIcon ? 10 : 0,
+                  fontSize: 15,
+                  color: textColor,
+                  paddingRight: rightIcon ? 10 : 0,
+                },
+                style,
+              ]}
+            />
+          
         {rightIcon}
       </View>
       {Error && (
-          <Text
-            style={[
-              {
-                fontSize: 12,
-                color: "red",
-                
-                borderWidth: 0,
-                marginTop: 0,
-                marginBottom: 0,
-                marginLeft: style?.marginLeft,
-              },
-            ]}>
-            {Error}
-          </Text>
-        )}
+        <Text
+          style={[
+            {
+              fontSize: 12,
+              color: "red",
+
+              borderWidth: 0,
+              marginTop: 0,
+              marginBottom: 0,
+              marginLeft: style?.marginLeft,
+            },
+          ]}>
+          {Error}
+        </Text>
+      )}
+      
     </View>
   );
 };
