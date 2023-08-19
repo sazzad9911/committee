@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
@@ -25,6 +26,7 @@ export default function Expenses({ navigation }) {
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
   const [data,setData]=useState()
+  const isFocus=useIsFocused()
   
   
   React.useEffect(()=>{
@@ -36,7 +38,7 @@ export default function Expenses({ navigation }) {
       setData(res.data.expenses)
     }
     fetch()
-  },[])
+  },[isFocus])
   return (
     <View style={{ flex: 1 }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
@@ -65,6 +67,7 @@ export default function Expenses({ navigation }) {
           isDark={isDark}
           textColor={textColor}
           borderColor={borderColor}
+          data={doc}
         />
         ))}
         {data?.length==0&&(

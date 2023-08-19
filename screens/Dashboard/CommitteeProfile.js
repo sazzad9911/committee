@@ -10,13 +10,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
 import SeeMore from "react-native-see-more-inline";
 import Button from "../../components/main/Button";
+import localStorage from "../../functions/localStorage";
 
 export default function CommitteeProfile({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -28,6 +29,7 @@ export default function CommitteeProfile({ navigation }) {
   const borderColor = colors.getBorderColor();
   const allHeadlines = values.getHeadLines();
   const comity=useSelector(state=>state.comity)
+  const dispatch=useDispatch()
 //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M20.6211 8.45C19.5711 3.83 15.5411 1.75 12.0011 1.75H11.9911C8.46107 1.75 4.42107 3.82 3.37107 8.44C2.20107 13.6 5.36107 17.97 8.22107 20.72C9.23479 21.7012 10.5903 22.2498 12.0011 22.25C13.3611 22.25 14.7211 21.74 15.7711 20.72C18.6311 17.97 21.7911 13.61 20.6211 8.45ZM12.0011 13.46C11.5874 13.46 11.1778 13.3785 10.7956 13.2202C10.4134 13.0619 10.0662 12.8299 9.77369 12.5374C9.48118 12.2449 9.24915 11.8976 9.09085 11.5155C8.93255 11.1333 8.85107 10.7237 8.85107 10.31C8.85107 9.89634 8.93255 9.48672 9.09085 9.10455C9.24915 8.72237 9.48118 8.37512 9.77369 8.08261C10.0662 7.79011 10.4134 7.55808 10.7956 7.39978C11.1778 7.24148 11.5874 7.16 12.0011 7.16C12.8365 7.16 13.6377 7.49187 14.2285 8.08261C14.8192 8.67335 15.1511 9.47457 15.1511 10.31C15.1511 11.1454 14.8192 11.9466 14.2285 12.5374C13.6377 13.1281 12.8365 13.46 12.0011 13.46Z" fill="${textColor}"/>
@@ -124,6 +126,20 @@ export default function CommitteeProfile({ navigation }) {
           privacy={allHeadlines.private}
           number={"0"}
           title={allHeadlines.notice}
+          color={textColor}
+        />
+        <View style={{ height: 16 }} />
+        <ProfileCart onPress={() => {
+            //navigation.navigate("Notice");
+            localStorage.comityLogOut()
+            dispatch({type:"SET_COMITY",value:null})
+            navigation.navigate("Dashboard")
+            
+          }}
+          borderColor={borderColor}
+         // privacy={allHeadlines.private}
+          
+          title={allHeadlines.logOut}
           color={textColor}
         />
         <View
@@ -233,7 +249,8 @@ export const ProfileCart = ({
           }}>
           {title}
         </Text>
-        <Text
+        {number?(
+          <Text
           style={{
             fontSize: 20,
             color: color,
@@ -242,6 +259,7 @@ export const ProfileCart = ({
           }}>
           {number}
         </Text>
+        ):null}
       </View>
 
       {icon ? 
@@ -253,7 +271,7 @@ export const ProfileCart = ({
             alignItems: "center",
             marginRight: 20,
           }}>
-          <SvgXml xml={eye} />
+          {privacy&&(<SvgXml xml={eye} />)}
           <Text
             style={{
               color: borderColor,

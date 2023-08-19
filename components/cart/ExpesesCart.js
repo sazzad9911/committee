@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import mainStyle from "../../styles/mainStyle";
 import Avatar from "../main/Avatar";
 
-export default function ExpensesCart({ textColor, borderColor, isDark }) {
+export default function ExpensesCart({ textColor, borderColor, isDark ,data}) {
   return (
     <View
       style={[
@@ -21,10 +21,10 @@ export default function ExpensesCart({ textColor, borderColor, isDark }) {
           <Text
             numberOfLines={1}
             style={[mainStyle.mediumText, { color: textColor }]}>
-            Easin Arafat
+            {data.name?data.name:"Easin Arafat"}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
-            11/12/2024
+          {data.date?new Date(data.date).toDateString():"11/12/2024"}
           </Text>
         </View>
       </View>
@@ -32,7 +32,7 @@ export default function ExpensesCart({ textColor, borderColor, isDark }) {
         <Text
           numberOfLines={1}
           style={[mainStyle.mediumText, { color: textColor }]}>
-          5000000 ৳
+          {data.amount?data.amount:"5000000"} ৳
         </Text>
       </View>
     </View>

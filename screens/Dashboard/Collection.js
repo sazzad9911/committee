@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
+import { post } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
@@ -22,6 +23,13 @@ export default function Collection({ navigation }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
+  const [collectionList,setCollectionList]=useState()
+
+  useEffect(()=>{
+    const fetch=async()=>{
+      const res=await post("/")
+    }
+  },[])
 
   return (
     <View style={{ flex: 1 }}>

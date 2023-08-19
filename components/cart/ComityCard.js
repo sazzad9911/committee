@@ -6,10 +6,10 @@ import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 import Avatar from "../main/Avatar";
 
-export default function ComityCard({ title, subTitle, uri, onPress }) {
+export default function ComityCard({ title, subTitle, uri, onPress,data }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-
+//console.log(data);
   return (
     <Pressable onPress={onPress}>
       <View

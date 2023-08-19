@@ -59,6 +59,7 @@ export default function AddExpenses({navigation}) {
         },
         user.token
       )
+    
       dispatch(loader.hide());
       navigation.goBack()
     } catch (e) {

@@ -110,6 +110,7 @@ export class AppValues {
         aboutComity: "কমিটি সম্পর্কে",
         public: "পাবলিক",
         importantMessage: "",
+        logOut:"লগ আউট"
       };
     } else {
       return {
@@ -121,6 +122,7 @@ export class AppValues {
         aboutComity: "About Comity",
         public: "Public",
         importantMessage: "Important message",
+        logOut:"Log Out"
       };
     }
   }

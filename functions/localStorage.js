@@ -26,10 +26,22 @@ const login=async(val)=>{
 const logout=async()=>{
     return storeData("user",null)
 }
+const comityLogOut=async()=>{
+  return storeData("SET_COMITY",null)
+}
+const comityLogIn=async(val)=>{
+  return storeData("SET_COMITY",val)
+}
+const getComity=async()=>{
+  return getData("SET_COMITY")
+}
 const localStorage={};
 localStorage.storeData=storeData;
 localStorage.getData=getData;
 localStorage.getAuth=getAuth;
 localStorage.login=login;
 localStorage.logout=logout;
+localStorage.comityLogIn=comityLogIn;
+localStorage.comityLogOut=comityLogOut;
+localStorage.getComity=getComity;
 export default localStorage
