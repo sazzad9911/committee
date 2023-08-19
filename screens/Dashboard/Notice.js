@@ -75,8 +75,10 @@ export default function Notice({ navigation, route }) {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    navigation.addListener("focus", () => {
+      fetchData();
+    });
+  }, [navigation]);
 
   if (isLoading) {
     return <></>;
@@ -183,6 +185,7 @@ export default function Notice({ navigation, route }) {
           <View style={{ flex: 1, height: 10 }}></View>
           {notices.map((notice) => (
             <NoticeCart
+              key={notice.id}
               onPress={() => {
                 navigation.navigate("ViewNotice", {
                   notice,
