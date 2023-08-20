@@ -50,6 +50,7 @@ import SimpleHeader from "../components/main/SimpleHeader";
 import EditEmail from "../screens/User/EditEmail";
 import EditLocation from "../screens/User/EditAddress";
 import Legal from "../screens/User/Legal";
+import ComityProfile from "../screens/User/ComityProfile";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"])
@@ -400,6 +401,13 @@ export default function MainRoute() {
               }}
               name="AddExpenses"
               component={AddExpenses}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="ComityProfile"
+              component={ComityProfile}
             />
           </Stack.Navigator>
         </NavigationContainer>

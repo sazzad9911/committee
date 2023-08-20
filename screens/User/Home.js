@@ -41,9 +41,9 @@ export default function Home({ navigation }) {
             <SignUpCart onPress={()=>{
               navigation.navigate("CreateCommittee")
             }} title={signUpCartTitles?.title} />
-            <PopularCategory textColor={textColor} />
-            <FavoriteCategory textColor={textColor} />
-            <PopularCategory textColor={textColor} />
+            <PopularCategory navigation={navigation} textColor={textColor} />
+            <FavoriteCategory navigation={navigation} textColor={textColor} />
+            <PopularCategory navigation={navigation} textColor={textColor} />
             <View style={{ height: 24 }} />
           </View>
         }

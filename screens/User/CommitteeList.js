@@ -19,7 +19,8 @@ const { width, height } = Dimensions.get("window");
 export default function CommitteeList({navigation}) {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
-  const { user, isDark } = useSelector((state) => state);
+  const isDark  = useSelector((state) => state.isDark);
+  const user = useSelector((state) => state.user);
   const inset = useSafeAreaInsets();
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
