@@ -44,7 +44,7 @@ const Input = ({
   
 
   return (
-    <View style={[{backgroundColor:backgroundColor},outSideStyle]}>
+    <View style={[outSideStyle]}>
       {level && (
         <View
           style={{

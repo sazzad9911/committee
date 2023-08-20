@@ -46,6 +46,10 @@ import { storeUser } from "../data/user";
 import localStorage from "../functions/localStorage";
 import AddExpenses from "../screens/Dashboard/AddExpenses";
 import Search from "../screens/User/Search";
+import SimpleHeader from "../components/main/SimpleHeader";
+import EditEmail from "../screens/User/EditEmail";
+import EditLocation from "../screens/User/EditAddress";
+import Legal from "../screens/User/Legal";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"])
@@ -149,10 +153,31 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                header:(props)=><SimpleHeader title={"Search Comity"} {...props}/>
               }}
               name="Search"
               component={Search}
+            />
+            <Stack.Screen
+              options={{
+                header:(props)=><BackHeader title={"Edit Email"} {...props}/>
+              }}
+              name="EditEmail"
+              component={EditEmail}
+            />
+            <Stack.Screen
+              options={{
+                header:(props)=><BackHeader title={"Edit Address"} {...props}/>
+              }}
+              name="EditAddress"
+              component={EditLocation}
+            />
+            <Stack.Screen
+              options={{
+                header:(props)=><BackHeader title={"Legal"} {...props}/>
+              }}
+              name="Legal"
+              component={Legal}
             />
             <Stack.Screen
               options={{

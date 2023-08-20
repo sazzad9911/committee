@@ -6,7 +6,7 @@ import mainStyle from "../styles/mainStyle";
 
 export default function ReadMoreComponent({title,message,textColor}) {
   return (
-    <View>
+    <View style={{flex:1}}>
       <View
         style={[
           mainStyle.flexBox,
@@ -20,6 +20,7 @@ export default function ReadMoreComponent({title,message,textColor}) {
             fontWeight: "500",
             color: textColor,
             marginLeft: 10,
+            flex:1
           }}>
           {title?title:"Important message"}
         </Text>

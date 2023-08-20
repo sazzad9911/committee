@@ -80,7 +80,7 @@ const Button = ({
               fontSize: style && style.fontSize ? style.fontSize : 14,
               color: placeholderTextColor
                 ? placeholderTextColor
-                : textColor,
+                : borderColor,
               opacity: disabled ? 0.4 : 1,
             }}>
             {placeholder}

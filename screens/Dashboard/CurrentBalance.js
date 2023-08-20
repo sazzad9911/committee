@@ -37,7 +37,7 @@ export default function CurrentBalance({ navigation, route }) {
 </svg>
 `;
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:colors.getBackgroundColor()}}>
       <ProfileCart
         icon={
           <Menu

@@ -36,7 +36,7 @@ export  function SubscriptionList() {
   const borderColor = colors.getBorderColor();
 
   return (
-    <Tab.Navigator
+    <Tab.Navigator style={{backgroundColor:colors.getBackgroundColor()}}
       tabBar={(props) => (
         <TabBarLayout
           color={

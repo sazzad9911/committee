@@ -51,7 +51,6 @@ export default function Search() {
   return (
     <View
       style={{
-        paddingTop: inset.top,
         flex: 1,
         backgroundColor: colors.getBackgroundColor(),
       }}
