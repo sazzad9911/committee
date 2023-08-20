@@ -32,7 +32,7 @@ export default function Collection({ navigation }) {
   },[])
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
         <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
           <Text

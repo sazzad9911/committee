@@ -89,6 +89,7 @@ const cmt = `<svg width="38" height="19" viewBox="0 0 38 19" fill="none" xmlns="
             color={textColor}
             subTitle={"easinarafat.jp@gmail.com"}
             title={"E-mail"}
+            onPress={()=>navigation.navigate("EditEmail")}
           />
           <Clickable
             canGo={true}
@@ -97,6 +98,7 @@ const cmt = `<svg width="38" height="19" viewBox="0 0 38 19" fill="none" xmlns="
             color={textColor}
             subTitle={"ss s road bandar narayanganj"}
             title={createCommitteeValues.address}
+            onPress={()=>navigation.navigate("EditAddress")}
           />
           <Clickable
             bottom={true}
@@ -106,6 +108,7 @@ const cmt = `<svg width="38" height="19" viewBox="0 0 38 19" fill="none" xmlns="
             color={textColor}
             subTitle={"Your rights, our legal duty!"}
             title={"Legal"}
+            onPress={()=>navigation.navigate("Legal")}
           />
         </View>
         <View

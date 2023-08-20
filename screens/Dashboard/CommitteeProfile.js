@@ -41,7 +41,7 @@ export default function CommitteeProfile({ navigation }) {
   `;
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={{backgroundColor:colors.getBackgroundColor()}} showsVerticalScrollIndicator={false}>
       <ImageBackground
         style={{
           height: height / 2 + 80,
@@ -114,7 +114,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={comity.balance}
+          number={"200"}
           title={allHeadlines.presentBalance}
           color={textColor}
         />

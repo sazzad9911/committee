@@ -33,7 +33,7 @@ export default function Search() {
   return (
     <View
       style={{
-        paddingTop: inset.top,
+        
         flex: 1,
         backgroundColor: colors.getBackgroundColor(),
       }}>
@@ -47,9 +47,9 @@ export default function Search() {
                 minHeight: 40,
                 borderWidth: 0,
               },
-              mainStyle.mt12,
+              mainStyle.mt12
             ]}
-            outSideStyle={{ marginTop: 24,marginBottom:14,marginHorizontal:20 }}
+            outSideStyle={{marginBottom:14,marginHorizontal:20 }}
             placeholder={searchText}
           />
         }
