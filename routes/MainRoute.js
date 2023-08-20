@@ -45,6 +45,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { storeUser } from "../data/user";
 import localStorage from "../functions/localStorage";
 import AddExpenses from "../screens/Dashboard/AddExpenses";
+import Search from "../screens/User/Search";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"])
@@ -145,6 +146,13 @@ export default function MainRoute() {
               }}
               name="SignUp"
               component={SignUp}
+            />
+            <Stack.Screen
+              options={{
+                headerShown:false
+              }}
+              name="Search"
+              component={Search}
             />
             <Stack.Screen
               options={{

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
 import { AppColors } from "../../functions/colors";
@@ -7,7 +7,7 @@ import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import { SvgXml } from "react-native-svg";
 
-export default function UserHome({ navigation }) {
+export default function UserHome({ navigation ,onSearch}) {
   const inset = useSafeAreaInsets();
   const isBn = useSelector((state) => state.isBn);
   const isDark = useSelector((state) => state.isDark);
@@ -38,9 +38,9 @@ export default function UserHome({ navigation }) {
           ]}>
           {appName}
         </Text>
-        <View style={[style.box, { borderColor: borderColor }]}>
-          <SvgXml xml={searchIcon} />
-        </View>
+        <Pressable onPress={onSearch} style={[style.box, { borderColor: borderColor }]}>
+          <SvgXml  xml={searchIcon} />
+        </Pressable>
       </View>
     </View>
   );

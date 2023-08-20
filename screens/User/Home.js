@@ -47,7 +47,7 @@ export default function Home({ navigation }) {
             <View style={{ height: 24 }} />
           </View>
         }
-        header={<UserHome navigation={navigation} />}
+        header={<UserHome onSearch={()=>navigation.navigate("Search")} navigation={navigation} />}
       />
     );
   }
