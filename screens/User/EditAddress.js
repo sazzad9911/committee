@@ -15,6 +15,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 const { width, height } = Dimensions.get("window");
@@ -29,6 +30,9 @@ import { AreaList } from "../../data/area";
 import { DistrictList } from "../../data/district";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
+import loader from "../../data/loader";
+import { updateProfile } from "../../apis/api";
+import localStorage from "../../functions/localStorage";
 
 export default function EditLocation({ navigation }) {
   const [type, setType] = useState("Only me");
@@ -47,7 +51,6 @@ export default function EditLocation({ navigation }) {
   const [areaError, setAreaError] = useState();
   // variables
   const user = useSelector((state) => state.user);
-  const [loader, setLoader] = useState(false);
   const snapPoints = useMemo(() => ["70%"], []);
   const handleSheetChanges = useCallback((index) => {
     //console.log('handleSheetChanges', index);
@@ -78,16 +81,40 @@ export default function EditLocation({ navigation }) {
 <path d="M13 1L8.06061 6.5118C7.47727 7.16273 6.52273 7.16273 5.93939 6.5118L1 1" stroke="${colors.getTextColor()}" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
+
+  const updateUser = async () => {
+    try {
+      dispatch(loader.show());
+      const { data } = await updateProfile({
+        division,
+        district,
+        area,
+        address,
+        addressIsPublic: type == "Only me" ? "private" : "public",
+      });
+      dispatch({ type: "SET_USER", value: data });
+      localStorage.login(data);
+      Alert.alert("Profile updated successfully!");
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.response.data.msg);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           {/* <Image
               style={{
                 width: width - 40,
@@ -102,7 +129,14 @@ export default function EditLocation({ navigation }) {
           />
 
           <View style={{ marginTop: 24 }}>
-            <Text style={[newStyle.text, { marginTop: 0,color:colors.getTextColor() }]}>Division</Text>
+            <Text
+              style={[
+                newStyle.text,
+                { marginTop: 0, color: colors.getTextColor() },
+              ]}
+            >
+              Division
+            </Text>
             <Button
               bg={bg}
               value={division}
@@ -117,7 +151,9 @@ export default function EditLocation({ navigation }) {
 
             <View style={{ flexDirection: "row", marginTop: 12 }}>
               <View>
-                <Text style={[newStyle.text,{color:colors.getTextColor()}]}>District</Text>
+                <Text style={[newStyle.text, { color: colors.getTextColor() }]}>
+                  District
+                </Text>
                 <Button
                   bg={bg}
                   error={districtError}
@@ -145,7 +181,9 @@ export default function EditLocation({ navigation }) {
               </View>
               <View style={{ width: 13 }} />
               <View>
-                <Text style={[newStyle.text,{color:colors.getTextColor()}]}>Thana</Text>
+                <Text style={[newStyle.text, { color: colors.getTextColor() }]}>
+                  Thana
+                </Text>
                 <Button
                   bg={bg}
                   error={areaError}
@@ -172,7 +210,14 @@ export default function EditLocation({ navigation }) {
                 />
               </View>
             </View>
-            <Text style={[newStyle.text, { marginTop: 12,color:colors.getTextColor() }]}>Address</Text>
+            <Text
+              style={[
+                newStyle.text,
+                { marginTop: 12, color: colors.getTextColor() },
+              ]}
+            >
+              Address
+            </Text>
             <TextArea
               value={address}
               onChange={setAddress}
@@ -183,7 +228,8 @@ export default function EditLocation({ navigation }) {
               style={{
                 alignItems: "flex-end",
                 marginTop: 12,
-              }}>
+              }}
+            >
               <MenuItem
                 onChange={setType}
                 visible={visible}
@@ -205,7 +251,7 @@ export default function EditLocation({ navigation }) {
               />
             </View>
             <Button
-              //onPress={updateUser}
+              onPress={updateUser}
               active={division && district && area ? true : false}
               disabled={division && district && area ? false : true}
               style={[{ marginTop: 24, marginBottom: 32 }]}
@@ -237,7 +283,8 @@ export default function EditLocation({ navigation }) {
         handleIndicatorStyle={{
           backgroundColor: colors.getTextColor(),
         }}
-        onChange={handleSheetChanges}>
+        onChange={handleSheetChanges}
+      >
         {select == "Division" ? (
           <Screen
             onChange={(e) => {
@@ -355,7 +402,8 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
       style={{
         flex: 1,
         backgroundColor: colors.getSchemeColor(),
-      }}>
+      }}
+    >
       <Text
         style={{
           marginVertical: 12,
@@ -363,13 +411,15 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
           fontSize: 20,
           width: "100%",
           textAlign: "center",
-        }}>
+        }}
+      >
         {type ? type : "Division"}
       </Text>
       <BottomSheetScrollView
         contentContainerStyle={{
           backgroundColor: colors.getSchemeColor(),
-        }}>
+        }}
+      >
         {type == "Division" &&
           DistrictList.map((doc, i) => (
             <Pressable
@@ -379,7 +429,8 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                 }
               }}
               style={newStyles.box}
-              key={i}>
+              key={i}
+            >
               <Text style={newStyles.textSp}>{doc.title}</Text>
               {select == doc.title && <SvgXml xml={tick} />}
             </Pressable>
@@ -394,7 +445,8 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   }
                 }}
                 style={newStyles.box}
-                key={i}>
+                key={i}
+              >
                 <Text style={newStyles.textSp}>{doc}</Text>
                 {select == doc && <SvgXml xml={tick} />}
               </Pressable>
@@ -409,7 +461,8 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                 }
               }}
               style={newStyles.box}
-              key={i}>
+              key={i}
+            >
               <Text style={newStyles.textSp}>{doc}</Text>
               {select == doc && <SvgXml xml={tick} />}
             </Pressable>

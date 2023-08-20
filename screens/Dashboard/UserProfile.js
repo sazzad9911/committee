@@ -58,15 +58,20 @@ export default function UserProfile({ navigation, route }) {
         paddingTop: inset?.top,
         alignItems: "center",
         backgroundColor: colors.getBackgroundColor(),
-      }}>
+      }}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
-            
-            flexDirection:"row",
-            justifyContent:"space-between"
-          }}>
-          <SvgXml onPress={()=>navigation.goBack()} style={{marginTop:12}} xml={back} />
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <SvgXml
+            onPress={() => navigation.goBack()}
+            style={{ marginTop: 12 }}
+            xml={back}
+          />
           <ProfilePicture
             containerStyle={{ marginTop: 12 }}
             edit={false}
@@ -74,7 +79,7 @@ export default function UserProfile({ navigation, route }) {
               uri: "https://e0.pxfuel.com/wallpapers/932/376/desktop-wallpaper-stylish-boys-cool-d-profile-pics-for-facebook-whatsapp-pretty-boys.jpg",
             }}
           />
-          <SvgXml style={{marginTop:12}} xml={edit} />
+          <SvgXml style={{ marginTop: 12 }} xml={edit} />
         </View>
         <View
           style={{
@@ -82,7 +87,8 @@ export default function UserProfile({ navigation, route }) {
             alignItems: "center",
             flex: 1,
             paddingHorizontal: 40,
-          }}>
+          }}
+        >
           <Text
             numberOfLines={1}
             style={{
@@ -90,7 +96,8 @@ export default function UserProfile({ navigation, route }) {
               fontWeight: "500",
               flex: 1,
               color: colors.getTextColor(),
-            }}>
+            }}
+          >
             Easin arafat aryan xyz..
           </Text>
           <Text
@@ -98,7 +105,8 @@ export default function UserProfile({ navigation, route }) {
               fontSize: 16,
               fontWeight: "400",
               color: colors.getTextColor(),
-            }}>
+            }}
+          >
             Male
           </Text>
         </View>
@@ -107,10 +115,15 @@ export default function UserProfile({ navigation, route }) {
             flexDirection: "row",
             marginTop: 20,
             justifyContent: "center",
-          }}>
-          <SquireCard onPress={() => {
-            navigation.navigate("Comity Subscription List")
-          }} title={"Subscription"} icon={cart} />
+          }}
+        >
+          <SquireCard
+            onPress={() => {
+              navigation.navigate("Comity Subscription List");
+            }}
+            title={"Subscription"}
+            icon={cart}
+          />
 
           <SquireCard
             onPress={() => {}}
@@ -157,11 +170,19 @@ export default function UserProfile({ navigation, route }) {
         </View>
         <View style={[styles.subContainer, { marginBottom: 20 }]}>
           <FlatCard
-            onPress={() => {navigation.navigate("DeleteConfirmation")}}
+            onPress={() => {
+              navigation.navigate("DeleteConfirmation");
+            }}
             icon={noteIcon}
             title={"Remove this account from Comity"}
-            type={""} color="red"
-            style={{ borderBottomWidth: 0, paddingTop: 0, paddingBottom: 0 ,color:"red"}}
+            type={""}
+            color="red"
+            style={{
+              borderBottomWidth: 0,
+              paddingTop: 0,
+              paddingBottom: 0,
+              color: "red",
+            }}
           />
         </View>
       </ScrollView>

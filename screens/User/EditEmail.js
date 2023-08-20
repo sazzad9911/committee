@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
+  Alert,
   Pressable,
   Text,
   KeyboardAvoidingView,
@@ -17,6 +18,9 @@ import MenuItem from "../../components/main/MenuItem";
 import ReadMoreComponent from "../../components/ReadMoreComponent";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
+import loader from "../../data/loader";
+import { updateProfile } from "../../apis/api";
+import localStorage from "../../functions/localStorage";
 
 export default function EditEmail({ navigation, route }) {
   const isFocused = useIsFocused();
@@ -27,7 +31,6 @@ export default function EditEmail({ navigation, route }) {
   const [email, setEmail] = useState();
   const user = route?.params?.user;
   const newUser = useSelector((state) => state.user);
-  const [loader, setLoader] = useState(false);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
 
@@ -47,16 +50,36 @@ export default function EditEmail({ navigation, route }) {
 <path d="M13 1L8.06061 6.5118C7.47727 7.16273 6.52273 7.16273 5.93939 6.5118L1 1" stroke="${colors.getTextColor()}" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
+
+  const updateUser = async () => {
+    try {
+      dispatch(loader.show());
+      const { data } = await updateProfile({
+        email,
+      });
+      dispatch({ type: "SET_USER", value: data });
+      localStorage.login(data);
+      Alert.alert("Profile updated successfully!");
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.response.data.msg);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           <SvgXml
             style={{
               marginTop: 36,
@@ -77,7 +100,8 @@ export default function EditEmail({ navigation, route }) {
             style={{
               alignItems: "flex-end",
               marginTop: 12,
-            }}>
+            }}
+          >
             <MenuItem
               onChange={setType}
               visible={visible}
@@ -99,7 +123,7 @@ export default function EditEmail({ navigation, route }) {
             />
           </View>
           <Button
-            //onPress={updateUser}
+            onPress={updateUser}
             disabled={email ? false : true}
             active={email ? true : false}
             title={"Update"}
