@@ -30,3 +30,7 @@ export const deleteNotice = (noticeId) =>
   API.delete(`/notice/delete/${noticeId}`);
 export const updateNotice = (noticeId, formData) =>
   API.put(`/notice/update/${noticeId}`, formData);
+
+//Comity
+export const getRecentComities = () => API.get("/comity/get-recent");
+export const getPopularComities = () => API.get("/comity/get-popular");
