@@ -34,3 +34,4 @@ export const updateNotice = (noticeId, formData) =>
 //Comity
 export const getRecentComities = () => API.get("/comity/get-recent");
 export const getPopularComities = () => API.get("/comity/get-popular");
+export const searchComities = (q) => API.get(`/comity/search?q=${q}`);

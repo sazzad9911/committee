@@ -34,7 +34,6 @@ export default function HidableHeaderLayout({ header, component, bottom }) {
               top: 0,
               left: 0,
               right: 0,
-              backgroundColor: "white",
               zIndex: 500,
               overflow: "hidden",
             },

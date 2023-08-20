@@ -58,20 +58,31 @@ export default function FavoriteCategory({ textColor }) {
     </View>
   );
 }
-export const FavoriteCategoryCart = ({ comity }) => {
+export const FavoriteCategoryCart = ({
+  index,
+  image,
+  style,
+  containerStyle,
+}) => {
   return (
     <View
-      style={{
-        marginHorizontal: 20,
-        marginBottom: 0,
-      }}
+      style={[
+        {
+          marginHorizontal: 20,
+          marginBottom: 0,
+        },
+        containerStyle,
+      ]}
     >
       <Image
-        style={{
-          height: 400,
-          borderRadius: 21,
-          width: width - 40,
-        }}
+        style={[
+          {
+            height: 400,
+            borderRadius: 21,
+            width: width - 40,
+          },
+          style,
+        ]}
         source={{
           uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
         }}
@@ -84,18 +95,20 @@ export const FavoriteCategoryCart = ({ comity }) => {
           top: 0,
           left: 0,
           justifyContent: "flex-end",
-          paddingHorizontal: 22,
-          paddingVertical: 32,
+          paddingHorizontal: style?.paddingHorizontal
+            ? style?.paddingHorizontal
+            : 22,
+          paddingVertical: style?.paddingVertical ? style?.paddingVertical : 32,
         }}
       >
         <Text
           style={{
-            fontSize: 20,
+            fontSize: style?.fontSize ? style.fontSize : 20,
             fontWeight: "500",
             color: "#fff",
           }}
         >
-          {comity.name}
+          বাংলাদেশ আউমিলিগ পার্টি সজনসভা বৈঠক
         </Text>
       </View>
     </View>
