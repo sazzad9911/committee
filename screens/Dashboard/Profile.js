@@ -18,6 +18,7 @@ export default function Profile() {
   const editProfileInfo = values.getEditProfileHeadLine();
   const getComityHeadLine=values.getComityHeadLine()
   const headlines=values.getHeadLines()
+  
   return (
     <Stack.Navigator>
       <Stack.Screen

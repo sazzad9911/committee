@@ -50,7 +50,7 @@ export default function CommitteeProfile({ navigation }) {
           uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
         }}>
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
-          <Pressable
+          {/* <Pressable
             onPress={() => {
               navigation?.goBack();
             }}
@@ -63,7 +63,8 @@ export default function CommitteeProfile({ navigation }) {
               borderRadius: 15,
             }}>
             <SvgXml xml={backIcon} />
-          </Pressable>
+          </Pressable> */}
+          <View/>
           <Pressable>
             <SvgXml xml={cameraIcon} />
           </Pressable>

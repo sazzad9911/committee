@@ -66,7 +66,9 @@ export default function PopularCategory({ textColor,navigation }) {
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
         <View style={{ width: 14 }} />
         {comities.map((comity, index) => (
-          <PopularCategoryCart comity={comity} index={comity.id} />
+          <PopularCategoryCart onPress={()=>{
+            navigation.navigate("ComityProfile",{data:comity})
+          }} key={index} comity={comity} index={comity.id} />
         ))}
         <View style={{ width: 14 }} />
       </ScrollView>
@@ -106,7 +108,7 @@ export const PopularCategoryCart = ({ comity, style, onPress }) => {
           color: "#fff",
         }}
       >
-        {comity.name}
+        {comity?.name}
       </Text>
     </Pressable>
   );
