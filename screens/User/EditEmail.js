@@ -23,13 +23,13 @@ import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
 
 export default function EditEmail({ navigation, route }) {
+  const user = route?.params?.user;
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [layoutHeight, setLayoutHeight] = useState(0);
   const [type, setType] = useState("Only me");
   const [visible, setVisible] = React.useState(false);
-  const [email, setEmail] = useState();
-  const user = route?.params?.user;
+  const [email, setEmail] = useState(user?.email || "");
   const newUser = useSelector((state) => state.user);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);

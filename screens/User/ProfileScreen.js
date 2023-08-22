@@ -35,10 +35,6 @@ export default function ProfileScreen({ navigation }) {
 </svg>
 `;
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
-
   return (
     <ScrollView
       style={{ backgroundColor: backgroudColor }}
@@ -67,13 +63,17 @@ export default function ProfileScreen({ navigation }) {
             }}
           >
             <Text style={[mainStyle.subLevel, { color: textColor }]}>
-              {user.name}
+              {user.user.name}
             </Text>
-            <Text style={{ fontSize: 10, color: textColor }}>Male</Text>
+            <Text style={{ fontSize: 10, color: textColor }}>
+              {user.user.gender}
+            </Text>
           </View>
           <Pressable
             onPress={() => {
-              navigation?.navigate("EditProfileInfo");
+              navigation?.navigate("EditProfileInfo", {
+                user: user?.user,
+              });
             }}
           >
             <SvgXml xml={editIcon} />
@@ -91,7 +91,7 @@ export default function ProfileScreen({ navigation }) {
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            subTitle={"01676182543"}
+            subTitle={user.user?.phone || "-"}
             title={createCommitteeValues.mobile}
           />
           <Clickable
@@ -99,16 +99,20 @@ export default function ProfileScreen({ navigation }) {
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            subTitle={"easinarafat.jp@gmail.com"}
+            subTitle={user.user?.email || "-"}
             title={"E-mail"}
-            onPress={() => navigation.navigate("EditEmail")}
+            onPress={() =>
+              navigation.navigate("EditEmail", {
+                user: user?.user,
+              })
+            }
           />
           <Clickable
             canGo={true}
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            subTitle={"ss s road bandar narayanganj"}
+            subTitle={`${user.user?.address?.division}, ${user.user?.address?.district}, ${user.user?.address?.area}`}
             title={createCommitteeValues.address}
             onPress={() => navigation.navigate("EditAddress")}
           />
