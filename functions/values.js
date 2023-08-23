@@ -267,7 +267,9 @@ export class AppValues {
           _location:"এসএস এস \nরোড, রূপালী,বন্দর, নারায়ণগঞ্জ, ঢাকা, বাংলাদেশ",
           _googleMap:"গুগল ম্যাপে দেখুন",
           _successfulMessage:"রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে",
-          _infoMessage:"আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ৷।আমাদের টিম আপনার ম্যাসেজটি রিভিউ করছে এবং যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করবে৷।"
+          _infoMessage:"আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ৷।আমাদের টিম আপনার ম্যাসেজটি রিভিউ করছে এবং যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করবে৷।",
+          _completed:"কমপ্লিটেড",
+          _incomplete:"ইন কমপ্লিট"
         }
       : {
           write: "Write",
@@ -329,7 +331,9 @@ export class AppValues {
           _location:"SS S \nRoad,Rupali,Bandar,Narayanganaj,Dhaka,Bangladesh",
           _googleMap:"View in google map",
           _successfulMessage:"Request Successfully sent",
-          _infoMessage:"Thank you for contacting us. Our team is reviewing your message and will be in touch with you as soon as possible."
+          _infoMessage:"Thank you for contacting us. Our team is reviewing your message and will be in touch with you as soon as possible.",
+          _completed:"Complited",
+          _incomplete:"Incomplete"
         };
   }
 }

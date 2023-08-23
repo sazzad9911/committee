@@ -9,17 +9,21 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function AddSubscription({navigation,route}) {
+export default function EditSubscription({navigation,route}) {
   const {isDark,user,comity} = useSelector((state) => state);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
-  const colors = new AppColors(isDark);
-  const [name,setName]=useState()
-  const [quantity,setQuantity]=useState()
+  const data=route?.params?.data;
+  const colors = new AppColors(isDark)
+  const [name,setName]=useState(data?.name)
+  const [quantity,setQuantity]=useState(data?.amount?.toString())
   const dispatch=useDispatch()
+console.log();
+  
 
   //console.log(route?.params?.route);
   const save=async()=>{
+    return
     dispatch(loader.show())
     try{
       await post("/subs/create/subs",{

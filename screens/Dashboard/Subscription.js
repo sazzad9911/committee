@@ -17,14 +17,15 @@ import Input from "../../components/main/Input";
 import Paid from "./Paid";
 import Unpaid from "./Unpaid";
 import ComitySubscriptionRoute from "../../routes/ComitySubscriptionRoute";
+import FloatingButton from "../../components/main/FloatingButton";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function Subscription(){
-  return <ComitySubscriptionRoute/>
+export default function Subscription() {
+  return <ComitySubscriptionRoute />;
 }
 
-export  function SubscriptionList() {
+export function SubscriptionList({navigation}) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -36,31 +37,42 @@ export  function SubscriptionList() {
   const borderColor = colors.getBorderColor();
 
   return (
-    <Tab.Navigator style={{backgroundColor:colors.getBackgroundColor()}}
-      tabBar={(props) => (
-        <TabBarLayout
-          color={
-            props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
-          }
-          header={
-            <Header
-              headlines={headlines}
-              borderColor={borderColor}
-              textColor={textColor}
-            />
-          }
-          {...props}
-        />
-      )}>
-      <Tab.Screen name={headlines._paid} component={Paid} />
-      <Tab.Screen name={headlines._unPaid} component={Unpaid} />
-    </Tab.Navigator>
+    <View
+      style={{
+        flex: 1,
+      }}>
+      <Tab.Navigator
+        style={{ backgroundColor: colors.getBackgroundColor() }}
+        tabBar={(props) => (
+          <TabBarLayout
+            color={
+              props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
+            }
+            header={
+              <Header
+                headlines={headlines}
+                borderColor={borderColor}
+                textColor={textColor}
+              />
+            }
+            {...props}
+          />
+        )}>
+        <Tab.Screen name={headlines._completed} component={Paid} />
+        <Tab.Screen name={headlines._incomplete} component={Unpaid} />
+      </Tab.Navigator>
+      <FloatingButton
+        onPress={() => {
+          navigation.navigate("AddSubscription",{route:headlines._incomplete});
+        }}
+      />
+    </View>
   );
 }
 
 const Header = ({ textColor, borderColor, headlines }) => {
   const newDate = new Date();
-  const isDark=useSelector(state=>state.isDark)
+  const isDark = useSelector((state) => state.isDark);
   const day = newDate.getDay();
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
@@ -80,7 +92,6 @@ const Header = ({ textColor, borderColor, headlines }) => {
         paddingHorizontal: 20,
         width: "100%",
       }}
-      
       transition={{
         type: "timing",
       }}>
@@ -101,11 +112,10 @@ const Header = ({ textColor, borderColor, headlines }) => {
             borderRadius: 30,
             minHeight: 40,
             borderWidth: 0,
-            
           },
           mainStyle.mt12,
         ]}
-        outSideStyle={{marginVertical:10}}
+        outSideStyle={{ marginVertical: 10 }}
         placeholder={headlines._nameDateTaka}
       />
     </View>

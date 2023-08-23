@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
@@ -14,9 +14,11 @@ import UnPaid from "./Unpaid";
 import TabBarLayout from "../../layouts/TabBarLayout";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import PaidSubscription from "./PaidSubscription";
+import UnPaidSubscription from "./UnpaidSubscription";
 const Tab = createMaterialTopTabNavigator();
 
-export default function SubscriptionDetails({ navigation }) {
+export default function SubscriptionDetails({ navigation, route }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -26,18 +28,48 @@ export default function SubscriptionDetails({ navigation }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
+  const data = route?.params?.data;
+
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        headlines={headlines}
-        borderColor={borderColor}
-        textColor={textColor}
-        backgroundColor={colors.getBackgroundColor()}
-      />
+    <View style={{flex:1}}>
+      <Tab.Navigator
+        style={{ backgroundColor: colors.getBackgroundColor() }}
+        tabBar={(props) => (
+          <TabBarLayout
+            color={
+              props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
+            }
+            header={
+              <Header
+                onEdit={() => {
+                  navigation.navigate("EditSubscription", { data: data });
+                }}
+                headlines={headlines}
+                borderColor={borderColor}
+                textColor={textColor}
+                data={data}
+              />
+            }
+            {...props}
+          />
+        )}>
+        <Tab.Screen name={headlines._paid} component={PaidSubscription} />
+        <Tab.Screen name={headlines._unPaid} component={UnPaidSubscription} />
+      </Tab.Navigator>
+      <FloatingButton />
     </View>
   );
 }
-const Header = ({ textColor, borderColor, headlines,style,color,backgroundColor }) => {
+const Header = ({
+  textColor,
+  borderColor,
+  headlines,
+  style,
+  color,
+  backgroundColor,
+  data,
+  onEdit,
+}) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
   const day = newDate.getDay();
@@ -45,7 +77,7 @@ const Header = ({ textColor, borderColor, headlines,style,color,backgroundColor 
   const year = newDate.getFullYear();
   const ac = ["#1488CC", "#2B32B2"];
   const dc = [backgroundColor, backgroundColor];
-  const inset=useSafeAreaInsets()
+  const inset = useSafeAreaInsets();
   const scrollValue = useSelector((state) => state.scrollValue);
   const search = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8.11036 0.0408841C5.04858 0.326439 2.23492 2.29256 0.900663 5.06853C-0.124611 7.19849 -0.279105 9.62805 0.460591 11.8563C1.92126 16.2473 6.44838 18.8033 10.9849 17.7968C12.1834 17.53 13.3631 17.001 14.3088 16.3035L14.6084 16.0835L16.4858 17.956C17.5157 18.9858 18.438 19.8659 18.527 19.9127C18.7376 20.0251 19.2432 20.0298 19.4399 19.9221C19.6225 19.8238 19.8238 19.6225 19.9221 19.4399C20.0298 19.2433 20.0251 18.7377 19.9127 18.5271C19.8659 18.4381 18.9858 17.5159 17.9558 16.4861L16.0832 14.6089L16.3032 14.3093C18.2367 11.6878 18.555 8.0692 17.1225 5.09662C15.4699 1.67464 11.9259 -0.31489 8.11036 0.0408841ZM10.395 2.18489C13.1618 2.77473 15.2498 4.8766 15.8444 7.66662C15.9661 8.23305 15.9661 9.8153 15.8444 10.3677C15.5401 11.7487 14.8987 12.9377 13.9156 13.9161C12.4596 15.3766 10.5869 16.0788 8.5083 15.943C5.7555 15.7698 3.33979 13.902 2.42219 11.2478C2.14597 10.4566 2.07107 9.97447 2.07575 9.00077C2.07575 8.26113 2.09448 8.03175 2.17875 7.63385C2.46901 6.2997 3.06357 5.17152 3.98585 4.21655C4.50551 3.67352 4.95963 3.31307 5.55419 2.97134C6.27516 2.55471 7.27703 2.2083 8.08695 2.09595C8.60661 2.02573 9.87533 2.07254 10.395 2.18489Z" fill="${textColor}" fill-opacity="${
@@ -68,7 +100,7 @@ const Header = ({ textColor, borderColor, headlines,style,color,backgroundColor 
         {
           justifyContent: "center",
           alignItems: "center",
-          paddingTop: inset?.top,
+
           borderColor: borderColor,
         },
         style,
@@ -77,24 +109,26 @@ const Header = ({ textColor, borderColor, headlines,style,color,backgroundColor 
       colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
       <View
         style={{
-          paddingHorizontal: 20,
-          width: "100%",
+          paddingHorizontal: 0,
+          width: Dimensions.get("window").width - 40,
         }}
         transition={{
           type: "timing",
         }}>
         <View style={[mainStyle.flexBox]}>
           <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
-            এলাকার উন্নয়ন এলাকার উন্নয়ন
+            {data?.name}
           </Text>
-          <SvgXml xml={icon} />
+          <Pressable onPress={onEdit}>
+            <SvgXml xml={icon} />
+          </Pressable>
         </View>
         <View style={[mainStyle.flexBox]}>
           <Text
             style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
             পরিমাণের লক্ষ{"    "}
             <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-              2000
+              {data?.amount}
             </Text>
           </Text>
           <Text
@@ -105,7 +139,7 @@ const Header = ({ textColor, borderColor, headlines,style,color,backgroundColor 
             </Text>
           </Text>
         </View>
-        <View style={{height:24}}/>
+        <View style={{ height: 24 }} />
         {/* <Input
           leftIcon={<SvgXml xml={search} />}
           containerStyle={[
