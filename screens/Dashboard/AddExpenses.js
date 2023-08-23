@@ -106,6 +106,7 @@ export default function AddExpenses({navigation}) {
         <DateTimePickerModal
           isVisible={true}
           mode={"date"}
+          
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />

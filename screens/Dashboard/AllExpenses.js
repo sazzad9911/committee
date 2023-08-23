@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { ScrollView, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
@@ -9,10 +9,11 @@ import ExpensesCart from "../../components/cart/ExpesesCart";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
+import BottomShitLayout from "../../layouts/BottomShitLayout";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
 
-export default function AllExpenses({navigation}) {
+export default function AllExpenses({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const inset = useSafeAreaInsets();
   const isBn = useSelector((state) => state.isBn);
@@ -33,6 +34,11 @@ export default function AllExpenses({navigation}) {
   }"/>
   </svg>  
   `;
+  const data = route.params.data;
+  const [index, setIndex] = useState(-1);
+  const [dateSorted,setDateSorted]=useState()
+  const [sorted,setSorted]=useState()
+  const [text,setText]=useState()
 
   const Header = ({ color, style }) => (
     <LinearGradient
@@ -57,17 +63,27 @@ export default function AllExpenses({navigation}) {
           {headlines._allExpenses}
         </Text>
         <View style={[mainStyle.flexBox]}>
-          <SvgXml onPress={()=>navigation?.navigate("DateShort")} xml={calender} />
+          <SvgXml
+            onPress={() => navigation?.navigate("DateShort",{
+              setDateSorted:setDateSorted
+            })}
+            xml={calender}
+          />
           <SvgXml
             style={{
               marginHorizontal: 16,
             }}
             xml={dash}
           />
-          <SvgXml xml={sort} />
+          <Pressable
+            onPress={() => {
+              setIndex(1);
+            }}>
+            <SvgXml xml={sort} />
+          </Pressable>
         </View>
       </View>
-      <Input
+      <Input value={text} onChange={setText}
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {
@@ -85,67 +101,34 @@ export default function AllExpenses({navigation}) {
   );
   const Component = () => {
     return (
-      <View style={{marginVertical:14}}>
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <ExpensesCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
+      <View style={{ marginVertical: 14 }}>
+        {data?.map((doc, i) => (
+          <ExpensesCart
+            key={i}
+            isDark={isDark}
+            data={doc}
+            textColor={textColor}
+            borderColor={borderColor}
+          />
+        ))}
       </View>
     );
   };
+  const Bottom = () => {
+    return <View></View>;
+  };
 
-  return <HidableHeaderLayout header={<Header />} component={<Component/>} />;
+  return (
+    <BottomShitLayout
+      scrollable={true}
+      index={index}
+      setIndex={setIndex}
+      screen={
+        <HidableHeaderLayout header={<Header />} component={<Component />} />
+      }
+      component={<Bottom />}
+    />
+  );
 }
 const calender = `<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.25 1V3.25M15.75 1V3.25M1.5 16.75V5.5C1.5 4.90326 1.73705 4.33097 2.15901 3.90901C2.58097 3.48705 3.15326 3.25 3.75 3.25H17.25C17.8467 3.25 18.419 3.48705 18.841 3.90901C19.2629 4.33097 19.5 4.90326 19.5 5.5V16.75M1.5 16.75C1.5 17.3467 1.73705 17.919 2.15901 18.341C2.58097 18.7629 3.15326 19 3.75 19H17.25C17.8467 19 18.419 18.7629 18.841 18.341C19.2629 17.919 19.5 17.3467 19.5 16.75M1.5 16.75V9.25C1.5 8.65326 1.73705 8.08097 2.15901 7.65901C2.58097 7.23705 3.15326 7 3.75 7H17.25C17.8467 7 18.419 7.23705 18.841 7.65901C19.2629 8.08097 19.5 8.65326 19.5 9.25V16.75M10.5 10.75H10.508V10.758H10.5V10.75ZM10.5 13H10.508V13.008H10.5V13ZM10.5 15.25H10.508V15.258H10.5V15.25ZM8.25 13H8.258V13.008H8.25V13ZM8.25 15.25H8.258V15.258H8.25V15.25ZM6 13H6.008V13.008H6V13ZM6 15.25H6.008V15.258H6V15.25ZM12.75 10.75H12.758V10.758H12.75V10.75ZM12.75 13H12.758V13.008H12.75V13ZM12.75 15.25H12.758V15.258H12.75V15.25ZM15 10.75H15.008V10.758H15V10.75ZM15 13H15.008V13.008H15V13Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

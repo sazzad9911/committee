@@ -48,7 +48,7 @@ export default function ProfileScreen({ navigation }) {
           mainStyle.pdH20,
         ]}
       >
-        <View style={[mainStyle.flexBox, { marginBottom: 40 }]}>
+        <View style={[mainStyle.flexBox, { marginBottom: 40 ,alignItems:"center"}]}>
           <Avatar
             style={mainStyle.mt12}
             url={

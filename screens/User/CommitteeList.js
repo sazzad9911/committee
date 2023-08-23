@@ -129,7 +129,9 @@ export default function CommitteeList({navigation}) {
           <View style={{ height: 100 }} />
         </View>
       </ScrollView>
-      <Button
+      <Button onPress={()=>{
+        navigation.navigate("CreateCommittee")
+      }}
         style={{
           position: "absolute",
           width: Dimensions.get("window").width - 40,

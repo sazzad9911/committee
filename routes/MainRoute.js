@@ -96,6 +96,7 @@ export default function MainRoute() {
       tertiary: "#000",
     },
   };
+  //console.log(user.token);
 
   useEffect(() => {
     const fetch = async () => {

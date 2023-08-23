@@ -17,7 +17,7 @@ import mainStyle from "../../styles/mainStyle";
 export default function Expenses({ navigation }) {
   const ref = useRef();
   const dispatch = useDispatch();
-  const {isDark,user,comity} = useSelector((state) => state);
+  const { isDark, user, comity } = useSelector((state) => state);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
   const headlines = values.getDashboardHeadlines();
@@ -25,22 +25,21 @@ export default function Expenses({ navigation }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
-  const [data,setData]=useState()
-  const isFocus=useIsFocused()
-  
-  
-  React.useEffect(()=>{
-    const fetch=async()=>{
-      dispatch(loader.show())
-      const res=await get(`/comity/expense/get/${comity.id}`,user.token)
+  const [data, setData] = useState();
+  const isFocus = useIsFocused();
+
+  React.useEffect(() => {
+    const fetch = async () => {
+      dispatch(loader.show());
+      const res = await get(`/comity/expense/get/${comity.id}`, user.token);
       //console.log(res.data.expenses);
-      dispatch(loader.hide())
-      setData(res.data.expenses)
-    }
-    fetch()
-  },[isFocus])
+      dispatch(loader.hide());
+      setData(res.data.expenses);
+    };
+    fetch();
+  }, [isFocus]);
   return (
-    <View style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}>
+    <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
         <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
           <Text
@@ -54,7 +53,7 @@ export default function Expenses({ navigation }) {
             {headlines._latestExpenses}
           </Text>
           <Button
-            onPress={() => navigation?.navigate("AllExpenses")}
+            onPress={() => navigation?.navigate("AllExpenses",{data:data})}
             style={{
               borderWidth: 0,
             }}
@@ -62,22 +61,20 @@ export default function Expenses({ navigation }) {
             title={headlines._more}
           />
         </View>
-        {data?.slice(0,5).map((doc,i)=>(
-          <ExpensesCart key={i}
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-          data={doc}
-        />
+        {data?.slice(0, 5).map((doc, i) => (
+          <ExpensesCart
+            key={i}
+            isDark={isDark}
+            textColor={textColor}
+            borderColor={borderColor}
+            data={doc}
+          />
         ))}
-        {data?.length==0&&(
-          <NoOption/>
-        )}
+        {data?.length == 0 && <NoOption />}
 
-       
         <View style={{ height: 90 }} />
       </ScrollView>
-      <FloatingButton onPress={()=>navigation.navigate("AddExpenses")}/>
+      <FloatingButton onPress={() => navigation.navigate("AddExpenses")} />
     </View>
   );
 }

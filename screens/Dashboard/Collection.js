@@ -92,7 +92,7 @@ export default function Collection({ navigation }) {
         />
         <View style={{ height: 32 }} />
       </ScrollView>
-      {/* <FloatingButton /> */}
+      <FloatingButton />
     </View>
   );
 }
