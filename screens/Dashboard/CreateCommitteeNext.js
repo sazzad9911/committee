@@ -118,7 +118,7 @@ export default function CreateCommitteeNext({ navigation, route }) {
                   //console.log(res.data.comity);
                   dispatch({ type: "SET_COMITY", value: res.data.comity });
                   localStorage.storeData("SET_COMITY", res.data.comity);
-                  navigation.navigate("Dashboard")
+                  navigation.navigate("Profile") 
                 } catch (e) {
                   Alert.alert(e.message);
                   dispatch(loader.hide());
