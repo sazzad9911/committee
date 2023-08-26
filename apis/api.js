@@ -36,6 +36,7 @@ export const getRecentComities = () => API.get("/comity/get-recent");
 export const updateComity = (formData) => API.put("/comity/update", formData);
 export const getPopularComities = () => API.get("/comity/get-popular");
 export const searchComities = (q) => API.get(`/comity/search?q=${q}`);
+export const getComityById = (comityId) => API.get(`/comity/get/${comityId}`);
 
 //Auth
 export const updateProfile = (formData) =>

@@ -13,7 +13,7 @@ import mainStyle from "../../styles/mainStyle";
 import Button from "../main/Button";
 const { width, height } = Dimensions.get("window");
 
-export default function PopularCategory({ textColor,navigation }) {
+export default function PopularCategory({ textColor, navigation }) {
   const [comities, setComities] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -66,9 +66,14 @@ export default function PopularCategory({ textColor,navigation }) {
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
         <View style={{ width: 14 }} />
         {comities.map((comity, index) => (
-          <PopularCategoryCart onPress={()=>{
-            navigation.navigate("ComityProfile",{data:comity})
-          }} key={index} comity={comity} index={comity.id} />
+          <PopularCategoryCart
+            onPress={() => {
+              navigation.navigate("ComityProfile", { comityId: comity.id });
+            }}
+            key={index}
+            comity={comity}
+            index={comity.id}
+          />
         ))}
         <View style={{ width: 14 }} />
       </ScrollView>

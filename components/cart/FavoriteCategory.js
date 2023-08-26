@@ -1,12 +1,19 @@
 import React, { useEffect, Fragment } from "react";
-import { Dimensions, Image, ScrollView, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  View,
+  Pressable,
+} from "react-native";
 import { SvgXml } from "react-native-svg";
 import { getRecentComities } from "../../apis/api";
 import mainStyle from "../../styles/mainStyle";
 import Button from "../main/Button";
 const { width, height } = Dimensions.get("window");
 
-export default function FavoriteCategory({ textColor }) {
+export default function FavoriteCategory({ textColor, navigation }) {
   const [comities, setComities] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const icon = `<svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +58,13 @@ export default function FavoriteCategory({ textColor }) {
       </View>
       {comities.map((comity, index) => (
         <Fragment key={comity.id}>
-          <FavoriteCategoryCart index={0} comity={comity} />
+          <FavoriteCategoryCart
+            onPress={() => {
+              navigation.navigate("ComityProfile", { comityId: comity.id });
+            }}
+            index={0}
+            comity={comity}
+          />
           {index + 1 < comities.length && <View style={{ height: 24 }} />}
         </Fragment>
       ))}
@@ -59,13 +72,16 @@ export default function FavoriteCategory({ textColor }) {
   );
 }
 export const FavoriteCategoryCart = ({
+  comity,
   index,
   image,
   style,
   containerStyle,
+  onPress,
 }) => {
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={[
         {
           marginHorizontal: 20,
@@ -108,9 +124,9 @@ export const FavoriteCategoryCart = ({
             color: "#fff",
           }}
         >
-          বাংলাদেশ আউমিলিগ পার্টি সজনসভা বৈঠক
+          {comity?.name}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
