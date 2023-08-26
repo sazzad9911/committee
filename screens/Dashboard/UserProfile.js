@@ -39,6 +39,8 @@ export default function UserProfile({ navigation, route }) {
   const assentColor = colors.getShadowColor();
   const ref = React.useRef();
   const inset = useSafeAreaInsets();
+  const data=route?.params?.data;
+  //console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
     subContainer: {
@@ -98,7 +100,7 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            Easin arafat aryan xyz..
+            {data?data?.name:"Easin arafat aryan xyz.."}
           </Text>
           <Text
             style={{
@@ -107,7 +109,7 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            Male
+            {data?data?.gender:"Male"}
           </Text>
         </View>
         <View
@@ -141,8 +143,8 @@ export default function UserProfile({ navigation, route }) {
             }}
             style={{ paddingTop: 0 }}
             icon={call}
-            title={"Phone"}
-            value={"Private"}
+            title={data?.phone}
+            value={"Public"}
             type={"Private"}
             disableGo={true}
             Private={false}
@@ -152,9 +154,11 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("Email");
             }}
             icon={email}
-            title={"Email"}
-            type={"Private"}
+            title={data?.email?data.email:"N/A"}
+            type={"Public"}
+            value={"Public"}
             disableGo={true}
+            Private={false}
           />
           <FlatCard
             onPress={() => {
@@ -162,9 +166,10 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("UserLocation");
             }}
             icon={location}
-            title={"Address"}
+            title={data?.address?data.address:"N/A"}
             type={"Private"}
             disableGo={true}
+            Private={data?.addressIsPublic}
             style={{ borderBottomWidth: 0, paddingBottom: 0 }}
           />
         </View>

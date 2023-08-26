@@ -8,13 +8,15 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function SelectMemberType({navigation}) {
+export default function SelectMemberType({navigation,route}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
 
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
+  const subscription=route?.params?.subscription;
+  const data = route?.params?.data;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -28,10 +30,16 @@ export default function SelectMemberType({navigation}) {
           {headlines._selectPayee}
         </Text>
         <Button onPress={()=>{
-            navigation.navigate("AllMember")
+            navigation.navigate("AllMember",{
+              subscription:subscription,
+              data:data
+            })
         }} style={mainStyle.mt32} title={headlines._addFromComity} active={true}/>
         <Button onPress={()=>{
-            navigation.navigate("CreateOwnMember")
+            navigation.navigate("CreateOwnMember",{
+              subscription:subscription,
+              data:data
+            })
         }} style={mainStyle.mt12} title={headlines._createMemberOwn} active={true}/>
         <ReadMoreComponent textColor={colors.getTextColor()}/>
       </View>

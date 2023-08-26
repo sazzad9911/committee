@@ -1,14 +1,19 @@
+import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deletes, get } from "../../apis/multipleApi";
 import MemberCard from "../../components/cart/MemberCard";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
 import Input from "../../components/main/Input";
+import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
@@ -25,13 +30,72 @@ export default function Member({ navigation, route }) {
   const values = new AppValues(isBn);
   const searchText = values.getSearch();
   const comityListText = values.getHeadLines();
+  const { comity, user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [allMember, setAllMember] = useState();
+  const [sortedMember, setSortedMember] = useState();
+  const [searchIp, setSearch] = useState("");
+  const isFocused = useIsFocused();
+  //console.log(comity.id);
+
+  useEffect(() => {
+    getMember();
+  }, [isFocused]);
+  const getMember = async () => {
+    dispatch(loader.show());
+    const res = await get(`/member/get-all/${comity.id}`, user.token);
+    setAllMember(res.data.members);
+    dispatch(loader.hide());
+  };
+  useEffect(() => {
+    if (allMember) {
+      setSortedMember(
+        allMember.filter(
+          (member) =>
+            member.name?.toUpperCase().includes(searchIp?.toUpperCase()) ||
+            member?.user?.name?.toUpperCase().includes(searchIp?.toUpperCase())
+        )
+      );
+    }
+  }, [allMember, searchIp]);
 
   return (
     <HidableHeaderLayout
-      header={<Header />}
+      header={<Header searchIp={searchIp} setSearch={setSearch} />}
       component={
         <View>
-          <MemberCard onProfile={()=>navigation.navigate("UserProfile")} accepted borderColor={colors.getShadowColor()} textColor={textColor} />
+          {sortedMember?.map((doc, i) => (
+            <MemberCard
+              //onPress={() => navigation?.navigate("AddMember")}
+              onProfile={() =>
+                navigation?.navigate("UserProfile", { data: doc })
+              }
+              onAdd={async () => {
+                dispatch(loader.show());
+                try {
+                  await deletes(`/member/delete/${doc.id}`, user.token);
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Member deleted"));
+                  getMember()
+                } catch (e) {
+                  dispatch(loader.hide());
+                  dispatch(toast.error("Request failed"));
+                  console.error(e);
+                }
+              }}
+              requested={doc.status === "Pending" ? true : false}
+              accepted={doc.status != "Pending" ? true : false}
+              key={i}
+              name={doc.user ? doc.user.name : doc.name}
+              url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
+              borderColor={colors.getShadowColor()}
+              backgroundColor={colors.getBackgroundColor()}
+              textColor={colors.getTextColor()}
+            />
+          ))}
+          {sortedMember?.length == 0 && (
+            <NoOption title={"Ops!"} subTitle={"Member not found"} />
+          )}
         </View>
       }
       bottom={
@@ -42,7 +106,7 @@ export default function Member({ navigation, route }) {
     />
   );
 }
-const Header = () => {
+const Header = ({ searchIp, setSearch }) => {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const isDark = useSelector((state) => state.isDark);
@@ -100,6 +164,8 @@ const Header = () => {
         </Text>
       </View>
       <Input
+        value={searchIp}
+        onChange={setSearch}
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {

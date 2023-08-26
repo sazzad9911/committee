@@ -53,7 +53,7 @@ export default function FlatCard({
              color:colors.getTextColor(),
               fontWeight: "500",
               opacity:Private?.4:1,
-              color:color
+              
             }}>
             {title}
           </Text>
