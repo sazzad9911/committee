@@ -27,6 +27,7 @@ import { AppColors } from "../functions/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppValues } from "../functions/values";
 import ComitteeList from "./ComitteeList";
+import { getComityConversations, getUserConversations } from "../apis/api";
 const { height, width } = Dimensions.get("window");
 
 export default function ChatList(props) {
@@ -36,10 +37,11 @@ export default function ChatList(props) {
     inputRange: [0, 300],
     outputRange: [0, -300],
   });
-  const [Conversations, setConversations] = React.useState();
+  const [conversations, setConversations] = React.useState([]);
   const [Loader, setLoader] = React.useState(false);
   const isFocused = useIsFocused();
   const chatSearchRef = useSelector((state) => state.chatSearchRef);
+  const comity = useSelector((state) => state.comity);
   const searchX = props?.route?.params?.search;
   const sheetRef = useRef(null);
   const [index, setIndex] = useState(-1);
@@ -69,8 +71,21 @@ export default function ChatList(props) {
 
   //console.log(chatBottomRef)
 
+  const fetchConversations = async () => {
+    try {
+      const { data } = comity?.id
+        ? await getComityConversations(comity.id)
+        : await getUserConversations();
+      setConversations(data.conversations);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchConversations();
+  }, []);
+
   return (
-    <View style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}>
+    <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ChatHeader
         color={colors.getTextColor()}
         borderColor={colors.getBorderColor()}
@@ -101,58 +116,71 @@ export default function ChatList(props) {
         }
         onScroll={(e) => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
-        }}>
+        }}
+      >
         <View
           style={{
             minHeight: "100%",
-          }}>
+          }}
+        >
           <View style={{ height: 0 }} />
-          <ChatCart onPress={()=>{
-            props?.navigation?.navigate("ChatScreen")
-          }} active={true} number={1} />
-          <ChatCart />
-          <ChatCart />
-          {Conversations && Conversations.length == 0 && (
+          {conversations.map((item, index) => (
+            <ChatCart
+              index={item.id}
+              onPress={() => {
+                props?.navigation?.navigate("ChatScreen", {
+                  conversationId: item.id,
+                });
+              }}
+              conversation={item}
+              active={true}
+            />
+          ))}
+
+          {/* {conversations && conversations.length == 0 && (
             <View style={[customStyle.fullBox, { height: height - 200 }]}>
               <Text
                 style={{
                   marginVertical: 20,
                   textAlign: "center",
                   fontSize: 24,
-                }}>
+                }}
+              >
                 {searchX ? "Ops, No Result" : "No Member Added"}
               </Text>
             </View>
-          )}
+          )} */}
         </View>
         <View style={{ height: 0 }} />
       </ScrollView>
       {isFocused && (
         <BottomSheet
           backgroundStyle={{
-            
-            height:0
+            height: 0,
           }}
           handleIndicatorStyle={{
             backgroundColor: "#ffffff",
-            height:0
+            height: 0,
           }}
           ref={sheetRef}
           index={index}
           enablePanDownToClose={true}
           snapPoints={snapPoints}
-          onChange={handleSheetChange}>
+          onChange={handleSheetChange}
+        >
           {index != -1 && isFocused && (
             <Header
               type={type}
               value={chatSearchRef}
-              onChange={(e) =>{}}
+              onChange={(e) => {}}
               onConfirm={() => {
                 handleClosePress();
               }}
             />
           )}
-          <BottomSheetScrollView style={{ backgroundColor: colors.getBackgroundColor() }}>
+          <BottomSheetScrollView
+            style={{ backgroundColor: colors.getBackgroundColor() }}
+          >
             {type == "Search" ? (
               <ComitteeList
                 bottomRef={sheetRef}
@@ -335,36 +363,39 @@ const noResult = `<svg width="165" height="216" viewBox="0 0 165 216" fill="none
 `;
 const Header = ({ type, onConfirm, onChange, value }) => {
   const isDark = useSelector((state) => state.isDark);
-  const isBn=useSelector(state=>state.isBn)
-  const values=new AppValues(isBn).getValues()
+  const isBn = useSelector((state) => state.isBn);
+  const values = new AppValues(isBn).getValues();
   const ac = ["#1488CC", "#2B32B2"];
   const colors = new AppColors(isDark);
   return (
     <LinearGradient
       // Button Linear Gradient
       style={{
-        borderTopEndRadius:20,
-        borderTopStartRadius:20
-
+        borderTopEndRadius: 20,
+        borderTopStartRadius: 20,
       }}
       start={{ x: 0.2, y: 0 }}
-      colors={isDark ? ["#000", "#000"] : ac}>
+      colors={isDark ? ["#000", "#000"] : ac}
+    >
       <View
         style={{
           paddingHorizontal: 20,
           paddingVertical: 24,
-        }}>
+        }}
+      >
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 20,
               fontWeight: "700",
               color: "#fff",
-            }}>
+            }}
+          >
             {type == "Search" ? values.comityList : values.memberList}
           </Text>
           <Text
@@ -373,7 +404,8 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontSize: 16,
               fontWeight: "400",
               color: "#fff",
-            }}>
+            }}
+          >
             {values.done}
           </Text>
         </View>
@@ -381,22 +413,20 @@ const Header = ({ type, onConfirm, onChange, value }) => {
           style={{
             flexDirection: "row",
             borderRadius: 8,
-            backgroundColor:colors.getBackgroundColor(),
+            backgroundColor: colors.getBackgroundColor(),
             height: 32,
             marginTop: 12,
             alignItems: "center",
             paddingHorizontal: 8,
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <TextInput
             onChangeText={onChange}
             value={value}
-            style={{ flex: 1,
-                color:colors.getSubTextColor()
-             }}
+            style={{ flex: 1, color: colors.getSubTextColor() }}
             placeholder="Type Name"
             placeholderTextColor={colors.getSubTextColor()}
-        
           />
           <SvgXml xml={search} />
         </View>

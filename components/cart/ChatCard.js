@@ -10,17 +10,28 @@ import {
 const { width, height } = Dimensions.get("window");
 import { useSelector, useDispatch } from "react-redux";
 import { AppColors } from "../../functions/colors";
-import { dateDifference, serverTimeToLocal, timeConverter } from "../../functions/action";
+import {
+  dateDifference,
+  serverTimeToLocal,
+  timeConverter,
+} from "../../functions/action";
 import Avatar from "../main/Avatar";
 
-const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
+const ChatCart = ({
+  navigation,
+  active,
+  data,
+  conversation,
+  readOnly,
+  onPress,
+}) => {
   const [Active, setActive] = React.useState(active);
   //const navigation = props.navigation;
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  const textColor=colors.getTextColor()
-  const borderColor=colors.getBorderColor()
-  const subTextColor=colors.getSubTextColor()
+  const textColor = colors.getTextColor();
+  const borderColor = colors.getBorderColor();
+  const subTextColor = colors.getSubTextColor();
   //const data = props.data;
   const user = useSelector((state) => state.user);
   const [UserInfo, setUserInfo] = React.useState();
@@ -28,7 +39,7 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
   const vendor = useSelector((state) => state.vendor);
   const [count, setCount] = useState(1);
   //console.log(data.serviceId)
-  
+
   const styles = StyleSheet.create({
     outBox: {
       marginLeft: 20,
@@ -54,7 +65,7 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
     head: {
       fontSize: 16,
       fontWeight: "700",
-      color:textColor
+      color: textColor,
     },
     text: {
       fontSize: 12,
@@ -81,10 +92,9 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
   });
   return (
     <TouchableOpacity
-      onPress={() =>
-        onPress&&onPress()
-      }
-      style={[styles.outBox, {}]}>
+      onPress={() => onPress && onPress()}
+      style={[styles.outBox, {}]}
+    >
       <View style={styles.image}>
         {readOnly ? (
           <Image source={logo} style={styles.image} />
@@ -131,24 +141,24 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
           height: "100%",
           justifyContent: "space-between",
           paddingVertical: 12,
-        }}>
+        }}
+      >
         <View style={{ flex: 1 }}>
           {vendor && !data?.readOnly ? (
-            <Text style={styles.head}>
-              Hello All
-            </Text>
+            <Text style={styles.head}>Hello All</Text>
           ) : data?.readOnly ? (
             <Text style={styles.head}>Duty</Text>
           ) : (
             <Text numberOfLines={1} style={[styles.head, { flex: 1 }]}>
-              Hello BD
+              {conversation.users[1].user?.name}
             </Text>
           )}
           <Text
-              numberOfLines={1}
-              style={[styles.text, { marginTop: 4, maxWidth: "60%" }]}>
-              {LastMessage ? LastMessage.text : "Se as pa"}
-            </Text>
+            numberOfLines={1}
+            style={[styles.text, { marginTop: 4, maxWidth: "60%" }]}
+          >
+            {conversation.messages[0].text || "-"}
+          </Text>
         </View>
         <View
           style={[
@@ -158,7 +168,8 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
               paddingRight: 20,
               flex: 1,
             },
-          ]}>
+          ]}
+        >
           {count > 0 && (
             <View
               style={{
@@ -169,27 +180,35 @@ const ChatCart = ({ navigation, active, data, number, readOnly,onPress }) => {
                 justifyContent: "center",
                 alignItems: "center",
                 marginBottom: 8,
-              }}>
+              }}
+            >
               <Text
                 style={{
                   fontSize: 12,
                   color: "#ffffff",
                   fontWeight: "700",
-                }}>
+                }}
+              >
                 {count}
               </Text>
             </View>
           )}
           <Text style={styles.text}>
-            {LastMessage
+            {conversation.messages[0]?.createdAt
               ? `${
-                  dateDifference(new Date(), LastMessage.updatedAt) == 0
-                    ? timeConverter(LastMessage.updatedAt)
-                    : dateDifference(new Date(), LastMessage.updatedAt) == 1
+                  dateDifference(
+                    new Date(),
+                    conversation.messages[0]?.createdAt
+                  ) == 0
+                    ? timeConverter(conversation.messages[0]?.createdAt)
+                    : dateDifference(
+                        new Date(),
+                        conversation.messages[0]?.createdAt
+                      ) == 1
                     ? "Yesterday"
-                    : serverTimeToLocal(LastMessage.updatedAt)
+                    : serverTimeToLocal(conversation.messages[0]?.createdAt)
                 }`
-              : "Jul 21 2:30 Pm"}
+              : ""}
           </Text>
         </View>
       </View>

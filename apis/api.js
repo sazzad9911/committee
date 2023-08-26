@@ -42,3 +42,9 @@ export const getComityById = (comityId) => API.get(`/comity/get/${comityId}`);
 export const updateProfile = (formData) =>
   API.put(`/auth/profile/update`, formData);
 export const getProfile = () => API.get(`/auth/profile/get`);
+
+//Chat
+export const getUserConversations = () =>
+  API.get("/chat/conversation/get-by-user");
+export const getComityConversations = (comityId) =>
+  API.get(`/chat/conversation/get/${comityId}`);
