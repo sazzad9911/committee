@@ -4,6 +4,7 @@ import isBn from './data/isBn'
 import isDark from './data/isDark'
 import loader from './data/loader'
 import scrollValue from './data/setScrollValue'
+import toast from './data/toast'
 import user from './data/user'
 
 const reducers=combineReducers({
@@ -12,7 +13,8 @@ const reducers=combineReducers({
     scrollValue:scrollValue,
     user:user,
     loader:loader,
-    comity:comity
+    comity:comity,
+    toast:toast
 })
 const store=createStore(reducers)
 export default store

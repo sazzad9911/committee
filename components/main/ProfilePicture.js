@@ -1,8 +1,41 @@
 import React from "react";
 import { View, Image, Pressable } from "react-native";
 import { SvgXml } from "react-native-svg";
+import * as ImagePicker from "expo-image-picker";
 
-export default function ProfilePicture({ containerStyle, imageStyle, source,edit,onEdit }) {
+export const pickImage = async () => {
+  // No permissions request is necessary for launching the image library
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: false,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  //console.log(result);
+
+  if (!result.canceled) {
+    let localUri = result.assets[0].uri;
+    let filename = localUri.split("/").pop();
+
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+    // Upload the image using the fetch and FormData APIs
+    let formData = new FormData();
+    // Assume "photo" is the name of the form field the server expects
+    return { uri: localUri, name: filename, type };
+  }
+};
+
+export default function ProfilePicture({
+  containerStyle,
+  imageStyle,
+  source,
+  edit,
+  onEdit,
+}) {
   return (
     <View
       style={[
@@ -24,7 +57,7 @@ export default function ProfilePicture({ containerStyle, imageStyle, source,edit
         width={containerStyle?.width ? containerStyle?.width : 103}
         xml={icon}
       />
-      {source ? (
+      {source&&source.uri ? (
         <Image
           style={[
             {
@@ -42,14 +75,17 @@ export default function ProfilePicture({ containerStyle, imageStyle, source,edit
           xml={unknown}
         />
       )}
-      {edit&&(<Pressable onPress={onEdit}
-        style={{
-          position: "absolute",
-          right: -3,
-          bottom: 5,
-        }}>
-        <SvgXml xml={editt} />
-      </Pressable>)}
+      {edit && (
+        <Pressable
+          onPress={onEdit}
+          style={{
+            position: "absolute",
+            right: -3,
+            bottom: 5,
+          }}>
+          <SvgXml xml={editt} />
+        </Pressable>
+      )}
     </View>
   );
 }

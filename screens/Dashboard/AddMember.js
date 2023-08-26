@@ -1,38 +1,100 @@
-import React from "react";
-import { ScrollView, View,Text } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { ScrollView, View, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { post } from "../../apis/multipleApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import RadioButton from "../../components/main/RadioButton";
 import ReadMoreComponent from "../../components/ReadMoreComponent";
+import loader from "../../data/loader";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function AddMember() {
+export default function AddMember({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
 
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
+  const [position, setPosition] = useState();
+  const data = route?.params?.data;
+  const { comity, user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [explain, setExplain] = useState();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor(),marginHorizontal:20 }}>
-
-        <Input level={headlines._position} 
-        placeholder={headlines.write}
-        subLevel={headlines._max20}
-        optionalLevel={headlines._required}
-         outSideStyle={[mainStyle.mt32]} />
-         <Text style={[mainStyle.mt32,mainStyle.text20,{color:colors.getTextColor()}]}>{headlines._selectAmembershipPlan}</Text>
-         <View style={[mainStyle.flexBox,{paddingVertical:5,justifyContent:"flex-start"}]}>
-            <RadioButton title={headlines._generalMember}/>
-            <RadioButton style={mainStyle.ml16} title={headlines._specialMember}/>
-         </View>
-         <Button style={[mainStyle.mt32]} active={true} title={headlines._requestForMember}/>
-         <ReadMoreComponent textColor={colors.getTextColor()}/>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.getBackgroundColor(),
+          marginHorizontal: 20,
+        }}>
+        <Input
+          level={headlines._position}
+          placeholder={headlines.write}
+          subLevel={headlines._max20}
+          value={explain}
+          onChange={setExplain}
+          optionalLevel={headlines._notRequired}
+          outSideStyle={[mainStyle.mt32]}
+        />
+        <Text
+          style={[
+            mainStyle.mt24,
+            mainStyle.text20,
+            { color: colors.getTextColor() },
+          ]}>
+          {headlines._selectAmembershipPlan}
+        </Text>
+        <View
+          style={[
+            mainStyle.flexBox,
+            { paddingVertical: 15, justifyContent: "flex-start" },
+          ]}>
+          <RadioButton
+            value={position == "General" ? true : false}
+            title={headlines._generalMember}
+            onChange={() => setPosition("General")}
+          />
+          <RadioButton
+            value={position == "Special" ? true : false}
+            style={mainStyle.ml16}
+            title={headlines._specialMember}
+            onChange={() => setPosition("Special")}
+          />
+        </View>
+        <Button
+          onPress={async () => {
+            dispatch(loader.show());
+            try {
+              await post(
+                "/member/create",
+                {
+                  comityId: comity.id,
+                  position: explain,
+                  userId: data.id,
+                  category:position
+                },
+                user.token
+              );
+              dispatch(loader.hide());
+              dispatch(toast.success("Member Created"));
+              navigation.goBack();
+            } catch (e) {
+              dispatch(loader.hide());
+              dispatch(toast.error("Failed to create"));
+            }
+          }}
+          style={[mainStyle.mt32]}
+          active={position ? true : false}
+          disabled={!position ? true : false}
+          title={headlines._requestForMember}
+        />
+        <ReadMoreComponent textColor={colors.getTextColor()} />
       </View>
     </ScrollView>
   );

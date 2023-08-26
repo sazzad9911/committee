@@ -1,5 +1,5 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/User/Home";
 import Profile from "../screens/User/Profile";
@@ -52,10 +52,19 @@ import EditLocation from "../screens/User/EditAddress";
 import Legal from "../screens/User/Legal";
 import ComityProfile from "../screens/User/ComityProfile";
 import EditSubscription from "../screens/Dashboard/EditSubscription";
-SplashScreen.preventAutoHideAsync();
+
 const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(["Require cycle:"])
-LogBox.ignoreLogs(["Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45"])
+LogBox.ignoreLogs(["Require cycle:"]);
+LogBox.ignoreLogs([
+  "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45",
+]);
+LogBox.ignoreLogs([
+  "Selector unknown returned the root state when called. This can lead to unnecessary rerenders.",
+]);
+LogBox.ignoreLogs([
+  "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
+]);
+
 
 export default function MainRoute() {
   const colorScheme = useColorScheme();
@@ -72,7 +81,8 @@ export default function MainRoute() {
   const editProfileInfo = values.getEditProfileHeadLine();
   const noticeValue = values.getNoticeHeadLines();
   const user = useSelector((state) => state.user);
-  const comity=useSelector(state=>state.comity)
+  const comity = useSelector((state) => state.comity);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -103,17 +113,16 @@ export default function MainRoute() {
     const fetch = async () => {
       const user = await checkUser();
       dispatch(storeUser(user));
-      const com=await localStorage.getData("SET_COMITY")
+      const com = await localStorage.getData("SET_COMITY");
       //console.log(com);
-      dispatch({type:"SET_COMITY",value:com})
-      try{
-        await SplashScreen.hideAsync();
-      }catch(e){
-        console.log(e.message);
-      }
+      dispatch({ type: "SET_COMITY", value: com });
+      setIsReady(true);
     };
-    fetch()
+    fetch();
   }, [comity]);
+  if (!isReady) {
+    return null;
+  }
   return (
     <View
       style={{
@@ -132,7 +141,7 @@ export default function MainRoute() {
                   headerShown: false,
                 }}
                 name="Dashboard"
-                component={comity?DashboardRoute:UserTabRoute}
+                component={comity ? DashboardRoute : UserTabRoute}
               />
             ) : (
               <Stack.Screen
@@ -156,28 +165,34 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                header:(props)=><SimpleHeader title={"Search Comity"} {...props}/>
+                header: (props) => (
+                  <SimpleHeader title={"Search Comity"} {...props} />
+                ),
               }}
               name="Search"
               component={Search}
             />
             <Stack.Screen
               options={{
-                header:(props)=><BackHeader title={"Edit Email"} {...props}/>
+                header: (props) => (
+                  <BackHeader title={"Edit Email"} {...props} />
+                ),
               }}
               name="EditEmail"
               component={EditEmail}
             />
             <Stack.Screen
               options={{
-                header:(props)=><BackHeader title={"Edit Address"} {...props}/>
+                header: (props) => (
+                  <BackHeader title={"Edit Address"} {...props} />
+                ),
               }}
               name="EditAddress"
               component={EditLocation}
             />
             <Stack.Screen
               options={{
-                header:(props)=><BackHeader title={"Legal"} {...props}/>
+                header: (props) => <BackHeader title={"Legal"} {...props} />,
               }}
               name="Legal"
               component={Legal}
@@ -418,7 +433,7 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="ComityProfile"
               component={ComityProfile}

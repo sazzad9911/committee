@@ -31,7 +31,7 @@ export default function SubscriptionDetails({ navigation, route }) {
   const data = route?.params?.data;
 
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <Tab.Navigator
         style={{ backgroundColor: colors.getBackgroundColor() }}
         tabBar={(props) => (
@@ -56,7 +56,14 @@ export default function SubscriptionDetails({ navigation, route }) {
         <Tab.Screen name={headlines._paid} component={PaidSubscription} />
         <Tab.Screen name={headlines._unPaid} component={UnPaidSubscription} />
       </Tab.Navigator>
-      <FloatingButton />
+      <FloatingButton
+        onPress={() => {
+          navigation.navigate("SelectMemberType", {
+            data: data,
+            subscription: true,
+          });
+        }}
+      />
     </View>
   );
 }
