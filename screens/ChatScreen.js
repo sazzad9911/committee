@@ -44,6 +44,7 @@ import { AppColors } from "../functions/colors";
 import CameraScreen from "./CameraScreen";
 import ChatHead from "../components/headers/ChatHead";
 import { AppValues } from "../functions/values";
+import { getMessages, sendMessage } from "../apis/api";
 //import { EvilIcons } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
@@ -60,6 +61,8 @@ const ChatScreen = (props) => {
   const secondaryColor = colors.getSubTextColor();
   const params = props?.route?.params;
   const data = params && params.data ? params.data : null;
+  const conversationId = params.conversationId;
+  const [messages, setMessages] = useState([]);
   const styles = StyleSheet.create({
     view: {
       flexDirection: "row",
@@ -93,37 +96,6 @@ const ChatScreen = (props) => {
   });
   const [UserInfo, setUserInfo] = React.useState();
   const user = useSelector((state) => state.user);
-  const [Messages, setMessages] = React.useState([
-    {
-      clear: false,
-      conversationId: 1,
-      createdAt: new Date(),
-      deleted: false,
-      id: 2,
-      image: null,
-      seen: false,
-      senderId: 2,
-      text: "fxcfghhgdg",
-      updatedAt: new Date(),
-      send: true,
-      user: {
-        name: "Hello World",
-      },
-    },
-    {
-      clear: false,
-      conversationId: 1,
-      createdAt: new Date(),
-      deleted: false,
-      id: 2,
-      image: null,
-      seen: false,
-      senderId: 2,
-      text: "hghjvjh",
-      updatedAt: new Date(),
-      send: true,
-    },
-  ]);
   const [Loader, setLoader] = React.useState(false);
   const [Id, setId] = React.useState();
   const username = params && params.username ? params.username : null;
@@ -139,62 +111,15 @@ const ChatScreen = (props) => {
   const [show, setShow] = useState(false);
 
   const send = async (message, image) => {
-    if (!UserInfo) {
-      Alert.alert("Invalid");
-      return;
-    }
-    const id = uuid.v1();
-    if (image) {
-      //console.log(blobImages)
-
-      if (result) {
-        if (res.data) {
-          setMessages((val) =>
-            GiftedChat.append(
-              val,
-              serverMessageToLocal(res.data.message, user.user)
-            )
-          );
-        }
-      } else {
-        //console.log(result)
-        Alert.alert("Opps!", "Faild to send picture");
-      }
-      return;
-    }
-
-    let data = {
-      clear: false,
-      conversationId: Id,
-      createdAt: new Date(),
-      deleted: false,
-      id: id,
-      image: null,
-      seen: false,
-      senderId: user?.user?.id,
-      text: message,
-      updatedAt: new Date(),
-      send: true,
-    };
-    setMessages((val) =>
-      GiftedChat.append(val, serverMessageToLocal(data, user.user))
-    );
-    if (res.data) {
-      setMessages((prev) => {
-        return prev.map((message) => {
-          if (message._id === id) {
-            return {
-              ...message,
-              send: false,
-            };
-          }
-          return message;
-        });
+    try {
+      const { data } = await sendMessage({
+        text: message,
+        image,
+        conversationId,
       });
-      //console.warn(res.data.message)
-      //console.log(user.user.id);
-      //console.log(UserInfo.id);
-      //console.log(UserInfo?.id);
+      setMessages([...messages, data.message]);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -233,7 +158,8 @@ const ChatScreen = (props) => {
                   : "flex-end",
               height: "auto",
             },
-          ]}>
+          ]}
+        >
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -241,7 +167,8 @@ const ChatScreen = (props) => {
           <View style={{ flexDirection: "row", paddingHorizontal: 8, flex: 1 }}>
             <Text
               numberOfLines={1}
-              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}>
+              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}
+            >
               {arr[arr.length - 1]}
             </Text>
             <Text style={newStyles.dateText}>
@@ -265,12 +192,14 @@ const ChatScreen = (props) => {
                 color: "#000",
                 textDecorationLine: "underline",
               }}
-              linkDefault={false}>
+              linkDefault={false}
+            >
               <Text
                 style={[
                   newStyles.text,
                   { marginHorizontal: 8, marginBottom: 3 },
-                ]}>
+                ]}
+              >
                 {currentMessage?.text}
               </Text>
             </Hyperlink>
@@ -300,7 +229,8 @@ const ChatScreen = (props) => {
                   ? "flex-start"
                   : "flex-end",
             },
-          ]}>
+          ]}
+        >
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -308,7 +238,8 @@ const ChatScreen = (props) => {
           <View style={{ flexDirection: "row", paddingHorizontal: 8, flex: 1 }}>
             <Text
               numberOfLines={1}
-              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}>
+              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}
+            >
               {arr[arr.length - 1]}
             </Text>
             <Text style={newStyles.dateText}>
@@ -332,7 +263,8 @@ const ChatScreen = (props) => {
           style={[
             newStyles.senderBox,
             { backgroundColor: colors.getShadowColor() },
-          ]}>
+          ]}
+        >
           <Text style={newStyles.title}>
             {vendor
               ? currentMessage?.user?.name
@@ -345,7 +277,8 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "blue",
               textDecorationLine: "underline",
-            }}>
+            }}
+          >
             <Text style={[newStyles.text, { color: textColor }]}>
               {currentMessage?.text}
             </Text>
@@ -369,7 +302,8 @@ const ChatScreen = (props) => {
           alignItems: "flex-end",
           marginRight: 16,
           marginVertical: 8,
-        }}>
+        }}
+      >
         <View style={newStyles.receiverBox}>
           <Hyperlink
             onPress={(url, text) => {
@@ -378,7 +312,8 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "#000",
               textDecorationLine: "underline",
-            }}>
+            }}
+          >
             <Text style={[newStyles.text, { color: "white" }]}>
               {currentMessage?.text}
             </Text>
@@ -421,11 +356,25 @@ const ChatScreen = (props) => {
     const currentMessage = props?.item;
   };
 
+  const fetchMessages = async () => {
+    try {
+      const { data } = await getMessages(conversationId);
+      setMessages(data.messages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <View
         style={{
           height: inset?.top,
@@ -445,12 +394,11 @@ const ChatScreen = (props) => {
         readOnly={readOnly}
       />
       <FlatList
-        data={Messages}
+        data={messages}
         renderItem={(pr) => (
           <RenderBubble navigation={props.navigation} {...pr} />
         )}
         keyExtractor={(item, i) => i.toString()}
-        inverted
       />
       {!readOnly && <BottomBar onSend={send} {...props} />}
       {readOnly && (
@@ -462,7 +410,8 @@ const ChatScreen = (props) => {
             color: "#4D4E4F",
             marginHorizontal: 20,
             marginVertical: 30,
-          }}>
+          }}
+        >
           Can’t reply here. If you have other inquiry check our{" "}
           <Text
             onPress={() => {
@@ -471,7 +420,8 @@ const ChatScreen = (props) => {
             style={{
               color: "#4ADE80",
               fontWeight: "500",
-            }}>
+            }}
+          >
             support link.
           </Text>{" "}
         </Text>
@@ -574,7 +524,8 @@ const BottomBar = (props) => {
           }}
           onPress={() => {
             setFocused(false);
-          }}>
+          }}
+        >
           <SvgXml xml={com} />
         </Pressable>
       ) : (
@@ -593,14 +544,16 @@ const BottomBar = (props) => {
                   Alert.alert("Opps!", "Could not load image");
                 });
             }}
-            style={[styles.icon]}>
+            style={[styles.icon]}
+          >
             <SvgXml xml={img} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setCameraVisible(true);
             }}
-            style={styles.icon}>
+            style={styles.icon}
+          >
             <SvgXml xml={cam} />
           </TouchableOpacity>
         </Animated.View>
@@ -617,7 +570,8 @@ const BottomBar = (props) => {
           type: "timing",
           duration: 200,
         }}
-        style={[styles.inputOutBox]}>
+        style={[styles.inputOutBox]}
+      >
         <TextInput
           onPressIn={() => {
             setFocused(true);
@@ -634,7 +588,7 @@ const BottomBar = (props) => {
             setMessage(value);
             //console.log(value)
           }}
-          style={[styles.input,{color:textColor}]}
+          style={[styles.input, { color: textColor }]}
           placeholder={allValues.write}
           placeholderTextColor={colors.getBorderColor()}
           showsVerticalScrollIndicator={false}
@@ -648,7 +602,8 @@ const BottomBar = (props) => {
               //setMessage("");
             });
             setMessage("");
-          }}>
+          }}
+        >
           <SvgXml xml={send} />
         </TouchableOpacity>
       </MotiView>
@@ -656,7 +611,8 @@ const BottomBar = (props) => {
         visible={Visible}
         onRequestClose={() => {
           setVisible(!Visible);
-        }}>
+        }}
+      >
         <ImageScreen
           onConfirm={() => {
             setImageLoader(true);
@@ -686,7 +642,8 @@ const BottomBar = (props) => {
               width: width,
               justifyContent: "center",
               alignItems: "center",
-            }}>
+            }}
+          >
             <ActivityLoader />
           </View>
         )}
@@ -695,7 +652,8 @@ const BottomBar = (props) => {
         visible={CameraVisible}
         onRequestClose={() => {
           setCameraVisible(!CameraVisible);
-        }}>
+        }}
+      >
         <CameraScreen
           onTakePhoto={(pic) => {
             setImage(pic);
@@ -747,7 +705,8 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
         backgroundColor: "rgba(0, 0, 0, 0.786)",
         justifyContent: "center",
         alignItems: "center",
-      }}>
+      }}
+    >
       <Image
         style={{
           width: width,
@@ -764,13 +723,15 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
           paddingHorizontal: 20,
           position: "absolute",
           bottom: 0,
-        }}>
+        }}
+      >
         <TouchableOpacity
           onPress={() => {
             if (onCancel) {
               onCancel();
             }
-          }}>
+          }}
+        >
           <Ionicons name="arrow-back" size={25} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
@@ -778,7 +739,8 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
             if (onConfirm) {
               onConfirm();
             }
-          }}>
+          }}
+        >
           <Ionicons name="send-outline" size={25} color={"white"} />
         </TouchableOpacity>
       </View>

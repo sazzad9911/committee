@@ -48,3 +48,7 @@ export const getUserConversations = () =>
   API.get("/chat/conversation/get-by-user");
 export const getComityConversations = (comityId) =>
   API.get(`/chat/conversation/get/${comityId}`);
+export const getMessages = (conversationId) =>
+  API.get(`/chat/message/get/${conversationId}`);
+export const sendMessage = (formData) =>
+  API.post(`/chat/message/new`, formData);
