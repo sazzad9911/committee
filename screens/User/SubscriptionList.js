@@ -13,7 +13,6 @@ import Input from "../../components/main/Input";
 import Paid from "./Paid";
 import UnPaid from "./UnPaid";
 
-
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -44,9 +43,9 @@ export default function SubscriptionList() {
           }
           {...props}
         />
-      )}>
-      <Tab.Screen name={headlines._paid} component={Paid
-      } />
+      )}
+    >
+      <Tab.Screen name={headlines._paid} component={Paid} />
       <Tab.Screen name={headlines._unPaid} component={UnPaid} />
     </Tab.Navigator>
   );
@@ -54,7 +53,7 @@ export default function SubscriptionList() {
 
 const Header = ({ textColor, borderColor, headlines }) => {
   const newDate = new Date();
-  const isDark=useSelector(state=>state.isDark)
+  const isDark = useSelector((state) => state.isDark);
   const day = newDate.getDay();
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
@@ -74,10 +73,10 @@ const Header = ({ textColor, borderColor, headlines }) => {
         paddingHorizontal: 20,
         width: "100%",
       }}
-      
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <Text
         style={[
           {
@@ -85,7 +84,8 @@ const Header = ({ textColor, borderColor, headlines }) => {
             fontSize: 24,
           },
           mainStyle.mt24,
-        ]}>
+        ]}
+      >
         {headlines._allSubscription}
       </Text>
       <Input
@@ -95,11 +95,10 @@ const Header = ({ textColor, borderColor, headlines }) => {
             borderRadius: 30,
             minHeight: 40,
             borderWidth: 0,
-            
           },
           mainStyle.mt12,
         ]}
-        outSideStyle={{marginVertical:10}}
+        outSideStyle={{ marginVertical: 10 }}
         placeholder={headlines._nameDateTaka}
       />
     </View>
