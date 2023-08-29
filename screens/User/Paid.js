@@ -5,18 +5,21 @@ import { getPaidCollectionsByUser } from "../../apis/api";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import Avatar from "../../components/main/Avatar";
 import FloatingButton from "../../components/main/FloatingButton";
+import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 
 export default function Paid({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const textColor = colors.getTextColor();
+  const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
   const [collections, setCollections] = React.useState([]);
 
   const fetchCollections = async () => {
     try {
-      const { data } = getPaidCollectionsByUser();
+      const { data } = await getPaidCollectionsByUser();
       setCollections(data.collections);
     } catch (error) {
       console.log(error);
@@ -37,19 +40,23 @@ export default function Paid({ navigation }) {
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        <SubscriptionCard
-          onPress={() => {
-            navigation?.navigate("SubscriptionDetails");
-          }}
-          title={"হজুরের বেতন"}
-        />
+        {collections.map((collection, index) => (
+          <CollectionCart
+            textColor={textColor}
+            borderColor={borderColor}
+            isDark={isDark}
+            collection={collection}
+            key={collection.id}
+          />
+        ))}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>
   );
 }
 
-const CollectionCart = ({ textColor, borderColor, isDark }) => {
+const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
+  const user = useSelector((state) => state.user);
   return (
     <View
       style={[
@@ -74,10 +81,10 @@ const CollectionCart = ({ textColor, borderColor, isDark }) => {
             numberOfLines={1}
             style={[mainStyle.mediumText, { color: textColor }]}
           >
-            Easin Arafat
+            {user.user.name}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
-            11/12/2024
+            {dateConverter(collection.createdAt)}
           </Text>
         </View>
       </View>
@@ -86,7 +93,7 @@ const CollectionCart = ({ textColor, borderColor, isDark }) => {
           numberOfLines={1}
           style={[mainStyle.mediumText, { color: textColor }]}
         >
-          5000000 ৳
+          {collection.amount} ৳
         </Text>
         <Text style={[mainStyle.smallText, { color: "#6971FF" }]}>Paid</Text>
       </View>
