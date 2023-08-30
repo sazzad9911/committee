@@ -24,7 +24,7 @@ export default function AddMember({ navigation, route }) {
   const { comity, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [explain, setExplain] = useState();
-
+  
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View

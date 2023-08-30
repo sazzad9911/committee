@@ -31,6 +31,7 @@ export default function AllMember({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [searchIp, setSearch] = useState("");
+  
 
   useEffect(() => {
     if (subscription) {
@@ -117,6 +118,16 @@ export default function AllMember({ navigation, route }) {
                 onProfile={() =>
                   navigation?.navigate("UserProfile", { data: doc })
                 }
+                onPress={async()=>{
+                  if(!subscription){
+                    return
+                  }
+                  if(doc.status==="Accepted"){
+                    navigation.navigate("AddMemberSubscription",{data: doc})
+                  }else{
+                    dispatch(toast.error("Request pending already"))
+                  }
+                }}
                 onAdd={async () => {
                   dispatch(loader.show());
                   try {

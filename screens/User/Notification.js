@@ -20,12 +20,13 @@ export default function Notification() {
   const inset = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const isLoading = useSelector(state=> state.isLoading)
 
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
     fetch();
-  }, [isFocused]);
+  }, [isFocused,isLoading]);
   useEffect(() => {
     if (!data) {
       dispatch(loader.show());
@@ -74,12 +75,13 @@ export default function Notification() {
         {data?.map((doc, i) => (
           <MemberRequestCard
             key={i}
+            data={doc}
             name={doc.comity.name}
             type={doc.category}
             mainColor={colors.getMainColor()}
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
-            id={doc?.comity?.id}
+            id={doc?.id}
           />
         ))}
         {data?.length === 0 && (

@@ -11,7 +11,6 @@ import mainStyle from "../../styles/mainStyle";
 export default function SelectMemberType({navigation,route}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
-
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
@@ -19,7 +18,9 @@ export default function SelectMemberType({navigation,route}) {
   const data = route?.params?.data;
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={{
+      backgroundColor:colors.getBackgroundColor()
+    }} showsVerticalScrollIndicator={false}>
       <View style={[{flex:1},mainStyle.pdH20]}>
         <Text
           style={[

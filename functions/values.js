@@ -269,7 +269,8 @@ export class AppValues {
           _successfulMessage:"রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে",
           _infoMessage:"আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ৷।আমাদের টিম আপনার ম্যাসেজটি রিভিউ করছে এবং যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করবে৷।",
           _completed:"কমপ্লিটেড",
-          _incomplete:"ইন কমপ্লিট"
+          _incomplete:"ইন কমপ্লিট",
+          _amount:"পরিমাণ"
         }
       : {
           write: "Write",
@@ -333,7 +334,8 @@ export class AppValues {
           _successfulMessage:"Request Successfully sent",
           _infoMessage:"Thank you for contacting us. Our team is reviewing your message and will be in touch with you as soon as possible.",
           _completed:"Complited",
-          _incomplete:"Incomplete"
+          _incomplete:"Incomplete",
+          _amount:"Amount"
         };
   }
 }

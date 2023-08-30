@@ -52,6 +52,7 @@ import EditLocation from "../screens/User/EditAddress";
 import Legal from "../screens/User/Legal";
 import ComityProfile from "../screens/User/ComityProfile";
 import EditSubscription from "../screens/Dashboard/EditSubscription";
+import AddMemberSubscription from "../screens/Dashboard/AddMemberSubscription";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -325,6 +326,18 @@ export default function MainRoute() {
               }}
               name="AddSubscription"
               component={AddSubscription}
+            />
+             <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._ammoutSubs}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AddMemberSubscription"
+              component={AddMemberSubscription}
             />
             <Stack.Screen
               options={{

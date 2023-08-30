@@ -14,10 +14,11 @@ export default function MemberRequestCard({
   type,
   mainColor,
   id,
+  data
 }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  
+  //console.log(data);
   return (
     <View
       style={{
@@ -53,7 +54,7 @@ export default function MemberRequestCard({
         </Text>{" "}
         Member
       </Text>
-      <View
+     {data?.status==="Pending" ?( <View
         style={{
           flexDirection: "row",
           marginTop: 8,
@@ -62,7 +63,7 @@ export default function MemberRequestCard({
           onPress={async () => {
             dispatch(loader.show())
             try {
-              await post(`/member/request/accept/${user.user.id}`,null, user.token);
+              await post(`/member/request/accept/${data.id}`,null, user.token)
               dispatch(loader.hide())
               dispatch(toast.success("Request accepted"))
             } catch (e) {
@@ -78,7 +79,7 @@ export default function MemberRequestCard({
         <Button onPress={async () => {
             dispatch(loader.show())
             try {
-              await post(`/member/request/reject/${user.user.id}`,null, user.token);
+              await post(`/member/request/reject/${id}`,null, user.token);
               dispatch(loader.hide())
               dispatch(toast.success("Request accepted"))
             } catch (e) {
@@ -87,7 +88,7 @@ export default function MemberRequestCard({
               dispatch(toast.error("Request failed"))
             }
           }} color="red" title={"Reject"} />
-      </View>
+      </View>):null}
     </View>
   );
 }
