@@ -7,9 +7,9 @@ export class AppValues {
   }
   getUserBottomBarName() {
     if (this.isBn) {
-      return ["হোম", "চাঁদা", "ইনবক্স", "প্রোফাইল", "সদস্য", "ডেশবোর্ড"];
+      return ["হোম", "চাঁদা", "ইনবক্স","প্রোফাইল", "সদস্য", "ডেশবোর্ড","নোটিফিকেশান"];
     } else {
-      return ["Home", "Donation", "Inbox", "Profile", "Member", "Dashboard"];
+      return ["Home", "Donation", "Inbox", "Profile", "Member", "Dashboard","Notification"];
     }
   }
   getLanguageHeadline() {

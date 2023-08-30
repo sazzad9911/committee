@@ -9,6 +9,7 @@ import Notification from '../screens/User/Notification';
 import UserBottomBar from '../components/UserBottomBar';
 import Message from './Message';
 
+
 const Tab = createBottomTabNavigator();
 
 export default function UserTabRoute() {
@@ -19,7 +20,7 @@ export default function UserTabRoute() {
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Subscription" component={Subscription} />
       <Tab.Screen name="Inbox" component={Message} />
-      {/* <Tab.Screen name="Notification" component={Notification} /> */}
+      <Tab.Screen name="Notification" component={Notification} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )
