@@ -21,6 +21,7 @@ import localStorage from "../../functions/localStorage";
 import loader from "../../data/loader";
 import { post } from "../../apis/multipleApi";
 import { getComityById } from "../../apis/api";
+import toast from "../../data/toast";
 
 export default function ComityProfile({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -74,16 +75,14 @@ export default function ComityProfile({ navigation, route }) {
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
-      showsVerticalScrollIndicator={false}
-    >
+      showsVerticalScrollIndicator={false}>
       <ImageBackground
         style={{
           height: height / 2 + 80,
         }}
         source={{
           uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
-        }}
-      >
+        }}>
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           <Pressable
             onPress={() => {
@@ -96,8 +95,7 @@ export default function ComityProfile({ navigation, route }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
-            }}
-          >
+            }}>
             <SvgXml xml={backIcon} />
           </Pressable>
         </View>
@@ -107,8 +105,7 @@ export default function ComityProfile({ navigation, route }) {
           backgroundColor: backgroundColor,
           marginTop: -20,
           borderRadius: 25,
-        }}
-      >
+        }}>
         <Text
           numberOfLines={2}
           style={[
@@ -116,8 +113,7 @@ export default function ComityProfile({ navigation, route }) {
             { color: textColor },
             mainStyle.mt24,
             mainStyle.pdH20,
-          ]}
-        >
+          ]}>
           {comity?.name}
         </Text>
         <View style={mainStyle.mt24} />
@@ -165,22 +161,9 @@ export default function ComityProfile({ navigation, route }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-        <ProfileCart
-          onPress={() => {
-            //navigation.navigate("Notice");
-            localStorage.comityLogOut();
-            dispatch({ type: "SET_COMITY", value: null });
-            navigation.navigate("Dashboard");
-          }}
-          borderColor={borderColor}
-          // privacy={allHeadlines.private}
 
-          title={allHeadlines.logOut}
-          color={textColor}
-        />
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
-        >
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
           <SvgXml xml={location} />
           <Text
             style={{
@@ -188,22 +171,19 @@ export default function ComityProfile({ navigation, route }) {
               color: textColor,
               fontSize: 16,
               flex: 1,
-            }}
-          >
+            }}>
             {`${comity?.address}, ${comity?.thana}, ${comity?.district}, ${comity?.division}`}
           </Text>
         </View>
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
-        >
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}>
           <SvgXml xml={call} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}
-          >
+            }}>
             {comity?.phone}
           </Text>
         </View>
@@ -212,8 +192,7 @@ export default function ComityProfile({ navigation, route }) {
             mainStyle.pdH20,
             { color: textColor, fontSize: 24, fontWeight: "600" },
             mainStyle.mt24,
-          ]}
-        >
+          ]}>
           {allHeadlines.aboutComity}
         </Text>
 
@@ -226,8 +205,7 @@ export default function ComityProfile({ navigation, route }) {
             }}
             seeMoreText={"See More"}
             numberOfLines={3}
-            linkStyle={{ fontWeight: "500" }}
-          >
+            linkStyle={{ fontWeight: "500" }}>
             {comity?.about ? comity.about : "df"}
           </SeeMore>
           <View
@@ -239,9 +217,24 @@ export default function ComityProfile({ navigation, route }) {
               borderTopWidth: 1,
               paddingTop: 12,
               borderTopColor: colors.getShadowColor(),
-            }}
-          >
+            }}>
             <Button
+              onPress={async () => {
+                dispatch(loader.show());
+                try {
+                  await post(
+                    `/member/request/send/${comity.id}`,
+                    null,
+                    user.token
+                  );
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Request sent"));
+                } catch (e) {
+                  console.error(e.message);
+                  dispatch(loader.hide());
+                  dispatch(toast.error("Error loading"))
+                }
+              }}
               LeftIcon={() => <SvgXml xml={member} />}
               style={{
                 width: width / 2 - 30,
@@ -252,7 +245,7 @@ export default function ComityProfile({ navigation, route }) {
               onPress={async () => {
                 dispatch(loader.show());
                 try {
-                  await post(
+                 const res= await post(
                     "/chat/conversation/create",
                     {
                       userId: comity.userId,
@@ -260,10 +253,12 @@ export default function ComityProfile({ navigation, route }) {
                     },
                     user.token
                   );
+                  navigation.navigate("ChatScreen",{conversationId:res.data.conversation.id});
                   dispatch(loader.hide());
                 } catch (e) {
                   console.error(e.message);
                   dispatch(loader.hide());
+                  dispatch(toast.error("Error loading"));
                 }
               }}
               LeftIcon={() => <SvgXml xml={message} />}
@@ -313,15 +308,13 @@ export const ProfileCart = ({
           borderBottomColor: "#F3F3F3",
         },
         style,
-      ]}
-    >
+      ]}>
       <View>
         <Text
           style={{
             color: borderColor,
             fontSize: 16,
-          }}
-        >
+          }}>
           {title}
         </Text>
         {number ? (
@@ -331,8 +324,7 @@ export const ProfileCart = ({
               color: color,
               fontWeight: "800",
               marginTop: 1,
-            }}
-          >
+            }}>
             {number}
           </Text>
         ) : null}
@@ -346,15 +338,13 @@ export const ProfileCart = ({
             flexDirection: "row",
             alignItems: "center",
             marginRight: 20,
-          }}
-        >
+          }}>
           {privacy && <SvgXml xml={eye} />}
           <Text
             style={{
               color: borderColor,
               marginHorizontal: 5,
-            }}
-          >
+            }}>
             {privacy}
           </Text>
 

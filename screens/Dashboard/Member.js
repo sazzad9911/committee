@@ -6,7 +6,7 @@ import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { deletes, get } from "../../apis/multipleApi";
+import { deletes, get, post } from "../../apis/multipleApi";
 import MemberCard from "../../components/cart/MemberCard";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
@@ -42,13 +42,14 @@ export default function Member({ navigation, route }) {
     getMember();
   }, [isFocused]);
   const getMember = async () => {
-    dispatch(loader.show());
+    
     const res = await get(`/member/get-all/${comity.id}`, user.token);
     setAllMember(res.data.members);
-    dispatch(loader.hide());
+   
   };
   useEffect(() => {
     if (allMember) {
+      dispatch(loader.hide());
       setSortedMember(
         allMember.filter(
           (member) =>
@@ -56,6 +57,8 @@ export default function Member({ navigation, route }) {
             member?.user?.name?.toUpperCase().includes(searchIp?.toUpperCase())
         )
       );
+    }else{
+      dispatch(loader.show());
     }
   }, [allMember, searchIp]);
 
@@ -71,12 +74,35 @@ export default function Member({ navigation, route }) {
                 navigation?.navigate("UserProfile", { data: doc })
               }
               onAdd={async () => {
+               
+                if (doc.status === "Accepted") {
+                  dispatch(loader.show());
+                  try {
+                    const res = await post(
+                      "/chat/conversation/create",
+                      {
+                        userId: doc.userId,
+                        comityId: doc.comityId,
+                      },
+                      user.token
+                    );
+                    navigation.navigate("ChatScreen", {
+                      conversationId: res.data.conversation.id,
+                    });
+                    dispatch(loader.hide());
+                  } catch (e) {
+                    console.error(e.message);
+                    dispatch(loader.hide());
+                    dispatch(toast.error("Error loading"));
+                  }
+                  return
+                }
                 dispatch(loader.show());
                 try {
                   await deletes(`/member/delete/${doc.id}`, user.token);
                   dispatch(loader.hide());
                   dispatch(toast.success("Member deleted"));
-                  getMember()
+                  getMember();
                 } catch (e) {
                   dispatch(loader.hide());
                   dispatch(toast.error("Request failed"));
@@ -84,8 +110,9 @@ export default function Member({ navigation, route }) {
                 }
               }}
               requested={doc.status === "Pending" ? true : false}
-              accepted={doc.status != "Pending" ? true : false}
+              accepted={doc.status === "Accepted" ? true : false}
               key={i}
+              offline={doc.userId?false:true}
               name={doc.user ? doc.user.name : doc.name}
               url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
               borderColor={colors.getShadowColor()}

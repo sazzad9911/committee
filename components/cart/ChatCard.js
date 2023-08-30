@@ -157,7 +157,7 @@ const ChatCart = ({
             numberOfLines={1}
             style={[styles.text, { marginTop: 4, maxWidth: "60%" }]}
           >
-            {conversation.messages[0].text || "-"}
+            {conversation?.messages[0]?.text || "-"}
           </Text>
         </View>
         <View
