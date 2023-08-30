@@ -52,3 +52,9 @@ export const getMessages = (conversationId) =>
   API.get(`/chat/message/get/${conversationId}`);
 export const sendMessage = (formData) =>
   API.post(`/chat/message/new`, formData);
+
+//Subs
+export const getPaidCollectionsByUser = () =>
+  API.get("/subs/get-paid-collections-by-user");
+export const getUnpaidCollectionsByUser = () =>
+  API.get("/subs/get-unpaid-collections-by-user");

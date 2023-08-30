@@ -25,7 +25,7 @@ export default function Subscription() {
   return <ComitySubscriptionRoute />;
 }
 
-export function SubscriptionList({navigation}) {
+export function SubscriptionList({ navigation }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -40,7 +40,8 @@ export function SubscriptionList({navigation}) {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <Tab.Navigator
         style={{ backgroundColor: colors.getBackgroundColor() }}
         tabBar={(props) => (
@@ -57,13 +58,16 @@ export function SubscriptionList({navigation}) {
             }
             {...props}
           />
-        )}>
+        )}
+      >
         <Tab.Screen name={headlines._completed} component={Paid} />
         <Tab.Screen name={headlines._incomplete} component={Unpaid} />
       </Tab.Navigator>
       <FloatingButton
         onPress={() => {
-          navigation.navigate("AddSubscription",{route:headlines._incomplete});
+          navigation.navigate("AddSubscription", {
+            route: headlines._incomplete,
+          });
         }}
       />
     </View>
@@ -94,7 +98,8 @@ const Header = ({ textColor, borderColor, headlines }) => {
       }}
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <Text
         style={[
           {
@@ -102,7 +107,8 @@ const Header = ({ textColor, borderColor, headlines }) => {
             fontSize: 24,
           },
           mainStyle.mt24,
-        ]}>
+        ]}
+      >
         {headlines._allSubscription}
       </Text>
       <Input
