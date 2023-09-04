@@ -8,19 +8,21 @@ import FloatingButton from "../../components/main/FloatingButton";
 import NoOption from "../../components/main/NoOption";
 import { AppColors } from "../../functions/colors";
 
-export default function PaidSubscription({ navigation }) {
+export default function PaidSubscription({ navigation,route }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const subscriptionId=route?.params?.subscriptionId;
+  
 
   const { comity, user } = useSelector((state) => state);
   useEffect(() => {
     const fetch = async () => {
-      const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
+      const res = await get(`/subs/get-all-collections/${subscriptionId}`, user.token);
       //console.log(res.data.subs);
-      setPaidList(res.data.subs);
+      setPaidList(res.data.collections?.filter(d=>d.paid));
     };
-    fetch();
+    fetch(); 
   }, []);
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>

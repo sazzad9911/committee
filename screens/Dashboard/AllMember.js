@@ -123,7 +123,7 @@ export default function AllMember({ navigation, route }) {
                     return
                   }
                   if(doc.status==="Accepted"){
-                    navigation.navigate("AddMemberSubscription",{data: doc})
+                    navigation.navigate("AddMemberSubscription",{data: doc,subscriptionId:subscription})
                   }else{
                     dispatch(toast.error("Request pending already"))
                   }

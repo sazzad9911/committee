@@ -130,6 +130,7 @@ export default function ChatList(props) {
               onPress={() => {
                 props?.navigation?.navigate("ChatScreen", {
                   conversationId: item.id,
+                  data:item
                 });
               }}
               conversation={item}

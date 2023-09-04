@@ -45,6 +45,7 @@ import CameraScreen from "./CameraScreen";
 import ChatHead from "../components/headers/ChatHead";
 import { AppValues } from "../functions/values";
 import { getMessages, sendMessage } from "../apis/api";
+import { useRef } from "react";
 //import { EvilIcons } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
@@ -103,12 +104,13 @@ const ChatScreen = (props) => {
   const [Refresh, setRefresh] = React.useState(false);
   const inset = useSafeAreaInsets();
   const dispatch = useDispatch();
-  const ref = params?.ref;
+  const ref = useRef()
   const serviceId = params?.serviceId;
   const vendor = true;
   const [readOnly, setReadOnly] = useState(false);
   const [message, setMessage] = useState();
   const [show, setShow] = useState(false);
+  const isFocus=useIsFocused()
 
   const send = async (message, image) => {
     try {
@@ -118,6 +120,8 @@ const ChatScreen = (props) => {
         conversationId,
       });
       setMessages([...messages, data.message]);
+      GiftedChat.append(message)
+      ref?.current?.scrollToEnd()
     } catch (error) {
       console.log(error);
     }
@@ -367,7 +371,11 @@ const ChatScreen = (props) => {
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+    setUserInfo(data.users.filter(u => u.userId!==user.user.id)[0].user);
+  }, [isFocus]);
+  if(!UserInfo){
+    return null
+  }
 
   return (
     <KeyboardAvoidingView
@@ -393,7 +401,7 @@ const ChatScreen = (props) => {
         message={data}
         readOnly={readOnly}
       />
-      <FlatList
+      <FlatList ref={ref}
         data={messages}
         renderItem={(pr) => (
           <RenderBubble navigation={props.navigation} {...pr} />

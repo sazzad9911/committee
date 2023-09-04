@@ -21,11 +21,12 @@ export default function AddMemberSubscription({ navigation, route }) {
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
   const data = route?.params?.data;
+  const subscriptionId = route?.params?.subscriptionId;
   const [amount, setAmount] = useState();
   const [paid, setPaid] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  
   return (
     <View
       style={{
@@ -91,16 +92,16 @@ export default function AddMemberSubscription({ navigation, route }) {
             await post(
               `/subs/create/collection`,
               {
-                subscriptionId: "cllm9q3pk0001i41f92c0nkgc",
-                memberId: "cllmbitut000bi81f81s6jvox",
-                amount: "1000",
-                paid: "false",
+                subscriptionId: subscriptionId,
+                memberId: data.id,
+                amount:amount,
+                paid: paid,
               },
               user.token
             );
             dispatch(loader.hide());
             dispatch(toast.success("Collection created"));
-            getMember();
+            navigation.navigate(`${paid?headlines._paid:headlines._unPaid}`);
           } catch (e) {
             dispatch(loader.hide());
             dispatch(toast.error("Request failed"));

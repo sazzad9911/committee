@@ -79,7 +79,7 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
   });
   const [CallingScreenVisible, setCallingScreenVisible] = React.useState(false);
   const dispatch = useDispatch();
-  const vendor = useSelector((state) => state.vendor);
+  const vendor = useSelector((state) => state.comity);
   const users = useSelector((state) => state.user);
   const [data, setData] = useState();
   const [notify, setNotify] = useState(true);
@@ -148,7 +148,7 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
         </Pressable>
       </View>
 
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
         }}>
@@ -167,27 +167,15 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
         {vendor &&!readOnly&& (
           <Pressable
             onPress={() => {
-              // console.log(data)
-              // return
+             
               navigation.navigate("AppointmentForm", { data: data });
-              // navigation.navigate("VendorServiceList", {
-              //   userId: user?.id,
-              //   offline: false,
-              // });
+      
             }}>
             <SvgXml xml={app} />
           </Pressable>
         )}
-        {/* <View style={{ width: 16 }} /> */}
-        {/* {!readOnly && (
-          <Pressable
-            onPress={() => {
-              setNotify((v) => !v);
-            }}>
-            <SvgXml xml={notify ? notification : noNotification} />
-          </Pressable>
-        )} */}
-      </View>
+        
+      </View> */}
       <Modal
         transparent={true}
         visible={visible}

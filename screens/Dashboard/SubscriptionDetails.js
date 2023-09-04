@@ -53,14 +53,18 @@ export default function SubscriptionDetails({ navigation, route }) {
             {...props}
           />
         )}>
-        <Tab.Screen name={headlines._paid} component={PaidSubscription} />
-        <Tab.Screen name={headlines._unPaid} component={UnPaidSubscription} />
+        <Tab.Screen initialParams={{
+          subscriptionId:data.id,
+        }} name={headlines._paid} component={PaidSubscription} />
+        <Tab.Screen initialParams={{
+          subscriptionId:data.id,
+        }} name={headlines._unPaid} component={UnPaidSubscription} />
       </Tab.Navigator>
       <FloatingButton
         onPress={() => {
           navigation.navigate("SelectMemberType", {
             data: data,
-            subscription: true,
+            subscription: data.id,
           });
         }}
       />
@@ -101,66 +105,50 @@ const Header = ({
     </svg>
     `;
   return (
-    <LinearGradient
-      // Button Linear Gradient
-      style={[
-        {
-          justifyContent: "center",
-          alignItems: "center",
-
-          borderColor: borderColor,
-        },
-        style,
-      ]}
-      start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
-      <View
-        style={{
-          paddingHorizontal: 0,
-          width: Dimensions.get("window").width - 40,
-        }}
-        transition={{
-          type: "timing",
-        }}>
-        <View style={[mainStyle.flexBox]}>
-          <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
-            {data?.name}
-          </Text>
-          <Pressable onPress={onEdit}>
-            <SvgXml xml={icon} />
-          </Pressable>
-        </View>
-        <View style={[mainStyle.flexBox]}>
-          <Text
-            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-            পরিমাণের লক্ষ{"    "}
-            <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-              {data?.amount}
-            </Text>
-          </Text>
-          <Text
-            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-            অপরিশোধ{"   "}
-            <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-              2000
-            </Text>
-          </Text>
-        </View>
-        <View style={{ height: 24 }} />
-        {/* <Input
-          leftIcon={<SvgXml xml={search} />}
-          containerStyle={[
-            {
-              borderRadius: 30,
-              minHeight: 40,
-              borderWidth: 0,
-            },
-            mainStyle.mt12,
-          ]}
-          outSideStyle={{ marginVertical: 10 }}
-          placeholder={headlines._nameDateTaka}
-        /> */}
+    <View
+      style={{
+        paddingHorizontal: 0,
+        width: Dimensions.get("window").width - 40,
+      }}
+      transition={{
+        type: "timing",
+      }}>
+      <View style={[mainStyle.flexBox]}>
+        <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
+          {data?.name}
+        </Text>
+        <Pressable onPress={onEdit}>
+          <SvgXml xml={icon} />
+        </Pressable>
       </View>
-    </LinearGradient>
+      <View style={[mainStyle.flexBox]}>
+        <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
+          পরিমাণের লক্ষ{"    "}
+          <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
+            {data?.amount}
+          </Text>
+        </Text>
+        <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
+          অপরিশোধ{"   "}
+          <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
+            2000
+          </Text>
+        </Text>
+      </View>
+      <View style={{ height: 24 }} />
+      {/* <Input
+      leftIcon={<SvgXml xml={search} />}
+      containerStyle={[
+        {
+          borderRadius: 30,
+          minHeight: 40,
+          borderWidth: 0,
+        },
+        mainStyle.mt12,
+      ]}
+      outSideStyle={{ marginVertical: 10 }}
+      placeholder={headlines._nameDateTaka}
+    /> */}
+    </View>
   );
 };
