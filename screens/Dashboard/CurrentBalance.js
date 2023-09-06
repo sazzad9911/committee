@@ -23,6 +23,7 @@ export default function CurrentBalance({ navigation, route }) {
   const backgroudColor=colors.getBackgroundColor()
   const [visible, setVisible] = React.useState(false);
   const comityListText=values.getHeadLines()
+  const comity = useSelector((state) => state.comity);
 
   const openMenu = () => setVisible(true);
 
@@ -86,7 +87,7 @@ export default function CurrentBalance({ navigation, route }) {
         }}
         borderColor={borderColor}
         privacy={allHeadlines.private}
-        number={"200"}
+        number={comity?.balance?.toString()}
         title={allHeadlines.presentBalance}
         color={textColor}
       />

@@ -1,18 +1,23 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { get, put } from "../../apis/multipleApi";
+import MemberCard from "../../components/cart/MemberCard";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
+import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
 
-export default function MemberPage({navigation,route}) {
+export default function MemberPage({ navigation, route }) {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const isDark = useSelector((state) => state.isDark);
@@ -27,8 +32,13 @@ export default function MemberPage({navigation,route}) {
   const borderColor = colors.getBorderColor();
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
-  const special=route?.params?.special;
-  
+  const special = route?.params?.special;
+  const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [members, setMembers] = useState();
+  const [searches, setSearch] = useState();
+  const [sort, setSort] = useState();
 
   const [visible, setVisible] = React.useState(false);
 
@@ -55,6 +65,57 @@ export default function MemberPage({navigation,route}) {
   }"/>
   </svg>  
   `;
+  const upload = async (type) => {
+    dispatch(loader.show());
+    try {
+      await put(
+        "/comity/update",
+        {
+          membersPrivacy: type,
+          comityId: comity.id,
+        },
+        user.token
+      );
+      dispatch(loader.hide());
+      dispatch(toast.success("Image updated"));
+    } catch (e) {
+      dispatch(toast.error("Error updating"));
+      dispatch(loader.hide());
+    }
+  };
+  useEffect(() => {
+    fetch();
+  }, [special]);
+  useEffect(() => {
+    setSort(
+      members?.filter(
+        (member) =>
+          member.name?.toUpperCase().includes(searches?.toUpperCase()) ||
+          member?.user?.name?.toUpperCase().includes(searches?.toUpperCase())
+      )
+    );
+  }, [searches]);
+  const fetch = async () => {
+    dispatch(loader.show());
+    try {
+      const res = await get(`/member/get-all/${comity.id}`, user.token);
+      if (special) {
+        setMembers(
+          res.data.members.filter((member) => member.category.match("General"))
+        );
+        setSort(
+          res.data.members.filter((member) => member.category.match("General"))
+        );
+      } else {
+        setMembers(res.data.members);
+        setSort(res.data.members);
+      }
+      dispatch(loader.hide());
+    } catch (e) {
+      dispatch(loader.hide());
+      dispatch(toast.error("Error loading members"));
+    }
+  };
 
   return (
     <ScrollView style={{ backgroundColor: backgroudColor }}>
@@ -80,7 +141,9 @@ export default function MemberPage({navigation,route}) {
               fontSize: 16,
               fontWeight: "500",
             }}>
-            {special?comityListText.specialMember:comityListText.totalMember}
+            {special
+              ? comityListText.specialMember
+              : comityListText.totalMember}
             {"   "}
             <Text
               style={{
@@ -88,14 +151,16 @@ export default function MemberPage({navigation,route}) {
                 fontWeight: "800",
                 color: textColor,
               }}>
-              2000
+              {comity?.totalMembers}
             </Text>
           </Text>
-          <Menu contentStyle={{backgroundColor:backgroudColor}}
+          <Menu
+            contentStyle={{ backgroundColor: backgroudColor }}
             visible={visible}
             onDismiss={closeMenu}
             anchor={
-              <Pressable onPress={openMenu}
+              <Pressable
+                onPress={openMenu}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -103,19 +168,50 @@ export default function MemberPage({navigation,route}) {
                 <SvgXml xml={eye} />
                 <Text
                   style={{
-                    color: isDark?"rgba(255, 255, 255, 1)":"rgba(255, 255, 255, 1)",
+                    color: isDark
+                      ? "rgba(255, 255, 255, 1)"
+                      : "rgba(255, 255, 255, 1)",
                     marginHorizontal: 5,
                   }}>
-                  {comityListText.private}
+                  {comity?.membersPrivacy === "Private"
+                    ? comityListText.private
+                    : comity?.membersPrivacy === "Public"
+                    ? comityListText.private
+                    : comityListText.membersOnly}
                 </Text>
                 <SvgXml xml={bottom} />
               </Pressable>
             }>
-            <Menu.Item titleStyle={{color:textColor}} onPress={() => setVisible(false)} title={comityListText.private} />
-            <Menu.Item titleStyle={{color:textColor}} onPress={() => {setVisible(false)}} title={comityListText.public} />
+            <Menu.Item
+              titleStyle={{ color: textColor }}
+              onPress={() => {
+                upload("Private");
+                setVisible(false);
+              }}
+              title={comityListText.private}
+            />
+            <Menu.Item
+              titleStyle={{ color: textColor }}
+              onPress={() => {
+                upload("Public");
+                setVisible(false);
+              }}
+              title={comityListText.public}
+            />
+
+            <Menu.Item
+              titleStyle={{ color: textColor }}
+              onPress={() => {
+                upload("MembersOnly");
+                setVisible(false);
+              }}
+              title={comityListText.membersOnly}
+            />
           </Menu>
         </View>
         <Input
+          value={searches}
+          onChange={setSearch}
           leftIcon={<SvgXml xml={search} />}
           containerStyle={[
             {
@@ -129,6 +225,53 @@ export default function MemberPage({navigation,route}) {
           placeholder={searchText}
         />
       </LinearGradient>
+      {sort?.map((doc, i) => (
+        <MemberCard
+          accepted
+          onAdd={async () => {
+            if (doc.status === "Accepted") {
+              dispatch(loader.show());
+              try {
+                const res = await post(
+                  "/chat/conversation/create",
+                  {
+                    userId: doc.userId,
+                    comityId: doc.comityId,
+                  },
+                  user.token
+                );
+                navigation.navigate("ChatScreen", {
+                  conversationId: res.data.conversation.id,
+                });
+                dispatch(loader.hide());
+              } catch (e) {
+                console.error(e.message);
+                dispatch(loader.hide());
+                dispatch(toast.error("Error loading"));
+              }
+              return;
+            }
+            dispatch(loader.show());
+            try {
+              await deletes(`/member/delete/${doc.id}`, user.token);
+              dispatch(loader.hide());
+              dispatch(toast.success("Member deleted"));
+              getMember();
+            } catch (e) {
+              dispatch(loader.hide());
+              dispatch(toast.error("Request failed"));
+              console.error(e);
+            }
+          }}
+          name={doc.user ? doc.user.name : doc.name}
+          url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
+          textColor={colors.getTextColor()}
+          key={i}
+        />
+      ))}
+      {sort?.length === 0 && (
+        <NoOption title={"Ops!"} subTitle={"Nothing found"} />
+      )}
     </ScrollView>
   );
 }

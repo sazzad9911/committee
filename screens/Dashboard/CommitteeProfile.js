@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get("window");
 import SeeMore from "react-native-see-more-inline";
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
-import { deletes, get } from "../../apis/multipleApi";
+import { deletes, get, post, put } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { pickImage } from "../../components/main/ProfilePicture";
@@ -37,9 +37,11 @@ export default function CommitteeProfile({ navigation }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [background, setBackground] = useState(
-    comity&&comity.profilePhoto?comity.profilePhoto:"https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg"
+    comity && comity.profilePhoto
+      ? comity.profilePhoto
+      : "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg"
   );
-  const isFocused=useIsFocused()
+  const isFocused = useIsFocused();
 
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,15 +54,36 @@ export default function CommitteeProfile({ navigation }) {
   `;
   useEffect(() => {
     fetch();
-    console.log(comity);
+    //console.log(comity);
   }, [isFocused]);
   const fetch = async () => {
     try {
       const res = await get(`/comity/get/${comity.id}`, user.token);
       dispatch({ type: "SET_COMITY", value: res.data.comity });
-      localStorage.comityLogIn(res.data.comity)
+      localStorage.comityLogIn(res.data.comity);
     } catch (e) {
       console.error(e.message);
+    }
+  };
+  const uploadPicture = async (file) => {
+    dispatch(loader.show());
+    try {
+      const data = new FormData();
+      data.append("files", file);
+      const res = await post("/upload", data, user.token);
+      await put(
+        "/comity/update",
+        {
+          profilePhoto: res.data.files[0],
+          comityId: comity.id,
+        },
+        user.token
+      );
+      dispatch(loader.hide());
+      dispatch(toast.success("Image updated"));
+    } catch (e) {
+      dispatch(toast.error("Error updating"));
+      dispatch(loader.hide());
     }
   };
 
@@ -95,6 +118,7 @@ export default function CommitteeProfile({ navigation }) {
             onPress={async () => {
               const img = await pickImage();
               setBackground(img.uri);
+              uploadPicture(img)
             }}>
             <SvgXml xml={cameraIcon} />
           </Pressable>
@@ -123,7 +147,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={comity?.totalMembers.toString()}
+          number={comity?.totalMembers?.toString()}
           title={allHeadlines.totalMember}
           color={textColor}
         />
@@ -134,7 +158,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={comity?.specialMembers.toString()}
+          number={comity?.specialMembers?.toString()}
           title={allHeadlines.specialMember}
           color={textColor}
         />
@@ -145,7 +169,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={comity?.balance.toString()}
+          number={comity?.balance?.toString()}
           title={allHeadlines.presentBalance}
           color={textColor}
         />
@@ -156,7 +180,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={comity?.totalNotices.toString()}
+          number={comity?.totalNotices?.toString()}
           title={allHeadlines.notice}
           color={textColor}
         />
