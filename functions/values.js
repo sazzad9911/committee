@@ -112,6 +112,7 @@ export class AppValues {
         importantMessage: "",
         logOut:"লগ আউট",
         membersOnly:"শুধু মেম্বার",
+        notification:"নোটিফিকেশান"
       };
     } else {
       return {
@@ -125,6 +126,7 @@ export class AppValues {
         importantMessage: "Important message",
         logOut:"Log Out",
         membersOnly:"Members Only",
+        notification:"Notification"
       };
     }
   }

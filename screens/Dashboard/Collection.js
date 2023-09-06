@@ -6,7 +6,9 @@ import { get, post } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
+import loader from "../../data/loader";
 import { setScrollValue } from "../../data/setScrollValue";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
@@ -28,11 +30,18 @@ export default function Collection({ navigation }) {
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await get(
-        `/subs/get-comity-collections/${comity.id}`,
-        user.token
-      );
-      setCollectionList(res.data.collections);
+      dispatch(loader.show());
+      try {
+        const res = await get(
+          `/subs/get-comity-collections/${comity.id}`,
+          user.token
+        );
+        dispatch(loader.hide());
+        setCollectionList(res.data.collections);
+      } catch (e) {
+        dispatch(loader.hide());
+        dispatch(toast.error("Error loading"));
+      }
     };
     fetch();
   }, []);
@@ -52,7 +61,9 @@ export default function Collection({ navigation }) {
             {headlines._latestCollection}
           </Text>
           <Button
-            onPress={() => navigation?.navigate("AllCollections")}
+            onPress={() =>
+              navigation?.navigate("AllCollections", { data: collectionList })
+            }
             style={{
               borderWidth: 0,
             }}
@@ -61,7 +72,8 @@ export default function Collection({ navigation }) {
           />
         </View>
         {collectionList?.map((doc, i) => (
-          <CollectionCart key={i}
+          <CollectionCart
+            key={i}
             isDark={isDark}
             textColor={textColor}
             borderColor={borderColor}

@@ -53,6 +53,7 @@ import Legal from "../screens/User/Legal";
 import ComityProfile from "../screens/User/ComityProfile";
 import EditSubscription from "../screens/Dashboard/EditSubscription";
 import AddMemberSubscription from "../screens/Dashboard/AddMemberSubscription";
+import DashboardNotification from "../screens/Dashboard/DashboardNotification";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -443,6 +444,15 @@ export default function MainRoute() {
               }}
               name="AddExpenses"
               component={AddExpenses}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={values.getHeadLines().notification} {...props} />
+                ),
+              }}
+              name="DashboardNotification"
+              component={DashboardNotification}
             />
             <Stack.Screen
               options={{

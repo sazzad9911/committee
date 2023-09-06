@@ -56,7 +56,7 @@ const Header = ({ textColor, borderColor, headlines }) => {
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
   const scrollValue = useSelector((state) => state.scrollValue);
-
+  const comity = useSelector((state) => state.comity);
   return (
     <MotiView
       style={{
@@ -83,14 +83,14 @@ const Header = ({ textColor, borderColor, headlines }) => {
           fontWeight: "800",
           color: "#fff",
         }}>
-        500000
+        {comity?.balance}
       </Text>
       <Text
         style={{
           fontSize: 16,
           color: "#fff",
         }}>
-        1 June 2023
+       {new Date(comity?.updatedAt).toDateString()}
       </Text>
     </MotiView>
   );

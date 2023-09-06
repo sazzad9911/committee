@@ -118,7 +118,7 @@ export default function CommitteeProfile({ navigation }) {
             onPress={async () => {
               const img = await pickImage();
               setBackground(img.uri);
-              uploadPicture(img)
+              uploadPicture(img);
             }}>
             <SvgXml xml={cameraIcon} />
           </Pressable>
@@ -146,11 +146,13 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage");
           }}
           borderColor={borderColor}
-          privacy={comity?.membersPrivacy === "Private"
-          ? allHeadlines.private
-          : comity?.membersPrivacy === "Public"
-          ? allHeadlines.public
-          : allHeadlines.membersOnly}
+          privacy={
+            comity?.membersPrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.membersPrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
           number={comity?.totalMembers?.toString()}
           title={allHeadlines.totalMember}
           color={textColor}
@@ -161,11 +163,13 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage", { special: true });
           }}
           borderColor={borderColor}
-          privacy={comity?.specialMembersPrivacy === "Private"
-          ? allHeadlines.private
-          : comity?.specialMembersPrivacy === "Public"
-          ? allHeadlines.public
-          : allHeadlines.membersOnly}
+          privacy={
+            comity?.specialMembersPrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.specialMembersPrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
           number={comity?.specialMembers?.toString()}
           title={allHeadlines.specialMember}
           color={textColor}
@@ -176,11 +180,13 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("CurrentBalance");
           }}
           borderColor={borderColor}
-          privacy={comity?.balancePrivacy === "Private"
-          ? allHeadlines.private
-          : comity?.balancePrivacy === "Public"
-          ? allHeadlines.public
-          : allHeadlines.membersOnly}
+          privacy={
+            comity?.balancePrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.balancePrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
           number={comity?.balance?.toString()}
           title={allHeadlines.presentBalance}
           color={textColor}
@@ -191,13 +197,25 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("Notice");
           }}
           borderColor={borderColor}
-          privacy={comity?.noticePrivacy === "Private"
-          ? allHeadlines.private
-          : comity?.noticePrivacy === "Public"
-          ? allHeadlines.public
-          : allHeadlines.membersOnly}
+          privacy={
+            comity?.noticePrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.noticePrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
           number={comity?.totalNotices?.toString()}
           title={allHeadlines.notice}
+          color={textColor}
+        />
+        <View style={{ height: 16 }} />
+        <ProfileCart
+          onPress={() => {
+            navigation.navigate("DashboardNotification");
+          }}
+          number={"0"}
+          borderColor={borderColor}
+          title={allHeadlines.notification}
           color={textColor}
         />
         <View style={{ height: 16 }} />
