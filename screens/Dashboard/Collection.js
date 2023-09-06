@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { post } from "../../apis/multipleApi";
+import { get, post } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
@@ -16,23 +16,29 @@ export default function Collection({ navigation }) {
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
-
+  const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
   const values = new AppValues(isBn);
   const headlines = values.getDashboardHeadlines();
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
-  const [collectionList,setCollectionList]=useState()
+  const [collectionList, setCollectionList] = useState();
 
-  useEffect(()=>{
-    const fetch=async()=>{
-      const res=await post("/")
-    }
-  },[])
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await get(
+        `/subs/get-comity-collections/${comity.id}`,
+        user.token
+      );
+      setCollectionList(res.data.collections);
+    };
+    fetch();
+  }, []);
 
   return (
-    <View style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}>
+    <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
         <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
           <Text
@@ -54,42 +60,14 @@ export default function Collection({ navigation }) {
             title={headlines._more}
           />
         </View>
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
+        {collectionList?.map((doc, i) => (
+          <CollectionCart key={i}
+            isDark={isDark}
+            textColor={textColor}
+            borderColor={borderColor}
+            data={doc}
+          />
+        ))}
         <View style={{ height: 32 }} />
       </ScrollView>
       <FloatingButton />

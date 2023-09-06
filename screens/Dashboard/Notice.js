@@ -4,7 +4,7 @@ import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllNotices } from "../../apis/api";
 import NoticeCart from "../../components/cart/NoticeCart";
 import Button from "../../components/main/Button";
@@ -15,6 +15,9 @@ import { AppValues } from "../../functions/values";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
 import loader from "../../data/loader";
+import { get, put } from "../../apis/multipleApi";
+import toast from "../../data/toast";
+import localStorage from "../../functions/localStorage";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,7 +33,7 @@ export default function Notice({ navigation, route }) {
   const comity = useSelector((state) => state.comity);
   const values = new AppValues(isBn);
   const searchText = values.getSearch();
-  const comityListText = values.getNoticeHeadLines();
+  const comityListText = values.getHeadLines();
   const borderColor = colors.getBorderColor();
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
@@ -38,6 +41,8 @@ export default function Notice({ navigation, route }) {
   const [notices, setNotices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const openMenu = () => setVisible(true);
 
@@ -73,6 +78,27 @@ export default function Notice({ navigation, route }) {
       setIsLoading(false);
     }
   };
+  const upload = async (type) => {
+    dispatch(loader.show());
+    try {
+      await put(
+        "/comity/update",
+        {
+          noticePrivacy: type,
+          comityId: comity.id,
+        },
+        user.token
+      );
+      const res = await get(`/comity/get/${comity.id}`, user.token);
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+      localStorage.comityLogIn(res.data.comity);
+      dispatch(loader.hide());
+      dispatch(toast.success("Image updated"));
+    } catch (e) {
+      dispatch(toast.error("Error updating"));
+      dispatch(loader.hide());
+    }
+  };
 
   useEffect(() => {
     navigation.addListener("focus", () => {
@@ -97,31 +123,27 @@ export default function Notice({ navigation, route }) {
             },
           ]}
           start={{ x: 0.2, y: 0 }}
-          colors={!isDark ? ac : dc}
-        >
+          colors={!isDark ? ac : dc}>
           <View
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
-            }}
-          >
+            }}>
             <Text
               style={{
                 color: "#B0B0B0",
                 fontSize: 16,
                 fontWeight: "500",
-              }}
-            >
-              {comityListText.onlyMembers}
+              }}>
+              {comityListText.notice}
               {"   "}
               <Text
                 style={{
                   fontSize: 20,
                   fontWeight: "800",
                   color: textColor,
-                }}
-              >
-                2000
+                }}>
+                {comity?.totalNotices}
               </Text>
             </Text>
             <Menu
@@ -134,8 +156,7 @@ export default function Notice({ navigation, route }) {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                  }}
-                >
+                  }}>
                   <SvgXml xml={eye} />
                   <Text
                     style={{
@@ -143,25 +164,40 @@ export default function Notice({ navigation, route }) {
                         ? "rgba(255, 255, 255, 1)"
                         : "rgba(255, 255, 255, 1)",
                       marginHorizontal: 5,
-                    }}
-                  >
-                    {comityListText.onlyMembers}
+                    }}>
+                    {comity.noticePrivacy === "Private"
+                      ? comityListText.private
+                      : comity.noticePrivacy === "Public"
+                      ? comityListText.public
+                      : comityListText.membersOnly}
                   </Text>
                   <SvgXml xml={bottom} />
                 </Pressable>
-              }
-            >
+              }>
               <Menu.Item
                 titleStyle={{ color: textColor }}
-                onPress={() => setVisible(false)}
-                title={comityListText.onlyMembers}
+                onPress={() => {
+                  upload("Private");
+                  setVisible(false);
+                }}
+                title={comityListText.private}
               />
               <Menu.Item
                 titleStyle={{ color: textColor }}
                 onPress={() => {
+                  upload("Public");
                   setVisible(false);
                 }}
-                title={comityListText.onlyMembers}
+                title={comityListText.public}
+              />
+
+              <Menu.Item
+                titleStyle={{ color: textColor }}
+                onPress={() => {
+                  upload("MembersOnly");
+                  setVisible(false);
+                }}
+                title={comityListText.membersOnly}
               />
             </Menu>
           </View>

@@ -54,7 +54,7 @@ export default function CommitteeProfile({ navigation }) {
   `;
   useEffect(() => {
     fetch();
-    //console.log(comity);
+    //console.log(comity.id);
   }, [isFocused]);
   const fetch = async () => {
     try {
@@ -146,7 +146,11 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage");
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
+          privacy={comity?.membersPrivacy === "Private"
+          ? allHeadlines.private
+          : comity?.membersPrivacy === "Public"
+          ? allHeadlines.public
+          : allHeadlines.membersOnly}
           number={comity?.totalMembers?.toString()}
           title={allHeadlines.totalMember}
           color={textColor}
@@ -157,7 +161,11 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage", { special: true });
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
+          privacy={comity?.specialMembersPrivacy === "Private"
+          ? allHeadlines.private
+          : comity?.specialMembersPrivacy === "Public"
+          ? allHeadlines.public
+          : allHeadlines.membersOnly}
           number={comity?.specialMembers?.toString()}
           title={allHeadlines.specialMember}
           color={textColor}
@@ -168,7 +176,11 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("CurrentBalance");
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
+          privacy={comity?.balancePrivacy === "Private"
+          ? allHeadlines.private
+          : comity?.balancePrivacy === "Public"
+          ? allHeadlines.public
+          : allHeadlines.membersOnly}
           number={comity?.balance?.toString()}
           title={allHeadlines.presentBalance}
           color={textColor}
@@ -179,7 +191,11 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("Notice");
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
+          privacy={comity?.noticePrivacy === "Private"
+          ? allHeadlines.private
+          : comity?.noticePrivacy === "Public"
+          ? allHeadlines.public
+          : allHeadlines.membersOnly}
           number={comity?.totalNotices?.toString()}
           title={allHeadlines.notice}
           color={textColor}

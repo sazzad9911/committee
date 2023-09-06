@@ -13,6 +13,7 @@ import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
+import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
@@ -68,14 +69,28 @@ export default function MemberPage({ navigation, route }) {
   const upload = async (type) => {
     dispatch(loader.show());
     try {
-      await put(
-        "/comity/update",
-        {
-          membersPrivacy: type,
-          comityId: comity.id,
-        },
-        user.token
-      );
+      if (special) {
+        await put(
+          "/comity/update",
+          {
+            specialMembersPrivacy: type,
+            comityId: comity.id,
+          },
+          user.token
+        );
+      } else {
+        await put(
+          "/comity/update",
+          {
+            membersPrivacy: type,
+            comityId: comity.id,
+          },
+          user.token
+        );
+      }
+      const res = await get(`/comity/get/${comity.id}`, user.token);
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+      localStorage.comityLogIn(res.data.comity);
       dispatch(loader.hide());
       dispatch(toast.success("Image updated"));
     } catch (e) {
@@ -173,11 +188,18 @@ export default function MemberPage({ navigation, route }) {
                       : "rgba(255, 255, 255, 1)",
                     marginHorizontal: 5,
                   }}>
-                  {comity?.membersPrivacy === "Private"
-                    ? comityListText.private
-                    : comity?.membersPrivacy === "Public"
-                    ? comityListText.private
-                    : comityListText.membersOnly}
+                  {!special &&
+                    (comity?.membersPrivacy === "Private"
+                      ? comityListText.private
+                      : comity?.membersPrivacy === "Public"
+                      ? comityListText.public
+                      : comityListText.membersOnly)}
+                  {special &&
+                    (comity?.membersPrivacy === "Private"
+                      ? comityListText.private
+                      : comity?.membersPrivacy === "Public"
+                      ? comityListText.public
+                      : comityListText.membersOnly)}
                 </Text>
                 <SvgXml xml={bottom} />
               </Pressable>
