@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -21,6 +21,7 @@ import localStorage from "../../functions/localStorage";
 import { deletes } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
+import { getComityById } from "../../apis/api";
 
 export default function CommitteeProfile({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -34,7 +35,7 @@ export default function CommitteeProfile({ navigation }) {
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const [comityData, setComityData] = useState(null);
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M20.6211 8.45C19.5711 3.83 15.5411 1.75 12.0011 1.75H11.9911C8.46107 1.75 4.42107 3.82 3.37107 8.44C2.20107 13.6 5.36107 17.97 8.22107 20.72C9.23479 21.7012 10.5903 22.2498 12.0011 22.25C13.3611 22.25 14.7211 21.74 15.7711 20.72C18.6311 17.97 21.7911 13.61 20.6211 8.45ZM12.0011 13.46C11.5874 13.46 11.1778 13.3785 10.7956 13.2202C10.4134 13.0619 10.0662 12.8299 9.77369 12.5374C9.48118 12.2449 9.24915 11.8976 9.09085 11.5155C8.93255 11.1333 8.85107 10.7237 8.85107 10.31C8.85107 9.89634 8.93255 9.48672 9.09085 9.10455C9.24915 8.72237 9.48118 8.37512 9.77369 8.08261C10.0662 7.79011 10.4134 7.55808 10.7956 7.39978C11.1778 7.24148 11.5874 7.16 12.0011 7.16C12.8365 7.16 13.6377 7.49187 14.2285 8.08261C14.8192 8.67335 15.1511 9.47457 15.1511 10.31C15.1511 11.1454 14.8192 11.9466 14.2285 12.5374C13.6377 13.1281 12.8365 13.46 12.0011 13.46Z" fill="${textColor}"/>
@@ -45,17 +46,35 @@ export default function CommitteeProfile({ navigation }) {
   </svg>
   `;
 
+  const fetchData = async () => {
+    try {
+      dispatch(loader.show());
+      const { data } = await getComityById(comity.id);
+      setComityData(data.comity);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <ImageBackground
         style={{
           height: height / 2 + 80,
         }}
         source={{
           uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
-        }}>
+        }}
+      >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           {/* <Pressable
             onPress={() => {
@@ -82,7 +101,8 @@ export default function CommitteeProfile({ navigation }) {
           backgroundColor: backgroundColor,
           marginTop: -20,
           borderRadius: 25,
-        }}>
+        }}
+      >
         <Text
           numberOfLines={2}
           style={[
@@ -90,7 +110,8 @@ export default function CommitteeProfile({ navigation }) {
             { color: textColor },
             mainStyle.mt24,
             mainStyle.pdH20,
-          ]}>
+          ]}
+        >
           {comity?.name}
         </Text>
         <View style={mainStyle.mt24} />
@@ -100,7 +121,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comityData?.totalMembers || "0"}
           title={allHeadlines.totalMember}
           color={textColor}
         />
@@ -111,18 +132,21 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comityData?.specialMembers || "0"}
           title={allHeadlines.specialMember}
           color={textColor}
         />
         <View style={{ height: 16 }} />
         <ProfileCart
           onPress={() => {
-            navigation.navigate("CurrentBalance");
+            navigation.navigate("CurrentBalance", {
+              balance: comityData?.balance || "0",
+              balancePrivacy: comityData?.balancePrivacy || "Private",
+            });
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comityData?.balance || "0"}
           title={allHeadlines.presentBalance}
           color={textColor}
         />
@@ -133,33 +157,37 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"0"}
+          number={comityData?.totalNotices || "0"}
           title={allHeadlines.notice}
           color={textColor}
         />
         <View style={{ height: 16 }} />
 
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
+        >
           <SvgXml xml={location} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}>
+            }}
+          >
             {`${comity?.address}, ${comity.thana}, ${comity.district}, ${comity.division}`}
           </Text>
         </View>
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
+        >
           <SvgXml xml={call} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}>
+            }}
+          >
             {comity.phone}
           </Text>
         </View>
@@ -168,7 +196,8 @@ export default function CommitteeProfile({ navigation }) {
             mainStyle.pdH20,
             { color: textColor, fontSize: 24, fontWeight: "600" },
             mainStyle.mt24,
-          ]}>
+          ]}
+        >
           {allHeadlines.aboutComity}
         </Text>
 
@@ -181,7 +210,8 @@ export default function CommitteeProfile({ navigation }) {
             }}
             seeMoreText={"See More"}
             numberOfLines={3}
-            linkStyle={{ fontWeight: "500" }}>
+            linkStyle={{ fontWeight: "500" }}
+          >
             {comity.about}
           </SeeMore>
           <Button
@@ -203,19 +233,20 @@ export default function CommitteeProfile({ navigation }) {
             style={[mainStyle.mt24]}
             title={"Sign out From Comity"}
           />
-          <Button onPress={async()=>{
-            dispatch(loader.show())
-            try{
-              await deletes(`/comity/delete/${comity?.id}`,user.token)
-              dispatch(loader.hide())
-              dispatch(toast.success("Comity deleted"))
-              localStorage.comityLogOut()
-              dispatch({ type: "SET_COMITY", value: null });
-            }catch(e){
-              dispatch(loader.hide())
-              dispatch(toast.error("Problem deleting"))
-            }
-          }}
+          <Button
+            onPress={async () => {
+              dispatch(loader.show());
+              try {
+                await deletes(`/comity/delete/${comity?.id}`, user.token);
+                dispatch(loader.hide());
+                dispatch(toast.success("Comity deleted"));
+                localStorage.comityLogOut();
+                dispatch({ type: "SET_COMITY", value: null });
+              } catch (e) {
+                dispatch(loader.hide());
+                dispatch(toast.error("Problem deleting"));
+              }
+            }}
             style={[mainStyle.mt24, { borderColor: "#F00" }]}
             color={"#F00"}
             title={"Delete the community profile"}
@@ -260,13 +291,15 @@ export const ProfileCart = ({
           borderBottomColor: "#F3F3F3",
         },
         style,
-      ]}>
+      ]}
+    >
       <View>
         <Text
           style={{
             color: borderColor,
             fontSize: 16,
-          }}>
+          }}
+        >
           {title}
         </Text>
         {number ? (
@@ -276,7 +309,8 @@ export const ProfileCart = ({
               color: color,
               fontWeight: "800",
               marginTop: 1,
-            }}>
+            }}
+          >
             {number}
           </Text>
         ) : null}
@@ -290,13 +324,15 @@ export const ProfileCart = ({
             flexDirection: "row",
             alignItems: "center",
             marginRight: 20,
-          }}>
+          }}
+        >
           {privacy && <SvgXml xml={eye} />}
           <Text
             style={{
               color: borderColor,
               marginHorizontal: 5,
-            }}>
+            }}
+          >
             {privacy}
           </Text>
 
