@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get("window");
 import SeeMore from "react-native-see-more-inline";
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
-import { deletes, get } from "../../apis/multipleApi";
+import { deletes, get, post, put } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { pickImage } from "../../components/main/ProfilePicture";
@@ -54,7 +54,7 @@ export default function CommitteeProfile({ navigation }) {
   `;
   useEffect(() => {
     fetch();
-    console.log(comity);
+    //console.log(comity.id);
   }, [isFocused]);
   const fetch = async () => {
     try {
@@ -63,6 +63,27 @@ export default function CommitteeProfile({ navigation }) {
       localStorage.comityLogIn(res.data.comity);
     } catch (e) {
       console.error(e.message);
+    }
+  };
+  const uploadPicture = async (file) => {
+    dispatch(loader.show());
+    try {
+      const data = new FormData();
+      data.append("files", file);
+      const res = await post("/upload", data, user.token);
+      await put(
+        "/comity/update",
+        {
+          profilePhoto: res.data.files[0],
+          comityId: comity.id,
+        },
+        user.token
+      );
+      dispatch(loader.hide());
+      dispatch(toast.success("Image updated"));
+    } catch (e) {
+      dispatch(toast.error("Error updating"));
+      dispatch(loader.hide());
     }
   };
 
@@ -115,6 +136,7 @@ export default function CommitteeProfile({ navigation }) {
             onPress={async () => {
               const img = await pickImage();
               setBackground(img.uri);
+              uploadPicture(img);
             }}
           >
             <SvgXml xml={cameraIcon} />
@@ -145,8 +167,14 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage");
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.totalMembers.toString()}
+          privacy={
+            comity?.membersPrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.membersPrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
+          number={comity?.totalMembers?.toString()}
           title={allHeadlines.totalMember}
           color={textColor}
         />
@@ -156,8 +184,14 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("MemberPage", { special: true });
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.specialMembers.toString()}
+          privacy={
+            comity?.specialMembersPrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.specialMembersPrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
+          number={comity?.specialMembers?.toString()}
           title={allHeadlines.specialMember}
           color={textColor}
         />
@@ -170,8 +204,14 @@ export default function CommitteeProfile({ navigation }) {
             });
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.balance.toString()}
+          privacy={
+            comity?.balancePrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.balancePrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
+          number={comity?.balance?.toString()}
           title={allHeadlines.presentBalance}
           color={textColor}
         />
@@ -181,8 +221,14 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("Notice");
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.totalNotices.toString()}
+          privacy={
+            comity?.noticePrivacy === "Private"
+              ? allHeadlines.private
+              : comity?.noticePrivacy === "Public"
+              ? allHeadlines.public
+              : allHeadlines.membersOnly
+          }
+          number={comity?.totalNotices?.toString()}
           title={allHeadlines.notice}
           color={textColor}
         />
