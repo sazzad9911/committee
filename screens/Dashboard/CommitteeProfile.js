@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -18,9 +18,11 @@ const { width, height } = Dimensions.get("window");
 import SeeMore from "react-native-see-more-inline";
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
-import { deletes } from "../../apis/multipleApi";
+import { deletes, get } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
+import { pickImage } from "../../components/main/ProfilePicture";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function CommitteeProfile({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -34,6 +36,10 @@ export default function CommitteeProfile({ navigation }) {
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [background, setBackground] = useState(
+    comity&&comity.profilePhoto?comity.profilePhoto:"https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg"
+  );
+  const isFocused=useIsFocused()
 
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,6 +50,19 @@ export default function CommitteeProfile({ navigation }) {
   <path d="M11.05 14.95L9.2 16.8C8.81 17.19 8.19 17.19 7.79 16.81C7.68 16.7 7.57 16.6 7.46 16.49C6.44877 15.472 5.5161 14.3789 4.67 13.22C3.85 12.08 3.19 10.94 2.71 9.81C2.24 8.67 2 7.58 2 6.54C2 5.86 2.12 5.21 2.36 4.61C2.6 4 2.98 3.44 3.51 2.94C4.15 2.31 4.85 2 5.59 2C5.87 2 6.15 2.06 6.4 2.18C6.66 2.3 6.89 2.48 7.07 2.74L9.39 6.01C9.57 6.26 9.7 6.49 9.79 6.71C9.88 6.92 9.93 7.13 9.93 7.32C9.93 7.56 9.86 7.8 9.72 8.03C9.59 8.26 9.4 8.5 9.16 8.74L8.4 9.53C8.29 9.64 8.24 9.77 8.24 9.93C8.24 10.01 8.25 10.08 8.27 10.16C8.3 10.24 8.33 10.3 8.35 10.36C8.53 10.69 8.84 11.12 9.28 11.64C9.73 12.16 10.21 12.69 10.73 13.22C10.83 13.32 10.94 13.42 11.04 13.52C11.44 13.91 11.45 14.55 11.05 14.95ZM21.97 18.33C21.9687 18.7074 21.8833 19.0798 21.72 19.42C21.55 19.78 21.33 20.12 21.04 20.44C20.55 20.98 20.01 21.37 19.4 21.62C19.39 21.62 19.38 21.63 19.37 21.63C18.78 21.87 18.14 22 17.45 22C16.43 22 15.34 21.76 14.19 21.27C13.04 20.78 11.89 20.12 10.75 19.29C10.36 19 9.97 18.71 9.6 18.4L12.87 15.13C13.15 15.34 13.4 15.5 13.61 15.61C13.66 15.63 13.72 15.66 13.79 15.69C13.87 15.72 13.95 15.73 14.04 15.73C14.21 15.73 14.34 15.67 14.45 15.56L15.21 14.81C15.46 14.56 15.7 14.37 15.93 14.25C16.16 14.11 16.39 14.04 16.64 14.04C16.83 14.04 17.03 14.08 17.25 14.17C17.47 14.26 17.7 14.39 17.95 14.56L21.26 16.91C21.52 17.09 21.7 17.3 21.81 17.55C21.91 17.8 21.97 18.05 21.97 18.33Z" fill="${textColor}"/>
   </svg>
   `;
+  useEffect(() => {
+    fetch();
+    console.log(comity);
+  }, [isFocused]);
+  const fetch = async () => {
+    try {
+      const res = await get(`/comity/get/${comity.id}`, user.token);
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+      localStorage.comityLogIn(res.data.comity)
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
 
   return (
     <ScrollView
@@ -54,7 +73,7 @@ export default function CommitteeProfile({ navigation }) {
           height: height / 2 + 80,
         }}
         source={{
-          uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
+          uri: background,
         }}>
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           {/* <Pressable
@@ -72,7 +91,11 @@ export default function CommitteeProfile({ navigation }) {
             <SvgXml xml={backIcon} />
           </Pressable> */}
           <View />
-          <Pressable>
+          <Pressable
+            onPress={async () => {
+              const img = await pickImage();
+              setBackground(img.uri);
+            }}>
             <SvgXml xml={cameraIcon} />
           </Pressable>
         </View>
@@ -100,7 +123,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comity?.totalMembers.toString()}
           title={allHeadlines.totalMember}
           color={textColor}
         />
@@ -111,7 +134,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comity?.specialMembers.toString()}
           title={allHeadlines.specialMember}
           color={textColor}
         />
@@ -122,7 +145,7 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"200"}
+          number={comity?.balance.toString()}
           title={allHeadlines.presentBalance}
           color={textColor}
         />
@@ -133,12 +156,11 @@ export default function CommitteeProfile({ navigation }) {
           }}
           borderColor={borderColor}
           privacy={allHeadlines.private}
-          number={"0"}
+          number={comity?.totalNotices.toString()}
           title={allHeadlines.notice}
           color={textColor}
         />
         <View style={{ height: 16 }} />
-
         <View
           style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
           <SvgXml xml={location} />
@@ -203,19 +225,20 @@ export default function CommitteeProfile({ navigation }) {
             style={[mainStyle.mt24]}
             title={"Sign out From Comity"}
           />
-          <Button onPress={async()=>{
-            dispatch(loader.show())
-            try{
-              await deletes(`/comity/delete/${comity?.id}`,user.token)
-              dispatch(loader.hide())
-              dispatch(toast.success("Comity deleted"))
-              localStorage.comityLogOut()
-              dispatch({ type: "SET_COMITY", value: null });
-            }catch(e){
-              dispatch(loader.hide())
-              dispatch(toast.error("Problem deleting"))
-            }
-          }}
+          <Button
+            onPress={async () => {
+              dispatch(loader.show());
+              try {
+                await deletes(`/comity/delete/${comity?.id}`, user.token);
+                dispatch(loader.hide());
+                dispatch(toast.success("Comity deleted"));
+                localStorage.comityLogOut();
+                dispatch({ type: "SET_COMITY", value: null });
+              } catch (e) {
+                dispatch(loader.hide());
+                dispatch(toast.error("Problem deleting"));
+              }
+            }}
             style={[mainStyle.mt24, { borderColor: "#F00" }]}
             color={"#F00"}
             title={"Delete the community profile"}
