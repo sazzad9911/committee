@@ -55,6 +55,7 @@ import ComityProfile from "../screens/User/ComityProfile";
 import EditSubscription from "../screens/Dashboard/EditSubscription";
 import AddMemberSubscription from "../screens/Dashboard/AddMemberSubscription";
 import DashboardNotification from "../screens/Dashboard/DashboardNotification";
+import RecentComities from "../screens/User/RecentComities";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -192,6 +193,15 @@ export default function MainRoute() {
               }}
               name="PopularComities"
               component={PopularComities}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Recent Comities"} {...props} />
+                ),
+              }}
+              name="RecentComities"
+              component={RecentComities}
             />
             <Stack.Screen
               options={{
@@ -458,7 +468,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={values.getHeadLines().notification} {...props} />
+                  <BackHeader
+                    title={values.getHeadLines().notification}
+                    {...props}
+                  />
                 ),
               }}
               name="DashboardNotification"
