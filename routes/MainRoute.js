@@ -48,6 +48,7 @@ import AddExpenses from "../screens/Dashboard/AddExpenses";
 import Search from "../screens/User/Search";
 import SimpleHeader from "../components/main/SimpleHeader";
 import EditEmail from "../screens/User/EditEmail";
+import PopularComities from "../screens/User/PopularComities";
 import EditLocation from "../screens/User/EditAddress";
 import Legal from "../screens/User/Legal";
 import ComityProfile from "../screens/User/ComityProfile";
@@ -65,7 +66,6 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs([
   "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
 ]);
-
 
 export default function MainRoute() {
   const colorScheme = useColorScheme();
@@ -128,7 +128,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -181,6 +182,15 @@ export default function MainRoute() {
               }}
               name="EditEmail"
               component={EditEmail}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Popular Comities"} {...props} />
+                ),
+              }}
+              name="PopularComities"
+              component={PopularComities}
             />
             <Stack.Screen
               options={{
@@ -327,7 +337,7 @@ export default function MainRoute() {
               name="AddSubscription"
               component={AddSubscription}
             />
-             <Stack.Screen
+            <Stack.Screen
               options={{
                 header: (props) => (
                   <BackHeader

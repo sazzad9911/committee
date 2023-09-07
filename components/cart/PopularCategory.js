@@ -61,6 +61,7 @@ export default function PopularCategory({ textColor, navigation }) {
           style={mainStyle.moreButton}
           title={"আরও দেখুন"}
           Icon={() => <SvgXml xml={icon} />}
+          onPress={() => navigation.navigate("PopularComities")}
         />
       </View>
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
