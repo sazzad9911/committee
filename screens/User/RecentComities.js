@@ -3,10 +3,10 @@ import { ScrollView, Text, View, Dimensions } from "react-native";
 import { useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
-import { getPopularComities } from "../../apis/api";
+import { getRecentComities } from "../../apis/api";
 import { ComityCart } from "../../components/cart/ComityCart";
 
-export default function PopularComities() {
+export default function RecentComities() {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
@@ -18,7 +18,7 @@ export default function PopularComities() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getPopularComities();
+        const { data } = await getRecentComities();
         setPopularComities(data.comities);
       } catch (error) {
         console.log(error);
