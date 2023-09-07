@@ -137,8 +137,8 @@ export default function CommitteeProfile({ navigation }) {
               const img = await pickImage();
               setBackground(img.uri);
               uploadPicture(img);
-            }}
-          >
+
+            }}>
             <SvgXml xml={cameraIcon} />
           </Pressable>
         </View>
@@ -230,6 +230,16 @@ export default function CommitteeProfile({ navigation }) {
           }
           number={comity?.totalNotices?.toString()}
           title={allHeadlines.notice}
+          color={textColor}
+        />
+        <View style={{ height: 16 }} />
+        <ProfileCart
+          onPress={() => {
+            navigation.navigate("DashboardNotification");
+          }}
+          number={"0"}
+          borderColor={borderColor}
+          title={allHeadlines.notification}
           color={textColor}
         />
         <View style={{ height: 16 }} />
