@@ -26,7 +26,7 @@ export default function DashboardNotification() {
   const [data, setData] = useState();
   useEffect(() => {
     fetch();
-  }, [isFocused,isLoading]);
+  }, [isFocused]);
   useEffect(() => {
     if (!data) {
       dispatch(loader.show());

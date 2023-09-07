@@ -140,7 +140,7 @@ export default function CurrentBalance({ navigation, route }) {
         color={textColor}
       />
       <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-        <Button active={true} title={"Confirm"} />
+        <Button onPress={()=>navigation.goBack()} active={true} title={"Confirm"} />
         <ReadMoreComponent textColor={textColor} />
       </View>
     </ScrollView>

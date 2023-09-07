@@ -1,11 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
 import CollectionCart from "../../components/cart/CollectionCart";
 import ExpensesCart from "../../components/cart/ExpesesCart";
+import SheetCard from "../../components/cart/SheetCard";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
@@ -36,11 +37,14 @@ export default function AllExpenses({ navigation, route }) {
   `;
   const data = route.params.data;
   const [index, setIndex] = useState(-1);
-  const [dateSorted,setDateSorted]=useState()
-  const [sorted,setSorted]=useState()
-  const [text,setText]=useState()
+  const [dateSorted, setDateSorted] = useState();
+  const [sorted, setSorted] = useState(data);
+  const [text, setText] = useState();
+  useEffect(()=>{
+    setSorted(data.filter(d=>d.name.toUpperCase().includes(text?text.toUpperCase():"")))
+  },[text])
 
-  const Header = ({ color, style }) => (
+  const Header = ({ color, style,text,setText }) => (
     <LinearGradient
       // Button Linear Gradient
       style={[
@@ -64,9 +68,11 @@ export default function AllExpenses({ navigation, route }) {
         </Text>
         <View style={[mainStyle.flexBox]}>
           <SvgXml
-            onPress={() => navigation?.navigate("DateShort",{
-              setDateSorted:setDateSorted
-            })}
+            onPress={() =>
+              navigation?.navigate("DateShort", {
+                setDateSorted: setDateSorted,
+              })
+            }
             xml={calender}
           />
           <SvgXml
@@ -83,7 +89,9 @@ export default function AllExpenses({ navigation, route }) {
           </Pressable>
         </View>
       </View>
-      <Input value={text} onChange={setText}
+      <Input
+        value={text}
+        onChange={setText}
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {
@@ -102,7 +110,7 @@ export default function AllExpenses({ navigation, route }) {
   const Component = () => {
     return (
       <View style={{ marginVertical: 14 }}>
-        {data?.map((doc, i) => (
+        {sorted?.map((doc, i) => (
           <ExpensesCart
             key={i}
             isDark={isDark}
@@ -115,7 +123,27 @@ export default function AllExpenses({ navigation, route }) {
     );
   };
   const Bottom = () => {
-    return <View></View>;
+    return (
+      <View
+        style={{
+          paddingHorizontal: 16,
+        }}>
+        <Text
+          style={[
+            mainStyle.level,
+            { color: colors.getTextColor(), textAlign: "center" },
+          ]}>
+          {headlines._choose}
+        </Text>
+        <View style={{ height: 24 }} />
+        <SheetCard title={"Last 7 days collection"} />
+        <SheetCard title={"Last 15 days collection"} />
+        <SheetCard title={"Last 30 days collection"} />
+        <SheetCard title={"Last 3 months collection"} />
+        <SheetCard title={"Last 6 months collection"} />
+        <SheetCard title={"Last 1 years collection"} />
+      </View>
+    );
   };
 
   return (
@@ -124,7 +152,7 @@ export default function AllExpenses({ navigation, route }) {
       index={index}
       setIndex={setIndex}
       screen={
-        <HidableHeaderLayout header={<Header />} component={<Component />} />
+        <HidableHeaderLayout header={<Header text={text} setText={setText} />} component={<Component />} />
       }
       component={<Bottom />}
     />

@@ -19,20 +19,7 @@ export default function DashboardRoutes() {
         name="MainCollection"
         component={Dashboard}
       />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="AllCollections"
-        component={AllCollections}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="AllExpenses"
-        component={AllExpenses}
-      />
+      
       
     </Stack.Navigator>
   );

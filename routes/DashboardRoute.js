@@ -25,7 +25,7 @@ export default function DashboardRoute() {
       <Tab.Screen name="Inbox" component={Message} />
       {/* <Tab.Screen name="Notification" component={Notification} /> */}
       <Tab.Screen name="Member" component={Member} />
-      <Tab.Screen name="Dashboard" component={DashboardRoutes} />
+      <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )

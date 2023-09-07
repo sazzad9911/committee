@@ -55,6 +55,8 @@ import ComityProfile from "../screens/User/ComityProfile";
 import EditSubscription from "../screens/Dashboard/EditSubscription";
 import AddMemberSubscription from "../screens/Dashboard/AddMemberSubscription";
 import DashboardNotification from "../screens/Dashboard/DashboardNotification";
+import AllCollections from "../screens/Dashboard/AllCollections";
+import AllExpenses from "../screens/Dashboard/AllExpenses";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -129,8 +131,7 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -458,7 +459,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={values.getHeadLines().notification} {...props} />
+                  <BackHeader
+                    title={values.getHeadLines().notification}
+                    {...props}
+                  />
                 ),
               }}
               name="DashboardNotification"
@@ -470,6 +474,20 @@ export default function MainRoute() {
               }}
               name="ComityProfile"
               component={ComityProfile}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="AllCollections"
+              component={AllCollections}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="AllExpenses"
+              component={AllExpenses}
             />
           </Stack.Navigator>
         </NavigationContainer>
