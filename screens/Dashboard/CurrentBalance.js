@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View, Alert } from "react-native";
 import { Menu } from "react-native-paper";
 import SeeMore from "react-native-see-more-inline";
 import { SvgXml } from "react-native-svg";
@@ -16,8 +16,11 @@ import mainStyle from "../../styles/mainStyle";
 import { ProfileCart } from "./CommitteeProfile";
 
 export default function CurrentBalance({ navigation, route }) {
+  const { balance } = route.params || 0;
+  const { balancePrivacy } = route.params;
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
+  const comity = useSelector((state) => state.comity);
   const colors = new AppColors(isDark);
   const values = new AppValues(isBn);
   const backgroundColor = colors.getBackgroundColor();
@@ -27,7 +30,6 @@ export default function CurrentBalance({ navigation, route }) {
   const backgroudColor = colors.getBackgroundColor();
   const [visible, setVisible] = React.useState(false);
   const comityListText = values.getHeadLines();
-  const comity = useSelector((state) => state.comity);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -78,8 +80,9 @@ export default function CurrentBalance({ navigation, route }) {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  marginRight:20
-                }}>
+                  marginRight: 20,
+                }}
+              >
                 <SvgXml xml={eye} />
                 <Text
                   style={{
@@ -87,7 +90,8 @@ export default function CurrentBalance({ navigation, route }) {
                       ? "rgba(255, 255, 255, 1)"
                       : "rgba(255, 255, 255, 1)",
                     marginHorizontal: 5,
-                  }}>
+                  }}
+                >
                   {comity?.balancePrivacy === "Private"
                     ? comityListText.private
                     : comity?.balancePrivacy === "Public"
@@ -96,7 +100,8 @@ export default function CurrentBalance({ navigation, route }) {
                 </Text>
                 <SvgXml xml={bottom} />
               </Pressable>
-            }>
+            }
+          >
             <Menu.Item
               titleStyle={{ color: textColor }}
               onPress={() => {
