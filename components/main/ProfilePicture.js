@@ -35,14 +35,15 @@ export default function ProfilePicture({
   source,
   edit,
   onEdit,
+  size
 }) {
   return (
     <View
       style={[
         {
-          width: 100,
-          height: 100,
-          borderRadius: 50,
+          width:size?size: 100,
+          height:size?size: 100,
+          borderRadius:size?(size/2): 50,
           justifyContent: "center",
           alignItems: "center",
         },
@@ -51,19 +52,18 @@ export default function ProfilePicture({
       <SvgXml
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
+          
         }}
-        width={containerStyle?.width ? containerStyle?.width : 103}
+        width={containerStyle?.width ? containerStyle?.width:size?size+3: 103}
         xml={icon}
       />
       {source&&source.uri ? (
         <Image
           style={[
             {
-              width: 88,
-              height: 88,
-              borderRadius: 44,
+              width:size?size-12: 88,
+              height:size?size-12: 88,
+              borderRadius:size?(size-12)/2: 44,
             },
             imageStyle,
           ]}
@@ -71,7 +71,7 @@ export default function ProfilePicture({
         />
       ) : (
         <SvgXml
-          width={imageStyle?.width ? imageStyle.width : 76}
+          width={imageStyle?.width ? imageStyle.width:size?size-24 : 76}
           xml={unknown}
         />
       )}

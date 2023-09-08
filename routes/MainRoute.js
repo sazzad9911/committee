@@ -58,6 +58,7 @@ import DashboardNotification from "../screens/Dashboard/DashboardNotification";
 import AllCollections from "../screens/Dashboard/AllCollections";
 import AllExpenses from "../screens/Dashboard/AllExpenses";
 import RecentComities from "../screens/User/RecentComities";
+import DeleteMemberCollection from "../screens/Dashboard/DeleteMemberCollection";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -498,6 +499,20 @@ export default function MainRoute() {
               }}
               name="AllExpenses"
               component={AllExpenses}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="SubscriptionDetails"
+              component={SubscriptionDetails}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="DeleteMemberCollection"
+              component={DeleteMemberCollection}
             />
           </Stack.Navigator>
         </NavigationContainer>

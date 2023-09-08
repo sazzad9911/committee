@@ -37,7 +37,7 @@ export default function PaidSubscription({ navigation,route }) {
               data={doc}
               key={i}
               onPress={() => {
-                navigation?.navigate("SubscriptionDetails", { data: doc });
+                navigation?.navigate("DeleteMemberCollection", { data: doc });
               }}
               title={doc.name}
             />

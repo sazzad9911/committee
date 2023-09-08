@@ -23,7 +23,6 @@ export default function CreateOwnMember({ navigation, route }) {
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const data = route?.params?.data;
-
   const subscription = route?.params?.subscription;
   const [name, setName] = useState();
   const [explain, setExplain] = useState();
@@ -35,6 +34,7 @@ export default function CreateOwnMember({ navigation, route }) {
   const [address, setAddress] = useState();
   const [picture, setPicture] = useState();
   const dispatch = useDispatch();
+  
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -181,7 +181,7 @@ export default function CreateOwnMember({ navigation, route }) {
                   ).data
                 : null;
 
-              await post(
+             const res= await post(
                 "/member/create",
                 {
                   comityId: comity.id,
@@ -199,6 +199,9 @@ export default function CreateOwnMember({ navigation, route }) {
               );
               dispatch(loader.hide());
               dispatch(toast.success("Member created"));
+              if(subscription){
+               return navigation.navigate("AddMemberSubscription",{data: res.data.member,subscriptionId:subscription})
+              }
               navigation.goBack();
             } catch (e) {
               dispatch(loader.hide());
