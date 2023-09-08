@@ -45,7 +45,7 @@ export default function Information({ navigation, route }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const background = colors.getBackgroundColor();
- 
+
   const verify = async () => {
     setNameError();
     setUserNameError();
@@ -111,7 +111,8 @@ export default function Information({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.mt37, { paddingHorizontal: 20 }]}>
           <Text style={[styles.label, { color: textColor }]}>Your name</Text>
@@ -128,11 +129,13 @@ export default function Information({ navigation, route }) {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: "red",
-              }}>
+              }}
+            >
               {nameError}
             </Text>
             <Text style={{ color: textColor }}>min 4 max 20 character</Text>
@@ -144,11 +147,13 @@ export default function Information({ navigation, route }) {
                 justifyContent: "space-between",
               },
               styles.mt20,
-            ]}>
+            ]}
+          >
             <View
               style={{
                 width: width / 2 - 36,
-              }}>
+              }}
+            >
               <Text style={[styles.label, { color: textColor }]}>Gender</Text>
               <Menu
                 contentStyle={{
@@ -167,7 +172,8 @@ export default function Information({ navigation, route }) {
                     color={"#000"}
                     placeholderTextColor={"#a3a3a3"}
                   />
-                }>
+                }
+              >
                 <Menu.Item
                   onPress={() => {
                     setGender("Male");
@@ -194,7 +200,8 @@ export default function Information({ navigation, route }) {
             <View
               style={{
                 width: width / 2 - 36,
-              }}>
+              }}
+            >
               <Text style={[styles.label, { color: textColor }]}>Age</Text>
               <Input
                 value={age}
@@ -224,11 +231,13 @@ export default function Information({ navigation, route }) {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-            }}>
+            }}
+          >
             <Text
               style={{
                 color: "red",
-              }}>
+              }}
+            >
               {userNameError}
             </Text>
             <Text style={{ color: textColor }}>min 4 max 20 character</Text>
@@ -264,13 +273,15 @@ export default function Information({ navigation, route }) {
           style={{
             paddingVertical: 20,
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           <View
             style={{
               flexDirection: "row",
               marginBottom: 10,
-              flex:1
-            }}>
+              flex: 1,
+            }}
+          >
             <CheckBox
               value={check}
               onChange={() => {
@@ -282,9 +293,10 @@ export default function Information({ navigation, route }) {
                 fontWeight: "500",
                 color: textColor,
                 fontSize: 14,
-                width:"90%"
-              }}>
-              I agree with all of Duty's{" "}
+                width: "90%",
+              }}
+            >
+              I agree with all of Comity's{" "}
               <Text style={{ color: "#7566FF", fontWeight: "400" }}>
                 Terms of Service
               </Text>
