@@ -21,11 +21,11 @@ import FloatingButton from "../../components/main/FloatingButton";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function Subscription() {
-  return <ComitySubscriptionRoute />;
-}
+// export default function Subscription() {
+//   return <ComitySubscriptionRoute />;
+// }
 
-export function SubscriptionList({ navigation }) {
+function Subscription({ navigation }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -127,3 +127,4 @@ const Header = ({ textColor, borderColor, headlines }) => {
     </View>
   );
 };
+export default Subscription

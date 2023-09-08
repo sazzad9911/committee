@@ -155,6 +155,7 @@ export class AppValues {
         _allCollection: "সকল কালেকশন",
         _allExpenses: "সকল খরচ",
         _placeholder: "নাম,তারিখ অথবা টাকার সংখ্যা",
+        _choose:"পছন্দ করুন"
       };
     } else {
       return {
@@ -180,6 +181,7 @@ export class AppValues {
         _allCollection: "All Collection",
         _allExpenses: "All Expenses",
         _placeholder: "Name, Date Or Amount",
+        _choose:"Choose"
       };
     }
   }

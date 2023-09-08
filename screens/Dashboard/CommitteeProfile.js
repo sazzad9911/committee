@@ -199,8 +199,8 @@ export default function CommitteeProfile({ navigation }) {
         <ProfileCart
           onPress={() => {
             navigation.navigate("CurrentBalance", {
-              balance: comityData?.balance || "0",
-              balancePrivacy: comityData?.balancePrivacy || "Private",
+              balance: comity?.balance || "0",
+              balancePrivacy: comity?.balancePrivacy || "Private",
             });
           }}
           borderColor={borderColor}

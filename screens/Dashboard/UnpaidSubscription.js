@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useSelector } from "react-redux";
@@ -8,32 +9,41 @@ import FloatingButton from "../../components/main/FloatingButton";
 import NoOption from "../../components/main/NoOption";
 import { AppColors } from "../../functions/colors";
 
-export default function UnPaidSubscription({ navigation,route }) {
+export default function UnPaidSubscription({ navigation, route }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  const subscriptionId=route?.params?.subscriptionId;
-  
+  const subscriptionId = route?.params?.subscriptionId;
 
   const { comity, user } = useSelector((state) => state);
+  const isFocused=useIsFocused()
+
   useEffect(() => {
     const fetch = async () => {
-      const res = await get(`/subs/get-all-collections/${subscriptionId}`, user.token);
-      setPaidList(res.data.collections?.filter(d=>!d.paid));
+      const res = await get(
+        `/subs/get-all-collections/${subscriptionId}`,
+        user.token
+      );
+      setPaidList(res.data.collections?.filter((d) => !d.paid));
     };
     fetch();
-  }, []);
+  }, [isFocused]);
+  
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
         {paidList &&
           paidList.map((doc, i) => (
-            <CollectionCart
+            <CollectionCart 
+              textColor={colors.getTextColor()}
+              borderColor={colors.getBorderColor()}
+              isDark={isDark}
               data={doc}
               key={i}
               onPress={() => {
-                navigation?.navigate("SubscriptionDetails", { data: doc });
+               
+                navigation?.navigate("DeleteMemberCollection", { data: doc });
               }}
               title={doc.name}
             />
@@ -46,7 +56,6 @@ export default function UnPaidSubscription({ navigation,route }) {
         )}
         <View style={{ height: 6 }} />
       </ScrollView>
-      
     </View>
   );
 }
