@@ -189,10 +189,13 @@ export default function CreateCommittee({ navigation }) {
 }
 export const Screen = ({ select, value, onChange, onClose, type }) => {
   //console.log(value)
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
   return (
     <View
       style={{
         flex: 1,
+        backgroundColor:colors.getSchemeColor()
       }}>
       <Text
         style={{
@@ -201,12 +204,13 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
           fontSize: 20,
           width: "100%",
           textAlign: "center",
+          color:colors.getTextColor()
         }}>
         {type ? type : "Division"}
       </Text>
       <BottomSheetScrollView
         contentContainerStyle={{
-          backgroundColor: "#ffffff",
+          
         }}>
         {type == "Division" &&
           DistrictList.map((doc, i) => (
@@ -216,9 +220,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   onChange(doc.title);
                 }
               }}
-              style={newStyles.box}
+              style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
               key={i}>
-              <Text style={newStyles.textSp}>{doc.title}</Text>
+              <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc.title}</Text>
               {select == doc.title && <SvgXml xml={tick} />}
             </Pressable>
           ))}
@@ -231,9 +235,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                     onChange(doc);
                   }
                 }}
-                style={newStyles.box}
+                style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
                 key={i}>
-                <Text style={newStyles.textSp}>{doc}</Text>
+                <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc}</Text>
                 {select == doc && <SvgXml xml={tick} />}
               </Pressable>
             )
@@ -246,9 +250,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   onChange(doc);
                 }
               }}
-              style={newStyles.box}
+              style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
               key={i}>
-              <Text style={newStyles.textSp}>{doc}</Text>
+              <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc}</Text>
               {select == doc && <SvgXml xml={tick} />}
             </Pressable>
           ))}
