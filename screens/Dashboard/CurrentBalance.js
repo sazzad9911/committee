@@ -1,7 +1,6 @@
 import React from "react";
 import { Pressable, ScrollView, Text, View, Alert } from "react-native";
 import { Menu } from "react-native-paper";
-import SeeMore from "react-native-see-more-inline";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
 import { get, put } from "../../apis/multipleApi";

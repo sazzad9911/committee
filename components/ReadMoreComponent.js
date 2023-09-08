@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View } from "react-native";
-import SeeMore from "react-native-see-more-inline";
 import { SvgXml } from "react-native-svg";
 import mainStyle from "../styles/mainStyle";
+import MoreText from "./main/MoreText";
 
-export default function ReadMoreComponent({title,message,textColor}) {
+export default function ReadMoreComponent({ title, message, textColor }) {
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <View
         style={[
           mainStyle.flexBox,
@@ -20,25 +20,21 @@ export default function ReadMoreComponent({title,message,textColor}) {
             fontWeight: "500",
             color: textColor,
             marginLeft: 10,
-            flex:1
+            flex: 1,
           }}>
-          {title?title:"Important message"}
+          {title ? title : "Important message"}
         </Text>
       </View>
       <View style={mainStyle.mt24} />
-      <SeeMore
-        style={[
-          {
-            color: textColor,
-            fontSize: 16,
-            fontWeight: "400",
-          },
-        ]}
-        seeMoreText={"See More"}
-        numberOfLines={3}
-        linkStyle={{ fontWeight: "500" }}>
-        {message?message:`My motivation of building this was that I couldn't find any library/implementation that would place the "see more" link inline with the text. All the other implementations I found would place the link under the text. This package uses text width, and using a simple binary search it (almost) accurately calculates where it should place the "see more" link.`}
-      </SeeMore>
+      
+      <MoreText numberOfLines={3} 
+        text={
+          message
+            ? message
+            : `My motivation of building this was that I couldn't find any library/implementation that would place the "see more" link inline with the text. All the other implementations I found would place the link under the text. This package uses text width, and using a simple binary search it (almost) accurately calculates where it should place the "see more" link.  and using a simple binary search it (almost) accurately calculates where it`
+        }
+        textColor={textColor}
+      />
     </View>
   );
 }

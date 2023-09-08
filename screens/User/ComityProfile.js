@@ -15,13 +15,13 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
-import SeeMore from "react-native-see-more-inline";
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
 import loader from "../../data/loader";
 import { post } from "../../apis/multipleApi";
 import { getComityById } from "../../apis/api";
 import toast from "../../data/toast";
+import MoreText from "../../components/main/MoreText";
 
 export default function ComityProfile({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -264,18 +264,8 @@ export default function ComityProfile({ navigation, route }) {
         </Text>
 
         <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-          <SeeMore
-            style={{
-              color: borderColor,
-              fontSize: 16,
-              fontWeight: "400",
-            }}
-            seeMoreText={"See More"}
-            numberOfLines={3}
-            linkStyle={{ fontWeight: "500" }}
-          >
-            {comity?.about ? comity.about : "df"}
-          </SeeMore>
+          
+          <MoreText text={comity?.about ? comity.about : ""}/>
           <View
             style={{
               flexDirection: "row",

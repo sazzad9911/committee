@@ -22,12 +22,13 @@ export default function Notification() {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.isLoading);
+  const toast = useSelector((state) => state.toast);
 
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
     fetch();
-  }, [isFocused, isLoading]);
+  }, [isFocused, isLoading,toast]);
   useEffect(() => {
     if (!data) {
       dispatch(loader.show());
