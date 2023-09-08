@@ -75,14 +75,16 @@ export default function ComityProfile({ navigation, route }) {
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <ImageBackground
         style={{
           height: height / 2 + 80,
         }}
         source={{
           uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
-        }}>
+        }}
+      >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           <Pressable
             onPress={() => {
@@ -95,7 +97,8 @@ export default function ComityProfile({ navigation, route }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
-            }}>
+            }}
+          >
             <SvgXml xml={backIcon} />
           </Pressable>
         </View>
@@ -105,7 +108,8 @@ export default function ComityProfile({ navigation, route }) {
           backgroundColor: backgroundColor,
           marginTop: -20,
           borderRadius: 25,
-        }}>
+        }}
+      >
         <Text
           numberOfLines={2}
           style={[
@@ -113,57 +117,116 @@ export default function ComityProfile({ navigation, route }) {
             { color: textColor },
             mainStyle.mt24,
             mainStyle.pdH20,
-          ]}>
+          ]}
+        >
           {comity?.name}
         </Text>
         <View style={mainStyle.mt24} />
         <ProfileCart
           onPress={() => {
-            navigation.navigate("MemberPage");
+            if (comity?.membersPrivacy === "Public") {
+              navigation.navigate("MemberPage");
+            } else if (comity?.membersPrivacy === "MembersOnly") {
+              if (comity?.iAmMember) {
+                navigation.navigate("MemberPage");
+              }
+            }
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.totalMembers || 0}
+          privacy={comity?.membersPrivacy}
+          number={
+            comity?.membersPrivacy === "Private"
+              ? "---"
+              : comity?.membersPrivacy === "Public"
+              ? comity?.totalMembers || "0"
+              : comity?.membersPrivacy === "MembersOnly" && comity?.iAmMember
+              ? comity?.totalMembers || "0"
+              : "---"
+          }
           title={allHeadlines.totalMember}
           color={textColor}
         />
         <View style={{ height: 16 }} />
         <ProfileCart
           onPress={() => {
-            navigation.navigate("MemberPage", { special: true });
+            if (comity?.specialMembersPrivacy === "Public") {
+              navigation.navigate("MemberPage", { special: true });
+            } else if (comity?.specialMembersPrivacy === "MembersOnly") {
+              if (comity?.iAmMember) {
+                navigation.navigate("MemberPage", { special: true });
+              }
+            }
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.specialMembers || "0"}
+          privacy={comity?.specialMembersPrivacy}
+          number={
+            comity?.specialMembersPrivacy === "Private"
+              ? "---"
+              : comity?.specialMembersPrivacy === "Public"
+              ? comity?.specialMembers || "0"
+              : comity?.specialMembersPrivacy === "MembersOnly" &&
+                comity?.iAmMember
+              ? comity?.specialMembers || "0"
+              : "---"
+          }
           title={allHeadlines.specialMember}
           color={textColor}
         />
         <View style={{ height: 16 }} />
         <ProfileCart
           onPress={() => {
-            navigation.navigate("CurrentBalance");
+            if (comity?.balancePrivacy === "Public") {
+              navigation.navigate("CurrentBalance");
+            } else if (comity?.balancePrivacy === "MembersOnly") {
+              if (comity?.iAmMember) {
+                navigation.navigate("CurrentBalance");
+              }
+            }
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.balance || "0"}
+          privacy={comity?.balancePrivacy}
+          number={
+            comity?.balancePrivacy === "Private"
+              ? "---"
+              : comity?.balancePrivacy === "Public"
+              ? comity?.balance || "0"
+              : comity?.balancePrivacy === "MembersOnly" && comity?.iAmMember
+              ? comity?.balance || "0"
+              : "---"
+          }
           title={allHeadlines.presentBalance}
           color={textColor}
         />
         <View style={{ height: 16 }} />
         <ProfileCart
           onPress={() => {
-            navigation.navigate("Notice");
+            if (comity?.noticePrivacy === "Public") {
+              navigation.navigate("Notice");
+            } else if (comity?.noticePrivacy === "MembersOnly") {
+              if (comity?.iAmMember) {
+                navigation.navigate("Notice");
+              }
+            }
           }}
           borderColor={borderColor}
-          privacy={allHeadlines.private}
-          number={comity?.totalNotices || "0"}
+          privacy={comity?.noticePrivacy}
+          number={
+            comity?.noticePrivacy === "Private"
+              ? "---"
+              : comity?.noticePrivacy === "Public"
+              ? comity?.totalNotices || "0"
+              : comity?.noticePrivacy === "MembersOnly" && comity?.iAmMember
+              ? comity?.totalNotices || "0"
+              : "---"
+          }
           title={allHeadlines.notice}
           color={textColor}
         />
         <View style={{ height: 16 }} />
 
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
+        >
           <SvgXml xml={location} />
           <Text
             style={{
@@ -171,19 +234,22 @@ export default function ComityProfile({ navigation, route }) {
               color: textColor,
               fontSize: 16,
               flex: 1,
-            }}>
+            }}
+          >
             {`${comity?.address}, ${comity?.thana}, ${comity?.district}, ${comity?.division}`}
           </Text>
         </View>
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
+        >
           <SvgXml xml={call} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}>
+            }}
+          >
             {comity?.phone}
           </Text>
         </View>
@@ -192,7 +258,8 @@ export default function ComityProfile({ navigation, route }) {
             mainStyle.pdH20,
             { color: textColor, fontSize: 24, fontWeight: "600" },
             mainStyle.mt24,
-          ]}>
+          ]}
+        >
           {allHeadlines.aboutComity}
         </Text>
 
@@ -205,7 +272,8 @@ export default function ComityProfile({ navigation, route }) {
             }}
             seeMoreText={"See More"}
             numberOfLines={3}
-            linkStyle={{ fontWeight: "500" }}>
+            linkStyle={{ fontWeight: "500" }}
+          >
             {comity?.about ? comity.about : "df"}
           </SeeMore>
           <View
@@ -217,7 +285,8 @@ export default function ComityProfile({ navigation, route }) {
               borderTopWidth: 1,
               paddingTop: 12,
               borderTopColor: colors.getShadowColor(),
-            }}>
+            }}
+          >
             <Button
               onPress={async () => {
                 dispatch(loader.show());
@@ -232,7 +301,7 @@ export default function ComityProfile({ navigation, route }) {
                 } catch (e) {
                   console.error(e.message);
                   dispatch(loader.hide());
-                  dispatch(toast.error("Error loading"))
+                  dispatch(toast.error("Error loading"));
                 }
               }}
               LeftIcon={() => <SvgXml xml={member} />}
@@ -245,7 +314,7 @@ export default function ComityProfile({ navigation, route }) {
               onPress={async () => {
                 dispatch(loader.show());
                 try {
-                 const res= await post(
+                  const res = await post(
                     "/chat/conversation/create",
                     {
                       userId: comity.userId,
@@ -253,7 +322,9 @@ export default function ComityProfile({ navigation, route }) {
                     },
                     user.token
                   );
-                  navigation.navigate("ChatScreen",{conversationId:res.data.conversation.id});
+                  navigation.navigate("ChatScreen", {
+                    conversationId: res.data.conversation.id,
+                  });
                   dispatch(loader.hide());
                 } catch (e) {
                   console.error(e.message);
@@ -308,13 +379,15 @@ export const ProfileCart = ({
           borderBottomColor: "#F3F3F3",
         },
         style,
-      ]}>
+      ]}
+    >
       <View>
         <Text
           style={{
             color: borderColor,
             fontSize: 16,
-          }}>
+          }}
+        >
           {title}
         </Text>
         {number ? (
@@ -324,7 +397,8 @@ export const ProfileCart = ({
               color: color,
               fontWeight: "800",
               marginTop: 1,
-            }}>
+            }}
+          >
             {number}
           </Text>
         ) : null}
@@ -338,17 +412,18 @@ export const ProfileCart = ({
             flexDirection: "row",
             alignItems: "center",
             marginRight: 20,
-          }}>
+          }}
+        >
           {privacy && <SvgXml xml={eye} />}
           <Text
             style={{
               color: borderColor,
               marginHorizontal: 5,
-            }}>
+            }}
+          >
             {privacy}
           </Text>
-
-          <SvgXml style={iconStyle} xml={right} />
+          {number !== "---" && <SvgXml style={iconStyle} xml={right} />}
         </View>
       )}
     </Pressable>

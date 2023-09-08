@@ -54,6 +54,7 @@ export default function FavoriteCategory({ textColor, navigation }) {
           style={mainStyle.moreButton}
           title={"আরও দেখুন"}
           Icon={() => <SvgXml xml={icon} />}
+          onPress={() => navigation.navigate("RecentComities")}
         />
       </View>
       {comities.map((comity, index) => (
