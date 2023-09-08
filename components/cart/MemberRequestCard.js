@@ -14,7 +14,7 @@ export default function MemberRequestCard({
   type,
   mainColor,
   id,
-  data
+  data,
 }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -54,41 +54,48 @@ export default function MemberRequestCard({
         </Text>{" "}
         Member
       </Text>
-     {data?.status==="Pending" ?( <View
-        style={{
-          flexDirection: "row",
-          marginTop: 8,
-        }}>
-        <Button
-          onPress={async () => {
-            dispatch(loader.show())
-            try {
-              await post(`/member/request/accept/${data.id}`,null, user.token)
-              dispatch(loader.hide())
-              dispatch(toast.success("Request accepted"))
-            } catch (e) {
-              console.error(e.message);
-              dispatch(loader.hide())
-              dispatch(toast.error("Request failed"))
-            }
-          }}
-          active={true}
-          title={"Accept"}
-        />
-        <View style={{ width: 10 }} />
-        <Button onPress={async () => {
-            dispatch(loader.show())
-            try {
-              await post(`/member/request/reject/${id}`,null, user.token);
-              dispatch(loader.hide())
-              dispatch(toast.success("Request accepted"))
-            } catch (e) {
-              console.error(e.message);
-              dispatch(loader.hide())
-              dispatch(toast.error("Request failed"))
-            }
-          }} color="red" title={"Reject"} />
-      </View>):null}
+      {data?.status === "Pending" ? (
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 8,
+          }}>
+          <Button
+            onPress={() => {
+              dispatch(loader.show());
+
+              post(`/member/request/accept/${data.id}`, null, user.token)
+                .then((res) => {
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Request accepted"));
+                })
+                .catch((e) => {
+                  dispatch(loader.hide());
+                  dispatch(toast.error(e.response.data.msg));
+                });
+            }}
+            active={true}
+            title={"Accept"}
+          />
+          <View style={{ width: 10 }} />
+          <Button
+            onPress={() => {
+              dispatch(loader.show());
+              post(`/member/request/reject/${data.id}`, null, user.token)
+                .then((res) => {
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Request success"));
+                })
+                .catch((e) => {
+                  dispatch(loader.hide());
+                  dispatch(toast.error(e.response.data.msg));
+                });
+            }}
+            color="red"
+            title={"Reject"}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }

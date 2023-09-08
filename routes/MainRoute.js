@@ -59,6 +59,10 @@ import AllCollections from "../screens/Dashboard/AllCollections";
 import AllExpenses from "../screens/Dashboard/AllExpenses";
 import RecentComities from "../screens/User/RecentComities";
 import DeleteMemberCollection from "../screens/Dashboard/DeleteMemberCollection";
+import Notice from "../screens/Dashboard/Notice";
+import CurrentBalance from "../screens/Dashboard/CurrentBalance";
+import MemberPage from "../screens/Dashboard/MemberPage";
+import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -513,6 +517,38 @@ export default function MainRoute() {
               }}
               name="DeleteMemberCollection"
               component={DeleteMemberCollection}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={getComityHeadLine} {...props} />
+                ),
+              }}
+              name="EditCommitteeInfo"
+              component={EditCommitteeInfo}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="MemberPage"
+              component={MemberPage}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={headlines.presentBalance} {...props} />
+                ),
+              }}
+              name="CurrentBalance"
+              component={CurrentBalance}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Notice"
+              component={Notice}
             />
           </Stack.Navigator>
         </NavigationContainer>

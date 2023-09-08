@@ -87,21 +87,6 @@ export default function CommitteeProfile({ navigation }) {
     }
   };
 
-  const fetchData = async () => {
-    try {
-      dispatch(loader.show());
-      const { data } = await getComityById(comity.id);
-      setComityData(data.comity);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(loader.hide());
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <ScrollView

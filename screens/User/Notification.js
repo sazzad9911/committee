@@ -7,6 +7,7 @@ import { get } from "../../apis/multipleApi";
 import MemberRequestCard from "../../components/cart/MemberRequestCard";
 import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
@@ -20,13 +21,13 @@ export default function Notification() {
   const inset = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const isLoading = useSelector(state=> state.isLoading)
+  const isLoading = useSelector((state) => state.isLoading);
 
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
     fetch();
-  }, [isFocused,isLoading]);
+  }, [isFocused, isLoading]);
   useEffect(() => {
     if (!data) {
       dispatch(loader.show());
@@ -34,17 +35,18 @@ export default function Notification() {
       dispatch(loader.hide());
     }
   }, [data]);
-  const fetch = async () => {
-    try {
-      const res = await get("/member/get-my-membership", user.token);
-      setData(
-        res.data.membership.filter((member) =>
-          member.requestBy.includes("Comity")
-        )
-      );
-    } catch (e) {
-      console.error(e.message);
-    }
+  const fetch = () => {
+    get("/member/get-my-membership", user.token)
+      .then((res) => {
+        setData(
+          res.data.membership.filter((member) =>
+            member.requestBy.includes("Comity")
+          )
+        );
+      })
+      .catch((e) => {
+        dispatch(toast.error(e.response.data.msg))
+      });
   };
 
   return (

@@ -28,38 +28,7 @@ export default function Profile() {
         name="CommitteeProfile"
         component={CommitteeProfile}
       />
-      <Stack.Screen
-        options={{
-          header: (props) => (
-            <BackHeader title={getComityHeadLine} {...props} />
-          ),
-        }}
-        name="EditCommitteeInfo"
-        component={EditCommitteeInfo}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="MemberPage"
-        component={MemberPage}
-      />
-      <Stack.Screen
-        options={{
-          header: (props) => (
-            <BackHeader title={headlines.presentBalance} {...props} />
-          ),
-        }}
-        name="CurrentBalance"
-        component={CurrentBalance}
-      />
-      <Stack.Screen
-        options={{
-          headerShown:false
-        }}
-        name="Notice"
-        component={Notice}
-      />
+      
     </Stack.Navigator>
   );
 }
