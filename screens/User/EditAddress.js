@@ -139,11 +139,12 @@ export default function EditLocation({ navigation }) {
             </Text>
             <Button
               bg={bg}
-              value={division}
+              title={division}
               onPress={() => {
                 setSelect("Division");
                 setIndex(0);
               }}
+              color={colors.getTextColor()}
               style={[{ marginTop: 8, borderColor: colors.getShadowColor() }]}
               placeholder={"Division"}
               placeholderTextColor={colors.getTextColor()}
@@ -167,7 +168,8 @@ export default function EditLocation({ navigation }) {
                     setSelect("District");
                     setIndex(0);
                   }}
-                  value={district}
+                  title={district}
+                  color={colors.getTextColor()}
                   style={[
                     {
                       marginTop: 8,
@@ -197,7 +199,8 @@ export default function EditLocation({ navigation }) {
                     setSelect("Area");
                     setIndex(0);
                   }}
-                  value={area}
+                  title={area}
+                  color={colors.getTextColor()}
                   style={[
                     {
                       marginTop: 8,
