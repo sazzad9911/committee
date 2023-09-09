@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { ScrollView, View, Text } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../apis/multipleApi";
 import Avatar from "../../components/main/Avatar";
@@ -34,191 +40,202 @@ export default function CreateOwnMember({ navigation, route }) {
   const [address, setAddress] = useState();
   const [picture, setPicture] = useState();
   const dispatch = useDispatch();
-  
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[{ flex: 1, paddingBottom: 32 }, mainStyle.pdH20]}>
-        <View
-          style={[
-            mainStyle.flexBox,
-            { justifyContent: "center" },
-            mainStyle.mt24,
-          ]}>
-          <ProfilePicture
-            edit={true}
-            source={{
-              uri: picture?.uri,
-            }}
-            onEdit={async () => {
-              const res = await pickImage();
-              setPicture(res);
-            }}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={[{ flex: 1, paddingBottom: 32 }, mainStyle.pdH20]}>
+          <View
+            style={[
+              mainStyle.flexBox,
+              { justifyContent: "center" },
+              mainStyle.mt24,
+            ]}>
+            <ProfilePicture
+              edit={true}
+              source={{
+                uri: picture?.uri,
+              }}
+              onEdit={async () => {
+                const res = await pickImage();
+                setPicture(res);
+              }}
+            />
+          </View>
+          <Input
+            value={name}
+            onChange={setName}
+            outSideStyle={mainStyle.mt24}
+            level={headlines._name}
+            optionalLevel={headlines._required}
+            subLevel={headlines._max20}
+            placeholder={headlines.write}
           />
-        </View>
-        <Input
-          value={name}
-          onChange={setName}
-          outSideStyle={mainStyle.mt24}
-          level={headlines._name}
-          optionalLevel={headlines._required}
-          subLevel={headlines._max20}
-          placeholder={headlines.write}
-        />
-        <Text
-          style={[
-            mainStyle.mt32,
-            mainStyle.text20,
-            { color: colors.getTextColor() },
-          ]}>
-          {headlines._geder}
-        </Text>
-        <View
-          style={[
-            mainStyle.flexBox,
-            { paddingVertical: 5, justifyContent: "flex-start" },
-          ]}>
-          <RadioButton
-            value={gender == "Male" ? true : false}
-            title={headlines._male}
-            onChange={() => setGender("Male")}
+          <Text
+            style={[
+              mainStyle.mt32,
+              mainStyle.text20,
+              { color: colors.getTextColor() },
+            ]}>
+            {headlines._geder}
+          </Text>
+          <View
+            style={[
+              mainStyle.flexBox,
+              { paddingVertical: 5, justifyContent: "flex-start" },
+            ]}>
+            <RadioButton
+              value={gender == "Male" ? true : false}
+              title={headlines._male}
+              onChange={() => setGender("Male")}
+            />
+            <RadioButton
+              value={gender == "Female" ? true : false}
+              style={mainStyle.ml16}
+              title={headlines._female}
+              onChange={() => setGender("Female")}
+            />
+            <RadioButton
+              value={gender == "Other" ? true : false}
+              style={mainStyle.ml16}
+              title={headlines._other}
+              onChange={() => setGender("Other")}
+            />
+          </View>
+          <Input
+            value={explain}
+            onChange={setExplain}
+            level={headlines._position}
+            placeholder={headlines._positionPlaceholder}
+            subLevel={headlines._max20}
+            optionalLevel={headlines._required}
+            outSideStyle={[mainStyle.mt24]}
           />
-          <RadioButton
-            value={gender == "Female" ? true : false}
-            style={mainStyle.ml16}
-            title={headlines._female}
-            onChange={() => setGender("Female")}
-          />
-          <RadioButton
-            value={gender == "Other" ? true : false}
-            style={mainStyle.ml16}
-            title={headlines._other}
-            onChange={() => setGender("Other")}
-          />
-        </View>
-        <Input
-          value={explain}
-          onChange={setExplain}
-          level={headlines._position}
-          placeholder={headlines._positionPlaceholder}
-          subLevel={headlines._max20}
-          optionalLevel={headlines._required}
-          outSideStyle={[mainStyle.mt24]}
-        />
 
-        <Text
-          style={[
-            mainStyle.mt32,
-            mainStyle.text20,
-            { color: colors.getTextColor() },
-          ]}>
-          {headlines._selectAmembershipPlan}
-        </Text>
-        <View
-          style={[
-            mainStyle.flexBox,
-            { paddingVertical: 5, justifyContent: "flex-start" },
-          ]}>
-          <RadioButton
-            value={position == "General" ? true : false}
-            title={headlines._generalMember}
-            onChange={() => setPosition("General")}
-          />
-          <RadioButton
-            value={position == "Special" ? true : false}
-            style={mainStyle.ml16}
-            title={headlines._specialMember}
-            onChange={() => setPosition("Special")}
-          />
-        </View>
+          <Text
+            style={[
+              mainStyle.mt32,
+              mainStyle.text20,
+              { color: colors.getTextColor() },
+            ]}>
+            {headlines._selectAmembershipPlan}
+          </Text>
+          <View
+            style={[
+              mainStyle.flexBox,
+              { paddingVertical: 5, justifyContent: "flex-start" },
+            ]}>
+            <RadioButton
+              value={position == "General" ? true : false}
+              title={headlines._generalMember}
+              onChange={() => setPosition("General")}
+            />
+            <RadioButton
+              value={position == "Special" ? true : false}
+              style={mainStyle.ml16}
+              title={headlines._specialMember}
+              onChange={() => setPosition("Special")}
+            />
+          </View>
 
-        <Input
-          keyboardType={"numeric"}
-          value={age}
-          onChange={setAge}
-          outSideStyle={mainStyle.mt24}
-          level={headlines._age}
-          optionalLevel={headlines._notRequired}
-          placeholder={headlines.write}
-        />
-        <Input
-          keyboardType={"numeric"}
-          value={mobile}
-          onChange={setMobile}
-          level={headlines._mobile}
-          placeholder={headlines.write}
-          subLevel={headlines._max11}
-          optionalLevel={headlines._required}
-          outSideStyle={[mainStyle.mt24]}
-        />
-        <Input
-          value={email}
-          onChange={setEmail}
-          level={headlines._email}
-          placeholder={headlines.write}
-          subLevel={headlines._max30}
-          optionalLevel={headlines._required}
-          outSideStyle={[mainStyle.mt24]}
-        />
-        <TextArea
-          value={address}
-          onChange={setAddress}
-          level={headlines._address}
-          placeholder={headlines.write}
-          subLevel={headlines._max50}
-          optionalLevel={headlines._notRequired}
-          outSideStyle={[mainStyle.mt24]}
-        />
-        <Button
-          onPress={async () => {
-            dispatch(loader.show());
-            try {
-              const form = new FormData();
-              form.append("files", picture);
-              const data = picture
-                ? await (
-                    await post("/upload", form, user.token)
-                  ).data
-                : null;
+          <Input
+            keyboardType={"numeric"}
+            value={age}
+            onChange={setAge}
+            outSideStyle={mainStyle.mt24}
+            level={headlines._age}
+            optionalLevel={headlines._notRequired}
+            placeholder={headlines.write}
+          />
+          <Input
+            keyboardType={"numeric"}
+            value={mobile}
+            onChange={setMobile}
+            level={headlines._mobile}
+            placeholder={headlines.write}
+            subLevel={headlines._max11}
+            optionalLevel={headlines._required}
+            outSideStyle={[mainStyle.mt24]}
+          />
+          <Input
+            value={email}
+            onChange={setEmail}
+            level={headlines._email}
+            placeholder={headlines.write}
+            subLevel={headlines._max30}
+            optionalLevel={headlines._required}
+            outSideStyle={[mainStyle.mt24]}
+          />
+          <TextArea
+            value={address}
+            onChange={setAddress}
+            level={headlines._address}
+            placeholder={headlines.write}
+            subLevel={headlines._max50}
+            optionalLevel={headlines._notRequired}
+            outSideStyle={[mainStyle.mt24]}
+          />
+          <Button
+            onPress={async () => {
+              dispatch(loader.show());
+              try {
+                const form = new FormData();
+                form.append("files", picture);
+                const data = picture
+                  ? await (
+                      await post("/upload", form, user.token)
+                    ).data
+                  : null;
 
-             const res= await post(
-                "/member/create",
-                {
-                  comityId: comity.id,
-                  position: explain,
-                  name: name,
-                  category: position,
-                  age: age,
-                  mobile: mobile,
-                  email: email,
-                  address: address,
-                  profilePhoto: data ? data.files[0] : null,
-                  gender: gender,
-                },
-                user.token
-              );
-              dispatch(loader.hide());
-              dispatch(toast.success("Member created"));
-              if(subscription){
-               return navigation.navigate("AddMemberSubscription",{data: res.data.member,subscriptionId:subscription})
+                const res = await post(
+                  "/member/create",
+                  {
+                    comityId: comity.id,
+                    position: explain,
+                    name: name,
+                    category: position,
+                    age: age,
+                    mobile: mobile,
+                    email: email,
+                    address: address,
+                    profilePhoto: data ? data.files[0] : null,
+                    gender: gender,
+                  },
+                  user.token
+                );
+                dispatch(loader.hide());
+                dispatch(toast.success("Member created"));
+                if (subscription) {
+                  return navigation.navigate("AddMemberSubscription", {
+                    data: res.data.member,
+                    subscriptionId: subscription,
+                  });
+                }
+                navigation.goBack();
+              } catch (e) {
+                dispatch(loader.hide());
+                console.error(e.message);
+                dispatch(toast.error("Request failed"));
               }
-              navigation.goBack();
-            } catch (e) {
-              dispatch(loader.hide());
-              console.error(e.message);
-              dispatch(toast.error("Request failed"));
+            }}
+            active={
+              name && gender && position && age && explain && mobile && email
+                ? true
+                : false
             }
-          }}
-          active={
-            name&&gender && position && age && explain && mobile && email ? true : false
-          }
-          disabled={
-            name&&gender && position && age && explain && mobile && email ? false : true
-          }
-          style={mainStyle.mt24}
-          title={headlines._ok}
-        />
-      </View>
-    </ScrollView>
+            disabled={
+              name && gender && position && age && explain && mobile && email
+                ? false
+                : true
+            }
+            style={mainStyle.mt24}
+            title={headlines._ok}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

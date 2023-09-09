@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Dimensions, Platform,KeyboardAvoidingView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../apis/multipleApi";
 import Avatar from "../../components/main/Avatar";
@@ -26,94 +26,107 @@ export default function AddMemberSubscription({ navigation, route }) {
   const [paid, setPaid] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  
+
   return (
-    <View
-      style={{
-        backgroundColor: colors.getBackgroundColor(),
-        flex: 1,
-      }}>
-      <View
-        style={[
-          {
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          mainStyle.mt24,
-          mainStyle.pdH20,
-        ]}>
-        <ProfilePicture />
-        <Text
-          numberOfLines={1}
-          style={[
-            mainStyle.mt12,
-            mainStyle.headLine,
-            { color: colors.getTextColor(), marginVertical: 5 },
-          ]}>
-          {data && data?.name ? data?.name : data?.user?.name}
-        </Text>
-        <Text style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}>
-          {data && data?.gender ? data?.gender : data?.user?.gender}
-        </Text>
-      </View>
-      <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
-        <Input
-          value={amount}
-          onChange={setAmount}
-          keyboardType={"numeric"}
-          level={headlines._amount}
-          placeholder={"00 TK"}
-        />
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View
-          style={[
-            mainStyle.flexBox,
-            { justifyContent: "flex-start" },
-            mainStyle.mt24,
-          ]}>
-          <RadioButton
-            value={paid}
-            onChange={() => setPaid((v) => !v)}
-            title={headlines._paid}
-          />
-          <View style={mainStyle.ml16} />
-          <RadioButton
-            value={!paid}
-            onChange={() => setPaid((v) => !v)}
-            title={headlines._unPaid}
-          />
-        </View>
-      </View>
-      <Button
-        active={Boolean(amount)}
-        disabled={!Boolean(amount)}
-        onPress={async () => {
-          dispatch(loader.show());
-          try {
-            await post(
-              `/subs/create/collection`,
+          style={{
+            backgroundColor: colors.getBackgroundColor(),
+            flex: 1,
+          }}>
+          <View
+            style={[
               {
-                subscriptionId: subscriptionId,
-                memberId: data.id,
-                amount:amount,
-                paid: paid,
+                justifyContent: "center",
+                alignItems: "center",
               },
-              user.token
-            );
-            dispatch(loader.hide());
-            dispatch(toast.success("Collection created"));
-            navigation.navigate(`${paid?headlines._paid:headlines._unPaid}`);
-          } catch (e) {
-            dispatch(loader.hide());
-            dispatch(toast.error("Request failed"));
-            console.error(e);
-          }
-        }}
-        style={{
-          marginBottom: 50,
-          marginHorizontal: 20,
-        }}
-        title={headlines._ok}
-      />
-    </View>
+              mainStyle.mt24,
+              mainStyle.pdH20,
+            ]}>
+            <ProfilePicture />
+            <Text
+              numberOfLines={1}
+              style={[
+                mainStyle.mt12,
+                mainStyle.headLine,
+                { color: colors.getTextColor(), marginVertical: 5 },
+              ]}>
+              {data && data?.name ? data?.name : data?.user?.name}
+            </Text>
+            <Text
+              style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}>
+              {data && data?.gender ? data?.gender : data?.user?.gender}
+            </Text>
+          </View>
+          <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
+            <Input
+              value={amount}
+              onChange={setAmount}
+              keyboardType={"numeric"}
+              level={headlines._amount}
+              placeholder={"00 TK"}
+            />
+            <View
+              style={[
+                mainStyle.flexBox,
+                { justifyContent: "flex-start" },
+                mainStyle.mt24,
+              ]}>
+              <RadioButton
+                value={paid}
+                onChange={() => setPaid((v) => !v)}
+                title={headlines._paid}
+              />
+              <View style={mainStyle.ml16} />
+              <RadioButton
+                value={!paid}
+                onChange={() => setPaid((v) => !v)}
+                title={headlines._unPaid}
+              />
+            </View>
+          </View>
+        </View>
+        <Button
+          active={Boolean(amount)}
+          disabled={!Boolean(amount)}
+          onPress={async () => {
+            dispatch(loader.show());
+            try {
+              await post(
+                `/subs/create/collection`,
+                {
+                  subscriptionId: subscriptionId,
+                  memberId: data.id,
+                  amount: amount,
+                  paid: paid,
+                },
+                user.token
+              );
+              dispatch(loader.hide());
+              dispatch(toast.success("Collection created"));
+              navigation.navigate(
+                `${paid ? headlines._paid : headlines._unPaid}`
+              );
+            } catch (e) {
+              dispatch(loader.hide());
+              dispatch(toast.error("Request failed"));
+              console.error(e);
+            }
+          }}
+          style={{
+            marginBottom: 50,
+            marginHorizontal: 20,
+            position: "absolute",
+            width: Dimensions.get("window").width - 40,
+            top: Dimensions.get("window").height - 500,
+          }}
+          title={headlines._ok}
+        />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
