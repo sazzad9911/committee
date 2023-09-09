@@ -431,7 +431,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={values.getValues()._account} {...props} />
+                  <BackHeader title={values.getDashboardHeadlines()._delete} {...props} />
                 ),
               }}
               name="DeleteConfirmation"
@@ -550,6 +550,15 @@ export default function MainRoute() {
               name="Notice"
               component={Notice}
             />
+            {/* <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={headlines._deleteConfirmation} {...props} />
+                ),
+              }}
+              name="DeleteConfirmation"
+              component={DeleteConfirmation}
+            /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

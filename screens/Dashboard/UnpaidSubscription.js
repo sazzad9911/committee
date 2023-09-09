@@ -14,7 +14,7 @@ export default function UnPaidSubscription({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const subscriptionId = route?.params?.subscriptionId;
-
+  const data=route?.params?.data;
   const { comity, user } = useSelector((state) => state);
   const isFocused=useIsFocused()
 
@@ -43,7 +43,7 @@ export default function UnPaidSubscription({ navigation, route }) {
               key={i}
               onPress={() => {
                
-                navigation?.navigate("DeleteMemberCollection", { data: doc });
+                navigation?.navigate("DeleteMemberCollection", { data: doc,subscriptionId:subscriptionId,paid:false  });
               }}
               title={doc.name}
             />
@@ -56,6 +56,15 @@ export default function UnPaidSubscription({ navigation, route }) {
         )}
         <View style={{ height: 6 }} />
       </ScrollView>
+      <FloatingButton
+        onPress={() => {
+          navigation.navigate("SelectMemberType", {
+            data: data,
+            subscription: data.id,
+            paid:false
+          });
+        }}
+      />
     </View>
   );
 }

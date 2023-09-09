@@ -16,6 +16,7 @@ export default function SelectMemberType({navigation,route}) {
   const colors = new AppColors(isDark);
   const subscription=route?.params?.subscription;
   const data = route?.params?.data;
+  const paid = route?.params?.paid;
 
   return (
     <ScrollView style={{
@@ -33,13 +34,15 @@ export default function SelectMemberType({navigation,route}) {
         <Button onPress={()=>{
             navigation.navigate("AllMember",{
               subscription:subscription,
-              data:data
+              data:data,
+              paid:paid
             })
         }} style={mainStyle.mt32} title={headlines._addFromComity} active={true}/>
         <Button onPress={()=>{
             navigation.navigate("CreateOwnMember",{
               subscription:subscription,
-              data:data
+              data:data,
+              paid:paid
             })
         }} style={mainStyle.mt12} title={headlines._createMemberOwn} active={true}/>
         <ReadMoreComponent textColor={colors.getTextColor()}/>

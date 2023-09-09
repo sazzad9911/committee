@@ -172,6 +172,9 @@ export class AppValues {
         _allExpenses: "সকল খরচ",
         _placeholder: "নাম,তারিখ অথবা টাকার সংখ্যা",
         _choose: "পছন্দ করুন",
+        _deleteConfirmation:"মুছে ফেলা",
+        _importantMessage:"গুরুত্বপূর্ণ টিপস",
+        _delete:"মুছে ফেলা"
       };
     } else {
       return {
@@ -198,6 +201,9 @@ export class AppValues {
         _allExpenses: "All Expenses",
         _placeholder: "Name, Date Or Amount",
         _choose: "Choose",
+        _deleteConfirmation:"Cancel Confirmation",
+        _importantMessage:"Important Message",
+        _delete:"Delete"
       };
     }
   }
@@ -296,6 +302,8 @@ export class AppValues {
           _completed: "কমপ্লিটেড",
           _incomplete: "ইন কমপ্লিট",
           _amount: "পরিমাণ",
+          _deleteSubscription:"চাঁদাটি সম্পূর্ণ ভাবে মুছে ফেলুন",
+          _subsDeleteMessage:"চাঁদাটি সম্পুর্ন ভাবে মুছে ফেলেতে চাইলে নিশ্চিত করুন"
         }
       : {
           write: "Write",
@@ -364,6 +372,8 @@ export class AppValues {
           _completed: "Complited",
           _incomplete: "Incomplete",
           _amount: "Amount",
+          _deleteSubscription:"Delete this subscription",
+          _subsDeleteMessage:"Confirm if you want to delete the subscription completely"
         };
   }
 }

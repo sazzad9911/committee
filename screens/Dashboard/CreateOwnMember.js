@@ -40,6 +40,7 @@ export default function CreateOwnMember({ navigation, route }) {
   const [address, setAddress] = useState();
   const [picture, setPicture] = useState();
   const dispatch = useDispatch();
+  const paid = route?.params?.paid;
 
   return (
     <KeyboardAvoidingView
@@ -157,7 +158,7 @@ export default function CreateOwnMember({ navigation, route }) {
             level={headlines._mobile}
             placeholder={headlines.write}
             subLevel={headlines._max11}
-            optionalLevel={headlines._required}
+            optionalLevel={headlines._notRequired}
             outSideStyle={[mainStyle.mt24]}
           />
           <Input
@@ -166,7 +167,7 @@ export default function CreateOwnMember({ navigation, route }) {
             level={headlines._email}
             placeholder={headlines.write}
             subLevel={headlines._max30}
-            optionalLevel={headlines._required}
+            optionalLevel={headlines._notRequired}
             outSideStyle={[mainStyle.mt24]}
           />
           <TextArea
@@ -212,6 +213,7 @@ export default function CreateOwnMember({ navigation, route }) {
                   return navigation.navigate("AddMemberSubscription", {
                     data: res.data.member,
                     subscriptionId: subscription,
+                    paid:paid
                   });
                 }
                 navigation.goBack();
@@ -222,12 +224,12 @@ export default function CreateOwnMember({ navigation, route }) {
               }
             }}
             active={
-              name && gender && position && age && explain && mobile && email
+              name && gender && position  && explain 
                 ? true
                 : false
             }
             disabled={
-              name && gender && position && age && explain && mobile && email
+              name && gender && position && explain 
                 ? false
                 : true
             }

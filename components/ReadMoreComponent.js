@@ -1,10 +1,18 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
+import { useSelector } from "react-redux";
+import { AppColors } from "../functions/colors";
+import { AppValues } from "../functions/values";
 import mainStyle from "../styles/mainStyle";
 import MoreText from "./main/MoreText";
 
 export default function ReadMoreComponent({ title, message, textColor }) {
+  const isDark = useSelector((state) => state.isDark);
+  const colors=new AppColors(isDark)
+  const isBn = useSelector((state) => state.isBn);
+  const values = new AppValues(isBn);
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -18,11 +26,11 @@ export default function ReadMoreComponent({ title, message, textColor }) {
           style={{
             fontSize: 20,
             fontWeight: "500",
-            color: textColor,
+            color: colors.getTextColor(),
             marginLeft: 10,
             flex: 1,
           }}>
-          {title ? title : "Important message"}
+          {title ? title : values.getDashboardHeadlines()._importantMessage}
         </Text>
       </View>
       <View style={mainStyle.mt24} />
