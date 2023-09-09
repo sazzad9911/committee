@@ -62,7 +62,7 @@ export default function EditEmail({ navigation, route }) {
       Alert.alert("Profile updated successfully!");
     } catch (error) {
       console.log(error);
-      Alert.alert(error.response.data.msg);
+      Alert.alert(error?.response?.data?.msg);
     } finally {
       dispatch(loader.hide());
     }

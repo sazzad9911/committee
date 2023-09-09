@@ -27,7 +27,8 @@ export default function CollectionCart({
           backgroundColor: isDark ? "#000" : "#fff",
           borderRadius: 8,
         },
-      ]}>
+      ]}
+    >
       <View style={[mainStyle.flexBox]}>
         <Avatar
           source={{
@@ -39,8 +40,9 @@ export default function CollectionCart({
         <View style={{ marginLeft: 12, width: 150 }}>
           <Text
             numberOfLines={1}
-            style={[mainStyle.mediumText, { color: textColor }]}>
-            {data ? data?.member?.name : "Easin Arafat"}
+            style={[mainStyle.mediumText, { color: textColor }]}
+          >
+            {data?.member?.name || data?.member?.user?.name}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
             {data ? new Date(data.createdAt).toDateString() : "11/12/2024"}
@@ -50,14 +52,16 @@ export default function CollectionCart({
       <View>
         <Text
           numberOfLines={1}
-          style={[mainStyle.mediumText, { color: textColor }]}>
+          style={[mainStyle.mediumText, { color: textColor }]}
+        >
           {data?.amount ? data.amount : "00"} ৳
         </Text>
         <Text
           style={[
             mainStyle.smallText,
             { color: data?.paid ? "#6971FF" : "#F00" },
-          ]}>
+          ]}
+        >
           {data?.paid ? headlines._paid : headlines._unPaid}
         </Text>
       </View>
