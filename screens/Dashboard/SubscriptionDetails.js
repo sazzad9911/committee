@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PaidSubscription from "./PaidSubscription";
 import UnPaidSubscription from "./UnpaidSubscription";
+import { useRoute } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 
 export default function SubscriptionDetails({ navigation, route }) {
@@ -53,16 +54,23 @@ export default function SubscriptionDetails({ navigation, route }) {
             {...props}
           />
         )}>
-        <Tab.Screen initialParams={{
-          subscriptionId:data.id,
-          data:data
-        }} name={headlines._paid} component={PaidSubscription} />
-        <Tab.Screen initialParams={{
-          subscriptionId:data.id,
-          data:data
-        }} name={headlines._unPaid} component={UnPaidSubscription} />
+        <Tab.Screen
+          initialParams={{
+            subscriptionId: data.id,
+            data: data,
+          }}
+          name={headlines._paid}
+          component={PaidSubscription}
+        />
+        <Tab.Screen
+          initialParams={{
+            subscriptionId: data.id,
+            data: data,
+          }}
+          name={headlines._unPaid}
+          component={UnPaidSubscription}
+        />
       </Tab.Navigator>
-      
     </View>
   );
 }
@@ -99,6 +107,8 @@ const Header = ({
     <path d="M9.41292 3.99805C9.57888 5.05956 10.0926 6.0359 10.8736 6.77383C11.6545 7.51175 12.6583 7.96947 13.7275 8.07513M2.375 17.4168H16.625" stroke="white" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     `;
+  const name = useRoute();
+  //console.log(name);
   return (
     <View
       style={{

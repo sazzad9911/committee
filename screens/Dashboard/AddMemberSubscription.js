@@ -125,7 +125,7 @@ export default function AddMemberSubscription({ navigation, route }) {
                         subscriptionId: subscriptionId,
                         memberId: data.id,
                         amount: amount,
-                        paid: paid,
+                        paid: paid?"true":"",
                       },
                       user.token
                     );
