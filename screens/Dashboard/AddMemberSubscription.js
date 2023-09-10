@@ -67,7 +67,7 @@ export default function AddMemberSubscription({ navigation, route }) {
               mainStyle.mt24,
               mainStyle.pdH20,
             ]}>
-            <ProfilePicture source={{ uri: data.member.profilePhoto }} />
+            <ProfilePicture source={{ uri: data?.member?.profilePhoto }} />
             <Text
               numberOfLines={1}
               style={[
