@@ -40,7 +40,7 @@ export const getComityById = (comityId) => API.get(`/comity/get/${comityId}`);
 
 //Auth
 export const updateProfile = (formData) =>
-  API.post(`/auth/profile/update`, formData);
+  API.put(`/auth/profile/update`, formData);
 export const sendRecoverOtp = (formData) =>
   API.post(`/auth/reset/send-otp`, formData);
 export const getProfile = () => API.get(`/auth/profile/get`);

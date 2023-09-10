@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { ScrollView, View, Text, Dimensions, Platform,KeyboardAvoidingView } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Dimensions,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { post } from "../../apis/multipleApi";
+import { post, put } from "../../apis/multipleApi";
 import Avatar from "../../components/main/Avatar";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
@@ -22,11 +29,24 @@ export default function AddMemberSubscription({ navigation, route }) {
   const colors = new AppColors(isDark);
   const data = route?.params?.data;
   const subscriptionId = route?.params?.subscriptionId;
-  const [amount, setAmount] = useState();
-  const [paid, setPaid] = useState(false);
+  const [amount, setAmount] = useState(data?.amount?.toString());
+  const p = route?.params?.paid;
+  const [paid, setPaid] = useState(data.paid);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const update = route?.params?.update;
 
+  // console.log(data);
+  const updateData = () => {
+    dispatch(loader.show())
+    put(`/subs/paid/collection/${data.id}`,null,user.token).then(res=>{
+      dispatch(loader.hide())
+      navigation.goBack()
+    }).catch(e=>{
+      dispatch(loader.hide())
+      dispatch(toast.error(e.response.data.msg))
+    })
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
@@ -47,7 +67,7 @@ export default function AddMemberSubscription({ navigation, route }) {
               mainStyle.mt24,
               mainStyle.pdH20,
             ]}>
-            <ProfilePicture />
+            <ProfilePicture source={{ uri: data.member.profilePhoto }} />
             <Text
               numberOfLines={1}
               style={[
@@ -63,7 +83,7 @@ export default function AddMemberSubscription({ navigation, route }) {
             </Text>
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
-            <Input
+            <Input editable={update?false:true}
               value={amount}
               onChange={setAmount}
               keyboardType={"numeric"}
@@ -93,30 +113,34 @@ export default function AddMemberSubscription({ navigation, route }) {
         <Button
           active={Boolean(amount)}
           disabled={!Boolean(amount)}
-          onPress={async () => {
-            dispatch(loader.show());
-            try {
-              await post(
-                `/subs/create/collection`,
-                {
-                  subscriptionId: subscriptionId,
-                  memberId: data.id,
-                  amount: amount,
-                  paid: paid,
-                },
-                user.token
-              );
-              dispatch(loader.hide());
-              dispatch(toast.success("Collection created"));
-              navigation.navigate(
-                `${paid ? headlines._paid : headlines._unPaid}`
-              );
-            } catch (e) {
-              dispatch(loader.hide());
-              dispatch(toast.error("Request failed"));
-              console.error(e);
-            }
-          }}
+          onPress={
+            update
+              ? updateData
+              : async () => {
+                  dispatch(loader.show());
+                  try {
+                    await post(
+                      `/subs/create/collection`,
+                      {
+                        subscriptionId: subscriptionId,
+                        memberId: data.id,
+                        amount: amount,
+                        paid: paid,
+                      },
+                      user.token
+                    );
+                    dispatch(loader.hide());
+                    dispatch(toast.success("Collection created"));
+                    navigation.navigate(
+                      `${paid ? headlines._paid : headlines._unPaid}`
+                    );
+                  } catch (e) {
+                    dispatch(loader.hide());
+                    dispatch(toast.error("Request failed"));
+                    console.error(e);
+                  }
+                }
+          }
           style={{
             marginBottom: 50,
             marginHorizontal: 20,

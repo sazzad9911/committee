@@ -55,19 +55,14 @@ export default function SubscriptionDetails({ navigation, route }) {
         )}>
         <Tab.Screen initialParams={{
           subscriptionId:data.id,
+          data:data
         }} name={headlines._paid} component={PaidSubscription} />
         <Tab.Screen initialParams={{
           subscriptionId:data.id,
+          data:data
         }} name={headlines._unPaid} component={UnPaidSubscription} />
       </Tab.Navigator>
-      <FloatingButton
-        onPress={() => {
-          navigation.navigate("SelectMemberType", {
-            data: data,
-            subscription: data.id,
-          });
-        }}
-      />
+      
     </View>
   );
 }
@@ -131,7 +126,7 @@ const Header = ({
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
           অপরিশোধ{"   "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-            2000
+            {data?.due}
           </Text>
         </Text>
       </View>

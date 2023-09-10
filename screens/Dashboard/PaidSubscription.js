@@ -13,7 +13,7 @@ export default function PaidSubscription({ navigation,route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const subscriptionId=route?.params?.subscriptionId;
-  
+  const data=route?.params?.data;
 
   const { comity, user } = useSelector((state) => state);
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function PaidSubscription({ navigation,route }) {
               data={doc}
               key={i}
               onPress={() => {
-                navigation?.navigate("DeleteMemberCollection", { data: doc });
+                navigation?.navigate("DeleteMemberCollection", { data: doc,subscriptionId:subscriptionId,paid:true });
               }}
               title={doc.name}
             />
@@ -50,7 +50,15 @@ export default function PaidSubscription({ navigation,route }) {
         )}
         <View style={{ height: 6 }} />
       </ScrollView>
-      
+      <FloatingButton
+        onPress={() => {
+          navigation.navigate("SelectMemberType", {
+            data: data,
+            subscription: data.id,
+            paid:true
+          });
+        }}
+      />
     </View>
   );
 }

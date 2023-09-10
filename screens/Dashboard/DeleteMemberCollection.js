@@ -16,7 +16,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
   const colors = new AppColors(isDark);
   const inset = useSafeAreaInsets();
   const user = useSelector((state) => state.user);
-  const { data } = route?.params;
+  const { data,paid,subscriptionId } = route?.params;
   const dispatch=useDispatch()
 
   return (
@@ -105,7 +105,9 @@ export default function DeleteMemberCollection({ navigation, route }) {
             backgroundColor: colors.getBackgroundColor(),
             paddingTop:20
           }}>
-          <CollectionCart
+          <CollectionCart onPress={()=>{
+            navigation.navigate("AddMemberSubscription",{data: data,subscriptionId:subscriptionId,update:true})
+          }}
               textColor={colors.getTextColor()}
               borderColor={colors.getBorderColor()}
               isDark={isDark}
