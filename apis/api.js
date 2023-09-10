@@ -60,3 +60,15 @@ export const getPaidCollectionsByUser = () =>
   API.get("/subs/get-paid-collections-by-user");
 export const getUnpaidCollectionsByUser = () =>
   API.get("/subs/get-unpaid-collections-by-user");
+export const getAllCollectionsByComityUser = (subscriptionId, userId) =>
+  API.get(
+    `/subs/get-all-collections-by-comity-user?subscriptionId=${subscriptionId}&userId=${userId}`
+  );
+export const getPaidSubsByComityUser = (comityId, userId) =>
+  API.get(
+    `/subs/get-paid-subs-by-comity-user?comityId=${comityId}&userId=${userId}`
+  );
+export const getUnpaidSubsByComityUser = (comityId, userId) =>
+  API.get(
+    `/subs/get-unpaid-subs-by-comity-user?comityId=${comityId}&userId=${userId}`
+  );

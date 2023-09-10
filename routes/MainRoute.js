@@ -63,6 +63,8 @@ import Notice from "../screens/Dashboard/Notice";
 import CurrentBalance from "../screens/Dashboard/CurrentBalance";
 import MemberPage from "../screens/Dashboard/MemberPage";
 import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
+import MemberSubs from "../screens/Dashboard/MemberSubs";
+import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -137,7 +139,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -549,6 +552,20 @@ export default function MainRoute() {
               }}
               name="Notice"
               component={Notice}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="MemberSubs"
+              component={MemberSubs}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="MemberSubDetails"
+              component={MemberSubDetails}
             />
           </Stack.Navigator>
         </NavigationContainer>

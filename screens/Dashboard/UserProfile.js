@@ -39,8 +39,8 @@ export default function UserProfile({ navigation, route }) {
   const assentColor = colors.getShadowColor();
   const ref = React.useRef();
   const inset = useSafeAreaInsets();
-  const data=route?.params?.data;
-  //console.log(data);
+  const data = route?.params?.data;
+  // console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
     subContainer: {
@@ -100,7 +100,7 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            {data?data?.name:"Easin arafat aryan xyz.."}
+            {data ? data?.name : "Easin arafat aryan xyz.."}
           </Text>
           <Text
             style={{
@@ -109,7 +109,7 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            {data?data?.gender:"Male"}
+            {data ? data?.gender : "Male"}
           </Text>
         </View>
         <View
@@ -121,7 +121,9 @@ export default function UserProfile({ navigation, route }) {
         >
           <SquireCard
             onPress={() => {
-              navigation.navigate("Comity Subscription List");
+              navigation.navigate("MemberSubs", {
+                userId: data.userId,
+              });
             }}
             title={"Subscription"}
             icon={cart}
@@ -154,7 +156,7 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("Email");
             }}
             icon={email}
-            title={data?.email?data.email:"N/A"}
+            title={data?.email ? data.email : "N/A"}
             type={"Public"}
             value={"Public"}
             disableGo={true}
@@ -166,7 +168,7 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("UserLocation");
             }}
             icon={location}
-            title={data?.address?data.address:"N/A"}
+            title={data?.address ? data.address : "N/A"}
             type={"Private"}
             disableGo={true}
             Private={data?.addressIsPublic}
