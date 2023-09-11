@@ -50,6 +50,7 @@ export default function SubscriptionDetails({ navigation, route }) {
                 textColor={textColor}
                 data={data}
                 name={props.state.index == 1?headlines._unPaid:headlines._paid}
+                index={props.state.index}
               />
             }
             {...props}
@@ -84,7 +85,8 @@ const Header = ({
   backgroundColor,
   data,
   onEdit,
-  name
+  name,
+  index
 }) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
@@ -137,7 +139,7 @@ const Header = ({
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
          {name}{"   "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-            {data?.due}
+            {index==0?data?.collected:data?.due}
           </Text>
         </Text>
       </View>
