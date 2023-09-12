@@ -32,8 +32,6 @@ export default function AllMember({ navigation, route }) {
   const dispatch = useDispatch();
   const [searchIp, setSearch] = useState("");
   const paid = route?.params?.paid;
-  
-
   useEffect(() => {
     if (subscription) {
       getMember();
@@ -43,7 +41,7 @@ export default function AllMember({ navigation, route }) {
   }, [isFocused]);
   const getMember = async () => {
     dispatch(loader.show());
-    const res = await get(`/member/get-all/${comity.id}`, user.token);
+    const res = await get(`/subs/get-members/${subscription}`, user.token);
     setAllMember(res.data.members);
     dispatch(loader.hide());
   };
@@ -116,17 +114,24 @@ export default function AllMember({ navigation, route }) {
             sortedMember?.map((doc, i) => (
               <MemberCard
                 //onPress={() => navigation?.navigate("AddMember")}
-                onProfile={() =>
-                  navigation?.navigate("UserProfile", { data: doc })
-                }
-                onPress={async()=>{
-                  if(!subscription){
-                    return
+                onProfile={() => {
+                  if (!subscription) {
+                    return;
                   }
-                  if(doc.status==="Accepted"){
-                    navigation.navigate("AddMemberSubscription",{data: doc,subscriptionId:subscription,paid:paid})
-                  }else{
-                    dispatch(toast.error("Request pending already"))
+                  navigation?.navigate("UserProfile", { data: doc });
+                }}
+                onPress={async () => {
+                  if (!subscription) {
+                    return;
+                  }
+                  if (doc.status === "Accepted") {
+                    navigation.navigate("AddMemberSubscription", {
+                      data: doc,
+                      subscriptionId: subscription,
+                      paid: paid,
+                    });
+                  } else {
+                    dispatch(toast.error("Request pending already"));
                   }
                 }}
                 onAdd={async () => {
@@ -150,6 +155,7 @@ export default function AllMember({ navigation, route }) {
                 borderColor={colors.getShadowColor()}
                 backgroundColor={colors.getBackgroundColor()}
                 textColor={colors.getTextColor()}
+                offline={subscription&&!doc.userId?true:false}
               />
             ))}
           {sortedMember?.length == 0 && (
