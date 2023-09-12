@@ -28,6 +28,7 @@ import { AppColors } from "../../functions/colors";
 import SquireCard from "../../components/cart/SquireCard";
 import FlatCard from "../../components/cart/FlatCard";
 import ProfilePicture from "../../components/main/ProfilePicture";
+import { AppValues } from "../../functions/values";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -40,6 +41,10 @@ export default function UserProfile({ navigation, route }) {
   const ref = React.useRef();
   const inset = useSafeAreaInsets();
   const data = route?.params?.data;
+  const isBn = useSelector((state) => state.isBn);
+  const values = new AppValues(isBn);
+  const headlines = values.getValues();
+
   // console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
@@ -145,8 +150,8 @@ export default function UserProfile({ navigation, route }) {
             }}
             style={{ paddingTop: 0 }}
             icon={call}
-            title={data?.phone}
-            value={"Public"}
+            title={headlines._mobile}
+            value={data?.phone || data?.user?.phone || "N/A"}
             type={"Private"}
             disableGo={true}
             Private={false}
@@ -156,9 +161,9 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("Email");
             }}
             icon={email}
-            title={data?.email ? data.email : "N/A"}
-            type={"Public"}
-            value={"Public"}
+            title={headlines._email}
+            type={"Private"}
+            value={data?.email || data?.user?.email || "N/A"}
             disableGo={true}
             Private={false}
           />
@@ -168,9 +173,10 @@ export default function UserProfile({ navigation, route }) {
               //navigation.navigate("UserLocation");
             }}
             icon={location}
-            title={data?.address ? data.address : "N/A"}
+            title={headlines._address}
             type={"Private"}
             disableGo={true}
+            value={data?.address || data?.user?.address?.address || "N/A"}
             Private={data?.addressIsPublic}
             style={{ borderBottomWidth: 0, paddingBottom: 0 }}
           />
