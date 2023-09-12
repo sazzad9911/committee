@@ -1,12 +1,13 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import FloatingButton from "../../components/main/FloatingButton";
 import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
 export default function UnPaidSubscription({ navigation, route }) {
@@ -17,16 +18,19 @@ export default function UnPaidSubscription({ navigation, route }) {
   const data=route?.params?.data;
   const { comity, user } = useSelector((state) => state);
   const isFocused=useIsFocused()
+  const dispatch=useDispatch()
 
   useEffect(() => {
-    const fetch = async () => {
-      const res = await get(
-        `/subs/get-all-collections/${subscriptionId}`,
-        user.token
-      );
-      setPaidList(res.data.collections?.filter((d) => !d.paid));
-    };
-    fetch();
+    dispatch(loader.show());
+    get(`/subs/get-all-collections/${subscriptionId}`, user.token)
+      .then((res) => {
+        dispatch(loader.hide());
+        setPaidList(res.data.collections?.filter((d) => !d.paid));
+      })
+      .catch((e) => {
+        dispatch(loader.hide());
+        console.error(e.message);
+      });
   }, [isFocused]);
   
   return (
@@ -42,7 +46,7 @@ export default function UnPaidSubscription({ navigation, route }) {
               data={doc}
               key={i}
               onPress={() => {
-               
+                
                 navigation?.navigate("DeleteMemberCollection", { data: doc,subscriptionId:subscriptionId,paid:false  });
               }}
               title={doc.name}

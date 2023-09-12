@@ -1,9 +1,10 @@
-import React from "react";
+import { useIsFocused } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { deletes } from "../../apis/multipleApi";
+import { deletes, get } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import ProfilePicture from "../../components/main/ProfilePicture";
 import loader from "../../data/loader";
@@ -16,9 +17,23 @@ export default function DeleteMemberCollection({ navigation, route }) {
   const colors = new AppColors(isDark);
   const inset = useSafeAreaInsets();
   const user = useSelector((state) => state.user);
-  const { data,paid,subscriptionId } = route?.params;
-  const dispatch=useDispatch()
+  const { paid, subscriptionId } = route?.params;
+  const dispatch = useDispatch();
+  const [data, setData] = useState(route?.params?.data);
+  const isFocused = useIsFocused();
 
+  useEffect(() => {
+    dispatch(loader.show());
+    get(`/subs/get-collection-by-id/${data.id}`, user.token)
+      .then((res) => {
+        setData(res.data.collection);
+        dispatch(loader.hide());
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+        console.error(err.response.data.msg);
+      });
+  }, [isFocused]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -32,21 +47,24 @@ export default function DeleteMemberCollection({ navigation, route }) {
             height: 32,
           }}
         />
-        <Pressable onPress={async()=>{
-          dispatch(loader.show())
-          deletes(`/subs/delete/collection/${data.id}`,user.token).then(res=>{
-            dispatch(loader.hide())
-            dispatch(toast.success("Success"))
-            navigation.goBack()
-          }).catch(err=>{
-            dispatch(loader.hide())
-            dispatch(toast.error(err.response.data.msg))
-          })
-        }}
+        <Pressable
+          onPress={async () => {
+            dispatch(loader.show());
+            deletes(`/subs/delete/collection/${data.id}`, user.token)
+              .then((res) => {
+                dispatch(loader.hide());
+                dispatch(toast.success("Success"));
+                navigation.goBack();
+              })
+              .catch((err) => {
+                dispatch(loader.hide());
+                dispatch(toast.error(err.response.data.msg));
+              });
+          }}
           style={{
             position: "absolute",
             right: 20,
-            top:inset.top+ 20,
+            top: inset.top + 20,
           }}>
           <SvgXml xml={deleteIcon} />
         </Pressable>
@@ -55,7 +73,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
             alignItems: "center",
             justifyContent: "center",
             paddingHorizontal: 20,
-            paddingBottom:20
+            paddingBottom: 20,
           }}>
           <ProfilePicture
             size={54}
@@ -103,17 +121,22 @@ export default function DeleteMemberCollection({ navigation, route }) {
           style={{
             flex: 1,
             backgroundColor: colors.getBackgroundColor(),
-            paddingTop:20
+            paddingTop: 20,
           }}>
-          <CollectionCart onPress={()=>{
-            navigation.navigate("AddMemberSubscription",{data: data,subscriptionId:subscriptionId,update:true})
-          }}
-              textColor={colors.getTextColor()}
-              borderColor={colors.getBorderColor()}
-              isDark={isDark}
-              data={data}
-              title={data.name}
-            />
+          <CollectionCart
+            onPress={() => {
+              navigation.navigate("AddMemberSubscription", {
+                data: data,
+                subscriptionId: subscriptionId,
+                update: true,
+              });
+            }}
+            textColor={colors.getTextColor()}
+            borderColor={colors.getBorderColor()}
+            isDark={isDark}
+            data={data}
+            title={data.name}
+          />
         </View>
       </View>
     </ScrollView>

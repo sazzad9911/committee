@@ -22,7 +22,7 @@ export default function UnPaid({ navigation }) {
       dispatch(loader.show());
       const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
       //console.log(res.data.subs);
-      setPaidList(res.data.subs);
+      setPaidList(res.data.subs?.filter(sub => !sub.completed));
       dispatch(loader.hide());
     };
     fetch();

@@ -1,29 +1,37 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get } from "../../apis/multipleApi";
 import CollectionCart from "../../components/cart/CollectionCart";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import FloatingButton from "../../components/main/FloatingButton";
 import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
-export default function PaidSubscription({ navigation,route }) {
+export default function PaidSubscription({ navigation, route }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  const subscriptionId=route?.params?.subscriptionId;
-  const data=route?.params?.data;
-
+  const subscriptionId = route?.params?.subscriptionId;
+  const data = route?.params?.data;
+  const isFocused = useIsFocused();
   const { comity, user } = useSelector((state) => state);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetch = async () => {
-      const res = await get(`/subs/get-all-collections/${subscriptionId}`, user.token);
-      //console.log(res.data.subs);
-      setPaidList(res.data.collections?.filter(d=>d.paid));
-    };
-    fetch(); 
-  }, []);
+    dispatch(loader.show());
+    get(`/subs/get-all-collections/${subscriptionId}`, user.token)
+      .then((res) => {
+        dispatch(loader.hide());
+        setPaidList(res.data.collections?.filter((d) => d.paid));
+      })
+      .catch((e) => {
+        dispatch(loader.hide());
+        console.error(e.message);
+      });
+    //console.log(res.data.subs);
+  }, [isFocused]);
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -37,7 +45,11 @@ export default function PaidSubscription({ navigation,route }) {
               data={doc}
               key={i}
               onPress={() => {
-                navigation?.navigate("DeleteMemberCollection", { data: doc,subscriptionId:subscriptionId,paid:true });
+                navigation?.navigate("DeleteMemberCollection", {
+                  data: doc,
+                  subscriptionId: subscriptionId,
+                  paid: true,
+                });
               }}
               title={doc.name}
             />
@@ -55,7 +67,7 @@ export default function PaidSubscription({ navigation,route }) {
           navigation.navigate("SelectMemberType", {
             data: data,
             subscription: data.id,
-            paid:true
+            paid: true,
           });
         }}
       />

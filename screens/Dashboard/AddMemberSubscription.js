@@ -38,14 +38,30 @@ export default function AddMemberSubscription({ navigation, route }) {
 
   // console.log(data);
   const updateData = () => {
-    dispatch(loader.show())
-    put(`/subs/paid/collection/${data.id}`,null,user.token).then(res=>{
-      dispatch(loader.hide())
-      navigation.goBack()
-    }).catch(e=>{
-      dispatch(loader.hide())
-      dispatch(toast.error(e.response.data.msg))
-    })
+    if (data?.paid) {
+      dispatch(loader.show());
+      put(`/subs/unpaid/collection/${data.id}`, null, user.token)
+        .then((res) => {
+          dispatch(loader.hide());
+          navigation.goBack();
+        })
+        .catch((e) => {
+          dispatch(loader.hide());
+          dispatch(toast.error(e.response.data.msg));
+        });
+      return;
+    }
+
+    dispatch(loader.show());
+    put(`/subs/paid/collection/${data.id}`, null, user.token)
+      .then((res) => {
+        dispatch(loader.hide());
+        navigation.goBack();
+      })
+      .catch((e) => {
+        dispatch(loader.hide());
+        dispatch(toast.error(e.response.data.msg));
+      });
   };
   return (
     <KeyboardAvoidingView
@@ -83,7 +99,8 @@ export default function AddMemberSubscription({ navigation, route }) {
             </Text>
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
-            <Input editable={update?false:true}
+            <Input
+              editable={update ? false : true}
               value={amount}
               onChange={setAmount}
               keyboardType={"numeric"}
@@ -125,7 +142,7 @@ export default function AddMemberSubscription({ navigation, route }) {
                         subscriptionId: subscriptionId,
                         memberId: data.id,
                         amount: amount,
-                        paid: paid?"true":"",
+                        paid: paid ? "true" : "",
                       },
                       user.token
                     );
