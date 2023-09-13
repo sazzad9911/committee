@@ -27,7 +27,6 @@ export default function UnpaidSubsMember({ navigation, memberId }) {
         dispatch(loader.show());
         const { data } = await getUnpaidSubsByComityUser(comity.id, memberId);
         setPaidList(data.subs);
-        console.log(data);
       } catch (error) {
         console.log(error);
       } finally {

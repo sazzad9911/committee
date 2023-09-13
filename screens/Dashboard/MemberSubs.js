@@ -54,6 +54,7 @@ export default function MemberSubs({ navigation, route }) {
               textColor={textColor}
               totalPaid={totalPaid}
               totalUnPaid={totalUnPaid}
+              index={props?.state?.index}
             />
           }
           {...props}
@@ -82,6 +83,7 @@ const Header = ({
   headlines,
   totalPaid,
   totalUnPaid,
+  index,
 }) => {
   const newDate = new Date();
   const day = newDate.getDay();
@@ -109,7 +111,7 @@ const Header = ({
           color: "#B0B0B0",
         }}
       >
-        Total Paid
+        {index == 0 ? "Total Paid" : "Total Unpaid"}
       </Text>
       <Text
         style={{
@@ -118,7 +120,7 @@ const Header = ({
           color: "#fff",
         }}
       >
-        {totalPaid || "0"}
+        {index == 0 ? totalPaid || "0" : totalUnPaid || "0"}
       </Text>
     </MotiView>
   );
