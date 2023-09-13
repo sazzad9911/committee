@@ -10,17 +10,24 @@ import ProfilePicture from "../../components/main/ProfilePicture";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
+import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
 export default function DeleteMemberCollection({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
+  const values = new AppValues(isBn);
   const inset = useSafeAreaInsets();
   const user = useSelector((state) => state.user);
   const { paid, subscriptionId } = route?.params;
   const dispatch = useDispatch();
   const [data, setData] = useState(route?.params?.data);
   const isFocused = useIsFocused();
+  const st = {
+    fontSize: 20,
+    color: colors.getTextColor(),
+  };
 
   useEffect(() => {
     dispatch(loader.show());
@@ -49,17 +56,26 @@ export default function DeleteMemberCollection({ navigation, route }) {
         />
         <Pressable
           onPress={async () => {
-            dispatch(loader.show());
-            deletes(`/subs/delete/collection/${data.id}`, user.token)
-              .then((res) => {
-                dispatch(loader.hide());
-                dispatch(toast.success("Success"));
-                navigation.goBack();
-              })
-              .catch((err) => {
-                dispatch(loader.hide());
-                dispatch(toast.error(err.response.data.msg));
-              });
+            navigation.navigate("DeleteConfirmation", {
+              title: values.getValues()._subsMemberDeleteMessage,
+              style: st,
+              onPress: async () => {
+                dispatch(loader.show());
+                deletes(`/subs/delete/collection/${data.id}`, user.token)
+                  .then((res) => {
+                    dispatch(loader.hide());
+                    dispatch(toast.success("Success"));
+                    navigation.goBack();
+                    setTimeout(()=>{
+                      navigation.goBack();
+                    },100)
+                  })
+                  .catch((err) => {
+                    dispatch(loader.hide());
+                    dispatch(toast.error(err.response.data.msg));
+                  });
+              },
+            });
           }}
           style={{
             position: "absolute",
@@ -135,7 +151,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
             borderColor={colors.getBorderColor()}
             isDark={isDark}
             data={data}
-            title={data.name}
+            title={data?.name}
           />
         </View>
       </View>
