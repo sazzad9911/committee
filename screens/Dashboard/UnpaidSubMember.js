@@ -13,7 +13,7 @@ import {
   getUnpaidSubsByComityUser,
 } from "../../apis/api";
 
-export default function UnpaidSubsMember({ navigation, userId }) {
+export default function UnpaidSubsMember({ navigation, memberId }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const [paidList, setPaidList] = useState([]);
@@ -25,8 +25,9 @@ export default function UnpaidSubsMember({ navigation, userId }) {
     const fetch = async () => {
       try {
         dispatch(loader.show());
-        const { data } = await getUnpaidSubsByComityUser(comity.id, userId);
+        const { data } = await getUnpaidSubsByComityUser(comity.id, memberId);
         setPaidList(data.subs);
+        console.log(data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -48,7 +49,7 @@ export default function UnpaidSubsMember({ navigation, userId }) {
               onPress={() => {
                 navigation.navigate("MemberSubDetails", {
                   subscriptionId: doc.id,
-                  userId,
+                  memberId,
                 });
               }}
               title={doc.name}

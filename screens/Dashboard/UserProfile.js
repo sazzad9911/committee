@@ -128,6 +128,7 @@ export default function UserProfile({ navigation, route }) {
             onPress={() => {
               navigation.navigate("MemberSubs", {
                 userId: data.userId,
+                memberId: data.id,
               });
             }}
             title={"Subscription"}

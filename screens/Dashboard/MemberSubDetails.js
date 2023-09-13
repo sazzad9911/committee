@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { getAllCollectionsByComityUser } from "../../apis/api";
+import { getAllCollectionsByMember } from "../../apis/api";
 const Tab = createMaterialTopTabNavigator();
 import loader from "../../data/loader";
 import NoOption from "../../components/main/NoOption";
@@ -19,7 +19,7 @@ export default function MemberSubDetails({ navigation, route }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
-  const { subscriptionId, userId } = route?.params;
+  const { subscriptionId, memberId } = route?.params;
   const [paidList, setPaidList] = useState([]);
   const dispatch = useDispatch();
 
@@ -27,11 +27,10 @@ export default function MemberSubDetails({ navigation, route }) {
     const fetch = async () => {
       try {
         dispatch(loader.show());
-        const { data } = await getAllCollectionsByComityUser(
+        const { data } = await getAllCollectionsByMember(
           subscriptionId,
-          userId
+          memberId
         );
-        console.log(data);
         setPaidList(data.collections);
       } catch (error) {
         console.log(error);

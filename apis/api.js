@@ -60,15 +60,17 @@ export const getPaidCollectionsByUser = () =>
   API.get("/subs/get-paid-collections-by-user");
 export const getUnpaidCollectionsByUser = () =>
   API.get("/subs/get-unpaid-collections-by-user");
-export const getAllCollectionsByComityUser = (subscriptionId, userId) =>
+export const getAllCollectionsByMember = (subscriptionId, memberId) =>
   API.get(
-    `/subs/get-all-collections-by-comity-user?subscriptionId=${subscriptionId}&userId=${userId}`
+    `/subs/get-all-collections-by-comity-member?subscriptionId=${subscriptionId}&memberId=${memberId}`
   );
-export const getPaidSubsByComityUser = (comityId, userId) =>
+export const getPaidSubsByComityUser = (comityId, memberId) =>
   API.get(
-    `/subs/get-paid-subs-by-comity-user?comityId=${comityId}&userId=${userId}`
+    `/subs/get-paid-subs-by-comity-member?comityId=${comityId}&memberId=${memberId}`
   );
-export const getUnpaidSubsByComityUser = (comityId, userId) =>
+export const getUnpaidSubsByComityUser = (comityId, memberId) =>
   API.get(
-    `/subs/get-unpaid-subs-by-comity-user?comityId=${comityId}&userId=${userId}`
+    `/subs/get-unpaid-subs-by-comity-member?comityId=${comityId}&memberId=${memberId}`
   );
+export const getSummeryOfMembersCollections = (memberId) =>
+  API.get(`/subs/get-collection-summery/${memberId}`);

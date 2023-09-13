@@ -10,7 +10,7 @@ import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 import { getPaidSubsByComityUser } from "../../apis/api";
 
-export default function PaidSubsMember({ navigation, userId }) {
+export default function PaidSubsMember({ navigation, memberId }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const [paidList, setPaidList] = useState([]);
@@ -22,7 +22,7 @@ export default function PaidSubsMember({ navigation, userId }) {
     const fetch = async () => {
       try {
         dispatch(loader.show());
-        const { data } = await getPaidSubsByComityUser(comity.id, userId);
+        const { data } = await getPaidSubsByComityUser(comity.id, memberId);
         setPaidList(data.subs);
       } catch (error) {
         console.log(error);
@@ -45,7 +45,7 @@ export default function PaidSubsMember({ navigation, userId }) {
               onPress={() => {
                 navigation?.navigate("MemberSubDetails", {
                   subscriptionId: doc.id,
-                  userId,
+                  memberId,
                 });
               }}
               title={doc.name}
