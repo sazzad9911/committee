@@ -65,7 +65,11 @@ import MemberPage from "../screens/Dashboard/MemberPage";
 import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
 import MemberSubs from "../screens/Dashboard/MemberSubs";
 import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
+<<<<<<< Updated upstream
 import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
+=======
+import SubscriptionList from "../screens/User/SubscriptionList";
+>>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -140,8 +144,7 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -573,6 +576,7 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
+<<<<<<< Updated upstream
                 header: (props) => (
                   <BackHeader
                     title={values.getValues()._memberInfo}
@@ -582,6 +586,12 @@ export default function MainRoute() {
               }}
               name="EditMemberInfo"
               component={EditMemberInfo}
+=======
+                headerShown: false,
+              }}
+              name="Subscription List"
+              component={SubscriptionList}
+>>>>>>> Stashed changes
             />
             {/* <Stack.Screen
               options={{

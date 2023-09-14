@@ -32,7 +32,6 @@ export default function App() {
         speed={1}></AnimatedLoader>
     );
   };
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>

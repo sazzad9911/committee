@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from "../../components/main/Button";
 import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
@@ -105,13 +105,13 @@ const calender = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xm
         transparent={true}
         visible={isDatePickerVisible}
         onRequestClose={hideDatePicker}>
-        <DateTimePickerModal
+        {/* <DateTimePickerModal
           isVisible={true}
           mode={"date"}
           
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
-        />
+        /> */}
       </Modal>
       <Button onPress={save}
         disabled={name && amount && date ? false : true}
