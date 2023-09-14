@@ -1,9 +1,9 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CollectionCart from "../../components/cart/CollectionCart";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
@@ -12,6 +12,8 @@ import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
 import BottomShitLayout from "../../layouts/BottomShitLayout";
 import SheetCard from "../../components/cart/SheetCard";
+import loader from "../../data/loader";
+import { get } from "../../apis/multipleApi";
 
 export default function AllCollections({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -39,8 +41,20 @@ export default function AllCollections({ navigation, route }) {
   const [dateSorted, setDateSorted] = useState();
   const [sorted, setSorted] = useState(data);
   const [text, setText] = useState();
+  const dispatch=useDispatch()
+  const comity=useSelector(state=>state.comity)
+  useEffect(() => {
+    setSorted(
+      data?.filter((d) => d.amount?.toString().match(text ? text : ""))
+    );
+  }, [text]);
+  const fetch=(day)=>{
+    console.log(new Date().getDay());
+   // dispatch(loader.show())
+    //get(`/subs/get-comity-collections/${comity.id}/dateFrom=`)
+  }
 
-  const Header = ({ color, style }) => (
+  const Header = ({ color, style, text, setText }) => (
     <LinearGradient
       // Button Linear Gradient
       style={[
@@ -82,6 +96,8 @@ export default function AllCollections({ navigation, route }) {
         </View>
       </View>
       <Input
+        value={text}
+        onChange={setText}
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {
@@ -97,68 +113,22 @@ export default function AllCollections({ navigation, route }) {
       />
     </LinearGradient>
   );
-  const Component = () => {
+  const Component = ({ sorted }) => {
     return (
       <View style={{ marginVertical: 14 }}>
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
-        <CollectionCart
-          isDark={isDark}
-          textColor={textColor}
-          borderColor={borderColor}
-        />
+        {sorted?.map((doc, i) => (
+          <CollectionCart
+            key={i}
+            isDark={isDark}
+            textColor={textColor}
+            borderColor={borderColor}
+            data={doc}
+          />
+        ))}
       </View>
     );
   };
-  const Bottom = () => {
+  const Bottom = ({fetch}) => {
     return (
       <View
         style={{
@@ -172,7 +142,7 @@ export default function AllCollections({ navigation, route }) {
           {headlines._choose}
         </Text>
         <View style={{ height: 24 }} />
-        <SheetCard title={"Last 7 days collection"} />
+        <SheetCard onPress={()=>fetch(7)} title={"Last 7 days collection"} />
         <SheetCard title={"Last 15 days collection"} />
         <SheetCard title={"Last 30 days collection"} />
         <SheetCard title={"Last 3 months collection"} />
@@ -181,6 +151,7 @@ export default function AllCollections({ navigation, route }) {
       </View>
     );
   };
+  
   return (
     <BottomShitLayout
       scrollable={true}
@@ -189,10 +160,10 @@ export default function AllCollections({ navigation, route }) {
       screen={
         <HidableHeaderLayout
           header={<Header text={text} setText={setText} />}
-          component={<Component />}
+          component={<Component sorted={sorted} />}
         />
       }
-      component={<Bottom />}
+      component={<Bottom fetch={fetch} />}
     />
   );
 }

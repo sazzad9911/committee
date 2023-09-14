@@ -107,7 +107,7 @@ export default function AllExpenses({ navigation, route }) {
       />
     </LinearGradient>
   );
-  const Component = () => {
+  const Component = ({sorted}) => {
     return (
       <View style={{ marginVertical: 14 }}>
         {sorted?.map((doc, i) => (
