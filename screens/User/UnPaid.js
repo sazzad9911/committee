@@ -1,52 +1,52 @@
 import React, { useEffect } from "react";
 import { ScrollView, View, Text } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUnpaidCollectionsByUser } from "../../apis/api";
+import { get } from "../../apis/multipleApi";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import Avatar from "../../components/main/Avatar";
 import FloatingButton from "../../components/main/FloatingButton";
+import loader from "../../data/loader";
 import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Unpaid({ navigation }) {
+export default function Unpaid({ navigation,route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
   const [collections, setCollections] = React.useState([]);
-
-  const fetchCollections = async () => {
-    try {
-      const { data } = await getUnpaidCollectionsByUser();
-      setCollections(data.collections);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const { comityId } = route?.params;
 
   useEffect(() => {
-    fetchCollections();
+    dispatch(loader.show());
+    get(`/subs/get-subs-by-user/${comityId}`, user.token)
+      .then((res) => {
+        setCollections(res.data.subs);
+        dispatch(loader.hide());
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+        console.error(err.message);
+      });
   }, []);
-
-  if (isLoading) {
-    return <></>;
-  }
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        {collections.map((collection, index) => (
-          <CollectionCart
-            textColor={textColor}
-            borderColor={borderColor}
-            isDark={isDark}
-            collection={collection}
-            key={collection.id}
+        {collections.map((doc, i) => (
+          <SubscriptionCard
+            data={doc}
+            key={i}
+            onPress={() => {
+              navigation?.navigate("UserSubscriptionDetails", { data: doc });
+            }}
+            title={doc.name}
           />
         ))}
         <View style={{ height: 70 }} />
@@ -68,8 +68,7 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
           backgroundColor: isDark ? "#000" : "#fff",
           borderRadius: 8,
         },
-      ]}
-    >
+      ]}>
       <View style={[mainStyle.flexBox]}>
         <Avatar
           source={{
@@ -79,8 +78,7 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
         <View style={{ marginLeft: 12, width: 150 }}>
           <Text
             numberOfLines={1}
-            style={[mainStyle.mediumText, { color: textColor }]}
-          >
+            style={[mainStyle.mediumText, { color: textColor }]}>
             {user.user.name}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
@@ -91,8 +89,7 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
       <View>
         <Text
           numberOfLines={1}
-          style={[mainStyle.mediumText, { color: textColor }]}
-        >
+          style={[mainStyle.mediumText, { color: textColor }]}>
           {collection.amount} ৳
         </Text>
         <Text style={[mainStyle.smallText, { color: "red" }]}>Unpaid</Text>

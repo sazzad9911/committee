@@ -13,13 +13,14 @@ import Input from "../../components/main/Input";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function SubscriptionList() {
+export default function SubscriptionList({navigation,route}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
 
   const values = new AppValues(isBn);
   const colors = new AppColors(isDark);
   const headlines = values.getValues();
+  const {comityId}=route?.params;
 
   return (
     <Tab.Navigator
@@ -38,8 +39,12 @@ export default function SubscriptionList() {
         />
       )}
     >
-      <Tab.Screen name={headlines._paid} component={Paid} />
-      <Tab.Screen name={headlines._unPaid} component={UnPaid} />
+      <Tab.Screen initialParams={{
+        comityId:comityId
+      }} name={headlines._paid} component={Paid} />
+      <Tab.Screen initialParams={{
+        comityId:comityId
+      }} name={headlines._unPaid} component={UnPaid} />
     </Tab.Navigator>
   );
 }

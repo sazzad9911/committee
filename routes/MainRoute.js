@@ -65,11 +65,9 @@ import MemberPage from "../screens/Dashboard/MemberPage";
 import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
 import MemberSubs from "../screens/Dashboard/MemberSubs";
 import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
-<<<<<<< Updated upstream
 import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
-=======
 import SubscriptionList from "../screens/User/SubscriptionList";
->>>>>>> Stashed changes
+import UserSubscriptionDetails from "../screens/User/UserSubscriptionDetails";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -525,6 +523,13 @@ export default function MainRoute() {
               options={{
                 headerShown: false,
               }}
+              name="UserSubscriptionDetails"
+              component={UserSubscriptionDetails}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
               name="DeleteMemberCollection"
               component={DeleteMemberCollection}
             />
@@ -576,7 +581,6 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-<<<<<<< Updated upstream
                 header: (props) => (
                   <BackHeader
                     title={values.getValues()._memberInfo}
@@ -585,13 +589,13 @@ export default function MainRoute() {
                 ),
               }}
               name="EditMemberInfo"
-              component={EditMemberInfo}
-=======
+              component={EditMemberInfo}/>
+              <Stack.Screen
+              options={{
                 headerShown: false,
               }}
               name="Subscription List"
               component={SubscriptionList}
->>>>>>> Stashed changes
             />
             {/* <Stack.Screen
               options={{
