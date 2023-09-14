@@ -6,49 +6,60 @@ import { AppValues } from "../../functions/values";
 import Paid from "./Paid";
 import UnPaid from "./UnPaid";
 import { AppColors } from "../../functions/colors";
-import { View,Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import mainStyle from "../../styles/mainStyle";
 import { SvgXml } from "react-native-svg";
 import Input from "../../components/main/Input";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function SubscriptionList({navigation,route}) {
+export default function SubscriptionList({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
 
   const values = new AppValues(isBn);
   const colors = new AppColors(isDark);
   const headlines = values.getValues();
-  const {comityId}=route?.params;
+  const { comityId } = route?.params;
 
   return (
     <Tab.Navigator
       tabBar={(props) => (
         <TabBarLayout
-          color={ 
+          color={
             props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
           }
-          header={ <Header
-            headlines={headlines}
-            borderColor={colors.getBorderColor()}
-            textColor={colors.getTextColor()}
-            index={props.state.index}
-          />}
+          header={
+            <Header
+              headlines={headlines}
+              borderColor={colors.getBorderColor()}
+              textColor={colors.getTextColor()}
+              index={props.state.index}
+              navigation={navigation}
+              comityId={comityId}
+            />
+          }
           {...props}
         />
-      )}
-    >
-      <Tab.Screen initialParams={{
-        comityId:comityId
-      }} name={headlines._paid} component={Paid} />
-      <Tab.Screen initialParams={{
-        comityId:comityId
-      }} name={headlines._unPaid} component={UnPaid} />
+      )}>
+      <Tab.Screen
+        initialParams={{
+          comityId: comityId,
+        }}
+        name={headlines._paid}
+        component={Paid}
+      />
+      <Tab.Screen
+        initialParams={{
+          comityId: comityId,
+        }}
+        name={headlines._unPaid}
+        component={UnPaid}
+      />
     </Tab.Navigator>
   );
 }
-const Header = ({ textColor, borderColor, headlines,index }) => {
+const Header = ({ textColor, borderColor, headlines, index,comityId,navigation }) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
   const day = newDate.getDay();
@@ -64,6 +75,11 @@ const Header = ({ textColor, borderColor, headlines,index }) => {
   }"/>
   </svg>  
   `;
+  const ic=`<svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1.52179 11C1.3892 11 1.2566 10.9596 1.15193 10.8731C1.05459 10.7917 1 10.6819 1 10.5674C1 10.453 1.05459 10.3431 1.15193 10.2617L5.70198 6.50108C6.03695 6.22423 6.03695 5.77433 5.70198 5.49748L1.15193 1.73684C1.05459 1.65544 1 1.5456 1 1.43115C1 1.31669 1.05459 1.20686 1.15193 1.12545C1.35431 0.958183 1.68928 0.958183 1.89166 1.12545L6.44171 4.88608C6.79762 5.18024 7 5.57823 7 5.99928C7 6.42033 6.8046 6.81831 6.44171 7.11247L1.89166 10.8731C1.78698 10.9539 1.65439 11 1.52179 11Z" fill="#F6F6F6"/>
+  <path d="M0.991541 11.0649L0.992658 11.0658C1.14848 11.1946 1.33984 11.25 1.52179 11.25C1.71073 11.25 1.8968 11.1849 2.04436 11.0711L2.04444 11.0712L2.05093 11.0658L6.59914 7.30668C6.59945 7.30643 6.59976 7.30618 6.60007 7.30592C7.01573 6.96858 7.25 6.5018 7.25 5.99928C7.25 5.49427 7.00668 5.0287 6.60098 4.69338L2.05093 0.93275C1.75611 0.689083 1.28747 0.689083 0.992658 0.93275L0.992655 0.932746L0.991541 0.933678C0.844379 1.05675 0.75 1.23402 0.75 1.43115C0.75 1.62827 0.844379 1.80554 0.991541 1.92862L0.991538 1.92862L0.992658 1.92954L5.54271 5.69018C5.65725 5.78484 5.70321 5.89781 5.70321 5.99928C5.70321 6.10075 5.65725 6.21371 5.54271 6.30838L0.992658 10.069L0.992655 10.069L0.991541 10.0699C0.84438 10.193 0.75 10.3703 0.75 10.5674C0.75 10.7645 0.844379 10.9418 0.991541 11.0649Z" stroke="black" stroke-opacity="0.6" stroke-width="0.5"/>
+  </svg>
+  `
   return (
     <View
       style={{
@@ -72,19 +88,38 @@ const Header = ({ textColor, borderColor, headlines,index }) => {
       }}
       transition={{
         type: "timing",
-      }}
-    >
-      <Text
-        style={[
-          {
-            color: "#fff",
-            fontSize: 24,
-          },
-          mainStyle.mt24,
-        ]}
-      >
-       {index===0?headlines._paid:headlines._unPaid}
-      </Text>
+      }}>
+      <View style={{
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center"
+      }}>
+        <Text
+          style={[
+            {
+              color: "#fff",
+              fontSize: 24,
+            },
+            mainStyle.mt24,
+          ]}>
+          {index === 0 ? headlines._paid : headlines._unPaid}
+        </Text>
+        <Pressable onPress={()=>{
+          navigation.navigate("ComityProfile", { comityId: comityId });
+        }} style={{
+          flexDirection:"row",
+          alignItems:"center",
+          marginTop:20
+        }}>
+          <Text style={{
+            color:"#fff",
+            marginRight:10,
+            fontWeight:"500",
+            fontSize:16
+          }}>{headlines._seeProfile}</Text>
+          <SvgXml xml={ic}/>
+        </Pressable>
+      </View>
       <Input
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[

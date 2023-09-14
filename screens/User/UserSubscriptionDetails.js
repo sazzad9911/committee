@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import { get } from "../../apis/multipleApi";
 import loader from "../../data/loader";
+import CollectionCart from "../../components/cart/CollectionCart";
 const Tab = createMaterialTopTabNavigator();
 
 export default function UserSubscriptionDetails({ navigation, route }) {
@@ -31,15 +32,16 @@ export default function UserSubscriptionDetails({ navigation, route }) {
   const isFocused = useIsFocused();
   const user=useSelector(state=>state.user)
   const dispatch=useDispatch()
+  const [info,setInfo]=useState()
   
   useEffect(() => {
     fetch();
-  }, [isFocused]);
+  }, []);
   const fetch = async () => {
     dispatch(loader.show())
     try {
-      const res = await get(`/subs/get-subs-by-id/${data?.id}`,user.token);
-      setData(res.data.subscription);
+      const res = await get(`/subs/get-user-collections-by-sub/${data?.id}`,user.token);
+      setInfo(res.data.collections[0]);
       dispatch(loader.hide())
     } catch (e) {
       dispatch(loader.hide())
@@ -48,13 +50,19 @@ export default function UserSubscriptionDetails({ navigation, route }) {
   };
   return (
     <View style={{ flex: 1 }}>
-     <Header name={data.name} data={data}/>
+     <Header paid={data?.collections?.length>0&&data?.collections[0].paid} data={data}/>
+     <View style={{
+      marginTop:20
+     }}>
+      <CollectionCart data={info}/>
+     </View>
     </View>
   );
 }
 const Header = ({ searchIp, setSearch,name ,data,paid}) => {
     const ac = ["#1488CC", "#2B32B2"];
     const dc = ["#000", "#000"];
+    const un=["#E52D27", "#B31217"]
     const isDark = useSelector((state) => state.isDark);
     const inset = useSafeAreaInsets();
     const colors = new AppColors(isDark);
@@ -80,12 +88,12 @@ const Header = ({ searchIp, setSearch,name ,data,paid}) => {
         style={[
           {
             paddingHorizontal: 20,
-            paddingTop: 20 + inset?.top,
+            paddingTop: 10 + inset?.top,
             paddingBottom: 17,
           },
         ]}
         start={{ x: 0.2, y: 0 }}
-        colors={!isDark ? ac : dc}>
+        colors={!isDark ? paid?ac:un : dc}>
         <View
       style={{
         paddingHorizontal: 0,
@@ -102,16 +110,16 @@ const Header = ({ searchIp, setSearch,name ,data,paid}) => {
       </View>
       <View style={[mainStyle.flexBox]}>
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-          পরিমাণের লক্ষ{"    "}
+          {values.getValues()._ammoutSubs}{"    "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
             {data?.amount}
           </Text>
         </Text>
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-          {name}
+          {paid?values.getValues()._paid:values.getValues()._unPaid}
           {"   "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
-            {paid ? data?.collected : data?.due}
+            {data?.collections[0]?.amount}
           </Text>
         </Text>
       </View>

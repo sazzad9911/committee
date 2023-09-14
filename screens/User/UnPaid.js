@@ -26,7 +26,7 @@ export default function Unpaid({ navigation,route }) {
     dispatch(loader.show());
     get(`/subs/get-subs-by-user/${comityId}`, user.token)
       .then((res) => {
-        setCollections(res.data.subs);
+        setCollections(res.data.subs.filter(sub => !sub.collections[0].paid));
         dispatch(loader.hide());
       })
       .catch((err) => {

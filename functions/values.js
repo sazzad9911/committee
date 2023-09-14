@@ -304,7 +304,8 @@ export class AppValues {
           _amount: "পরিমাণ",
           _deleteSubscription:"চাঁদাটি সম্পূর্ণ ভাবে মুছে ফেলুন",
           _subsDeleteMessage:"চাঁদাটি সম্পুর্ন ভাবে মুছে ফেলেতে চাইলে নিশ্চিত করুন",
-          _subsMemberDeleteMessage:"সদস্যের লিস্ট থেকে চাঁদাটি মুছে ফেলার জন্য নিশ্চিত করুন"
+          _subsMemberDeleteMessage:"সদস্যের লিস্ট থেকে চাঁদাটি মুছে ফেলার জন্য নিশ্চিত করুন",
+          _seeProfile:"প্রোফাইল দেখুন"
         }
       : {
           write: "Write",
@@ -375,7 +376,8 @@ export class AppValues {
           _amount: "Amount",
           _deleteSubscription:"Delete this subscription",
           _subsDeleteMessage:"Confirm if you want to delete the subscription completely",
-          _subsMemberDeleteMessage:"Confirm to remove the subscription from the member list"
+          _subsMemberDeleteMessage:"Confirm to remove the subscription from the member list",
+          _seeProfile:"See Profile"
         };
   }
 }
