@@ -111,7 +111,7 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            {data ? data?.name : "Easin arafat aryan xyz.."}
+            {data?.name || data?.user?.name}
           </Text>
           <Text
             style={{
@@ -120,7 +120,16 @@ export default function UserProfile({ navigation, route }) {
               color: colors.getTextColor(),
             }}
           >
-            {data ? data?.gender : "Male"}
+            {data?.gender || data?.user?.gender}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "400",
+              color: colors.getTextColor(),
+            }}
+          >
+            {data?.position}
           </Text>
         </View>
         <View
@@ -158,7 +167,7 @@ export default function UserProfile({ navigation, route }) {
             style={{ paddingTop: 0 }}
             icon={call}
             title={headlines._mobile}
-            value={data?.phone || data?.user?.phone || "N/A"}
+            value={data?.mobile || data?.user?.mobile || "N/A"}
             type={"Private"}
             disableGo={true}
             Private={false}

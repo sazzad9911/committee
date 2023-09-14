@@ -44,7 +44,7 @@ export default function EditMemberInfo({ navigation, route }) {
   const handelSubmit = async () => {
     try {
       dispatch(loader.show());
-      await updateMember({
+      const { data } = await updateMember({
         name: name,
         category: position,
         position: explain,
@@ -58,7 +58,9 @@ export default function EditMemberInfo({ navigation, route }) {
       });
       dispatch(loader.hide());
       toast.success("Member updated successfully!");
-      navigation.goBack();
+      navigation.navigate("UserProfile", {
+        data: data.member,
+      });
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.msg);

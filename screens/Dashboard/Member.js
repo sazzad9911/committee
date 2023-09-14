@@ -42,10 +42,8 @@ export default function Member({ navigation, route }) {
     getMember();
   }, [isFocused]);
   const getMember = async () => {
-    
     const res = await get(`/member/get-all/${comity.id}`, user.token);
     setAllMember(res.data.members);
-   
   };
   useEffect(() => {
     if (allMember) {
@@ -57,7 +55,7 @@ export default function Member({ navigation, route }) {
             member?.user?.name?.toUpperCase().includes(searchIp?.toUpperCase())
         )
       );
-    }else{
+    } else {
       dispatch(loader.show());
     }
   }, [allMember, searchIp]);
@@ -74,7 +72,6 @@ export default function Member({ navigation, route }) {
                 navigation?.navigate("UserProfile", { data: doc })
               }
               onAdd={async () => {
-               
                 if (doc.status === "Accepted") {
                   dispatch(loader.show());
                   try {
@@ -95,7 +92,7 @@ export default function Member({ navigation, route }) {
                     dispatch(loader.hide());
                     dispatch(toast.error("Error loading"));
                   }
-                  return
+                  return;
                 }
                 dispatch(loader.show());
                 try {
@@ -112,9 +109,9 @@ export default function Member({ navigation, route }) {
               requested={doc.status === "Pending" ? true : false}
               accepted={doc.status === "Accepted" ? true : false}
               key={i}
-              offline={doc.userId?false:true}
-              name={doc.user ? doc.user.name : doc.name}
-              url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
+              offline={doc.userId ? false : true}
+              name={doc.name || doc.user?.name}
+              url={doc.profilePhoto || doc.user?.profilePhoto}
               borderColor={colors.getShadowColor()}
               backgroundColor={colors.getBackgroundColor()}
               textColor={colors.getTextColor()}
@@ -166,18 +163,21 @@ const Header = ({ searchIp, setSearch }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? ac : dc}>
+      colors={!isDark ? ac : dc}
+    >
       <View
         style={{
           justifyContent: "space-between",
           flexDirection: "row",
-        }}>
+        }}
+      >
         <Text
           style={{
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
-          }}>
+          }}
+        >
           {comityListText.totalMember}
           {"   "}
           <Text
@@ -185,7 +185,8 @@ const Header = ({ searchIp, setSearch }) => {
               fontSize: 20,
               fontWeight: "800",
               color: textColor,
-            }}>
+            }}
+          >
             2000
           </Text>
         </Text>
