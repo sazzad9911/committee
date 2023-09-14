@@ -66,6 +66,8 @@ import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
 import MemberSubs from "../screens/Dashboard/MemberSubs";
 import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
 import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
+import SubscriptionList from "../screens/User/SubscriptionList";
+import UserSubscriptionDetails from "../screens/User/UserSubscriptionDetails";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -140,8 +142,7 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -522,6 +523,13 @@ export default function MainRoute() {
               options={{
                 headerShown: false,
               }}
+              name="UserSubscriptionDetails"
+              component={UserSubscriptionDetails}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
               name="DeleteMemberCollection"
               component={DeleteMemberCollection}
             />
@@ -581,7 +589,13 @@ export default function MainRoute() {
                 ),
               }}
               name="EditMemberInfo"
-              component={EditMemberInfo}
+              component={EditMemberInfo}/>
+              <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Subscription List"
+              component={SubscriptionList}
             />
             {/* <Stack.Screen
               options={{
