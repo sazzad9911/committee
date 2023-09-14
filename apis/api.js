@@ -74,3 +74,6 @@ export const getUnpaidSubsByComityUser = (comityId, memberId) =>
   );
 export const getSummeryOfMembersCollections = (memberId) =>
   API.get(`/subs/get-collection-summery/${memberId}`);
+
+//Member
+export const updateMember = (formData) => API.put(`/member/update`, formData);

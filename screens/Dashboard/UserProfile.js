@@ -86,7 +86,13 @@ export default function UserProfile({ navigation, route }) {
               uri: "https://e0.pxfuel.com/wallpapers/932/376/desktop-wallpaper-stylish-boys-cool-d-profile-pics-for-facebook-whatsapp-pretty-boys.jpg",
             }}
           />
-          <SvgXml style={{ marginTop: 12 }} xml={edit} />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("EditMemberInfo", { member: data })
+            }
+          >
+            <SvgXml style={{ marginTop: 12 }} xml={edit} />
+          </TouchableOpacity>
         </View>
         <View
           style={{

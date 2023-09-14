@@ -65,6 +65,7 @@ import MemberPage from "../screens/Dashboard/MemberPage";
 import EditCommitteeInfo from "../screens/Dashboard/EditCommitteeInfo";
 import MemberSubs from "../screens/Dashboard/MemberSubs";
 import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
+import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -569,6 +570,18 @@ export default function MainRoute() {
               }}
               name="MemberSubDetails"
               component={MemberSubDetails}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._memberInfo}
+                    {...props}
+                  />
+                ),
+              }}
+              name="EditMemberInfo"
+              component={EditMemberInfo}
             />
             {/* <Stack.Screen
               options={{
