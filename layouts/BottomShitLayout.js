@@ -19,7 +19,8 @@ export default function BottomShitLayout({
   // variables
   const snapPoints = useMemo(() => ["25%", "50%", "75%","95%"], []);
 
-  // callbacks
+  // callbacks\
+  
   const handleSheetChanges = useCallback((index) => {
     console.log("handleSheetChanges", index);
     setIndex && setIndex(index);

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Alert, Image, Platform, ScrollView, Text, View,KeyboardAvoidingView } from "react-native";
+import {
+  Alert,
+  Image,
+  Platform,
+  ScrollView,
+  Text,
+  View,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -101,28 +109,30 @@ export default function CreateCommitteeNext({ navigation, route }) {
               }
             />
             <Button
-              onPress={async () => {
+              onPress={() => {
                 dispatch(loader.show());
-                try {
-                  const res = await createComity(
-                    name,
-                    mobile,
-                    division,
-                    district,
-                    area,
-                    address,
-                    about,
-                    user.token
-                  );
-                  dispatch(loader.hide());
-                  //console.log(res.data.comity);
-                  dispatch({ type: "SET_COMITY", value: res.data.comity });
-                  localStorage.storeData("SET_COMITY", res.data.comity);
-                  navigation.navigate("Profile") 
-                } catch (e) {
-                  Alert.alert(e.message);
-                  dispatch(loader.hide());
-                }
+                createComity(
+                  name,
+                  mobile,
+                  division,
+                  district,
+                  area,
+                  address,
+                  about,
+                  user.token
+                )
+                  .then((res) => {
+                    dispatch(loader.hide());
+                    //console.log(res.data.comity);
+                    dispatch({ type: "SET_COMITY", value: res.data.comity });
+                    localStorage.storeData("SET_COMITY", res.data.comity);
+                    navigation.navigate("Profile");
+                  })
+                  .catch((e) => {
+                    Alert.alert(e.response.data.msg);
+                    dispatch(loader.hide());
+                  });
+
                 //navigation?.navigate("CommitteeProfile")
               }}
               style={mainStyle.mt12}

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { createComity } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
+import InputButton from "../../components/main/InputButton";
 import TextArea from "../../components/main/TextArea";
 import { AreaList } from "../../data/area";
 import { DistrictList } from "../../data/district";
@@ -75,10 +76,11 @@ export default function CreateCommittee({ navigation }) {
             style={[mainStyle.mt12, { color: textColor }, mainStyle.subLevel]}>
             {createCommitteeValues.division}
           </Text>
-          <Input
+          <InputButton
             onPress={() => {
               setSelect("Division");
               setIndex(2);
+              
             }}
             outSideStyle={mainStyle.mt8}
             editable={false}
@@ -90,7 +92,7 @@ export default function CreateCommittee({ navigation }) {
               <Text style={[{ color: textColor }, mainStyle.subLevel]}>
                 {createCommitteeValues.district}
               </Text>
-              <Input
+              <InputButton
                 editable={false}
                 onPress={() => {
                   setSelect("District");
@@ -105,7 +107,7 @@ export default function CreateCommittee({ navigation }) {
               <Text style={[{ color: textColor }, mainStyle.subLevel]}>
                 {createCommitteeValues.thana}
               </Text>
-              <Input
+              <InputButton
                 editable={false}
                 onPress={() => {
                   setSelect("Thana");
@@ -122,16 +124,16 @@ export default function CreateCommittee({ navigation }) {
           onChange={setAddress}
             outSideStyle={mainStyle.mt12}
             level={`${createCommitteeValues.address} `}
-            optionalLevel={createCommitteeValues.required}
+            optionalLevel={createCommitteeValues.notRequired}
             placeholder={createCommitteeValues.write}
           />
 
           <Button
             disabled={
-              name && mobile && division && district && area&&address ? false : true
+              name && mobile && division && district && area ? false : true
             }
             active={
-              name && mobile && division && district && area &&address? true : false
+              name && mobile && division && district && area ? true : false
             }
             onPress={async () => {
               navigation?.navigate("CreateCommitteeNext", {
@@ -151,6 +153,7 @@ export default function CreateCommittee({ navigation }) {
       }
       index={index}
       setIndex={setIndex}
+      scrollable={true}
       component={
         select == "Division" ? (
           <Screen
@@ -208,7 +211,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
         }}>
         {type ? type : "Division"}
       </Text>
-      <BottomSheetScrollView
+      <View
         contentContainerStyle={{
           
         }}>
@@ -256,17 +259,17 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
               {select == doc && <SvgXml xml={tick} />}
             </Pressable>
           ))}
-      </BottomSheetScrollView>
-      {/* <Button active={select?true:false}
+      </View>
+      <Button active={select?true:false}
         onPress={onClose}
         style={{
-          marginVertical: 8,
+          marginVertical: 24,
           backgroundColor: "#4ADE80",
           marginHorizontal: 8,
           color: "white",
         }}
         title={"Done"}
-      /> */}
+      />
     </View>
   );
 };
