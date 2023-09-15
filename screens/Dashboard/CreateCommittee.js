@@ -153,6 +153,7 @@ export default function CreateCommittee({ navigation }) {
       }
       index={index}
       setIndex={setIndex}
+      scrollable={true}
       component={
         select == "Division" ? (
           <Screen
@@ -210,7 +211,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
         }}>
         {type ? type : "Division"}
       </Text>
-      <BottomSheetScrollView
+      <View
         contentContainerStyle={{
           
         }}>
@@ -258,17 +259,17 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
               {select == doc && <SvgXml xml={tick} />}
             </Pressable>
           ))}
-      </BottomSheetScrollView>
-      {/* <Button active={select?true:false}
+      </View>
+      <Button active={select?true:false}
         onPress={onClose}
         style={{
-          marginVertical: 8,
+          marginVertical: 24,
           backgroundColor: "#4ADE80",
           marginHorizontal: 8,
           color: "white",
         }}
         title={"Done"}
-      /> */}
+      />
     </View>
   );
 };
