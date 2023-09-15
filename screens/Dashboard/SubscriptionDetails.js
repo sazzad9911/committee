@@ -33,20 +33,20 @@ export default function SubscriptionDetails({ navigation, route }) {
   const borderColor = colors.getBorderColor();
   const [data, setData] = useState(route?.params?.data);
   const isFocused = useIsFocused();
-  const user=useSelector(state=>state.user)
-  const dispatch=useDispatch()
-  
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetch();
   }, [isFocused]);
   const fetch = async () => {
-    dispatch(loader.show())
+    dispatch(loader.show());
     try {
-      const res = await get(`/subs/get-subs-by-id/${data?.id}`,user.token);
+      const res = await get(`/subs/get-subs-by-id/${data?.id}`, user.token);
       setData(res.data.subscription);
-      dispatch(loader.hide())
+      dispatch(loader.hide());
     } catch (e) {
-      dispatch(loader.hide())
+      dispatch(loader.hide());
       console.error(e.message);
     }
   };
@@ -76,7 +76,8 @@ export default function SubscriptionDetails({ navigation, route }) {
             }
             {...props}
           />
-        )}>
+        )}
+      >
         <Tab.Screen
           initialParams={{
             subscriptionId: data.id,
@@ -142,7 +143,8 @@ const Header = ({
       }}
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <View style={[mainStyle.flexBox]}>
         <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
           {data?.name}

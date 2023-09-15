@@ -9,6 +9,7 @@ import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import { deleteSubs } from "../../apis/api";
 
 export default function EditSubscription({ navigation, route }) {
   const { isDark, user, comity } = useSelector((state) => state);
@@ -44,11 +45,27 @@ export default function EditSubscription({ navigation, route }) {
         dispatch(loader.hide());
       });
   };
-  const style={
-    color:"green",
-    fontSize:20,
-    fontWeight:"400"
-  }
+  const style = {
+    color: "green",
+    fontSize: 20,
+    fontWeight: "400",
+  };
+
+  const handelDelete = async () => {
+    console.log(data);
+    try {
+      dispatch(loader.show());
+      await deleteSubs(data?.id);
+      dispatch(toast.success("Subscription deleted successfully"));
+      navigation.pop(3);
+    } catch (error) {
+      console.log(error);
+      dispatch(toast.error(error?.response?.data?.msg));
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <ScrollView showsHorizontalScrollIndicator={false}>
       <View style={[mainStyle.pdH20, mainStyle.mt24]}>
@@ -80,21 +97,8 @@ export default function EditSubscription({ navigation, route }) {
           onPress={() => {
             navigation.navigate("DeleteConfirmation", {
               title: values.getValues()._subsDeleteMessage,
-              style:style,
-              onPress: () => {
-                dispatch(loader.show());
-                deletes(`/subs/delete/subs/${data.id}`,user.token)
-                  .then((res) => {
-                    dispatch(loader.hide());
-                    dispatch(
-                      toast.success("Subscription deleted successfully")
-                    );
-                  })
-                  .catch((e) => {
-                    dispatch(loader.hide());
-                    dispatch(toast.error(e.response.data.msg));
-                  });
-              },
+              style: style,
+              onPress: () => handelDelete(),
             });
           }}
           style={{
@@ -110,5 +114,3 @@ export default function EditSubscription({ navigation, route }) {
     </ScrollView>
   );
 }
-
-

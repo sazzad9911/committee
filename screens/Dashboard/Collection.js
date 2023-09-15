@@ -12,6 +12,7 @@ import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Collection({ navigation }) {
   const ref = useRef();
@@ -27,24 +28,25 @@ export default function Collection({ navigation }) {
   const borderColor = colors.getBorderColor();
   const backgroundColor = colors.getBackgroundColor();
   const [collectionList, setCollectionList] = useState();
+  const isFocus = useIsFocused();
 
+  const fetch = async () => {
+    dispatch(loader.show());
+    try {
+      const res = await get(
+        `/subs/get-comity-collections/${comity.id}`,
+        user.token
+      );
+      dispatch(loader.hide());
+      setCollectionList(res.data.collections);
+    } catch (e) {
+      dispatch(loader.hide());
+      dispatch(toast.error("Error loading"));
+    }
+  };
   useEffect(() => {
-    const fetch = async () => {
-      dispatch(loader.show());
-      try {
-        const res = await get(
-          `/subs/get-comity-collections/${comity.id}`,
-          user.token
-        );
-        dispatch(loader.hide());
-        setCollectionList(res.data.collections);
-      } catch (e) {
-        dispatch(loader.hide());
-        dispatch(toast.error("Error loading"));
-      }
-    };
     fetch();
-  }, []);
+  }, [isFocus]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
@@ -57,7 +59,8 @@ export default function Collection({ navigation }) {
               color: textColor,
               marginTop: 20,
               marginBottom: 14,
-            }}>
+            }}
+          >
             {headlines._latestCollection}
           </Text>
           <Button
@@ -78,11 +81,16 @@ export default function Collection({ navigation }) {
             textColor={textColor}
             borderColor={borderColor}
             data={doc}
+            onPress={() => {
+              navigation.navigate("MemberSubDetails", {
+                subscriptionId: doc.subscriptionId,
+                memberId: doc.memberId,
+              });
+            }}
           />
         ))}
         <View style={{ height: 32 }} />
       </ScrollView>
-
     </View>
   );
 }

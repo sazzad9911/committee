@@ -127,4 +127,4 @@ const Header = ({ textColor, borderColor, headlines }) => {
     </View>
   );
 };
-export default Subscription
+export default Subscription;

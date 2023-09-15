@@ -75,5 +75,10 @@ export const getUnpaidSubsByComityUser = (comityId, memberId) =>
 export const getSummeryOfMembersCollections = (memberId) =>
   API.get(`/subs/get-collection-summery/${memberId}`);
 
+export const deleteCollection = (collectionId) =>
+  API.delete(`/subs/delete/collection/${collectionId}`);
+
+export const deleteSubs = (subsId) => API.delete(`/subs/delete/subs/${subsId}`);
+
 //Member
 export const updateMember = (formData) => API.put(`/member/update`, formData);
