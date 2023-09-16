@@ -68,6 +68,7 @@ import MemberSubDetails from "../screens/Dashboard/MemberSubDetails";
 import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
 import SubscriptionList from "../screens/User/SubscriptionList";
 import UserSubscriptionDetails from "../screens/User/UserSubscriptionDetails";
+import Reset from "../screens/Authentication/Reset";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -159,14 +160,25 @@ export default function MainRoute() {
                 component={comity ? DashboardRoute : UserTabRoute}
               />
             ) : (
-              <Stack.Screen
-                options={{
-                  //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
-                  headerShown: false,
-                }}
-                name="SignIn"
-                component={SignIn}
-              />
+              <>
+                <Stack.Screen
+                  options={{
+                    //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
+                    headerShown: false,
+                  }}
+                  name="SignIn"
+                  component={SignIn}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader title={"User Information"} {...props} />
+                    ),
+                  }}
+                  name="Information"
+                  component={Information}
+                />
+              </>
             )}
 
             <Stack.Screen
@@ -239,15 +251,7 @@ export default function MainRoute() {
               name="Otp"
               component={Otp}
             />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"User Information"} {...props} />
-                ),
-              }}
-              name="Information"
-              component={Information}
-            />
+
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -256,6 +260,15 @@ export default function MainRoute() {
               }}
               name="Recovery"
               component={Recovery}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Recovery Account"} {...props} />
+                ),
+              }}
+              name="Reset"
+              component={Reset}
             />
 
             <Stack.Screen
@@ -589,8 +602,9 @@ export default function MainRoute() {
                 ),
               }}
               name="EditMemberInfo"
-              component={EditMemberInfo}/>
-              <Stack.Screen
+              component={EditMemberInfo}
+            />
+            <Stack.Screen
               options={{
                 headerShown: false,
               }}

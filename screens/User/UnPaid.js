@@ -6,6 +6,7 @@ import { get } from "../../apis/multipleApi";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import Avatar from "../../components/main/Avatar";
 import FloatingButton from "../../components/main/FloatingButton";
+import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
 import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
@@ -17,13 +18,13 @@ export default function Unpaid({ navigation,route }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
-  const [collections, setCollections] = React.useState([]);
+  const [collections, setCollections] = React.useState();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { comityId } = route?.params;
 
   useEffect(() => {
-    dispatch(loader.show());
+    !collections&& dispatch(loader.show());
     get(`/subs/get-subs-by-user/${comityId}`, user.token)
       .then((res) => {
         setCollections(res.data.subs.filter(sub => !sub.collections[0].paid));
@@ -39,7 +40,7 @@ export default function Unpaid({ navigation,route }) {
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        {collections.map((doc, i) => (
+        {collections?.map((doc, i) => (
           <SubscriptionCard
             data={doc}
             key={i}
@@ -48,7 +49,11 @@ export default function Unpaid({ navigation,route }) {
             }}
             title={doc.name}
           />
+
         ))}
+        {collections?.length===0&&(
+          <NoOption/>
+        )}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

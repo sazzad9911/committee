@@ -18,6 +18,7 @@ import { CheckBox } from "../../components/main/CheckBox";
 import Input from "../../components/main/Input";
 import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
+import localStorage from "../../functions/localStorage";
 
 export default function Information({ navigation, route }) {
   const [visible, setVisible] = React.useState(false);
@@ -90,10 +91,11 @@ export default function Information({ navigation, route }) {
           .then((res) => {
             dispatch(loader.hide());
             //console.log(res);
-            if (res) {
-              dispatch({ type: "SET_USER", value: res });
-              //navigation.navigate("Feed");
-            }
+            dispatch({ type: "SET_USER", value: res });
+            
+            localStorage.login(res);
+            navigation.navigate("Dashboard");
+            //navigation.navigate("Feed");
           })
           .catch((err) => {
             dispatch(loader.hide());
@@ -111,8 +113,7 @@ export default function Information({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
-    >
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.mt37, { paddingHorizontal: 20 }]}>
           <Text style={[styles.label, { color: textColor }]}>Your name</Text>
@@ -129,13 +130,11 @@ export default function Information({ navigation, route }) {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <Text
               style={{
                 color: "red",
-              }}
-            >
+              }}>
               {nameError}
             </Text>
             <Text style={{ color: textColor }}>min 4 max 20 character</Text>
@@ -147,13 +146,11 @@ export default function Information({ navigation, route }) {
                 justifyContent: "space-between",
               },
               styles.mt20,
-            ]}
-          >
+            ]}>
             <View
               style={{
                 width: width / 2 - 36,
-              }}
-            >
+              }}>
               <Text style={[styles.label, { color: textColor }]}>Gender</Text>
               <Menu
                 contentStyle={{
@@ -172,8 +169,7 @@ export default function Information({ navigation, route }) {
                     color={"#000"}
                     placeholderTextColor={"#a3a3a3"}
                   />
-                }
-              >
+                }>
                 <Menu.Item
                   onPress={() => {
                     setGender("Male");
@@ -200,8 +196,7 @@ export default function Information({ navigation, route }) {
             <View
               style={{
                 width: width / 2 - 36,
-              }}
-            >
+              }}>
               <Text style={[styles.label, { color: textColor }]}>Age</Text>
               <Input
                 value={age}
@@ -231,13 +226,11 @@ export default function Information({ navigation, route }) {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             <Text
               style={{
                 color: "red",
-              }}
-            >
+              }}>
               {userNameError}
             </Text>
             <Text style={{ color: textColor }}>min 4 max 20 character</Text>
@@ -273,15 +266,13 @@ export default function Information({ navigation, route }) {
           style={{
             paddingVertical: 20,
             paddingHorizontal: 20,
-          }}
-        >
+          }}>
           <View
             style={{
               flexDirection: "row",
               marginBottom: 10,
               flex: 1,
-            }}
-          >
+            }}>
             <CheckBox
               value={check}
               onChange={() => {
@@ -294,8 +285,7 @@ export default function Information({ navigation, route }) {
                 color: textColor,
                 fontSize: 14,
                 width: "90%",
-              }}
-            >
+              }}>
               I agree with all of Comity's{" "}
               <Text style={{ color: "#7566FF", fontWeight: "400" }}>
                 Terms of Service

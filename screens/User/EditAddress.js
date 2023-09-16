@@ -40,23 +40,24 @@ export default function EditLocation({ navigation }) {
   const [layoutHeight, setLayoutHeight] = useState(0);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const [division, setDivision] = useState();
-  const [district, setDistrict] = useState();
-  const [area, setArea] = useState();
-  const [address, setAddress] = useState();
+  const user = useSelector((state) => state.user);
+  const [division, setDivision] = useState(user?.user?.address?.division);
+  const [district, setDistrict] = useState(user?.user?.address?.district);
+  const [area, setArea] = useState(user?.user?.address?.area);
+  const [address, setAddress] = useState(user?.user?.address?.address);
   const [index, setIndex] = useState(-1);
   const bottomSheetRef = useRef(null);
   const [select, setSelect] = useState();
   const [districtError, setDistrictError] = useState();
   const [areaError, setAreaError] = useState();
   // variables
-  const user = useSelector((state) => state.user);
+  
   const snapPoints = useMemo(() => ["70%"], []);
   const handleSheetChanges = useCallback((index) => {
     //console.log('handleSheetChanges', index);
     setIndex(index);
   }, []);
-  //console.log(user?.user)
+  //console.log(user?.user?.address)
   const openMenu = () => setVisible(true);
 
   const closeMenu = () => setVisible(false);

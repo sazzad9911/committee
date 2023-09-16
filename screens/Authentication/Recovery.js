@@ -16,6 +16,7 @@ import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
 import { sendRecoverOtp } from "../../apis/api";
 import loader from "../../data/loader";
+import toast from "../../data/toast";
 
 export default function Recovery({ navigation, route }) {
   const [number, setNumber] = useState();
@@ -29,10 +30,12 @@ export default function Recovery({ navigation, route }) {
     try {
       dispatch(loader.show());
       await sendRecoverOtp({ phone: number });
-      Alert.alert("OTP sent successfully!");
+     
+      dispatch(toast.success("OTP sent successfully!"));
+      navigation?.navigate('Otp',{ number: number,reset:true })
     } catch (error) {
       console.log(error);
-      Alert.alert(error?.response?.data?.msg);
+      dispatch(toast.error(error?.response?.data?.msg));
     } finally {
       dispatch(loader.hide());
     }
@@ -42,14 +45,12 @@ export default function Recovery({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
-    >
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingHorizontal: 20,
-          }}
-        >
+          }}>
           {/* <Image width={"100%"} style={[signUpStyle.mt28,{
             height:253,
             width:"100%"
@@ -59,13 +60,11 @@ export default function Recovery({ navigation, route }) {
               signUpStyle.headLine,
               signUpStyle.mt44,
               { color: textColor },
-            ]}
-          >
+            ]}>
             Enter Your Phone Number
           </Text>
           <Text
-            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}
-          >
+            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}>
             Your privacy is important to us. Rest assured, your number will only
             be used for verification purposes.{" "}
           </Text>
@@ -74,7 +73,7 @@ export default function Recovery({ navigation, route }) {
             keyboardType={"number-pad"}
             value={number}
             onChange={setNumber}
-            containerStyle={[signUpStyle.input, signUpStyle.mt18]}
+            //containerStyle={[signUpStyle.input, signUpStyle.mt18]}
             placeholder={"01*********"}
           />
         </View>

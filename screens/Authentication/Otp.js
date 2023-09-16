@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
-import { checkOTP, resetUser, sendOTP } from "../../apis/authApi";
+import { checkOTP, checkResetUser, resetUser, sendOTP } from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
@@ -65,7 +65,7 @@ export default function Otp({ navigation, route }) {
       .then((res) => {
         setLoader(false);
         //console.log(res.data);
-        navigation.navigate("Recovery",{token:res.data?.token,username:res.data?.username})
+        navigation.navigate("Reset",{token:res.data?.token,username:res.data?.username})
         //console.log(res.data);
       })
       .catch((err) => {

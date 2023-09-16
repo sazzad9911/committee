@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ScrollView, View, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +7,7 @@ import { get } from "../../apis/multipleApi";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import Avatar from "../../components/main/Avatar";
 import FloatingButton from "../../components/main/FloatingButton";
+import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
 import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
@@ -17,14 +19,20 @@ export default function Paid({ navigation,route }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
-  const [collections, setCollections] = React.useState([]);
+  const [collections, setCollections] = React.useState();
   const dispatch=useDispatch()
   const user = useSelector((state) => state.user);
   const {comityId}=route?.params;
+  const isFocused=useIsFocused()
 
 
   useEffect(() => {
-    dispatch(loader.show())
+    if(collections){
+      dispatch(loader.hide())
+    }else{
+      dispatch(loader.show())
+    }
+   
     get(`/subs/get-subs-by-user/${comityId}`, user.token)
       .then((res) => {
         setCollections(res.data.subs.filter(sub => sub.collections[0].paid));
@@ -34,14 +42,14 @@ export default function Paid({ navigation,route }) {
         dispatch(loader.hide())
         console.error(err.message);
       });
-  }, []);
+  }, [isFocused]);
 
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        {collections.map((collection, index) => (
+        {collections?.map((collection, index) => (
           <SubscriptionCard
             textColor={textColor}
             borderColor={borderColor}
@@ -53,6 +61,9 @@ export default function Paid({ navigation,route }) {
             }}
           />
         ))}
+        {collections?.length===0&&(
+          <NoOption/>
+        )}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

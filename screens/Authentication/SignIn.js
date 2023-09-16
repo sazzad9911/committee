@@ -92,7 +92,7 @@ const LogIn = ({ navigation }) => {
             <Text style={[styles.lebel, { color: textColor }]}>Username</Text>
             <Input
               autoCapitalize={"none"}
-              style={{ color: "#000" }}
+              //style={{ color: "#000" }}
               onSubmitEditing={() => {
                 if (passRef) {
                   passRef.current.focus();
@@ -103,7 +103,7 @@ const LogIn = ({ navigation }) => {
               value={Email}
               onChange={setEmail}
               placeholder={" "}
-              containerStyle={styles.input}
+              //containerStyle={styles.input}
             />
             <View style={{ height: 20 }} />
             <Text style={[styles.lebel, { color: textColor }]}>Password</Text>
@@ -112,13 +112,13 @@ const LogIn = ({ navigation }) => {
                 login();
               }}
               secureTextEntry={true}
-              style={{ color: "#000" }}
+             // style={{ color: "#000" }}
               returnKeyType={"go"}
               innerRef={passRef}
               value={Password}
               onChange={setPassword}
               placeholder={" "}
-              containerStyle={styles.input}
+              ///containerStyle={styles.input}
             />
             <View
               style={{
@@ -178,7 +178,7 @@ const LogIn = ({ navigation }) => {
           <View style={[mainStyle.flexBox,{justifyContent:"center"}]}>
             <Text onPress={()=>{
               navigation.navigate("ContactUs")
-            }} style={[mainStyle.text14]}>Contact Us</Text>
+            }} style={[mainStyle.text14,{color:textColor}]}>Contact Us</Text>
           </View>
         </View>
       </ScrollView>
