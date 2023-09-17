@@ -178,18 +178,51 @@ export default function MainRoute() {
                   name="Information"
                   component={Information}
                 />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader
+                        title={"Phone Number Verification"}
+                        {...props}
+                      />
+                    ),
+                  }}
+                  name="SignUp"
+                  component={SignUp}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader
+                        title={"Phone Number Verification"}
+                        {...props}
+                      />
+                    ),
+                  }}
+                  name="Otp"
+                  component={Otp}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader title={"Recovery Account"} {...props} />
+                    ),
+                  }}
+                  name="Recovery"
+                  component={Recovery}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader title={"Recovery Account"} {...props} />
+                    ),
+                  }}
+                  name="Reset"
+                  component={Reset}
+                />
               </>
             )}
 
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Phone Number Verification"} {...props} />
-                ),
-              }}
-              name="SignUp"
-              component={SignUp}
-            />
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -241,34 +274,6 @@ export default function MainRoute() {
               }}
               name="Legal"
               component={Legal}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Phone Number Verification"} {...props} />
-                ),
-              }}
-              name="Otp"
-              component={Otp}
-            />
-
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Recovery Account"} {...props} />
-                ),
-              }}
-              name="Recovery"
-              component={Recovery}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Recovery Account"} {...props} />
-                ),
-              }}
-              name="Reset"
-              component={Reset}
             />
 
             <Stack.Screen

@@ -57,7 +57,7 @@ export default function CommitteeList({navigation}) {
       try {
         const all = await get("/auth/get-comities", user.token);
         setData(all.data.comities);
-        
+        dispatch(loader.hide());
       } catch (e) {
         dispatch(loader.hide());
         console.error(e.message);
