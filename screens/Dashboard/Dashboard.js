@@ -65,8 +65,9 @@ const Header = ({ textColor, borderColor, headlines }) => {
 
   const fetchData = async () => {
     try {
-      const { data } = getBalance(comity.id);
-      setBalance(data.balance);
+      const { data } = await getBalance(comity.id);
+      setBalance(data.balance?.balance);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
