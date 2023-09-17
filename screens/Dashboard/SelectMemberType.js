@@ -42,7 +42,7 @@ export default function SelectMemberType({navigation,route}) {
             navigation.navigate("CreateOwnMember",{
               subscription:subscription,
               data:data,
-              paid:paid
+              paid:paid 
             })
         }} style={mainStyle.mt12} title={headlines._createMemberOwn} active={true}/>
         <ReadMoreComponent textColor={colors.getTextColor()}/>

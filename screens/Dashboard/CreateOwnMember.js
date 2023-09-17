@@ -216,7 +216,7 @@ export default function CreateOwnMember({ navigation, route }) {
                     paid:paid
                   });
                 }
-                navigation.goBack();
+                navigation.navigate("Member");
               } catch (e) {
                 dispatch(loader.hide());
                 console.error(e.message);

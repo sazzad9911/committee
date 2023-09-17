@@ -377,7 +377,8 @@ export class AppValues {
           _deleteSubscription:"Delete this subscription",
           _subsDeleteMessage:"Confirm if you want to delete the subscription completely",
           _subsMemberDeleteMessage:"Confirm to remove the subscription from the member list",
-          _seeProfile:"See Profile"
+          _seeProfile:"See Profile",
+          
         };
   }
 }
