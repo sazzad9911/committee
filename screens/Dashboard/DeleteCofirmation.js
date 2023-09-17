@@ -16,12 +16,14 @@ export default function DeleteConfirmation({ navigation,route }) {
   const onPress=route?.params?.onPress;
   const title=route?.params?.title;
   const style=route?.params?.style;
+  const option=route?.params?.option;
 
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[{ flex: 1 },mainStyle.pdH20]}>
         <Text style={[mainStyle.mt32,mainStyle.level,{color:"#f00"},style]}>{title?title:headlines._deleteCofirmation}</Text>
+        {option}
         <Button onPress={onPress} style={mainStyle.mt32} active={true} title={headlines._ok}/>
         <ReadMoreComponent/>
       </View>

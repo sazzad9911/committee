@@ -21,15 +21,15 @@ export default function RadioButton({ title, value, onChange, style }) {
         onChange && onChange();
         setOpen((v) => !v);
       }}
-      style={mainStyle.flexBox}>
+      style={[mainStyle.flexBox,{justifyContent:"flex-start"}]}>
       <View
         style={[
           {
-            height: 16,
-            width: 16,
+            height: 18,
+            width: 18,
             borderWidth: 1.5,
             borderColor:isDark? "#fff":"rgba(0, 0, 0, 0.2)",
-            borderRadius: 8,
+            borderRadius: 9,
             marginRight: 10,
             justifyContent:"center",
             alignItems:"center",

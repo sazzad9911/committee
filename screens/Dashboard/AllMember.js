@@ -64,6 +64,7 @@ export default function AllMember({ navigation, route }) {
       );
     }
   }, [allMember, searchIp]);
+  
 
   return (
     <HidableHeaderLayout
@@ -84,6 +85,21 @@ export default function AllMember({ navigation, route }) {
             sortedMember?.map((doc, i) => (
               <MemberCard
                 onAdd={async () => {
+                  if(doc?.alreadyMember){
+                    dispatch(loader.show())
+                    return post(`/member/request/reject`,{
+                      userId:doc.id,
+                      comityId:comity.id
+                    },user.token).then(res=>{
+                      dispatch(loader.hide())
+                      
+                      dispatch(toast.success("Request rejected"));
+                      getRandomMember()
+                    }).catch(err=>{
+                      dispatch(loader.hide())
+                      dispatch(toast.error(err.response.data.msg))
+                    })
+                  }
                   navigation?.navigate("AddMember", { data: doc });
                   return;
                   //problem
@@ -103,8 +119,9 @@ export default function AllMember({ navigation, route }) {
                   }
                 }}
                 onProfile={() => {
-                  console.log(doc);
-                  //navigation?.navigate("UserProfile", { data: doc });
+                  //console.log(doc);
+                  return
+                  navigation?.navigate("UserProfile", { data: doc });
                 }}
                 requested={doc?.alreadyMember ? true : false}
                 key={i}

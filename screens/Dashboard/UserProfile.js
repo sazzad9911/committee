@@ -29,6 +29,11 @@ import SquireCard from "../../components/cart/SquireCard";
 import FlatCard from "../../components/cart/FlatCard";
 import ProfilePicture from "../../components/main/ProfilePicture";
 import { AppValues } from "../../functions/values";
+import loader from "../../data/loader";
+import { deletes, post } from "../../apis/multipleApi";
+import toast from "../../data/toast";
+import RadioButton from "../../components/main/RadioButton";
+import mainStyle from "../../styles/mainStyle";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -44,8 +49,11 @@ export default function UserProfile({ navigation, route }) {
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
   const headlines = values.getValues();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  
 
-  // console.log(data);
+  //console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
     subContainer: {
@@ -65,15 +73,13 @@ export default function UserProfile({ navigation, route }) {
         paddingTop: inset?.top,
         alignItems: "center",
         backgroundColor: colors.getBackgroundColor(),
-      }}
-    >
+      }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <SvgXml
             onPress={() => navigation.goBack()}
             style={{ marginTop: 12 }}
@@ -83,14 +89,15 @@ export default function UserProfile({ navigation, route }) {
             containerStyle={{ marginTop: 12 }}
             edit={false}
             source={{
-              uri: "https://e0.pxfuel.com/wallpapers/932/376/desktop-wallpaper-stylish-boys-cool-d-profile-pics-for-facebook-whatsapp-pretty-boys.jpg",
+              uri: data?.profilePhoto
+                ? data?.profilePhoto
+                : data.user?.profilePhoto,
             }}
           />
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("EditMemberInfo", { member: data })
-            }
-          >
+            }>
             <SvgXml style={{ marginTop: 12 }} xml={edit} />
           </TouchableOpacity>
         </View>
@@ -100,8 +107,7 @@ export default function UserProfile({ navigation, route }) {
             alignItems: "center",
             flex: 1,
             paddingHorizontal: 40,
-          }}
-        >
+          }}>
           <Text
             numberOfLines={1}
             style={{
@@ -109,8 +115,7 @@ export default function UserProfile({ navigation, route }) {
               fontWeight: "500",
               flex: 1,
               color: colors.getTextColor(),
-            }}
-          >
+            }}>
             {data?.name || data?.user?.name}
           </Text>
           <Text
@@ -118,8 +123,7 @@ export default function UserProfile({ navigation, route }) {
               fontSize: 16,
               fontWeight: "400",
               color: colors.getTextColor(),
-            }}
-          >
+            }}>
             {data?.gender || data?.user?.gender}
           </Text>
           <Text
@@ -127,8 +131,7 @@ export default function UserProfile({ navigation, route }) {
               fontSize: 16,
               fontWeight: "400",
               color: colors.getTextColor(),
-            }}
-          >
+            }}>
             {data?.position}
           </Text>
         </View>
@@ -137,8 +140,7 @@ export default function UserProfile({ navigation, route }) {
             flexDirection: "row",
             marginTop: 20,
             justifyContent: "center",
-          }}
-        >
+          }}>
           <SquireCard
             onPress={() => {
               navigation.navigate("MemberSubs", {
@@ -150,14 +152,16 @@ export default function UserProfile({ navigation, route }) {
             icon={cart}
           />
 
-          <SquireCard
-            onPress={() => {}}
-            style={{
-              marginHorizontal: 24,
-            }}
-            title={"Message"}
-            icon={love}
-          />
+          {data.userId && (
+            <SquireCard
+              onPress={() => {}}
+              style={{
+                marginHorizontal: 24,
+              }}
+              title={"Message"}
+              icon={love}
+            />
+          )}
         </View>
         <View style={styles.subContainer}>
           <FlatCard
@@ -198,32 +202,54 @@ export default function UserProfile({ navigation, route }) {
           />
         </View>
         <View style={[styles.subContainer, { marginBottom: 20 }]}>
-          <FlatCard
-            onPress={() => {
-              navigation.navigate("DeleteConfirmation");
-            }}
-            icon={noteIcon}
-            title={"Remove this account from Comity"}
-            type={""}
-            color="red"
-            style={{
-              borderBottomWidth: 0,
-              paddingTop: 0,
-              paddingBottom: 0,
-              color: "red",
-            }}
-          />
+          {data?.userId ? (
+            <FlatCard
+              onPress={() => {
+                navigation.navigate("DeleteMemberConfirmation", {data:data});
+              }}
+              icon={noteIcon}
+              title={headlines._deleteThisAccount}
+              type={""}
+              color="red"
+              style={{
+                borderBottomWidth: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                color: "red",
+              }}
+            />
+          ) : (
+            <FlatCard
+              onPress={() => {
+                navigation.navigate("MemberList", { id: data.id });
+              }}
+              icon={addIcon}
+              title={headlines._addHisComityAccount}
+              type={""}
+              color="red"
+              style={{
+                borderBottomWidth: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                color: "red",
+              }}
+            />
+          )}
         </View>
       </ScrollView>
     </View>
   );
 }
 
-const noteIcon = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="28" height="28" rx="4" fill="#FF0000"/>
+const noteIcon = `<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="24" height="26" rx="4" fill="#FF0000"/>
+<path d="M20 5H16L14.8571 4H9.14286L8 5H4V7H20M5.14286 20C5.14286 20.5304 5.38367 21.0391 5.81233 21.4142C6.24098 21.7893 6.82236 22 7.42857 22H16.5714C17.1776 22 17.759 21.7893 18.1877 21.4142C18.6163 21.0391 18.8571 20.5304 18.8571 20V8H5.14286V20Z" fill="white"/>
+</svg>
+`;
+const addIcon = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="28" height="28" rx="4" fill="#65C466"/>
 <path d="M14 4C8.47826 4 4 8.47826 4 14C4 19.5217 8.47826 24 14 24C19.5217 24 24 19.5217 24 14C24 8.47826 19.5217 4 14 4ZM14.8043 22.2174C14.7609 22.2174 14.7174 22.2174 14.6522 22.2391V17.5217C15.7826 17.5 16.8043 17.4783 17.7391 17.413C16.913 19.9565 15.3696 21.6522 14.8043 22.2174ZM13.1957 22.2174C12.6087 21.6304 11.087 19.9348 10.2609 17.413C11.1739 17.4783 12.2174 17.5217 13.3478 17.5217V22.2391C13.3043 22.2391 13.2609 22.2174 13.1957 22.2174ZM5.73913 14C5.73913 13.4565 5.80435 12.913 5.8913 12.3913C6.36957 12.3043 7.28261 12.1739 8.56522 12.0435C8.45652 12.6739 8.3913 13.3261 8.3913 14.0217C8.3913 14.7174 8.45652 15.3696 8.54348 15.9783C7.28261 15.8478 6.34783 15.7174 5.86957 15.6304C5.80435 15.087 5.73913 14.5435 5.73913 14ZM9.71739 14C9.71739 13.2609 9.80435 12.5652 9.93478 11.913C10.9348 11.8478 12.0652 11.7826 13.3478 11.7826V16.2174C12.087 16.1957 10.9348 16.1522 9.91304 16.0652C9.80435 15.4348 9.71739 14.7391 9.71739 14ZM14.7826 5.78261C15.3696 6.36957 16.8696 8.1087 17.7174 10.587C16.8043 10.5217 15.7826 10.4783 14.6522 10.4783V5.76087C14.6957 5.76087 14.7391 5.78261 14.7826 5.78261ZM13.3478 5.76087V10.4783C12.2174 10.5 11.1957 10.5217 10.2826 10.587C11.1087 8.1087 12.6304 6.36957 13.1957 5.78261C13.2609 5.78261 13.3043 5.76087 13.3478 5.76087ZM14.6522 16.2174V11.7826C15.913 11.8043 17.0652 11.8478 18.0652 11.913C18.1957 12.5652 18.2826 13.2609 18.2826 14C18.2826 14.7391 18.2174 15.4348 18.087 16.087C17.087 16.1522 15.9348 16.1957 14.6522 16.2174ZM19.413 12.0435C20.6957 12.1739 21.6087 12.3043 22.087 12.3913C22.1957 12.913 22.2609 13.4565 22.2609 14C22.2609 14.5435 22.1957 15.087 22.1087 15.6087C21.6304 15.6957 20.7174 15.8261 19.4348 15.9565C19.5435 15.3261 19.587 14.6739 19.587 13.9783C19.587 13.3261 19.5217 12.6522 19.413 12.0435ZM21.6957 11C21.087 10.913 20.2174 10.8043 19.1087 10.6957C18.587 8.82609 17.6739 7.32609 16.913 6.26087C19.1087 7.08696 20.8478 8.82609 21.6957 11ZM11.087 6.26087C10.3043 7.30435 9.41304 8.80435 8.8913 10.6739C7.80435 10.7609 6.93478 10.8913 6.30435 10.9783C7.15217 8.82609 8.91304 7.08696 11.087 6.26087ZM6.30435 17C6.91304 17.087 7.78261 17.1957 8.86957 17.3043C9.3913 19.1739 10.2609 20.6739 11.0435 21.7174C8.86957 20.8696 7.15217 19.1522 6.30435 17ZM16.9565 21.7174C17.7391 20.6739 18.6087 19.1957 19.1304 17.3261C20.2174 17.2391 21.087 17.1087 21.6957 17.0217C20.8478 19.1522 19.1304 20.8696 16.9565 21.7174Z" fill="white"/>
 </svg>
-
 `;
 
 const cart = `<svg width="57" height="52" viewBox="0 0 57 52" fill="none" xmlns="http://www.w3.org/2000/svg">

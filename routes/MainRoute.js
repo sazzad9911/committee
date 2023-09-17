@@ -69,6 +69,8 @@ import EditMemberInfo from "../screens/Dashboard/EditMemberInfo";
 import SubscriptionList from "../screens/User/SubscriptionList";
 import UserSubscriptionDetails from "../screens/User/UserSubscriptionDetails";
 import Reset from "../screens/Authentication/Reset";
+import MemberList from "../screens/Dashboard/MemberList";
+import DeleteMemberConfirmation from "../screens/Dashboard/DeleteMemberConfirmation";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -616,15 +618,25 @@ export default function MainRoute() {
               name="Subscription List"
               component={SubscriptionList}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
+              options={{
+                headerShown:false,
+              }}
+              name="MemberList"
+              component={MemberList}
+            />
+            <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={headlines._deleteConfirmation} {...props} />
+                  <BackHeader
+                    title={values.getValues()._account}
+                    {...props}
+                  />
                 ),
               }}
-              name="DeleteConfirmation"
-              component={DeleteConfirmation}
-            /> */}
+              name="DeleteMemberConfirmation"
+              component={DeleteMemberConfirmation}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>

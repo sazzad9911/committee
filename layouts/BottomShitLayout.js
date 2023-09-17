@@ -10,7 +10,8 @@ export default function BottomShitLayout({
   component,
   scrollable,
   screen,
-  ref
+  ref,
+  bottom
 }) {
   // ref
   const bottomSheetRef = useRef(null);
@@ -34,6 +35,7 @@ export default function BottomShitLayout({
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         {screen}
       </ScrollView>
+      {bottom}
       {index!=-1&&(<View  style={{flex:1,position:"absolute",backgroundColor:colors.getSchemeColor(),width:Dimensions.get("window").width,height:Dimensions.get("window").height,opacity:.1}}></View>)}
       <BottomSheet
       handleIndicatorStyle={{backgroundColor:colors.getBorderColor()}}
@@ -51,6 +53,7 @@ export default function BottomShitLayout({
           component
         )}
       </BottomSheet>
+      
     </KeyboardAvoidingView>
   );
 }

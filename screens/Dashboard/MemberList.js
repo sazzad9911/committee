@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deletes, get, post } from "../../apis/multipleApi";
 import MemberCard from "../../components/cart/MemberCard";
 import SheetCard from "../../components/cart/SheetCard";
+import BackHeader from "../../components/main/BackHeader";
 import Button from "../../components/main/Button";
 import FloatingButton from "../../components/main/FloatingButton";
 import Input from "../../components/main/Input";
@@ -22,7 +23,7 @@ import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
 
-export default function Member({ navigation, route }) {
+export default function MemberList({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const inset = useSafeAreaInsets();
   const colors = new AppColors(isDark);
@@ -39,19 +40,18 @@ export default function Member({ navigation, route }) {
   const [searchIp, setSearch] = useState("");
   const isFocused = useIsFocused();
   const [index, setIndex] = useState(-1);
-  
+  const id=route?.params?.id;
+  //console.log(comity.id);
 
   useEffect(() => {
-    !allMember&&dispatch(loader.show());
     getMember();
   }, [isFocused]);
   const getMember = async () => {
     const res = await get(`/member/get-all/${comity.id}`, user.token);
-    setAllMember(res.data.members);
-    dispatch(loader.hide());
+    setAllMember(res.data.members.filter((m) => m.user));
   };
   useEffect(() => {
-    if (allMember&&searchIp) {
+    if (allMember) {
       dispatch(loader.hide());
       setSortedMember(
         allMember.filter(
@@ -60,123 +60,67 @@ export default function Member({ navigation, route }) {
             member?.user?.name?.toUpperCase().includes(searchIp?.toUpperCase())
         )
       );
-    } else{
-      setSortedMember(allMember)
+    } else {
+      dispatch(loader.show());
     }
   }, [allMember, searchIp]);
 
-  const Bottom = () => {
-    return (
-      <View
-        style={{
-          paddingHorizontal: 16,
-        }}>
-        <Text
-          style={[
-            mainStyle.level,
-            { color: colors.getTextColor(), textAlign: "center" },
-          ]}>
-          {headlines._choose}
-        </Text>
-        <View style={{ height: 24 }} />
-        <SheetCard title={"All Member"} />
-        <SheetCard title={"Special Member"} />
-        <SheetCard title={"General Member"} />
-        <SheetCard title={"Only Female"} />
-        <SheetCard title={"Only Male"} />
-        <SheetCard title={"Within 1-20 years"} />
-        <SheetCard title={"Within 21-40 years"} />
-        <SheetCard title={"Within 41-60 years"} />
-        <SheetCard title={"Within 61-80 years"} />
-      </View>
-    );
-  };
-
   return (
-    <BottomShitLayout index={index} setIndex={setIndex}
-      screen={
-        <HidableHeaderLayout
-          header={
-            <Header
-              number={allMember ? allMember.length : "0"}
-              searchIp={searchIp}
-              setSearch={setSearch}
-              setIndex={setIndex}
+    <HidableHeaderLayout
+      header={
+        <Header
+          number={allMember ? allMember.length : "0"}
+          searchIp={searchIp}
+          setSearch={setSearch}
+          setIndex={setIndex}
+          navigation={navigation}
+        />
+      }
+      component={
+        <View>
+          {sortedMember?.map((doc, i) => (
+            <MemberCard
+              //onPress={() => navigation?.navigate("AddMember")}
+              onPress={() => {
+                dispatch(loader.show());
+                post(
+                  "/member/attach",
+                  {
+                    offlineMemberId: id,
+                    onlineMemberId: doc.id,
+                  },
+                  user.token
+                )
+                  .then((res) => {
+                    dispatch(loader.hide());
+                    dispatch(toast.success("Attachment successful"));
+                    navigation.navigate("Member")
+                  })
+                  .catch((err) => {
+                    dispatch(loader.hide());
+                    dispatch(toast.error(err.response.data.msg));
+                  });
+              }}
+              requested={doc.status === "Pending" ? true : false}
+              accepted={doc.status === "Accepted" ? true : false}
+              key={i}
+              offline={doc.userId ? false : true}
+              name={doc.name || doc.user?.name}
+              url={doc.profilePhoto || doc.user?.profilePhoto}
+              borderColor={colors.getShadowColor()}
+              backgroundColor={colors.getBackgroundColor()}
+              textColor={colors.getTextColor()}
             />
-          }
-          component={
-            <View>
-              {sortedMember?.map((doc, i) => (
-                <MemberCard
-                  //onPress={() => navigation?.navigate("AddMember")}
-                  onPress={() =>
-                    navigation?.navigate("UserProfile", { data: doc })
-                  }
-                  onAdd={async () => {
-                    if (doc.status === "Accepted") {
-                      dispatch(loader.show());
-                      try {
-                        const res = await post(
-                          "/chat/conversation/create",
-                          {
-                            userId: doc.userId,
-                            comityId: doc.comityId,
-                          },
-                          user.token
-                        );
-                        navigation.navigate("ChatScreen", {
-                          conversationId: res.data.conversation.id,
-                        });
-                        dispatch(loader.hide());
-                      } catch (e) {
-                        console.error(e.message);
-                        dispatch(loader.hide());
-                        dispatch(toast.error("Error loading"));
-                      }
-                      return;
-                    }
-                    dispatch(loader.show());
-                    try {
-                      await deletes(`/member/delete/${doc.id}`, user.token);
-                      dispatch(loader.hide());
-                      dispatch(toast.success("Member deleted"));
-                      getMember();
-                    } catch (e) {
-                      dispatch(loader.hide());
-                      dispatch(toast.error("Request failed"));
-                      console.error(e);
-                    }
-                  }}
-                  requested={doc.status === "Pending" ? true : false}
-                  accepted={doc.status === "Accepted" ? true : false}
-                  key={i}
-                  offline={doc.userId ? false : true}
-                  name={doc.name || doc.user?.name}
-                  url={doc.profilePhoto || doc.user?.profilePhoto}
-                  borderColor={colors.getShadowColor()}
-                  backgroundColor={colors.getBackgroundColor()}
-                  textColor={colors.getTextColor()}
-                />
-              ))}
-              {sortedMember?.length == 0 && (
-                <NoOption title={"Ops!"} subTitle={"Member not found"} />
-              )}
-            </View>
-          }
-          
-        />
+          ))}
+          {sortedMember?.length == 0 && (
+            <NoOption title={"Ops!"} subTitle={"Member not found"} />
+          )}
+        </View>
       }
-      bottom={
-        <FloatingButton
-          icon={plus}
-          onPress={() => navigation.navigate("SelectMemberType")}
-        />
-      }
-      component={<Bottom/>}
     />
   );
 }
-const Header = ({ searchIp, setSearch, number,setIndex }) => {
+const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const isDark = useSelector((state) => state.isDark);
@@ -199,12 +143,8 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
   }"/>
   </svg>  
   `;
-  const filter = `<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M2.14272 0C2.67195 0 3.19921 0 3.72844 0C3.73043 4.81762 3.72646 9.63524 3.73043 14.4529C4.07334 14.0541 4.41625 13.6577 4.7552 13.2566C5.13181 13.6878 5.50446 14.1236 5.87314 14.5641C4.89594 15.7117 3.91675 16.857 2.93756 18C1.96036 16.8524 0.977205 15.7094 0 14.5618C0.370664 14.126 0.74331 13.6901 1.11794 13.2566C1.45689 13.653 1.7998 14.0495 2.14073 14.4459C2.1447 9.6306 2.14073 4.8153 2.14272 0Z" fill="white"/>
-  <path d="M6.89844 0C10.5991 0 14.2978 0 17.9985 0C17.9985 0.619011 17.9985 1.2357 17.9985 1.85471C14.2978 1.85471 10.5991 1.85471 6.89844 1.85471C6.89844 1.2357 6.89844 0.619011 6.89844 0Z" fill="white"/>
-  <path d="M6.89844 4.63672C9.80627 4.63672 12.7121 4.63672 15.6199 4.63672C15.6199 5.25573 15.6199 5.87242 15.6199 6.49143C12.7121 6.49143 9.80627 6.49143 6.89844 6.49143C6.89844 5.87242 6.89844 5.25573 6.89844 4.63672Z" fill="white"/>
-  <path d="M6.89844 9.27344C9.0134 9.27344 11.1264 9.27344 13.2414 9.27344C13.2414 9.89245 13.2414 10.5091 13.2414 11.1282C11.1264 11.1282 9.0134 11.1282 6.89844 11.1282C6.89844 10.5091 6.89844 9.89245 6.89844 9.27344Z" fill="white"/>
-  <path d="M6.89844 13.9102C8.22054 13.9102 9.54066 13.9102 10.8628 13.9102C10.8628 14.5292 10.8628 15.1459 10.8628 15.7649C9.54066 15.7649 8.22054 15.7649 6.89844 15.7649C6.89844 15.1459 6.89844 14.5292 6.89844 13.9102Z" fill="white"/>
+  const icon = `<svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M9 16.5L1.5 9L9 1.5" stroke="${textColor}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
   return (
@@ -213,37 +153,43 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
       style={[
         {
           paddingHorizontal: 20,
-          paddingTop: 20 + inset?.top,
+          paddingTop: inset?.top,
           paddingBottom: 17,
         },
       ]}
       start={{ x: 0.2, y: 0 }}
       colors={!isDark ? ac : dc}>
       <View
-        style={{
-          justifyContent: "space-between",
-          flexDirection: "row",
-        }}>
-        <Text
+        style={[
+          {
+            flexDirection: "row",
+            paddingHorizontal: 0,
+            paddingVertical: 12,
+            alignItems: "center",
+            justifyContent: "center",
+          },
+        ]}>
+        <Pressable
+          onPress={() => {
+            navigation?.goBack();
+          }}
           style={{
-            color: "#B0B0B0",
-            fontSize: 16,
-            fontWeight: "500",
+            position: "absolute",
+            zIndex: 100,
+            left: 0,
           }}>
-          {comityListText.totalMember}
-          {"   "}
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "800",
-              color: textColor,
-            }}>
-            {number}
-          </Text>
-        </Text>
-        <Pressable onPress={()=>setIndex(2)}>
-          <SvgXml xml={filter} />
+          <SvgXml xml={icon} />
         </Pressable>
+        <Text
+          numberOfLines={1}
+          style={{
+            fontSize: 20,
+            fontWeight: "500",
+            color: textColor,
+            maxWidth: width - 100,
+          }}>
+          {values.getValues()._allMember}
+        </Text>
       </View>
       <Input
         value={searchIp}

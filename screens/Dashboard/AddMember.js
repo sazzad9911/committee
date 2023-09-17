@@ -82,7 +82,7 @@ export default function AddMember({ navigation, route }) {
                 user.token
               );
               dispatch(loader.hide());
-              dispatch(toast.success("Member Created"));
+              dispatch(toast.success("Request send"));
               navigation.goBack();
             } catch (e) {
               dispatch(loader.hide());

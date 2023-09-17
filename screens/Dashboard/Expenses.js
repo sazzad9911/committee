@@ -29,8 +29,9 @@ export default function Expenses({ navigation }) {
   const isFocus = useIsFocused();
 
   React.useEffect(() => {
+    !data&&dispatch(loader.show());
     const fetch = async () => {
-      dispatch(loader.show());
+      
       const res = await get(`/comity/expense/get/${comity.id}`, user.token);
       //console.log(res.data.expenses);
       dispatch(loader.hide());

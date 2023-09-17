@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
 const { width, height } = Dimensions.get("window");
 
-export default function BackHeader({title,onPress,navigation}) {
+export default function BackHeader({title,onPress,navigation,style}) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
@@ -18,19 +18,19 @@ export default function BackHeader({title,onPress,navigation}) {
 `;
   return (
     <View
-      style={{
+      style={[{
         paddingTop: inset?.top,
         backgroundColor: backgroundColor,
-      }}>
+      }]}>
       <View
-        style={{
+        style={[{
           flexDirection: "row",
           paddingHorizontal: 20,
           paddingVertical: 12,
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: backgroundColor,
-        }}>
+        },style]}>
         <Pressable onPress={()=>{
             if(onPress){
                 onPress()
