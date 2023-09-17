@@ -12,6 +12,9 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import AllCollections from "./AllCollections";
 import AllExpenses from "./AllExpenses";
+import { useIsFocused } from "@react-navigation/native";
+import { getBalance } from "../../apis/api";
+
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +28,7 @@ export default function Dashboard() {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
-  
+
   return (
     <Tab.Navigator
       tabBar={(props) => (
@@ -42,12 +45,12 @@ export default function Dashboard() {
           }
           {...props}
         />
-      )}>
+      )}
+    >
       <Tab.Screen name={headlines._collection} component={Collection} />
       <Tab.Screen name={headlines._expenses} component={Expenses} />
     </Tab.Navigator>
   );
-  
 }
 
 const Header = ({ textColor, borderColor, headlines }) => {
@@ -57,6 +60,23 @@ const Header = ({ textColor, borderColor, headlines }) => {
   const year = newDate.getFullYear();
   const scrollValue = useSelector((state) => state.scrollValue);
   const comity = useSelector((state) => state.comity);
+  const isFocused = useIsFocused();
+  const [balance, setBalance] = useState(comity?.balance || 0);
+
+  const fetchData = async () => {
+    try {
+      const { data } = await getBalance(comity.id);
+      setBalance(data.balance?.balance);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [isFocused]);
+
   return (
     <MotiView
       style={{
@@ -69,12 +89,14 @@ const Header = ({ textColor, borderColor, headlines }) => {
       }}
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <Text
         style={{
           fontSize: 16,
           color: "#B0B0B0",
-        }}>
+        }}
+      >
         {headlines?._currentBalance}
       </Text>
       <Text
@@ -82,15 +104,17 @@ const Header = ({ textColor, borderColor, headlines }) => {
           fontSize: 40,
           fontWeight: "800",
           color: "#fff",
-        }}>
-        {comity?.balance}
+        }}
+      >
+        {balance}
       </Text>
       <Text
         style={{
           fontSize: 16,
           color: "#fff",
-        }}>
-       {new Date(comity?.updatedAt).toDateString()}
+        }}
+      >
+        {new Date(comity?.updatedAt).toDateString()}
       </Text>
     </MotiView>
   );
