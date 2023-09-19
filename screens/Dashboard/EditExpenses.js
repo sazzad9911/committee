@@ -22,6 +22,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { deleteExpense, updateExpense } from "../../apis/api";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppValues } from "../../functions/values";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function EditExpenses({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -43,19 +44,17 @@ export default function EditExpenses({ navigation, route }) {
   const dispatch = useDispatch();
   const { user, comity } = useSelector((state) => state);
   //console.log(new Date().toISOString());
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
   };
 
-  const showDatepicker = () => {
-    showMode("date");
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
+  const handleConfirm = (date) => {
+    setDate(date);
+    hideDatePicker();
   };
 
   const calender = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +103,9 @@ export default function EditExpenses({ navigation, route }) {
         <Pressable
           onPress={async () => {
             navigation.navigate("DeleteConfirmation", {
-              title: values.getValues()._subsMemberDeleteMessage,
+              title: isBn
+                ? "খরচটি মুছে ফেলতে নিশ্চিত করুন"
+                : "Confirm to delete this expense",
               onPress: () => handelDelete(),
             });
           }}
@@ -164,23 +165,30 @@ export default function EditExpenses({ navigation, route }) {
           </View>
         </Pressable> */}
 
-        <Button
-          editable={false}
-          title={date?.toDateString()}
-          placeholder={"yyyy/mm/dd"}
-          onPress={showDatepicker}
-        />
-
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            onChange={onChange}
-            display="inline"
-          />
-        )}
+        <Pressable onPress={showDatePicker}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              borderWidth: 1,
+              marginVertical: 5,
+              borderRadius: 4,
+              minHeight: 45,
+              paddingHorizontal: 10,
+              backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
+            }}
+          >
+            <SvgXml xml={calender} />
+            <Text
+              style={{
+                color: textColor,
+                marginLeft: 5,
+              }}
+            >
+              {date?.toDateString()}
+            </Text>
+          </View>
+        </Pressable>
       </ScrollView>
 
       <Button
@@ -194,6 +202,12 @@ export default function EditExpenses({ navigation, route }) {
           width: Dimensions.get("window").width - 40,
         }}
         title={"Confirm"}
+      />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
       />
     </KeyboardAvoidingView>
   );
