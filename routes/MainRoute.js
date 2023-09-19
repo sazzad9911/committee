@@ -71,6 +71,7 @@ import UserSubscriptionDetails from "../screens/User/UserSubscriptionDetails";
 import Reset from "../screens/Authentication/Reset";
 import MemberList from "../screens/Dashboard/MemberList";
 import DeleteMemberConfirmation from "../screens/Dashboard/DeleteMemberConfirmation";
+import EditExpenses from "../screens/Dashboard/EditExpenses";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -145,7 +146,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -502,6 +504,15 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
+                  <BackHeader title={"Edit Expense"} {...props} />
+                ),
+              }}
+              name="EditExpenses"
+              component={EditExpenses}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
                   <BackHeader
                     title={values.getHeadLines().notification}
                     {...props}
@@ -620,7 +631,7 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false,
+                headerShown: false,
               }}
               name="MemberList"
               component={MemberList}
@@ -628,10 +639,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader
-                    title={values.getValues()._account}
-                    {...props}
-                  />
+                  <BackHeader title={values.getValues()._account} {...props} />
                 ),
               }}
               name="DeleteMemberConfirmation"

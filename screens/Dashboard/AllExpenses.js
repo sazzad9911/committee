@@ -40,11 +40,15 @@ export default function AllExpenses({ navigation, route }) {
   const [dateSorted, setDateSorted] = useState();
   const [sorted, setSorted] = useState(data);
   const [text, setText] = useState();
-  useEffect(()=>{
-    setSorted(data.filter(d=>d.name.toUpperCase().includes(text?text.toUpperCase():"")))
-  },[text])
+  useEffect(() => {
+    setSorted(
+      data.filter((d) =>
+        d.name.toUpperCase().includes(text ? text.toUpperCase() : "")
+      )
+    );
+  }, [text]);
 
-  const Header = ({ color, style,text,setText }) => (
+  const Header = ({ color, style, text, setText }) => (
     <LinearGradient
       // Button Linear Gradient
       style={[
@@ -56,14 +60,16 @@ export default function AllExpenses({ navigation, route }) {
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
+    >
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
         <Text
           style={{
             fontSize: 24,
             fontWeight: "500",
             color: textColor,
-          }}>
+          }}
+        >
           {headlines._allExpenses}
         </Text>
         <View style={[mainStyle.flexBox]}>
@@ -84,7 +90,8 @@ export default function AllExpenses({ navigation, route }) {
           <Pressable
             onPress={() => {
               setIndex(1);
-            }}>
+            }}
+          >
             <SvgXml xml={sort} />
           </Pressable>
         </View>
@@ -107,7 +114,7 @@ export default function AllExpenses({ navigation, route }) {
       />
     </LinearGradient>
   );
-  const Component = ({sorted}) => {
+  const Component = ({ sorted }) => {
     return (
       <View style={{ marginVertical: 14 }}>
         {sorted?.map((doc, i) => (
@@ -117,6 +124,7 @@ export default function AllExpenses({ navigation, route }) {
             data={doc}
             textColor={textColor}
             borderColor={borderColor}
+            navigation={navigation}
           />
         ))}
       </View>
@@ -127,12 +135,14 @@ export default function AllExpenses({ navigation, route }) {
       <View
         style={{
           paddingHorizontal: 16,
-        }}>
+        }}
+      >
         <Text
           style={[
             mainStyle.level,
             { color: colors.getTextColor(), textAlign: "center" },
-          ]}>
+          ]}
+        >
           {headlines._choose}
         </Text>
         <View style={{ height: 24 }} />
@@ -152,7 +162,10 @@ export default function AllExpenses({ navigation, route }) {
       index={index}
       setIndex={setIndex}
       screen={
-        <HidableHeaderLayout header={<Header text={text} setText={setText} />} component={<Component />} />
+        <HidableHeaderLayout
+          header={<Header text={text} setText={setText} />}
+          component={<Component sorted={sorted} />}
+        />
       }
       component={<Bottom />}
     />

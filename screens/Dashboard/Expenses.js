@@ -29,9 +29,8 @@ export default function Expenses({ navigation }) {
   const isFocus = useIsFocused();
 
   React.useEffect(() => {
-    !data&&dispatch(loader.show());
+    !data && dispatch(loader.show());
     const fetch = async () => {
-      
       const res = await get(`/comity/expense/get/${comity.id}`, user.token);
       //console.log(res.data.expenses);
       dispatch(loader.hide());
@@ -50,11 +49,12 @@ export default function Expenses({ navigation }) {
               color: textColor,
               marginTop: 20,
               marginBottom: 14,
-            }}>
+            }}
+          >
             {headlines._latestExpenses}
           </Text>
           <Button
-            onPress={() => navigation?.navigate("AllExpenses",{data:data})}
+            onPress={() => navigation?.navigate("AllExpenses", { data: data })}
             style={{
               borderWidth: 0,
             }}
@@ -69,6 +69,7 @@ export default function Expenses({ navigation }) {
             textColor={textColor}
             borderColor={borderColor}
             data={doc}
+            navigation={navigation}
           />
         ))}
         {data?.length == 0 && <NoOption />}
