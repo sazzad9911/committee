@@ -19,7 +19,9 @@ import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
 import { post } from "../../apis/multipleApi";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { updateExpense } from "../../apis/api";
+import { deleteExpense, updateExpense } from "../../apis/api";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AppValues } from "../../functions/values";
 
 export default function EditExpenses({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -31,9 +33,12 @@ export default function EditExpenses({ navigation, route }) {
   const [date, setDate] = useState(
     data.date ? new Date(data.date) : new Date()
   );
+  const inset = useSafeAreaInsets();
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const textColor = colors.getTextColor();
+  const isBn = useSelector((state) => state.isBn);
+  const values = new AppValues(isBn);
 
   const dispatch = useDispatch();
   const { user, comity } = useSelector((state) => state);
@@ -59,7 +64,6 @@ export default function EditExpenses({ navigation, route }) {
 `;
 
   const save = async () => {
-    console.log(data.id);
     dispatch(loader.show());
     try {
       await updateExpense({
@@ -77,6 +81,19 @@ export default function EditExpenses({ navigation, route }) {
     }
   };
 
+  const handelDelete = async () => {
+    try {
+      dispatch(loader.show());
+      await deleteExpense(data.id);
+      navigation.pop(2);
+    } catch (error) {
+      console.log(error);
+      dispatch(toast.error(error?.response?.data?.msg));
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
@@ -84,6 +101,21 @@ export default function EditExpenses({ navigation, route }) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
     >
       <ScrollView style={mainStyle.pdH20} showsVerticalScrollIndicator={false}>
+        <Pressable
+          onPress={async () => {
+            navigation.navigate("DeleteConfirmation", {
+              title: values.getValues()._subsMemberDeleteMessage,
+              onPress: () => handelDelete(),
+            });
+          }}
+          style={{
+            position: "absolute",
+            right: 20,
+            top: 0,
+          }}
+        >
+          <SvgXml xml={deleteIcon} />
+        </Pressable>
         <Input
           value={name}
           onChange={setName}
@@ -166,3 +198,8 @@ export default function EditExpenses({ navigation, route }) {
     </KeyboardAvoidingView>
   );
 }
+
+const deleteIcon = `<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 1H12L10.8571 0H5.14286L4 1H0V3H16M1.14286 16C1.14286 16.5304 1.38367 17.0391 1.81233 17.4142C2.24098 17.7893 2.82236 18 3.42857 18H12.5714C13.1776 18 13.759 17.7893 14.1877 17.4142C14.6163 17.0391 14.8571 16.5304 14.8571 16V4H1.14286V16Z" fill="white"/>
+</svg>
+`;

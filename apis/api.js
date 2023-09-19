@@ -41,6 +41,8 @@ export const searchComities = (q) => API.get(`/comity/search?q=${q}`);
 export const getComityById = (comityId) => API.get(`/comity/get/${comityId}`);
 export const getBalance = (comityId) =>
   API.get(`/comity/get-balance/${comityId}`);
+export const deleteExpense = (expenseId) =>
+  API.delete(`/comity/expense/delete/${expenseId}`);
 
 //Auth
 export const updateProfile = (formData) =>
