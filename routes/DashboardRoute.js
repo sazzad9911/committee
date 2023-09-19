@@ -13,6 +13,7 @@ import DashboardRoutes from './ExpenseRoutes';
 import Message from './Message';
 import Subscription from '../screens/Dashboard/Subscription';
 import CommitteeProfile from '../screens/Dashboard/CommitteeProfile';
+import DashboardSubscription from '../screens/Dashboard/Subscription';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,11 +23,12 @@ export default function DashboardRoute() {
       headerShown:false,
     }} >
      
-     <Tab.Screen name="Subscription" component={Subscription} />
-      <Tab.Screen name="Inbox" component={Message} />
+     <Tab.Screen name="Subscription" component={DashboardSubscription} />
+     
       {/* <Tab.Screen name="Notification" component={Notification} /> */}
       <Tab.Screen name="Member" component={Member} />
       <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Inbox" component={Message} />
       <Tab.Screen name="Profile" component={CommitteeProfile} />
     </Tab.Navigator>
   )

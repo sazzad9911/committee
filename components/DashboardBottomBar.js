@@ -36,7 +36,7 @@ export default function DashboardBottomBar({ navigation, state }) {
   };
   React.useEffect(() => {
     //console.log(props.state.index);
-
+    //console.log(state.routeNames);
     //setRoute(state.index);
     press(route);
     //press(state.index);
@@ -157,7 +157,7 @@ const dashboardAc=`<svg width="19" height="18" viewBox="0 0 19 18" fill="none" x
           style={style.buttons}
           onPress={() => {
             setRoute(0);
-            navigation?.navigate("Subscription");
+            navigation?.navigate(state.routeNames[0]);
           }}>
           <SvgXml xml={route == 0 ? subsActiveIcon : subsIcon} />
           <Text style={style.text}>
@@ -168,7 +168,7 @@ const dashboardAc=`<svg width="19" height="18" viewBox="0 0 19 18" fill="none" x
           style={style.buttons}
           onPress={() => {
             setRoute(1);
-            navigation?.navigate("Member");
+            navigation?.navigate(state.routeNames[1]);
           }}>
           <SvgXml xml={route == 1 ? memberAc : member} />
           <Text style={style.text}>
@@ -179,7 +179,7 @@ const dashboardAc=`<svg width="19" height="18" viewBox="0 0 19 18" fill="none" x
           style={style.buttons}
           onPress={() => {
             setRoute(2);
-            navigation?.navigate("Dashboard");
+            navigation?.navigate(state.routeNames[2]);
           }}>
           <SvgXml style={{margin:2}} xml={route == 2 ? dashboardAc : dashboard} />
           <Text style={style.text}>
@@ -191,7 +191,7 @@ const dashboardAc=`<svg width="19" height="18" viewBox="0 0 19 18" fill="none" x
           style={style.buttons}
           onPress={() => {
             setRoute(3);
-            navigation?.navigate("Inbox");
+            navigation?.navigate(state.routeNames[3]);
           }}>
           <SvgXml xml={route == 3 ? inboxActiveIcon : inboxIcon} />
           <Text style={style.text}>
@@ -202,7 +202,7 @@ const dashboardAc=`<svg width="19" height="18" viewBox="0 0 19 18" fill="none" x
           style={[style.buttons]}
           onPress={() => {
             setRoute(4);
-            navigation?.navigate("Profile");
+            navigation?.navigate(state.routeNames[4]);
           }}>
           <SvgXml xml={route == 4 ? profileActiveIcon : profileIcon} />
           <Text style={style.text}>

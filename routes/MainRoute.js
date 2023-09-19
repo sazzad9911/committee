@@ -161,7 +161,7 @@ export default function MainRoute() {
                   headerShown: false,
                 }}
                 name="Dashboard"
-                component={comity ? DashboardRoute : UserTabRoute}
+                component={comity?DashboardRoute:UserTabRoute}
               />
             ) : (
               <>

@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 //   return <ComitySubscriptionRoute />;
 // }
 
-function Subscription({ navigation }) {
+function DashboardSubscription({ navigation }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
@@ -127,4 +127,4 @@ const Header = ({ textColor, borderColor, headlines }) => {
     </View>
   );
 };
-export default Subscription;
+export default DashboardSubscription;

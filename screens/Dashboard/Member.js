@@ -229,6 +229,7 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
+
           }}>
           {comityListText.totalMember}
           {"   "}
@@ -236,7 +237,7 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
             style={{
               fontSize: 20,
               fontWeight: "800",
-              color: textColor,
+              color: "#fff",
             }}>
             {number}
           </Text>

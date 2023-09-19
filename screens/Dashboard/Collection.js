@@ -31,7 +31,7 @@ export default function Collection({ navigation }) {
   const isFocus = useIsFocused();
 
   const fetch = async () => {
-    dispatch(loader.show());
+    !collectionList&&dispatch(loader.show());
     try {
       const res = await get(
         `/subs/get-comity-collections/${comity.id}`,
@@ -48,9 +48,10 @@ export default function Collection({ navigation }) {
     fetch();
   }, [isFocus]);
 
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
-      <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
           <Text
             style={{

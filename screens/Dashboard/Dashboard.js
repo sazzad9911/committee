@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import TabBarLayout from "../../layouts/TabBarLayout";
 import { useSelector } from "react-redux";
-import { MotiView } from "moti";
 import mainStyle from "../../styles/mainStyle";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
@@ -14,6 +13,7 @@ import AllCollections from "./AllCollections";
 import AllExpenses from "./AllExpenses";
 import { useIsFocused } from "@react-navigation/native";
 import { getBalance } from "../../apis/api";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,8 +45,7 @@ export default function Dashboard() {
           }
           {...props}
         />
-      )}
-    >
+      )}>
       <Tab.Screen name={headlines._collection} component={Collection} />
       <Tab.Screen name={headlines._expenses} component={Expenses} />
     </Tab.Navigator>
@@ -62,12 +61,13 @@ const Header = ({ textColor, borderColor, headlines }) => {
   const comity = useSelector((state) => state.comity);
   const isFocused = useIsFocused();
   const [balance, setBalance] = useState(comity?.balance || 0);
+  const inset=useSafeAreaInsets()
 
   const fetchData = async () => {
     try {
       const { data } = await getBalance(comity.id);
       setBalance(data.balance?.balance);
-      console.log(data);
+      //console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -77,26 +77,20 @@ const Header = ({ textColor, borderColor, headlines }) => {
     fetchData();
   }, [isFocused]);
 
+
   return (
-    <MotiView
+    <View
       style={{
         justifyContent: "center",
         alignItems: "center",
+        paddingTop:inset?.top
       }}
-      animate={{
-        height: 150 - scrollValue,
-        overflow: "hidden",
-      }}
-      transition={{
-        type: "timing",
-      }}
-    >
+      >
       <Text
         style={{
           fontSize: 16,
           color: "#B0B0B0",
-        }}
-      >
+        }}>
         {headlines?._currentBalance}
       </Text>
       <Text
@@ -104,18 +98,16 @@ const Header = ({ textColor, borderColor, headlines }) => {
           fontSize: 40,
           fontWeight: "800",
           color: "#fff",
-        }}
-      >
+        }}>
         {balance}
       </Text>
       <Text
         style={{
           fontSize: 16,
           color: "#fff",
-        }}
-      >
+        }}>
         {new Date(comity?.updatedAt).toDateString()}
       </Text>
-    </MotiView>
+    </View>
   );
 };
