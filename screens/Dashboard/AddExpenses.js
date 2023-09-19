@@ -108,7 +108,7 @@ export default function AddExpenses({ navigation }) {
           }}>
           Date *
         </Text>
-        {/* <Pressable onPress={showDatepicker}>
+        <Pressable onPress={showDatePicker}>
           <View
             style={{
               flexDirection: "row",
@@ -121,22 +121,24 @@ export default function AddExpenses({ navigation }) {
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
             }}
           >
+            <SvgXml xml={calender}/>
             <Text
               style={{
                 color: textColor,
+                marginLeft:5
               }}
             >
               {date?.toDateString()}
             </Text>
           </View>
-        </Pressable> */}
+        </Pressable>
 
-        <Button
+        {/* <Button
           editable={false}
           title={date?.toDateString()}
           placeholder={"yyyy/mm/dd"}
           onPress={showDatePicker}
-        />
+        /> */}
       </ScrollView>
 
       <Button

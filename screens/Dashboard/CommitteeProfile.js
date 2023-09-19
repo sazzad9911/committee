@@ -60,6 +60,7 @@ export default function CommitteeProfile({ navigation }) {
     try {
       const res = await get(`/comity/get/${comity.id}`, user.token);
       dispatch({ type: "SET_COMITY", value: res.data.comity });
+      //console.log(res.data.comity);
       localStorage.comityLogIn(res.data.comity);
     } catch (e) {
       console.error(e.message);
