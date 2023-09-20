@@ -33,6 +33,7 @@ export default function EditEmail({ navigation, route }) {
   const newUser = useSelector((state) => state.user);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
 
   const openMenu = () => setVisible(true);
 
@@ -88,7 +89,16 @@ export default function EditEmail({ navigation, route }) {
           />
           <ReadMoreComponent
             textColor={colors.getTextColor()}
-            title={"Why We Are Asking for Your Email address?"}
+            title={
+              isBn
+                ? "আমরা আপনার ইমেইল ঠিকানা জানতে চাইছি কেন?"
+                : "Why are we asking for your email address?"
+            }
+            message={
+              isBn
+                ? "কমিটি নির্বাচন করার জন্য আপনাকে ধন্যবাদ! আমাদের প্ল্যাটফর্মে আপনার সামাজিক অভিজ্ঞতা বাড়াতে আমরা আপনার ইমেল ঠিকানার অনুরোধ করছি। আপনার ইমেল ঠিকানা প্রদান করে, আপনি সহজেই অন্যান্য সম্প্রদায়ের সদস্যদের সাথে সংযোগ করতে পারেন এবং আপনার আগ্রহের সাথে সারিবদ্ধ গোষ্ঠীতে যোগদান করতে পারেন। আপনার ইমেল ঠিকানা আমাদের আপনাকে প্রাসঙ্গিক আপডেট, বিজ্ঞপ্তি এবং ইভেন্টের আমন্ত্রণ পাঠাতে দেয়, যাতে আপনি কখনই গুরুত্বপূর্ণ কিছু মিস করবেন না। আমরা আপনার গোপনীয়তার মূল্য দিই এবং আপনাকে আশ্বস্ত করি যে আপনার সম্মতি ছাড়া আপনার ইমেল ঠিকানা কারো সাথে শেয়ার করা হবে না। Comity-এর মাধ্যমে আরও অন্তর্ভুক্ত এবং সংযুক্ত সম্প্রদায় গড়ে তুলতে আমাদের সাহায্য করার জন্য ধন্যবাদ!"
+                : "Thank you for choosing Comity! We request your email address to enhance your social experience on our platform. By providing your email address, you can easily connect with other community members and join groups that align with your interests. Your email address allows us to send you relevant updates, notifications and event invitations, so you never miss anything important. We value your privacy and assure you that your email address will not be shared with anyone without your consent. Thanks for helping us build a more inclusive and connected community through Comity!"
+            }
           />
           <Input
             value={email}

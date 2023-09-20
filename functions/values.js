@@ -120,8 +120,8 @@ export class AppValues {
       return {
         totalMember: "সর্বমোট সদস্য",
         private: "প্রাইভেট",
-        specialMember: "বিশেষ বেক্তি",
-        presentBalance: "বর্তমান ব্যাল্যান্স",
+        specialMember: "বিশেষ ব্যাক্তি",
+        presentBalance: "বর্তমান ব্যালেন্স",
         notice: "নোটিশ",
         aboutComity: "কমিটি সম্পর্কে",
         public: "পাবলিক",
@@ -172,9 +172,9 @@ export class AppValues {
         _allExpenses: "সকল খরচ",
         _placeholder: "নাম,তারিখ অথবা টাকার সংখ্যা",
         _choose: "পছন্দ করুন",
-        _deleteConfirmation:"মুছে ফেলা",
-        _importantMessage:"গুরুত্বপূর্ণ টিপস",
-        _delete:"মুছে ফেলা"
+        _deleteConfirmation: "মুছে ফেলা",
+        _importantMessage: "গুরুত্বপূর্ণ টিপস",
+        _delete: "মুছে ফেলা",
       };
     } else {
       return {
@@ -201,9 +201,9 @@ export class AppValues {
         _allExpenses: "All Expenses",
         _placeholder: "Name, Date Or Amount",
         _choose: "Choose",
-        _deleteConfirmation:"Cancel Confirmation",
-        _importantMessage:"Important Message",
-        _delete:"Delete"
+        _deleteConfirmation: "Cancel Confirmation",
+        _importantMessage: "Important Message",
+        _delete: "Delete",
       };
     }
   }
@@ -262,9 +262,9 @@ export class AppValues {
           _allMember: "সকল সদস্য",
           _selectProvider: "দাতা নির্বাচন করুন",
           _selectPayee: "পরিশোধ দাতা নির্বাচন করুন",
-          _addFromComity: "সমাজ ব্যবহারকারিদের থেকে এড করুন",
-          _createMemberOwn: "নিজ থেকে একজন সদস্য তৈরি করুন",
-          _memberInfo: "বেক্তির তথ্য",
+          _addFromComity: "বর্তমান সদস্য লিস্ট থেকে নির্বাচন করুন",
+          _createMemberOwn: "নতুন দাতা তৈরি করুন",
+          _memberInfo: "ব্যাক্তির তথ্য",
           _name: "নাম",
           _max30: "সর্বোচ্চ ৩০ অক্ষর",
           _geder: "লিঙ্গ",
@@ -299,17 +299,19 @@ export class AppValues {
           _successfulMessage: "রিকোয়েস্ট সফলভাবে পাঠানো হয়েছে",
           _infoMessage:
             "আমাদের সাথে যোগাযোগ করার জন্য আপনাকে ধন্যবাদ৷।আমাদের টিম আপনার ম্যাসেজটি রিভিউ করছে এবং যত তাড়াতাড়ি সম্ভব আপনার সাথে যোগাযোগ করবে৷।",
-          _completed: "কমপ্লিটেড",
-          _incomplete: "ইন কমপ্লিট",
+          _completed: "সম্পূর্ন",
+          _incomplete: "অসম্পূর্ন",
           _amount: "পরিমাণ",
-          _deleteSubscription:"চাঁদাটি সম্পূর্ণ ভাবে মুছে ফেলুন",
-          _subsDeleteMessage:"চাঁদাটি সম্পুর্ন ভাবে মুছে ফেলেতে চাইলে নিশ্চিত করুন",
-          _subsMemberDeleteMessage:"সদস্যের লিস্ট থেকে চাঁদাটি মুছে ফেলার জন্য নিশ্চিত করুন",
-          _seeProfile:"প্রোফাইল দেখুন",
-          _deleteThisAccount:"এই অ্যাকাউন্টটি ডিলিট করুন",
-          _addHisComityAccount:"তার সমাজ একাউন্টটি এখানে যোগ করুন",
-          _deleteOnly:"শুধুমাত্র সদস্য মুছে ফেলুন",
-          _memberAndCollectionDelete:"সদস্য এবং সমস্ত কালেকশন ডিলিট করুন"
+          _deleteSubscription: "চাঁদাটি সম্পূর্ণ ভাবে মুছে ফেলুন",
+          _subsDeleteMessage:
+            "চাঁদাটি সম্পুর্ন ভাবে মুছে ফেলেতে চাইলে নিশ্চিত করুন",
+          _subsMemberDeleteMessage:
+            "সদস্যের লিস্ট থেকে চাঁদাটি মুছে ফেলার জন্য নিশ্চিত করুন",
+          _seeProfile: "প্রোফাইল দেখুন",
+          _deleteThisAccount: "এই অ্যাকাউন্টটি ডিলিট করুন",
+          _addHisComityAccount: "তার সমাজ একাউন্টটি এখানে যোগ করুন",
+          _deleteOnly: "শুধুমাত্র সদস্য মুছে ফেলুন",
+          _memberAndCollectionDelete: "সদস্য এবং সমস্ত কালেকশন ডিলিট করুন",
         }
       : {
           write: "Write",
@@ -322,13 +324,13 @@ export class AppValues {
           _nameDateTaka: "Name, date or Amout",
           _allSubscription: "All Subscription",
           _details: "Details",
-          _aboutSubscription: "About Subscription",
+          _aboutSubscription: "Subscription details",
           _subscriptionName: "Write Subscription Name",
           _required: "required",
-          _max20: "Max 20 character",
+          _max20: "Max 20 cha.",
           _placeholder1: "Example:Salary, Developmemt etc",
           _placeholder2: "Example:1000, 2000",
-          _ammoutSubs: "Amounnt",
+          _ammoutSubs: "Amount",
           _positionAndQualification: "Position and Qualification",
           _position: "Position",
           _selectAmembershipPlan: "Choose a member category",
@@ -336,10 +338,10 @@ export class AppValues {
           _generalMember: "General Member",
           _specialMember: "Special Member",
           _allMember: "All Member",
-          _selectProvider: "Select Provider",
-          _selectPayee: "Select Payee",
-          _addFromComity: "Add from Comity",
-          _createMemberOwn: "Create Member Own",
+          _selectProvider: "Paying member",
+          _selectPayee: "Select Paying member",
+          _addFromComity: "Choose From Member list",
+          _createMemberOwn: "Create a new Member",
           _memberInfo: "Member Info",
           _name: "Name",
           _max30: "Max 30 character",
@@ -378,14 +380,16 @@ export class AppValues {
           _completed: "Complited",
           _incomplete: "Incomplete",
           _amount: "Amount",
-          _deleteSubscription:"Delete this subscription",
-          _subsDeleteMessage:"Confirm if you want to delete the subscription completely",
-          _subsMemberDeleteMessage:"Confirm to remove the subscription from the member list",
-          _seeProfile:"See Profile",
-          _deleteThisAccount:"Delete this account",
-          _addHisComityAccount:"Add his comity account",
-          _deleteOnly:"Delete member only",
-          _memberAndCollectionDelete:"Delete member with all collections",
+          _deleteSubscription: "Delete this subscription",
+          _subsDeleteMessage:
+            "Confirm if you want to delete the subscription completely",
+          _subsMemberDeleteMessage:
+            "Confirm if you want to delete the Collection completely",
+          _seeProfile: "See Profile",
+          _deleteThisAccount: "Delete this account",
+          _addHisComityAccount: "Add his comity account",
+          _deleteOnly: "Delete member only",
+          _memberAndCollectionDelete: "Delete member with all collections",
         };
   }
 }

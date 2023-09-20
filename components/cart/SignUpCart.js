@@ -4,9 +4,9 @@ import { SvgXml } from "react-native-svg";
 import cart from "../../assets/cart.png";
 const { width, height } = Dimensions.get("window");
 
-export default function SignUpCart({ title,onPress }) {
+export default function SignUpCart({ title, onPress }) {
   return (
-    <View style={{ flex: 1,marginHorizontal:20 }}>
+    <View style={{ flex: 1, marginHorizontal: 20 }}>
       {/* <SvgXml style={{}}  width={"100%"} xml={vector} /> */}
       <Image
         style={{
@@ -22,14 +22,16 @@ export default function SignUpCart({ title,onPress }) {
       <View
         style={{
           padding: 16,
-        }}>
+        }}
+      >
         <Text
           style={{
             fontSize: 24,
             marginVertical: 10,
             color: "#fff",
             fontWeight: "600",
-          }}>
+          }}
+        >
           {title}
         </Text>
         <View
@@ -39,43 +41,50 @@ export default function SignUpCart({ title,onPress }) {
             width: "100%",
             paddingHorizontal: 24,
             paddingVertical: 8,
-            alignItems:"center"
-          }}>
+            alignItems: "center",
+          }}
+        >
           <Text
             style={{
               fontSize: 16,
               fontWeight: "500",
               color: "#fff",
-              textAlign:"center"
-            }}>
-            নিজের একটি শক্তিশালী কমিটি ঘঠন করুন{" "}
+              textAlign: "center",
+            }}
+          >
+            নিজের একটি শক্তিশালী কমিটি গঠন করুন{" "}
           </Text>
           <View
             style={{
               flexDirection: "row",
               marginTop: 8,
               alignItems: "center",
-            }}>
+            }}
+          >
             <Text
               style={{
                 fontSize: 14,
                 fontWeight: "400",
                 color: "#fff",
-              }}>
-              একটি কমিটি ঘঠন করুন{" "}
+              }}
+            >
+              একটি কমিটি গঠন করুন{" "}
             </Text>
-            <Pressable onPress={onPress}
+            <Pressable
+              onPress={onPress}
               style={{
                 backgroundColor: "#7588FF",
                 marginLeft: 12,
                 padding: 8,
                 borderRadius: 7,
-              }}>
+              }}
+            >
               <Text
                 style={{
                   fontSize: 14,
                   color: "#fff",
-                }}>
+                }}
+              >
                 সাইন আপ{" "}
               </Text>
             </Pressable>

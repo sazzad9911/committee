@@ -14,7 +14,7 @@ export default function UnPaid({ navigation }) {
   const colors = new AppColors(isDark);
   const [paidList, setPaidList] = useState([]);
   const dispatch = useDispatch();
-  const isFocused=useIsFocused()
+  const isFocused = useIsFocused();
 
   const { comity, user } = useSelector((state) => state);
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function UnPaid({ navigation }) {
       dispatch(loader.show());
       const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
       //console.log(res.data.subs);
-      setPaidList(res.data.subs?.filter(sub => !sub.completed));
+      setPaidList(res.data.subs?.filter((sub) => !sub.completed));
       dispatch(loader.hide());
     };
     fetch();
@@ -45,8 +45,8 @@ export default function UnPaid({ navigation }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={"No subscription list has been created"}
-            subTitle={"Create a subscription by clicking the Add button"}
+            title={"No payment is collected from any member"}
+            subTitle={"Collect payment by clicking on add button"}
           />
         )}
         <View style={{ height: 6 }} />

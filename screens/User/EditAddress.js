@@ -50,8 +50,10 @@ export default function EditLocation({ navigation }) {
   const [select, setSelect] = useState();
   const [districtError, setDistrictError] = useState();
   const [areaError, setAreaError] = useState();
+  const isBn = useSelector((state) => state.isBn);
+
   // variables
-  
+
   const snapPoints = useMemo(() => ["70%"], []);
   const handleSheetChanges = useCallback((index) => {
     //console.log('handleSheetChanges', index);
@@ -126,7 +128,16 @@ export default function EditLocation({ navigation }) {
             /> */}
           <ReadMoreComponent
             textColor={colors.getTextColor()}
-            title={"Why are we asking for your address?"}
+            title={
+              isBn
+                ? "আমরা আপনার ঠিকানা জানতে চাইছি কেন?"
+                : "Why are we asking for your address?"
+            }
+            message={
+              isBn
+                ? "কমিটি নির্বাচন করার জন্য আপনাকে ধন্যবাদ! আমরা আপনাকে আপনার ঠিকানা লিখতে অনুরোধ করছি কারণ এটি আপনাকে একটি ভাল সামাজিক অভিজ্ঞতা প্রদান করতে সাহায্য করে। আপনি যখন কোনো কমিটি তে যোগদানের জন্য একটি অনুরোধ পাঠান, তখন আপনি কোথা থেকে এসেছেন তা জেনে তারা আপনাকে আরও ভালভাবে চিনতে পারবে, যা আপনাকে সমমনা ব্যক্তিদের সাথে আরও সহজে সংযোগ করতে সাহায্য করবে৷ উপরন্তু, আপনার ঠিকানা প্রদান করা আমাদের আপনার অভিজ্ঞতা উপযোগী করতে এবং আপনার অবস্থানের উপর ভিত্তি করে প্রাসঙ্গিক বিষয়বস্তু এবং আপডেট প্রদান করতে সাহায্য করে। আমরা আপনার গোপনীয়তাকে গুরুত্ব সহকারে নিই এবং আপনার সম্মতি ছাড়া আপনার ঠিকানা তথ্য কারো সাথে শেয়ার করা হবে না। আরও সংযুক্ত এবং ব্যক্তিগতকৃত সামাজিক প্ল্যাটফর্ম তৈরি করতে আমাদের সাহায্য করার জন্য আপনাকে ধন্যবাদ৷"
+                : "Thank you for choosing Comity! We request you to enter your address as it helps to provide you with a better social experience. When you send a request to join a comity, they'll get to know you better by knowing where you're from, which will help you connect with like-minded people more easily. Additionally, providing your address helps us tailor your experience and deliver relevant content and updates based on your location. We take your privacy seriously and your address information will not be shared with anyone without your consent. Thank you for helping us build a more connected and personalized social platform."
+            }
           />
 
           <View style={{ marginTop: 24 }}>
