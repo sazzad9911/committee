@@ -161,7 +161,7 @@ export default function MainRoute() {
                   headerShown: false,
                 }}
                 name="Dashboard"
-                component={comity?DashboardRoute:UserTabRoute}
+                component={comity ? DashboardRoute : UserTabRoute}
               />
             ) : (
               <>
@@ -385,7 +385,7 @@ export default function MainRoute() {
               options={{
                 header: (props) => (
                   <BackHeader
-                    title={values.getValues()._ammoutSubs}
+                    title={isBn ? "সদস্য যোগ করুন" : "Add Member"}
                     {...props}
                   />
                 ),
@@ -459,7 +459,7 @@ export default function MainRoute() {
               options={{
                 header: (props) => (
                   <BackHeader
-                    title={values.getDashboardHeadlines()._delete}
+                    title={isBn ? "নিশ্চিতকরণ" : "Confirmation"}
                     {...props}
                   />
                 ),

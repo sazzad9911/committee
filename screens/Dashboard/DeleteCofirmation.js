@@ -7,25 +7,38 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function DeleteConfirmation({ navigation,route }) {
+export default function DeleteConfirmation({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
-  const onPress=route?.params?.onPress;
-  const title=route?.params?.title;
-  const style=route?.params?.style;
-  const option=route?.params?.option;
-
+  const onPress = route?.params?.onPress;
+  const title = route?.params?.title;
+  const style = route?.params?.style;
+  const option = route?.params?.option;
+  const rmTitle = route?.params?.rmTitle;
+  const rmMessage = route?.params?.rmMessage;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={[{ flex: 1 },mainStyle.pdH20]}>
-        <Text style={[mainStyle.mt32,mainStyle.level,{color:"#f00"},style]}>{title?title:headlines._deleteCofirmation}</Text>
+      <View style={[{ flex: 1 }, mainStyle.pdH20]}>
+        <Text
+          style={[mainStyle.mt32, mainStyle.level, { color: "#f00" }, style]}
+        >
+          {title ? title : headlines._deleteCofirmation}
+        </Text>
         {option}
-        <Button onPress={onPress} style={mainStyle.mt32} active={true} title={headlines._ok}/>
-        <ReadMoreComponent/>
+        <Button
+          onPress={onPress}
+          style={mainStyle.mt32}
+          active={true}
+          title={headlines._ok}
+        />
+        <ReadMoreComponent
+          title={rmTitle || null}
+          message={rmMessage || null}
+        />
       </View>
     </ScrollView>
   );

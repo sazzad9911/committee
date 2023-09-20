@@ -350,6 +350,7 @@ export class AppValues {
           _female: "Female",
           _other: "Other",
           _age: "Age",
+          _ok: "Confirm",
           _mobile: "Mobile",
           _max11: "Max 11 digit",
           _email: "Email",

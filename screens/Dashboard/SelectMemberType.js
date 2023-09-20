@@ -8,44 +8,66 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function SelectMemberType({navigation,route}) {
+export default function SelectMemberType({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
-  const subscription=route?.params?.subscription;
+  const subscription = route?.params?.subscription;
   const data = route?.params?.data;
   const paid = route?.params?.paid;
 
   return (
-    <ScrollView style={{
-      backgroundColor:colors.getBackgroundColor()
-    }} showsVerticalScrollIndicator={false}>
-      <View style={[{flex:1},mainStyle.pdH20]}>
+    <ScrollView
+      style={{
+        backgroundColor: colors.getBackgroundColor(),
+      }}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={[{ flex: 1 }, mainStyle.pdH20]}>
         <Text
           style={[
             mainStyle.mt32,
             mainStyle.text20,
             { color: colors.getTextColor() },
-          ]}>
+          ]}
+        >
           {headlines._selectPayee}
         </Text>
-        <Button onPress={()=>{
-            navigation.navigate("AllMember",{
-              subscription:subscription,
-              data:data,
-              paid:paid
-            })
-        }} style={mainStyle.mt32} title={headlines._addFromComity} active={true}/>
-        <Button onPress={()=>{
-            navigation.navigate("CreateOwnMember",{
-              subscription:subscription,
-              data:data,
-              paid:paid 
-            })
-        }} style={mainStyle.mt12} title={headlines._createMemberOwn} active={true}/>
-        <ReadMoreComponent textColor={colors.getTextColor()}/>
+        <Button
+          onPress={() => {
+            navigation.navigate("AllMember", {
+              subscription: subscription,
+              data: data,
+              paid: paid,
+            });
+          }}
+          style={mainStyle.mt32}
+          title={headlines._addFromComity}
+          active={true}
+        />
+        <Button
+          onPress={() => {
+            navigation.navigate("CreateOwnMember", {
+              subscription: subscription,
+              data: data,
+              paid: paid,
+            });
+          }}
+          style={mainStyle.mt12}
+          title={headlines._createMemberOwn}
+          active={true}
+        />
+        <ReadMoreComponent
+          title={isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message"}
+          message={
+            isBn
+              ? "To be added"
+              : "To initiate a payment collection, you have two options. Firstly, you can select the paying member from your existing member list. Alternatively, if the member is not listed, you can create a new member by clicking the 'Create a New Member' button. Please note that when you create a new member, they will be automatically added to your member list. New members will be designated as offline members, and only you will have visibility into their collections. This feature ensures seamless management of your committee's financial transactions"
+          }
+          textColor={colors.getTextColor()}
+        />
       </View>
     </ScrollView>
   );

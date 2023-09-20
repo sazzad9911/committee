@@ -97,8 +97,11 @@ export default function EditSubscription({ navigation, route }) {
           onPress={() => {
             navigation.navigate("DeleteConfirmation", {
               title: values.getValues()._subsDeleteMessage,
-              style: style,
               onPress: () => handelDelete(),
+              rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+              rmMessage: isBn
+                ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, সদস্যতা স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটি পূর্বাবস্থায় ফেরানো যাবে না। সতর্কতার সাথে এগিয়ে যান, কারণ সমস্ত সম্পর্কিত ডেটা একবার মুছে ফেলার পরে অপসারণযোগ্য হবে"
+                : "Please be aware that when you click the 'Confirm' button, the subscription will be permanently deleted, and this action cannot be undone. Proceed with caution, as all associated data will be irretrievable once deleted",
             });
           }}
           style={{

@@ -83,6 +83,10 @@ export default function MemberSubDetails({ navigation, route }) {
               navigation.navigate("DeleteConfirmation", {
                 title: values.getValues()._subsMemberDeleteMessage,
                 onPress: () => handelDelete(),
+                rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+                rmMessage: isBn
+                  ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বোতামে ক্লিক করবেন, সংগ্রহটি স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরানো যাবে না"
+                  : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone",
               });
             }}
             style={{
