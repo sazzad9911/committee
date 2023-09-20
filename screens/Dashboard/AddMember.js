@@ -39,7 +39,7 @@ export default function AddMember({ navigation, route }) {
           subLevel={headlines._max20}
           value={explain}
           onChange={setExplain}
-          optionalLevel={headlines._notRequired}
+          optionalLevel={headlines._required}
           outSideStyle={[mainStyle.mt32]}
         />
         <Text
@@ -90,8 +90,8 @@ export default function AddMember({ navigation, route }) {
             }
           }}
           style={[mainStyle.mt32]}
-          active={position ? true : false}
-          disabled={!position ? true : false}
+          active={position&&explain ? true : false}
+          disabled={!position||!explain ? true : false}
           title={headlines._requestForMember}
         />
         <ReadMoreComponent textColor={colors.getTextColor()} />
