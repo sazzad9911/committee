@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsBn } from "../../data/isBn";
 import { AppColors } from "../../functions/colors";
+import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import { Clickable } from "./ProfileScreen";
@@ -17,7 +18,7 @@ export default function LanguageScreen() {
   const textColor = colors.getTextColor();
   const subTextColor = colors.getSubTextColor();
   const borderColor = colors.getBorderColor();
-  const textPrimaryColor=colors.getTextPrimaryColor()
+  const textPrimaryColor = colors.getTextPrimaryColor();
   const dispatch = useDispatch();
 
   return (
@@ -32,21 +33,29 @@ export default function LanguageScreen() {
             marginTop: 12,
             marginBottom: 32,
           }}>
-          <Clickable active={isBn?true:false}
+          <Clickable
+            active={isBn ? true : false}
             subTextColor={subTextColor}
             border={borderColor}
             activeColor={"#2B32B2"}
             color={textColor}
-            onPress={() => dispatch(setIsBn(true))}
+            onPress={async () => {
+              dispatch(setIsBn(true));
+              await localStorage.setBn(true);
+            }}
             title={"বাংলা"}
           />
-          <Clickable active={isBn?false:true}
+          <Clickable
+            active={isBn ? false : true}
             bottom={true}
             activeColor={"#2B32B2"}
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            onPress={() => dispatch(setIsBn(false))}
+            onPress={async () => {
+              dispatch(setIsBn(false));
+              await localStorage.setBn(false);
+            }}
             title={"English"}
           />
         </View>

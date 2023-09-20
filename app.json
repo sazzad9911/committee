@@ -23,7 +23,8 @@
       "assets/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.sazzad991.committee"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +33,8 @@
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.sazzad991.committee"
     },
     "web": {
       "favicon": "./assets/favicon.png"

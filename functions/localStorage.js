@@ -24,16 +24,28 @@ const login=async(val)=>{
     return await storeData("user",val)
 }
 const logout=async()=>{
-    return storeData("user",null)
+    return await storeData("user",null)
 }
 const comityLogOut=async()=>{
-  return storeData("SET_COMITY",null)
+  return await storeData("SET_COMITY",null)
 }
 const comityLogIn=async(val)=>{
-  return storeData("SET_COMITY",val)
+  return await storeData("SET_COMITY",val)
 }
 const getComity=async()=>{
-  return getData("SET_COMITY")
+  return await getData("SET_COMITY")
+}
+const isBn=async()=>{
+  return await getData("isBn")
+}
+const setBn=async(b)=>{
+  return await storeData("isBn",b)
+}
+const isDark=async()=>{
+  return await getData("isDark")
+}
+const setDark=async(b)=>{
+  return await storeData("isDark",b)
 }
 const localStorage={};
 localStorage.storeData=storeData;
@@ -44,4 +56,8 @@ localStorage.logout=logout;
 localStorage.comityLogIn=comityLogIn;
 localStorage.comityLogOut=comityLogOut;
 localStorage.getComity=getComity;
+localStorage.setBn=setBn;
+localStorage.isBn=isBn;
+localStorage.setDark=setDark;
+localStorage.isDark=isDark;
 export default localStorage

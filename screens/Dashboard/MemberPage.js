@@ -92,7 +92,7 @@ export default function MemberPage({ navigation, route }) {
       dispatch({ type: "SET_COMITY", value: res.data.comity });
       localStorage.comityLogIn(res.data.comity);
       dispatch(loader.hide());
-      dispatch(toast.success("Image updated"));
+      dispatch(toast.success("updated"));
     } catch (e) {
       dispatch(toast.error("Error updating"));
       dispatch(loader.hide());
@@ -102,7 +102,7 @@ export default function MemberPage({ navigation, route }) {
     fetch();
   }, [special]);
   useEffect(() => {
-    setSort(
+    searches&&setSort(
       members?.filter(
         (member) =>
           member.name?.toUpperCase().includes(searches?.toUpperCase()) ||
@@ -111,15 +111,15 @@ export default function MemberPage({ navigation, route }) {
     );
   }, [searches]);
   const fetch = async () => {
-    dispatch(loader.show());
+    !members&&dispatch(loader.show());
     try {
       const res = await get(`/member/get-all/${comity.id}`, user.token);
       if (special) {
         setMembers(
-          res.data.members.filter((member) => member.category.match("General"))
+          res.data.members.filter((member) => !member.category.match("General"))
         );
         setSort(
-          res.data.members.filter((member) => member.category.match("General"))
+          res.data.members.filter((member) => !member.category.match("General"))
         );
       } else {
         setMembers(res.data.members);
