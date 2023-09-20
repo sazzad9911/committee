@@ -72,6 +72,7 @@ import Reset from "../screens/Authentication/Reset";
 import MemberList from "../screens/Dashboard/MemberList";
 import DeleteMemberConfirmation from "../screens/Dashboard/DeleteMemberConfirmation";
 import EditExpenses from "../screens/Dashboard/EditExpenses";
+import CommitteeList from "../screens/User/CommitteeList";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -105,8 +106,12 @@ export default function MainRoute() {
 
   useEffect(() => {
     dispatch(setIsDark(colorScheme == "dark" ? true : false));
-    dispatch(setIsBn(true));
+    getData();
   }, [colorScheme]);
+  const getData = async () => {
+    const bangla = await localStorage.isBn();
+    dispatch(setIsBn(bangla));
+  };
   const MyTheme = {
     ...DefaultTheme,
     colors: {
@@ -146,8 +151,7 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -644,6 +648,13 @@ export default function MainRoute() {
               }}
               name="DeleteMemberConfirmation"
               component={DeleteMemberConfirmation}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="CommitteeList"
+              component={CommitteeList}
             />
           </Stack.Navigator>
         </NavigationContainer>

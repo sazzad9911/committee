@@ -18,6 +18,8 @@ import loader from "../../data/loader";
 import { get, put } from "../../apis/multipleApi";
 import toast from "../../data/toast";
 import localStorage from "../../functions/localStorage";
+import { useIsFocused } from "@react-navigation/native";
+import NoOption from "../../components/main/NoOption";
 
 const { width, height } = Dimensions.get("window");
 
@@ -38,11 +40,12 @@ export default function Notice({ navigation, route }) {
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
   const special = route?.params?.special;
-  const [notices, setNotices] = useState([]);
+  const [notices, setNotices] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const isFocused=useIsFocused()
 
   const openMenu = () => setVisible(true);
 
@@ -75,7 +78,7 @@ export default function Notice({ navigation, route }) {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      dispatch(loader.hide())
     }
   };
   const upload = async (type) => {
@@ -93,7 +96,7 @@ export default function Notice({ navigation, route }) {
       dispatch({ type: "SET_COMITY", value: res.data.comity });
       localStorage.comityLogIn(res.data.comity);
       dispatch(loader.hide());
-      dispatch(toast.success("Image updated"));
+      dispatch(toast.success("updated"));
     } catch (e) {
       dispatch(toast.error("Error updating"));
       dispatch(loader.hide());
@@ -101,15 +104,11 @@ export default function Notice({ navigation, route }) {
   };
 
   useEffect(() => {
-    navigation.addListener("focus", () => {
-      fetchData();
-    });
-  }, [navigation]);
+    !notices&&dispatch(loader.show())
+    fetchData();
+  }, [isFocused]);
 
-  if (isLoading) {
-    return <></>;
-  }
-
+  
   return (
     <HidableHeaderLayout
       header={
@@ -219,7 +218,7 @@ export default function Notice({ navigation, route }) {
       component={
         <>
           <View style={{ flex: 1, height: 10 }}></View>
-          {notices.map((notice) => (
+          {notices?.map((notice) => (
             <NoticeCart
               key={notice.id}
               onPress={() => {
@@ -232,6 +231,9 @@ export default function Notice({ navigation, route }) {
               color={textColor}
             />
           ))}
+          {notices?.length===0&&(
+            <NoOption/>
+          )}
 
           <View style={{ flex: 1, height: 80 }}></View>
         </>

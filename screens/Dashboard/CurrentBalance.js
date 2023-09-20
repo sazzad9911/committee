@@ -59,7 +59,7 @@ export default function CurrentBalance({ navigation, route }) {
       dispatch({ type: "SET_COMITY", value: res.data.comity });
       localStorage.comityLogIn(res.data.comity);
       dispatch(loader.hide());
-      dispatch(toast.success("Image updated"));
+      dispatch(toast.success("updated"));
     } catch (e) {
       dispatch(toast.error("Error updating"));
       dispatch(loader.hide());
