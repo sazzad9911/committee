@@ -43,6 +43,7 @@ export const getBalance = (comityId) =>
   API.get(`/comity/get-balance/${comityId}`);
 export const deleteExpense = (expenseId) =>
   API.delete(`/comity/expense/delete/${expenseId}`);
+export const deleteComity = (formData) => API.post("/comity/delete", formData);
 
 //Auth
 export const updateProfile = (formData) =>
@@ -85,6 +86,10 @@ export const deleteCollection = (collectionId) =>
   API.delete(`/subs/delete/collection/${collectionId}`);
 
 export const deleteSubs = (subsId) => API.delete(`/subs/delete/subs/${subsId}`);
+export const createCollection = (formData) =>
+  API.post(`/subs/create/collection`, formData);
 
 //Member
 export const updateMember = (formData) => API.put(`/member/update`, formData);
+export const attachMember = (formData) => API.post(`/member/attach`, formData);
+export const createMember = (formData) => API.post(`/member/create`, formData);

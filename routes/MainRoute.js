@@ -73,6 +73,9 @@ import MemberList from "../screens/Dashboard/MemberList";
 import DeleteMemberConfirmation from "../screens/Dashboard/DeleteMemberConfirmation";
 import EditExpenses from "../screens/Dashboard/EditExpenses";
 import CommitteeList from "../screens/User/CommitteeList";
+import DeleteComity from "../screens/Dashboard/DeleteComity";
+import ComityDeleteSuccess from "../screens/Dashboard/ComityDeleteSuccess";
+import AttachMemberConfirm from "../screens/Dashboard/AttachMemberConfirm";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -151,7 +154,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -655,6 +659,31 @@ export default function MainRoute() {
               }}
               name="CommitteeList"
               component={CommitteeList}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Confirmation"} {...props} />
+                ),
+              }}
+              name="DeleteComity"
+              component={DeleteComity}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={"Confirmation"} {...props} />
+                ),
+              }}
+              name="AttachMemberConfirm"
+              component={AttachMemberConfirm}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="ComityDeleteSuccess"
+              component={ComityDeleteSuccess}
             />
           </Stack.Navigator>
         </NavigationContainer>

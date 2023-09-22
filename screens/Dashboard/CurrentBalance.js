@@ -15,8 +15,8 @@ import mainStyle from "../../styles/mainStyle";
 import { ProfileCart } from "./CommitteeProfile";
 
 export default function CurrentBalance({ navigation, route }) {
-  const { balance } = route.params || 0;
-  const { balancePrivacy } = route.params;
+  // const { balance } = route.params || 0;
+  // const { balancePrivacy } = route.params;
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const comity = useSelector((state) => state.comity);
@@ -60,6 +60,7 @@ export default function CurrentBalance({ navigation, route }) {
       localStorage.comityLogIn(res.data.comity);
       dispatch(loader.hide());
       dispatch(toast.success("updated"));
+      navigation.goBack();
     } catch (e) {
       dispatch(toast.error("Error updating"));
       dispatch(loader.hide());
@@ -139,7 +140,11 @@ export default function CurrentBalance({ navigation, route }) {
         color={textColor}
       />
       <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-        <Button onPress={()=>navigation.goBack()} active={true} title={"Confirm"} />
+        {/* <Button
+          onPress={() => navigation.goBack()}
+          active={true}
+          title={"Confirm"}
+        /> */}
         <ReadMoreComponent textColor={textColor} />
       </View>
     </ScrollView>

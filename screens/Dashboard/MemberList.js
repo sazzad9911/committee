@@ -40,7 +40,7 @@ export default function MemberList({ navigation, route }) {
   const [searchIp, setSearch] = useState("");
   const isFocused = useIsFocused();
   const [index, setIndex] = useState(-1);
-  const id=route?.params?.id;
+  const id = route?.params?.id;
   //console.log(comity.id);
 
   useEffect(() => {
@@ -82,24 +82,28 @@ export default function MemberList({ navigation, route }) {
             <MemberCard
               //onPress={() => navigation?.navigate("AddMember")}
               onPress={() => {
-                dispatch(loader.show());
-                post(
-                  "/member/attach",
-                  {
-                    offlineMemberId: id,
-                    onlineMemberId: doc.id,
-                  },
-                  user.token
-                )
-                  .then((res) => {
-                    dispatch(loader.hide());
-                    dispatch(toast.success("Attachment successful"));
-                    navigation.navigate("Member")
-                  })
-                  .catch((err) => {
-                    dispatch(loader.hide());
-                    dispatch(toast.error(err.response.data.msg));
-                  });
+                // dispatch(loader.show());
+                // post(
+                //   "/member/attach",
+                //   {
+                //     offlineMemberId: id,
+                //     onlineMemberId: doc.id,
+                //   },
+                //   user.token
+                // )
+                //   .then((res) => {
+                //     dispatch(loader.hide());
+                //     dispatch(toast.success("Attachment successful"));
+                //     navigation.navigate("Member")
+                //   })
+                //   .catch((err) => {
+                //     dispatch(loader.hide());
+                //     dispatch(toast.error(err.response.data.msg));
+                //   });
+                navigation.navigate("AttachMemberConfirm", {
+                  offlineMemberId: id,
+                  onlineMemberId: doc.id,
+                });
               }}
               requested={doc.status === "Pending" ? true : false}
               accepted={doc.status === "Accepted" ? true : false}
@@ -158,7 +162,8 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? ac : dc}>
+      colors={!isDark ? ac : dc}
+    >
       <View
         style={[
           {
@@ -168,7 +173,8 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
             alignItems: "center",
             justifyContent: "center",
           },
-        ]}>
+        ]}
+      >
         <Pressable
           onPress={() => {
             navigation?.goBack();
@@ -177,7 +183,8 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
             position: "absolute",
             zIndex: 100,
             left: 0,
-          }}>
+          }}
+        >
           <SvgXml xml={icon} />
         </Pressable>
         <Text
@@ -187,7 +194,8 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
             fontWeight: "500",
             color: textColor,
             maxWidth: width - 100,
-          }}>
+          }}
+        >
           {values.getValues()._allMember}
         </Text>
       </View>

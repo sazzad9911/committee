@@ -46,7 +46,8 @@ export default function CreateOwnMember({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={[{ flex: 1, paddingBottom: 32 }, mainStyle.pdH20]}>
           <View
@@ -54,7 +55,8 @@ export default function CreateOwnMember({ navigation, route }) {
               mainStyle.flexBox,
               { justifyContent: "center" },
               mainStyle.mt24,
-            ]}>
+            ]}
+          >
             <ProfilePicture
               edit={true}
               source={{
@@ -80,14 +82,16 @@ export default function CreateOwnMember({ navigation, route }) {
               mainStyle.mt32,
               mainStyle.text20,
               { color: colors.getTextColor() },
-            ]}>
+            ]}
+          >
             {headlines._geder}
           </Text>
           <View
             style={[
               mainStyle.flexBox,
               { paddingVertical: 5, justifyContent: "flex-start" },
-            ]}>
+            ]}
+          >
             <RadioButton
               value={gender == "Male" ? true : false}
               title={headlines._male}
@@ -121,14 +125,16 @@ export default function CreateOwnMember({ navigation, route }) {
               mainStyle.mt32,
               mainStyle.text20,
               { color: colors.getTextColor() },
-            ]}>
+            ]}
+          >
             {headlines._selectAmembershipPlan}
           </Text>
           <View
             style={[
               mainStyle.flexBox,
               { paddingVertical: 5, justifyContent: "flex-start" },
-            ]}>
+            ]}
+          >
             <RadioButton
               value={position == "General" ? true : false}
               title={headlines._generalMember}
@@ -183,37 +189,50 @@ export default function CreateOwnMember({ navigation, route }) {
             onPress={async () => {
               dispatch(loader.show());
               try {
-                const form = new FormData();
-                form.append("files", picture);
-                const data = picture
-                  ? await (
-                      await post("/upload", form, user.token)
-                    ).data
-                  : null;
+                if (!subscription) {
+                  const form = new FormData();
+                  form.append("files", picture);
+                  const data = picture
+                    ? await (
+                        await post("/upload", form, user.token)
+                      ).data
+                    : null;
 
-                const res = await post(
-                  "/member/create",
-                  {
-                    comityId: comity.id,
-                    position: explain,
-                    name: name,
-                    category: position,
-                    age: age,
-                    mobile: mobile,
-                    email: email,
-                    address: address,
-                    profilePhoto: data ? data.files[0] : null,
-                    gender: gender,
-                  },
-                  user.token
-                );
-                dispatch(loader.hide());
-                dispatch(toast.success("Member created"));
+                  const res = await post(
+                    "/member/create",
+                    {
+                      comityId: comity.id,
+                      position: explain,
+                      name: name,
+                      category: position,
+                      age: age,
+                      mobile: mobile,
+                      email: email,
+                      address: address,
+                      profilePhoto: data ? data.files[0] : null,
+                      gender: gender,
+                    },
+                    user.token
+                  );
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Member created"));
+                }
                 if (subscription) {
                   return navigation.navigate("AddMemberSubscription", {
-                    data: res.data.member,
                     subscriptionId: subscription,
-                    paid:paid
+                    paid: paid,
+                    memberData: {
+                      comityId: comity.id,
+                      position: explain,
+                      name: name,
+                      category: position,
+                      age: age,
+                      mobile: mobile,
+                      email: email,
+                      address: address,
+                      picture: picture,
+                      gender: gender,
+                    },
                   });
                 }
                 navigation.navigate("Member");
@@ -223,16 +242,8 @@ export default function CreateOwnMember({ navigation, route }) {
                 dispatch(toast.error("Request failed"));
               }
             }}
-            active={
-              name && gender && position  && explain 
-                ? true
-                : false
-            }
-            disabled={
-              name && gender && position && explain 
-                ? false
-                : true
-            }
+            active={name && gender && position && explain ? true : false}
+            disabled={name && gender && position && explain ? false : true}
             style={mainStyle.mt24}
             title={headlines._ok}
           />

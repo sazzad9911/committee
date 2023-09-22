@@ -6,6 +6,7 @@ import {
   Dimensions,
   Platform,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post, put } from "../../apis/multipleApi";
@@ -19,6 +20,7 @@ import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import { createCollection, createMember } from "../../apis/api";
 
 export default function AddMemberSubscription({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -28,15 +30,15 @@ export default function AddMemberSubscription({ navigation, route }) {
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
   const data = route?.params?.data;
+  const memberData = route?.params?.memberData;
   const subscriptionId = route?.params?.subscriptionId;
   const [amount, setAmount] = useState(data?.amount?.toString());
   const p = route?.params?.paid;
-  const [paid, setPaid] = useState(data.paid);
+  const [paid, setPaid] = useState(data?.paid);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const update = route?.params?.update;
 
-  // console.log(data);
   const updateData = () => {
     if (data?.paid) {
       dispatch(loader.show());
@@ -63,17 +65,42 @@ export default function AddMemberSubscription({ navigation, route }) {
         dispatch(toast.error(e.response.data.msg));
       });
   };
+  const createData = async () => {
+    try {
+      dispatch(loader.show());
+      const { data: res } = await createMember({
+        ...memberData,
+      });
+      await createCollection({
+        subscriptionId: subscriptionId,
+        memberId: res?.member.id,
+        amount: amount,
+        paid: paid ? "true" : "",
+      });
+
+      dispatch(toast.success("Collection created"));
+      navigation.navigate(`${paid ? headlines._paid : headlines._unPaid}`);
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.response.data.msg);
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             backgroundColor: colors.getBackgroundColor(),
             flex: 1,
-          }}>
+          }}
+        >
           <View
             style={[
               {
@@ -82,7 +109,8 @@ export default function AddMemberSubscription({ navigation, route }) {
               },
               mainStyle.mt24,
               mainStyle.pdH20,
-            ]}>
+            ]}
+          >
             <ProfilePicture source={{ uri: data?.member?.profilePhoto }} />
             <Text
               numberOfLines={1}
@@ -90,11 +118,13 @@ export default function AddMemberSubscription({ navigation, route }) {
                 mainStyle.mt12,
                 mainStyle.headLine,
                 { color: colors.getTextColor(), marginVertical: 5 },
-              ]}>
+              ]}
+            >
               {data && data?.name ? data?.name : data?.user?.name}
             </Text>
             <Text
-              style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}>
+              style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}
+            >
               {data && data?.gender ? data?.gender : data?.user?.gender}
             </Text>
           </View>
@@ -112,7 +142,8 @@ export default function AddMemberSubscription({ navigation, route }) {
                 mainStyle.flexBox,
                 { justifyContent: "flex-start" },
                 mainStyle.mt24,
-              ]}>
+              ]}
+            >
               <RadioButton
                 value={paid}
                 onChange={() => setPaid((v) => !v)}
@@ -130,34 +161,7 @@ export default function AddMemberSubscription({ navigation, route }) {
         <Button
           active={Boolean(amount)}
           disabled={!Boolean(amount)}
-          onPress={
-            update
-              ? updateData
-              : async () => {
-                  dispatch(loader.show());
-                  try {
-                    await post(
-                      `/subs/create/collection`,
-                      {
-                        subscriptionId: subscriptionId,
-                        memberId: data.id,
-                        amount: amount,
-                        paid: paid ? "true" : "",
-                      },
-                      user.token
-                    );
-                    dispatch(loader.hide());
-                    dispatch(toast.success("Collection created"));
-                    navigation.navigate(
-                      `${paid ? headlines._paid : headlines._unPaid}`
-                    );
-                  } catch (e) {
-                    dispatch(loader.hide());
-                    dispatch(toast.error("Request failed"));
-                    console.error(e);
-                  }
-                }
-          }
+          onPress={update ? updateData : createData}
           style={{
             marginBottom: 50,
             marginHorizontal: 20,

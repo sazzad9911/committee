@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../apis/multipleApi";
@@ -22,14 +22,15 @@ export default function DeleteMemberConfirmation({ navigation, route }) {
   const title = route?.params?.title;
   const style = route?.params?.style;
   const data = route?.params?.data;
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [deleteOnly, setDeleteOnly] = useState(true);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[{ flex: 1 }, mainStyle.pdH20]}>
         <Text
-          style={[mainStyle.mt32, mainStyle.level, { color: "#f00" }, style]}>
+          style={[mainStyle.mt32, mainStyle.level, { color: "#f00" }, style]}
+        >
           {title ? title : headlines._deleteCofirmation}
         </Text>
         <View style={mainStyle.mt24}>
@@ -53,7 +54,7 @@ export default function DeleteMemberConfirmation({ navigation, route }) {
               `/member/detach`,
               {
                 memberId: data.id,
-                deleteData: deleteOnly?"":"ok",
+                deleteData: deleteOnly ? "" : "ok",
               },
               user.token
             )
@@ -71,7 +72,16 @@ export default function DeleteMemberConfirmation({ navigation, route }) {
           active={true}
           title={headlines._ok}
         />
-        <ReadMoreComponent />
+        <ReadMoreComponent
+          title={"Important message"}
+          message={`
+        1. 'Delete Only Member': This option will remove the member from your list but will retain their payment and data. If the member decides to rejoin in the future, their payment history and data will remain accessible.
+
+        2. 'Delete Member and All Collections': By selecting this option, not only will the member be removed, but all associated payment records and data will also be permanently deleted. Please exercise caution as this action cannot be undone. Any outstanding payments will be deducted from your current balance.
+        
+        Choose the option that best suits your committee's needs to manage your member list and financial records effectivel
+        `}
+        />
       </View>
     </ScrollView>
   );
