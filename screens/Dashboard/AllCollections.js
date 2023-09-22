@@ -54,7 +54,7 @@ export default function AllCollections({ navigation, route }) {
     //get(`/subs/get-comity-collections/${comity.id}/dateFrom=`)
   }
 
-  const Header = ({ color, style, text, setText }) => (
+  const Header = ({ color, style, text, setText,setIndex }) => (
     <LinearGradient
       // Button Linear Gradient
       style={[
@@ -89,7 +89,7 @@ export default function AllCollections({ navigation, route }) {
           />
           <Pressable
             onPress={() => {
-              setIndex(1);
+              setIndex(0);
             }}>
             <SvgXml xml={sort} />
           </Pressable>
@@ -153,13 +153,13 @@ export default function AllCollections({ navigation, route }) {
   };
   
   return (
-    <BottomShitLayout
+    <BottomShitLayout points={["75%"]}
       scrollable={true}
       index={index}
       setIndex={setIndex}
       screen={
         <HidableHeaderLayout
-          header={<Header text={text} setText={setText} />}
+          header={<Header setIndex={setIndex} text={text} setText={setText} />}
           component={<Component sorted={sorted} />}
         />
       }

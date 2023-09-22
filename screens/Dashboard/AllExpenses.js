@@ -89,7 +89,7 @@ export default function AllExpenses({ navigation, route }) {
           />
           <Pressable
             onPress={() => {
-              setIndex(1);
+              setIndex(0);
             }}
           >
             <SvgXml xml={sort} />
@@ -157,7 +157,7 @@ export default function AllExpenses({ navigation, route }) {
   };
 
   return (
-    <BottomShitLayout
+    <BottomShitLayout points={["70%"]}
       scrollable={true}
       index={index}
       setIndex={setIndex}
@@ -167,7 +167,7 @@ export default function AllExpenses({ navigation, route }) {
           component={<Component sorted={sorted} />}
         />
       }
-      component={<Bottom />}
+      component={<Bottom  />}
     />
   );
 }

@@ -260,16 +260,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
             </Pressable>
           ))}
       </View>
-      <Button active={select?true:false}
-        onPress={onClose}
-        style={{
-          marginVertical: 24,
-          backgroundColor: "#4ADE80",
-          marginHorizontal: 8,
-          color: "white",
-        }}
-        title={"Done"}
-      />
+      
     </View>
   );
 };

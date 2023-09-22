@@ -93,7 +93,7 @@ export default function Member({ navigation, route }) {
   };
 
   return (
-    <BottomShitLayout index={index} setIndex={setIndex}
+    <BottomShitLayout points={["80%"]} scrollable={true} index={index} setIndex={setIndex}
       screen={
         <HidableHeaderLayout
           header={
@@ -242,7 +242,7 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
             {number}
           </Text>
         </Text>
-        <Pressable onPress={()=>setIndex(2)}>
+        <Pressable onPress={()=>setIndex(0)}>
           <SvgXml xml={filter} />
         </Pressable>
       </View>

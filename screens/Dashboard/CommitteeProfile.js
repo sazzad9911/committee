@@ -53,7 +53,7 @@ export default function CommitteeProfile({ navigation }) {
   </svg>
   `;
   useEffect(() => {
-    fetch();
+    //fetch();
     //console.log(comity.id);
   }, [isFocused]);
   const fetch = async () => {
@@ -87,6 +87,7 @@ export default function CommitteeProfile({ navigation }) {
       dispatch(loader.hide());
     }
   };
+  
 
   return (
     <ScrollView
@@ -206,7 +207,7 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("Notice");
           }}
           borderColor={borderColor}
-          privacy={
+          privacy={ 
             comity?.noticePrivacy === "Private"
               ? allHeadlines.private
               : comity?.noticePrivacy === "Public"

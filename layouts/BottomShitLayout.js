@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, Key
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useSelector } from "react-redux";
 import { AppColors } from "../functions/colors";
+import Button from "../components/main/Button";
 
 export default function BottomShitLayout({
   index,
@@ -11,14 +12,15 @@ export default function BottomShitLayout({
   scrollable,
   screen,
   ref,
-  bottom
+  bottom,
+  points
 }) {
   // ref
   const bottomSheetRef = useRef(null);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   // variables
-  const snapPoints = useMemo(() => ["25%", "50%", "75%","95%"], []);
+  const snapPoints = useMemo(() =>points?points: ["25%", "50%", "75%","95%"], []);
 
   // callbacks\
   
@@ -52,6 +54,19 @@ export default function BottomShitLayout({
         ) : (
           component
         )}
+        <Button active={true}
+        onPress={()=>{
+          bottomSheetRef.current?.close()
+        }}
+        style={{
+          marginBottom:30,
+          marginTop:20,
+          backgroundColor: "#4ADE80",
+          marginHorizontal: 8,
+          color: "white",
+        }}
+        title={"Done"}
+      />
       </BottomSheet>
       
     </KeyboardAvoidingView>
