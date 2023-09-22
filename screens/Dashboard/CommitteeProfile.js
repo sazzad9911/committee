@@ -17,7 +17,7 @@ import mainStyle from "../../styles/mainStyle";
 const { width, height } = Dimensions.get("window");
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
-import { deletes, get, post, put } from "../../apis/multipleApi";
+import { deletes, get, post, put, socket } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { pickImage } from "../../components/main/ProfilePicture";
@@ -55,6 +55,16 @@ export default function CommitteeProfile({ navigation }) {
   useEffect(() => {
     //fetch();
     //console.log(comity.id);
+
+    //console.log(user.user.id);
+    socket.emit("join",user.user.id)
+    // socket.on("getUsers",u=>{
+    //   console.log(u);
+    // })
+    socket.on("comityUpdated",e=>{
+      console.log(e)
+    })
+   
   }, [isFocused]);
   const fetch = async () => {
     try {

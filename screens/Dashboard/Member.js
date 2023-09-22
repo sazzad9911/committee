@@ -39,6 +39,19 @@ export default function Member({ navigation, route }) {
   const [searchIp, setSearch] = useState("");
   const isFocused = useIsFocused();
   const [index, setIndex] = useState(-1);
+
+  const [filterData, setFilterData] = useState([
+    "All Member",
+    "Special Member",
+    "General Member",
+    "Only Female",
+    "Only Male",
+    "Within 1-20 years",
+    "Within 21-40 years",
+    "Within 41-60 years",
+    "Within 61-80 years"
+  ]);
+  const [choose,setChoose]=useState()
   
 
   useEffect(() => {
@@ -51,6 +64,7 @@ export default function Member({ navigation, route }) {
     dispatch(loader.hide());
   };
   useEffect(() => {
+    
     if (allMember&&searchIp) {
       dispatch(loader.hide());
       setSortedMember(
@@ -65,7 +79,7 @@ export default function Member({ navigation, route }) {
     }
   }, [allMember, searchIp]);
 
-  const Bottom = () => {
+  const Bottom = ({ filterData,onChoose,value }) => {
     return (
       <View
         style={{
@@ -79,15 +93,10 @@ export default function Member({ navigation, route }) {
           {headlines._choose}
         </Text>
         <View style={{ height: 24 }} />
-        <SheetCard title={"All Member"} />
-        <SheetCard title={"Special Member"} />
-        <SheetCard title={"General Member"} />
-        <SheetCard title={"Only Female"} />
-        <SheetCard title={"Only Male"} />
-        <SheetCard title={"Within 1-20 years"} />
-        <SheetCard title={"Within 21-40 years"} />
-        <SheetCard title={"Within 41-60 years"} />
-        <SheetCard title={"Within 61-80 years"} />
+
+        {filterData?.map((doc, i) => (
+          <SheetCard select={doc===value?true:false} onPress={e=>console.log(e)} title={doc} key={i} />
+        ))}
       </View>
     );
   };
@@ -172,7 +181,7 @@ export default function Member({ navigation, route }) {
           onPress={() => navigation.navigate("SelectMemberType")}
         />
       }
-      component={<Bottom/>}
+      component={<Bottom value={choose} onChoose={e=>console.log(e)} filterData={filterData} />}
     />
   );
 }

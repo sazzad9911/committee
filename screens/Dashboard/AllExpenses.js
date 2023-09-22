@@ -40,6 +40,15 @@ export default function AllExpenses({ navigation, route }) {
   const [dateSorted, setDateSorted] = useState();
   const [sorted, setSorted] = useState(data);
   const [text, setText] = useState();
+  const [filterData, setFilterData] = useState([
+    "Last 7 days collection",
+    "Last 15 days collection",
+    "Last 30 days collection",
+    "Last 3 months collection",
+    "Last 6 months collection",
+    "Last 1 years collection",
+  ]);
+  const [choose,setChoose]=useState()
   useEffect(() => {
     setSorted(
       data.filter((d) =>
@@ -47,6 +56,13 @@ export default function AllExpenses({ navigation, route }) {
       )
     );
   }, [text]);
+  useEffect(() => {
+    choose&&setSorted(
+      data.filter((d) =>
+        d.name.toUpperCase().includes(text ? text.toUpperCase() : "")
+      )
+    );
+  }, [choose]);
 
   const Header = ({ color, style, text, setText }) => (
     <LinearGradient
@@ -60,16 +76,14 @@ export default function AllExpenses({ navigation, route }) {
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
-    >
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
         <Text
           style={{
             fontSize: 24,
             fontWeight: "500",
             color: textColor,
-          }}
-        >
+          }}>
           {headlines._allExpenses}
         </Text>
         <View style={[mainStyle.flexBox]}>
@@ -90,8 +104,7 @@ export default function AllExpenses({ navigation, route }) {
           <Pressable
             onPress={() => {
               setIndex(0);
-            }}
-          >
+            }}>
             <SvgXml xml={sort} />
           </Pressable>
         </View>
@@ -130,34 +143,31 @@ export default function AllExpenses({ navigation, route }) {
       </View>
     );
   };
-  const Bottom = () => {
+  const Bottom = ({ filterData,onChoose,value }) => {
     return (
       <View
         style={{
           paddingHorizontal: 16,
-        }}
-      >
+        }}>
         <Text
           style={[
             mainStyle.level,
             { color: colors.getTextColor(), textAlign: "center" },
-          ]}
-        >
+          ]}>
           {headlines._choose}
         </Text>
         <View style={{ height: 24 }} />
-        <SheetCard title={"Last 7 days collection"} />
-        <SheetCard title={"Last 15 days collection"} />
-        <SheetCard title={"Last 30 days collection"} />
-        <SheetCard title={"Last 3 months collection"} />
-        <SheetCard title={"Last 6 months collection"} />
-        <SheetCard title={"Last 1 years collection"} />
+        {filterData?.map((doc, i) => (
+          <SheetCard select={doc===value?true:false} onPress={onChoose} title={doc} key={i} />
+        ))}
+
       </View>
     );
   };
 
   return (
-    <BottomShitLayout points={["70%"]}
+    <BottomShitLayout
+      points={["70%"]}
       scrollable={true}
       index={index}
       setIndex={setIndex}
@@ -167,7 +177,7 @@ export default function AllExpenses({ navigation, route }) {
           component={<Component sorted={sorted} />}
         />
       }
-      component={<Bottom  />}
+      component={<Bottom value={choose} onChoose={setChoose} filterData={filterData} />}
     />
   );
 }

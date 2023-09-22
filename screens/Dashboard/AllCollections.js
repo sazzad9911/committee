@@ -43,16 +43,29 @@ export default function AllCollections({ navigation, route }) {
   const [text, setText] = useState();
   const dispatch=useDispatch()
   const comity=useSelector(state=>state.comity)
+  const [filterData, setFilterData] = useState([
+    "Last 7 days collection",
+    "Last 15 days collection",
+    "Last 30 days collection",
+    "Last 3 months collection",
+    "Last 6 months collection",
+    "Last 1 years collection",
+  ]);
+  const [choose,setChoose]=useState()
   useEffect(() => {
     setSorted(
       data?.filter((d) => d.amount?.toString().match(text ? text : ""))
     );
   }, [text]);
-  const fetch=(day)=>{
-    console.log(new Date().getDay());
-   // dispatch(loader.show())
-    //get(`/subs/get-comity-collections/${comity.id}/dateFrom=`)
-  }
+  useEffect(() => {
+    //console.log(data);
+    // choose&&setSorted(
+    //   data.filter((d) =>
+    //     d.name.toUpperCase().includes(text ? text.toUpperCase() : "")
+    //   )
+    // );
+  }, [choose]);
+  
 
   const Header = ({ color, style, text, setText,setIndex }) => (
     <LinearGradient
@@ -128,7 +141,7 @@ export default function AllCollections({ navigation, route }) {
       </View>
     );
   };
-  const Bottom = ({fetch}) => {
+  const Bottom = ({ filterData,onChoose,value }) => {
     return (
       <View
         style={{
@@ -142,12 +155,9 @@ export default function AllCollections({ navigation, route }) {
           {headlines._choose}
         </Text>
         <View style={{ height: 24 }} />
-        <SheetCard onPress={()=>fetch(7)} title={"Last 7 days collection"} />
-        <SheetCard title={"Last 15 days collection"} />
-        <SheetCard title={"Last 30 days collection"} />
-        <SheetCard title={"Last 3 months collection"} />
-        <SheetCard title={"Last 6 months collection"} />
-        <SheetCard title={"Last 1 years collection"} />
+        {filterData?.map((doc, i) => (
+          <SheetCard select={doc===value?true:false} onPress={onChoose} title={doc} key={i} />
+        ))}
       </View>
     );
   };
@@ -155,7 +165,7 @@ export default function AllCollections({ navigation, route }) {
   return (
     <BottomShitLayout points={["75%"]}
       scrollable={true}
-      index={index}
+      index={0}
       setIndex={setIndex}
       screen={
         <HidableHeaderLayout
@@ -163,7 +173,7 @@ export default function AllCollections({ navigation, route }) {
           component={<Component sorted={sorted} />}
         />
       }
-      component={<Bottom fetch={fetch} />}
+      component={<Bottom value={choose} onChoose={setChoose} filterData={filterData} />}
     />
   );
 }
