@@ -218,6 +218,7 @@ export default function CreateOwnMember({ navigation, route }) {
                   dispatch(toast.success("Member created"));
                 }
                 if (subscription) {
+                  dispatch(loader.hide());
                   return navigation.navigate("AddMemberSubscription", {
                     subscriptionId: subscription,
                     paid: paid,
