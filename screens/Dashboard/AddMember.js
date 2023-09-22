@@ -24,7 +24,7 @@ export default function AddMember({ navigation, route }) {
   const { comity, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [explain, setExplain] = useState();
-  
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View
@@ -35,7 +35,7 @@ export default function AddMember({ navigation, route }) {
         }}>
         <Input
           level={headlines._position}
-          placeholder={headlines.write}
+          placeholder={headlines._exampleGeneral}
           subLevel={headlines._max20}
           value={explain}
           onChange={setExplain}
@@ -77,7 +77,7 @@ export default function AddMember({ navigation, route }) {
                   comityId: comity.id,
                   position: explain,
                   userId: data.id,
-                  category:position
+                  category: position,
                 },
                 user.token
               );
@@ -90,11 +90,20 @@ export default function AddMember({ navigation, route }) {
             }
           }}
           style={[mainStyle.mt32]}
-          active={position&&explain ? true : false}
-          disabled={!position||!explain ? true : false}
+          active={position && explain ? true : false}
+          disabled={!position || !explain ? true : false}
           title={headlines._requestForMember}
         />
-        <ReadMoreComponent textColor={colors.getTextColor()} />
+        <ReadMoreComponent
+          message={`Specify the member's position within the committee. You can assign any position, such as 'General Member' or other suitable roles based on your committee's structure.
+
+Select the member category:
+   - 'General Member': This option designates the member as a regular committee member.
+   - 'Special Member': Choose this option if the member holds a specific role within the committee, such as manager or leader.
+
+By providing these details, you ensure that the new member's role and type are accurately defined within the committee, streamlining your committee management process."`}
+          textColor={colors.getTextColor()}
+        />
       </View>
     </ScrollView>
   );

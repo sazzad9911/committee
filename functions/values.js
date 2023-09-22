@@ -312,6 +312,7 @@ export class AppValues {
           _addHisComityAccount: "তার সমাজ একাউন্টটি এখানে যোগ করুন",
           _deleteOnly: "শুধুমাত্র সদস্য মুছে ফেলুন",
           _memberAndCollectionDelete: "সদস্য এবং সমস্ত কালেকশন ডিলিট করুন",
+          _exampleGeneral: "উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",
         }
       : {
           write: "Write",
@@ -391,6 +392,7 @@ export class AppValues {
           _addHisComityAccount: "Add his comity account",
           _deleteOnly: "Delete member only",
           _memberAndCollectionDelete: "Delete member with all collections",
+          _exampleGeneral: "Example: General ,President,VIP etc",
         };
   }
 }
