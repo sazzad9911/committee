@@ -23,6 +23,9 @@ export default function MemberRequestCard({
   const isBn=useSelector(state=>state.isBn);
   const headlines=new AppValues(isBn).getValues()
   //console.log(data);
+  const getText=(type,name,position,isBn)=>{
+    return isBn?``
+  }
   return (
     <View
       style={{
