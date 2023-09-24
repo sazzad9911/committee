@@ -102,14 +102,16 @@ export default function CommitteeProfile({ navigation }) {
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <ImageBackground
         style={{
           height: height / 2 + 80,
         }}
         source={{
           uri: background,
-        }}>
+        }}
+      >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           {/* <Pressable
             onPress={() => {
@@ -131,7 +133,8 @@ export default function CommitteeProfile({ navigation }) {
               const img = await pickImage();
               setBackground(img.uri);
               uploadPicture(img);
-            }}>
+            }}
+          >
             <SvgXml xml={cameraIcon} />
           </Pressable>
         </View>
@@ -141,7 +144,8 @@ export default function CommitteeProfile({ navigation }) {
           backgroundColor: backgroundColor,
           marginTop: -20,
           borderRadius: 25,
-        }}>
+        }}
+      >
         <Text
           numberOfLines={2}
           style={[
@@ -149,7 +153,8 @@ export default function CommitteeProfile({ navigation }) {
             { color: textColor },
             mainStyle.mt24,
             mainStyle.pdH20,
-          ]}>
+          ]}
+        >
           {comity?.name}
         </Text>
         <View style={mainStyle.mt24} />
@@ -235,26 +240,30 @@ export default function CommitteeProfile({ navigation }) {
         />
         <View style={{ height: 16 }} /> */}
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
+        >
           <SvgXml xml={location} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}>
+            }}
+          >
             {`${comity?.address}, ${comity.thana}, ${comity.district}, ${comity.division}`}
           </Text>
         </View>
         <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}>
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
+        >
           <SvgXml xml={call} />
           <Text
             style={{
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
-            }}>
+            }}
+          >
             {comity.phone}
           </Text>
         </View>
@@ -263,7 +272,8 @@ export default function CommitteeProfile({ navigation }) {
             mainStyle.pdH20,
             { color: textColor, fontSize: 24, fontWeight: "600" },
             mainStyle.mt24,
-          ]}>
+          ]}
+        >
           {allHeadlines.aboutComity}
         </Text>
 
@@ -348,13 +358,15 @@ export const ProfileCart = ({
           borderBottomColor: "#F3F3F3",
         },
         style,
-      ]}>
+      ]}
+    >
       <View>
         <Text
           style={{
             color: borderColor,
             fontSize: 16,
-          }}>
+          }}
+        >
           {title}
         </Text>
         {number ? (
@@ -364,7 +376,8 @@ export const ProfileCart = ({
               color: color,
               fontWeight: "800",
               marginTop: 1,
-            }}>
+            }}
+          >
             {number}
           </Text>
         ) : null}
@@ -378,13 +391,15 @@ export const ProfileCart = ({
             flexDirection: "row",
             alignItems: "center",
             marginRight: 20,
-          }}>
+          }}
+        >
           {privacy && <SvgXml xml={eye} />}
           <Text
             style={{
               color: borderColor,
               marginHorizontal: 5,
-            }}>
+            }}
+          >
             {privacy}
           </Text>
 

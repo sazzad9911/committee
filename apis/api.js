@@ -93,3 +93,7 @@ export const createCollection = (formData) =>
 export const updateMember = (formData) => API.put(`/member/update`, formData);
 export const attachMember = (formData) => API.post(`/member/attach`, formData);
 export const createMember = (formData) => API.post(`/member/create`, formData);
+export const sendMemberRequest = (comityId) =>
+  API.post(`/member/request/send/${comityId}`);
+export const leaveComity = (comityId) =>
+  API.post(`/member/leave-comity/${comityId}`);
