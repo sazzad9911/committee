@@ -71,12 +71,34 @@ export default function ComityProfile({ navigation, route }) {
     }
   };
 
+  const handelDelete = async () => {
+    try {
+      dispatch(loader.show());
+      await leaveComity(comity?.id);
+      dispatch(toast.success("You leave the comity!"));
+      navigation.pop(2);
+    } catch (error) {
+      console.log(error);
+      dispatch(toast.error(error?.response?.data?.msg));
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   const handelRequest = async () => {
     try {
       dispatch(loader.show());
       if (comity?.iAmMember) {
-        await leaveComity(comity.id);
-        dispatch(toast.success("You leave the comity!"));
+        navigation.navigate("DeleteConfirmation", {
+          title: isBn
+            ? "আপনি কি নিশ্চিত আপনি এই কমিটি ছেড়ে যেতে চান?"
+            : "Are you sure you want to leave this comity?",
+          onPress: () => handelDelete(),
+          rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+          rmMessage: isBn
+            ? "নিশ্চিত করার মাধ্যমে, আপনাকে এই কমিটির তালিকা থেকে সরিয়ে দেওয়া হবে এবং এই কমিটিতে আপনি আপনার সকল অর্থপ্রদানের তথ্য এবং ডেটা আর অ্যাক্সেস করতে পারবেন না৷ যাইহোক, আপনি যদি ভবিষ্যতে এই কমিটিতে পুনরায় যোগদান করেন তবে পুনরায় আপনি এই কমিটির সকল ডেটা অ্যাক্সেস করতে পারবেন"
+            : "By confirming, you will be removed from the committee list, and your payment information and data for this committee will no longer be accessible. However, should you choose to rejoin the committee in the future, your data will be reinstated",
+        });
       } else if (!comity?.memberStatus) {
         await sendMemberRequest(comity.id);
         dispatch(toast.success("Request sent"));
@@ -91,7 +113,7 @@ export default function ComityProfile({ navigation, route }) {
               onPress: async () => {
                 try {
                   dispatch(loader.show());
-                  await leaveComity(comity.id);
+                  await leaveComity(comity?.id);
                   dispatch(toast.success("You cancel the request!"));
                 } catch (error) {
                   dispatch(toast.error(error?.response?.data?.msg));
@@ -329,6 +351,7 @@ export default function ComityProfile({ navigation, route }) {
                 LeftIcon={() => <SvgXml xml={member} />}
                 style={{
                   width: width / 2 - 30,
+                  ...(!comity?.memberStatus && { textColor: "red" }),
                 }}
                 title={
                   comity?.iAmMember
