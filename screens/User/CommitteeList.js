@@ -119,11 +119,12 @@ export default function CommitteeList({ navigation }) {
               <ComityCard
                 onPress={async () => {
                   dispatch(loader.show());
-                  await localStorage.comityLogIn(doc);
+                  const res = await get(`/comity/get/${doc.id}`, user.token);
+                  await localStorage.comityLogIn(res.data.comity);
                   //console.log(com);
-                  dispatch({ type: "SET_COMITY", value: doc });
+                  dispatch({ type: "SET_COMITY", value: res.data.comity });
                   dispatch(loader.hide());
-                  navigation.navigate("Dashboard");
+                  navigation.navigate("Subscription");
                 }}
                 title={doc.name}
                 subTitle={doc.thana}

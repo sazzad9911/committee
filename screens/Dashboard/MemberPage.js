@@ -5,7 +5,7 @@ import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { get, put } from "../../apis/multipleApi";
+import { get, put, socket } from "../../apis/multipleApi";
 import MemberCard from "../../components/cart/MemberCard";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
@@ -99,6 +99,7 @@ export default function MemberPage({ navigation, route }) {
     }
   };
   useEffect(() => {
+    
     fetch();
   }, [special]);
   useEffect(() => {

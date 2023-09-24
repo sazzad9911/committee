@@ -95,7 +95,7 @@ export default function Member({ navigation, route }) {
         <View style={{ height: 24 }} />
 
         {filterData?.map((doc, i) => (
-          <SheetCard select={doc===value?true:false} onPress={e=>console.log(e)} title={doc} key={i} />
+          <SheetCard select={doc===value?true:false} title={doc} key={i} />
         ))}
       </View>
     );

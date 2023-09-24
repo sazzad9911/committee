@@ -57,14 +57,16 @@ export default function CommitteeProfile({ navigation }) {
     //console.log(comity.id);
 
     //console.log(user.user.id);
-    socket.emit("join", user.user.id);
-    // socket.on("getUsers",u=>{
-    //   console.log(u);
-    // })
     socket.on("comityUpdated", (e) => {
-      console.log(e);
+      //console.log(e)
+      if (e) {
+        dispatch({ type: "SET_COMITY", value: e });
+        //console.log(res.data.comity);
+        localStorage.comityLogIn(e);
+      }
+      //console.log(e);
     });
-  }, [isFocused]);
+  }, []);
   const fetch = async () => {
     try {
       const res = await get(`/comity/get/${comity.id}`, user.token);
@@ -227,7 +229,7 @@ export default function CommitteeProfile({ navigation }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-        <ProfileCart
+        {/* <ProfileCart
           onPress={() => {
             navigation.navigate("DashboardNotification");
           }}
@@ -236,7 +238,7 @@ export default function CommitteeProfile({ navigation }) {
           title={allHeadlines.notification}
           color={textColor}
         />
-        <View style={{ height: 16 }} />
+        <View style={{ height: 16 }} /> */}
         <View
           style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
         >
