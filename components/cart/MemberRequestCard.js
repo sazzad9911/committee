@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
+import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import Avatar from "../main/Avatar";
 import Button from "../main/Button";
@@ -19,6 +20,8 @@ export default function MemberRequestCard({
 }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const isBn=useSelector(state=>state.isBn);
+  const headlines=new AppValues(isBn).getValues()
   //console.log(data);
   return (
     <View
@@ -48,7 +51,8 @@ export default function MemberRequestCard({
           has requested to join your comity
         </Text>
       </View>
-      <View
+      {type==="New-Member-Request"&&(
+        <View
         style={{
           marginTop: 12,
           flexDirection: "row",
@@ -58,15 +62,16 @@ export default function MemberRequestCard({
           bg={["#F00", "#F00"]}
           active={true}
           style={{ paddingHorizontal: 24 }}
-          title={"Decline"}
+          title={headlines._decline}
         />
         <View style={{ width: 12 }} />
         <Button
           style={{ paddingHorizontal: 24 }}
           active={true}
-          title={"Accept"}
+          title={headlines._accept}
         />
       </View>
+      )}
     </View>
   );
 }

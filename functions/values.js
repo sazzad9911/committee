@@ -313,6 +313,9 @@ export class AppValues {
           _deleteOnly: "শুধুমাত্র সদস্য মুছে ফেলুন",
           _memberAndCollectionDelete: "সদস্য এবং সমস্ত কালেকশন ডিলিট করুন",
           _exampleGeneral: "উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",
+          _accept:"গ্রহণ করুন",
+          _decline:"প্রত্যাখ্যান করুন",
+          _notiReqMsg:"আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।",
         }
       : {
           write: "Write",
@@ -393,6 +396,9 @@ export class AppValues {
           _deleteOnly: "Delete member only",
           _memberAndCollectionDelete: "Delete member with all collections",
           _exampleGeneral: "Example: General ,President,VIP etc",
+          _accept:"Accept",
+          _decline:"Declie",
+          _notiReqMsg:"Easin Arafat has requested to join your comity",
         };
   }
 }

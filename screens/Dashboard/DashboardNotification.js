@@ -15,12 +15,13 @@ export default function DashboardNotification() {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   const colors = new AppColors(isDark);
   const values = new AppValues(isBn);
   const inset = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
-  const isLoading = useSelector(state=> state.isLoading)
+  const isLoading = useSelector((state) => state.isLoading);
 
   //console.log(user.token);
   const [data, setData] = useState();
@@ -34,14 +35,15 @@ export default function DashboardNotification() {
       dispatch(loader.hide());
     }
   }, [data]);
+
   const fetch = async () => {
     try {
-      const res = await get("/member/get-my-membership", user.token);
-      setData(
-        res.data.membership.filter((member) =>
-          member.requestBy.match("User")
-        )
+      const res = await get(
+        `/notification/comity/get/${comity?.id}`,
+        user.token
       );
+      console.log(res.data.notifications);
+      setData(res.data.notifications);
     } catch (e) {
       console.error(e.message);
     }
@@ -51,9 +53,7 @@ export default function DashboardNotification() {
     <View
       style={{
         flex: 1,
-        
       }}>
-     
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -63,21 +63,15 @@ export default function DashboardNotification() {
           <MemberRequestCard
             key={i}
             data={doc}
-            name={doc.comity.name}
-            type={doc.category}
+            type={doc.notificationType}
+            comity={doc.availableFor.match("Comity")?true:false}
             mainColor={colors.getMainColor()}
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
           />
         ))}
-        <MemberRequestCard
-            name={"dsfd"}
-            mainColor={colors.getMainColor()}
-            shadowColor={colors.getShadowColor()}
-            textColor={colors.getTextColor()}
-            
-          />
+        
         {data?.length === 0 && (
           <NoOption title={"Hey!"} subTitle={"No Notification available"} />
         )}
