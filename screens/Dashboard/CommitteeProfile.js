@@ -67,7 +67,16 @@ export default function CommitteeProfile({ navigation }) {
       //console.log(e);
     });
   }, []);
- 
+  const fetch = async () => {
+    try {
+      const res = await get(`/comity/get/${comity.id}`, user.token);
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+      //console.log(res.data.comity);
+      localStorage.comityLogIn(res.data.comity);
+    } catch (e) {
+      console.error(e.message);
+    }
+  };
   const uploadPicture = async (file) => {
     dispatch(loader.show());
     try {
@@ -215,7 +224,7 @@ export default function CommitteeProfile({ navigation }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-        <ProfileCart
+        {/* <ProfileCart
           onPress={() => {
             navigation.navigate("DashboardNotification");
           }}
@@ -224,7 +233,7 @@ export default function CommitteeProfile({ navigation }) {
           title={allHeadlines.notification}
           color={textColor}
         />
-        <View style={{ height: 16 }} />
+        <View style={{ height: 16 }} /> */}
         <View
           style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
           <SvgXml xml={location} />
