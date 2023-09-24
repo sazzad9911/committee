@@ -71,6 +71,13 @@ export default function DashboardNotification() {
             id={doc?.id}
           />
         ))}
+        <MemberRequestCard
+            name={"dsfd"}
+            mainColor={colors.getMainColor()}
+            shadowColor={colors.getShadowColor()}
+            textColor={colors.getTextColor()}
+            
+          />
         {data?.length === 0 && (
           <NoOption title={"Hey!"} subTitle={"No Notification available"} />
         )}

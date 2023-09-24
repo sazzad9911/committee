@@ -5,6 +5,7 @@ import { post } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import mainStyle from "../../styles/mainStyle";
+import Avatar from "../main/Avatar";
 import Button from "../main/Button";
 
 export default function MemberRequestCard({
@@ -23,79 +24,49 @@ export default function MemberRequestCard({
     <View
       style={{
         marginHorizontal: 20,
-        marginVertical: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        backgroundColor: shadowColor,
-        borderRadius: 5,
+        marginVertical: 12,
       }}>
-      <Text
-        style={[
-          {
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}>
+        <Avatar style={{ height: 40, width: 40 }} />
+        <Text
+          style={{
+            marginLeft: 12,
+            fontSize: 16,
+            fontWeight: "400",
             color: textColor,
-          },
-          mainStyle.subLevel,
-        ]}>
-        You have new request to join the comity{" "}
-        <Text
-          style={{
-            fontWeight: 700,
-            color: "#1B7CD6",
           }}>
-          {name ? name : "Trimity"}
-        </Text>{" "}
-        as{" "}
-        <Text
-          style={{
-            fontWeight: 700,
-            color: "#1B7CD6",
-          }}>
-          {type ? type : "General"}
-        </Text>{" "}
-        Member
-      </Text>
-      {data?.status === "Pending" ? (
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 8,
-          }}>
-          <Button
-            onPress={() => {
-              dispatch(loader.show());
-
-              post(`/member/request/accept/${data.id}`, null, user.token)
-                .then((res) => {
-                  dispatch(loader.hide());
-                  dispatch(toast.success("Request accepted"));
-                })
-                .catch((e) => {
-                  dispatch(loader.hide());
-                  dispatch(toast.error(e.response.data.msg));
-                });
-            }}
-            active={true}
-            title={"Accept"}
-          />
-          <View style={{ width: 10 }} />
-          <Button
-            onPress={() => {
-              dispatch(loader.show());
-              post(`/member/request/reject/${data.id}`, null, user.token)
-                .then((res) => {
-                  dispatch(loader.hide());
-                  dispatch(toast.success("Request success"));
-                })
-                .catch((e) => {
-                  dispatch(loader.hide());
-                  dispatch(toast.error(e.response.data.msg));
-                });
-            }}
-            color="red"
-            title={"Reject"}
-          />
-        </View>
-      ) : null}
+          <Text
+            style={{
+              fontWeight: "700",
+            }}>
+            Easin Arafat
+          </Text>{" "}
+          has requested to join your comity
+        </Text>
+      </View>
+      <View
+        style={{
+          marginTop: 12,
+          flexDirection: "row",
+          justifyContent: "flex-end",
+        }}>
+        <Button
+          bg={["#F00", "#F00"]}
+          active={true}
+          style={{ paddingHorizontal: 24 }}
+          title={"Decline"}
+        />
+        <View style={{ width: 12 }} />
+        <Button
+          style={{ paddingHorizontal: 24 }}
+          active={true}
+          title={"Accept"}
+        />
+      </View>
     </View>
   );
 }
