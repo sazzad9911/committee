@@ -62,7 +62,9 @@ export default function DeleteComity({ navigation }) {
               paddingVertical: 20,
             }}
           >
-            Enter your account password and confirm
+            {isBn
+              ? "আপনার অ্যাকাউন্ট এর পাসওয়ার্ড টি প্রবেশ করিয়ে নিশ্চিত করুন"
+              : "Enter your account password and confirm"}
           </Text>
           <Input
             type="password"

@@ -69,7 +69,7 @@ export default function ComityDeleteSuccess({ navigation }) {
             }}
             active={true}
             style={[mainStyle.mt24]}
-            title={"Sign out"}
+            title={isBn ? "লগ আউট করুন" : "Sign out"}
           />
         </View>
       </ScrollView>
