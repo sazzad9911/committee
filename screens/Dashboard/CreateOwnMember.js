@@ -246,7 +246,7 @@ export default function CreateOwnMember({ navigation, route }) {
             active={name && gender && position && explain ? true : false}
             disabled={name && gender && position && explain ? false : true}
             style={mainStyle.mt24}
-            title={headlines._ok}
+            title={values.createCommitteeValues().next}
           />
         </View>
       </ScrollView>

@@ -8,6 +8,7 @@ import {
   Pressable,
   Text,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +20,7 @@ import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
 import loader from "../../data/loader";
 import { post } from "../../apis/multipleApi";
-import { getComityById } from "../../apis/api";
+import { getComityById, leaveComity, sendMemberRequest } from "../../apis/api";
 import toast from "../../data/toast";
 import MoreText from "../../components/main/MoreText";
 
@@ -35,7 +36,9 @@ export default function ComityProfile({ navigation, route }) {
   const dispatch = useDispatch();
   const comityId = route?.params?.comityId;
   const [comity, setComity] = React.useState(null);
+  const [refetch, setRefetch] = React.useState(false);
   const user = useSelector((state) => state.user);
+
   //console.log(comity);
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,9 +71,53 @@ export default function ComityProfile({ navigation, route }) {
     }
   };
 
+  const handelRequest = async () => {
+    try {
+      dispatch(loader.show());
+      if (comity?.iAmMember) {
+        await leaveComity(comity.id);
+        dispatch(toast.success("You leave the comity!"));
+      } else if (!comity?.memberStatus) {
+        await sendMemberRequest(comity.id);
+        dispatch(toast.success("Request sent"));
+        setRefetch(!refetch);
+      } else {
+        Alert.alert(
+          "Are your sure?",
+          "Are you sure you want to cancel the request?",
+          [
+            {
+              text: "Yes",
+              onPress: async () => {
+                try {
+                  dispatch(loader.show());
+                  await leaveComity(comity.id);
+                  dispatch(toast.success("You cancel the request!"));
+                } catch (error) {
+                  dispatch(toast.error(error?.response?.data?.msg));
+                } finally {
+                  dispatch(loader.hide());
+                  setRefetch(!refetch);
+                }
+              },
+            },
+            {
+              text: "No",
+            },
+          ]
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(toast.error(error?.response?.data?.msg));
+    } finally {
+      dispatch(loader.hide());
+    }
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refetch]);
 
   return (
     <ScrollView
@@ -264,8 +311,7 @@ export default function ComityProfile({ navigation, route }) {
         </Text>
 
         <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-          
-          <MoreText text={comity?.about ? comity.about : ""}/>
+          <MoreText text={comity?.about ? comity.about : ""} />
           <View
             style={{
               flexDirection: "row",
@@ -277,29 +323,22 @@ export default function ComityProfile({ navigation, route }) {
               borderTopColor: colors.getShadowColor(),
             }}
           >
-            <Button
-              onPress={async () => {
-                dispatch(loader.show());
-                try {
-                  await post(
-                    `/member/request/send/${comity.id}`,
-                    null,
-                    user.token
-                  );
-                  dispatch(loader.hide());
-                  dispatch(toast.success("Request sent"));
-                } catch (e) {
-                  console.error(e.message);
-                  dispatch(loader.hide());
-                  dispatch(toast.error("Error loading"));
+            {comity?.memberStatus !== "Rejected" && (
+              <Button
+                onPress={handelRequest}
+                LeftIcon={() => <SvgXml xml={member} />}
+                style={{
+                  width: width / 2 - 30,
+                }}
+                title={
+                  comity?.iAmMember
+                    ? "Leave from comity"
+                    : !comity?.memberStatus
+                    ? "Member"
+                    : "Cancel request"
                 }
-              }}
-              LeftIcon={() => <SvgXml xml={member} />}
-              style={{
-                width: width / 2 - 30,
-              }}
-              title={"Member"}
-            />
+              />
+            )}
             <Button
               onPress={async () => {
                 dispatch(loader.show());

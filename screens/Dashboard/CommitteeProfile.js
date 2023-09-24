@@ -57,14 +57,13 @@ export default function CommitteeProfile({ navigation }) {
     //console.log(comity.id);
 
     //console.log(user.user.id);
-    socket.emit("join",user.user.id)
+    socket.emit("join", user.user.id);
     // socket.on("getUsers",u=>{
     //   console.log(u);
     // })
-    socket.on("comityUpdated",e=>{
-      console.log(e)
-    })
-   
+    socket.on("comityUpdated", (e) => {
+      console.log(e);
+    });
   }, [isFocused]);
   const fetch = async () => {
     try {
@@ -97,7 +96,6 @@ export default function CommitteeProfile({ navigation }) {
       dispatch(loader.hide());
     }
   };
-  
 
   return (
     <ScrollView
@@ -217,7 +215,7 @@ export default function CommitteeProfile({ navigation }) {
             navigation.navigate("Notice");
           }}
           borderColor={borderColor}
-          privacy={ 
+          privacy={
             comity?.noticePrivacy === "Private"
               ? allHeadlines.private
               : comity?.noticePrivacy === "Public"
