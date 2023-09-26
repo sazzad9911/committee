@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { get } from "../../apis/multipleApi";
+import { get, socket } from "../../apis/multipleApi";
 import MemberRequestCard from "../../components/cart/MemberRequestCard";
 import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
@@ -26,15 +26,14 @@ export default function DashboardNotification() {
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
+    !data && dispatch(loader.show());
     fetch();
+    socket.on("newNotification", (e) => {
+      console.log(e);
+      fetch();
+    });
+    // socket.off("newNotification")
   }, [isFocused]);
-  useEffect(() => {
-    if (!data) {
-      dispatch(loader.show());
-    } else {
-      dispatch(loader.hide());
-    }
-  }, [data]);
 
   const fetch = async () => {
     try {
@@ -42,9 +41,11 @@ export default function DashboardNotification() {
         `/notification/comity/get/${comity?.id}`,
         user.token
       );
-      console.log(res.data.notifications);
+      //console.log(res.data.notifications);
       setData(res.data.notifications);
+      dispatch(loader.hide());
     } catch (e) {
+      dispatch(loader.hide());
       console.error(e.message);
     }
   };
@@ -59,22 +60,24 @@ export default function DashboardNotification() {
         style={{
           backgroundColor: colors.getBackgroundColor(),
         }}>
+        <View style={{ height: 12 }} />
         {data?.map((doc, i) => (
           <MemberRequestCard
             key={i}
             data={doc}
             type={doc.notificationType}
-            comity={doc.availableFor.match("Comity")?true:false}
+            comity={doc.availableFor.match("Comity") ? true : false}
             mainColor={colors.getMainColor()}
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
           />
         ))}
-        
+
         {data?.length === 0 && (
           <NoOption title={"Hey!"} subTitle={"No Notification available"} />
         )}
+        <View style={{ height: 12 }} />
       </ScrollView>
     </View>
   );
