@@ -263,6 +263,7 @@ export class AppValues {
           _selectProvider: "দাতা নির্বাচন করুন",
           _selectPayee: "পরিশোধ দাতা নির্বাচন করুন",
           _addFromComity: "বর্তমান সদস্য লিস্ট থেকে নির্বাচন করুন",
+          _addFromComityAlt: "Add From Comity Users",
           _createMemberOwn: "নতুন দাতা তৈরি করুন",
           _memberInfo: "ব্যাক্তির তথ্য",
           _name: "নাম",
@@ -313,9 +314,9 @@ export class AppValues {
           _deleteOnly: "শুধুমাত্র সদস্য মুছে ফেলুন",
           _memberAndCollectionDelete: "সদস্য এবং সমস্ত কালেকশন ডিলিট করুন",
           _exampleGeneral: "উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",
-          _accept:"গ্রহণ করুন",
-          _decline:"প্রত্যাখ্যান করুন",
-          _notiReqMsg:"আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।",
+          _accept: "গ্রহণ করুন",
+          _decline: "প্রত্যাখ্যান করুন",
+          _notiReqMsg: "আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।",
         }
       : {
           write: "Write",
@@ -345,6 +346,7 @@ export class AppValues {
           _selectProvider: "Paying member",
           _selectPayee: "Select Paying member",
           _addFromComity: "Choose From Member list",
+          _addFromComityAlt: "Add From Comity Users",
           _createMemberOwn: "Create a new Member",
           _memberInfo: "Member Info",
           _name: "Name",
@@ -396,9 +398,9 @@ export class AppValues {
           _deleteOnly: "Delete member only",
           _memberAndCollectionDelete: "Delete member with all collections",
           _exampleGeneral: "Example: General ,President,VIP etc",
-          _accept:"Accept",
-          _decline:"Declie",
-          _notiReqMsg:"Easin Arafat has requested to join your comity",
+          _accept: "Accept",
+          _decline: "Declie",
+          _notiReqMsg: "Easin Arafat has requested to join your comity",
         };
   }
 }

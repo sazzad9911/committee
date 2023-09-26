@@ -347,11 +347,12 @@ export default function ComityProfile({ navigation, route }) {
           >
             {comity?.memberStatus !== "Rejected" && (
               <Button
+                color={comity?.memberStatus ? "red" : null}
                 onPress={handelRequest}
                 LeftIcon={() => <SvgXml xml={member} />}
                 style={{
                   width: width / 2 - 30,
-                  ...(!comity?.memberStatus && { textColor: "red" }),
+                  ...(!comity?.memberStatus && { color: "red" }),
                 }}
                 title={
                   comity?.iAmMember
