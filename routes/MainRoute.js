@@ -77,6 +77,7 @@ import DeleteComity from "../screens/Dashboard/DeleteComity";
 import ComityDeleteSuccess from "../screens/Dashboard/ComityDeleteSuccess";
 import AttachMemberConfirm from "../screens/Dashboard/AttachMemberConfirm";
 import { socket } from "../apis/multipleApi";
+import AcceptMember from "../screens/Dashboard/AcceptMember";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -434,6 +435,18 @@ export default function MainRoute() {
               }}
               name="AddMember"
               component={AddMember}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={values.getValues()._positionAndCategory}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AcceptMember"
+              component={AcceptMember}
             />
             <Stack.Screen
               options={{

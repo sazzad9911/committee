@@ -35,7 +35,7 @@ export default function CreateCommittee({ navigation }) {
   const ref = createRef();
 
   return (
-    <BottomShitLayout
+    <BottomShitLayout points={["75%"]}
       screen={
         <View
           style={{
@@ -79,7 +79,7 @@ export default function CreateCommittee({ navigation }) {
           <InputButton
             onPress={() => {
               setSelect("Division");
-              setIndex(2);
+              setIndex(0);
               
             }}
             outSideStyle={mainStyle.mt8}
@@ -96,7 +96,7 @@ export default function CreateCommittee({ navigation }) {
                 editable={false}
                 onPress={() => {
                   setSelect("District");
-                  setIndex(2);
+                  setIndex(0);
                 }}
                 value={district}
                 placeholder={createCommitteeValues.select}
@@ -111,7 +111,7 @@ export default function CreateCommittee({ navigation }) {
                 editable={false}
                 onPress={() => {
                   setSelect("Thana");
-                  setIndex(2);
+                  setIndex(0);
                 }}
                 value={area}
                 placeholder={createCommitteeValues.select}

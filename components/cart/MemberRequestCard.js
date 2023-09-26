@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { post } from "../../apis/multipleApi";
+import { post, socket } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
 import { AppValues } from "../../functions/values";
@@ -16,17 +16,26 @@ export default function MemberRequestCard({
   type,
   mainColor,
   id,
-  data,
+  doc,
   comity,
+  onPress
 }) {
   const user = useSelector((state) => state.user);
   const c = useSelector((state) => state.comity);
   const dispatch = useDispatch();
   const isBn = useSelector((state) => state.isBn);
   const headlines = new AppValues(isBn).getValues();
-  //console.log(data);
+  const [data,setData]=useState(doc) 
+  //console.log(doc);
   useEffect(() => {
     //console.log(data.id);
+    socket.on("newNotification", (e) => {
+      //console.log(e);
+      if(e&&e.id===doc.id){
+        setData(e)
+      }
+    });
+    socket.off("newNotification")
   }, []);
   const getText = (type, name, position, isBn) => {
     if (c) {
@@ -67,31 +76,31 @@ export default function MemberRequestCard({
             type == "Reject-Member-Request"
               ? `${
                   comity
-                    ? `আপনি /.${name}/কে আপনার কমিটিতে যোগ দিতে প্রত্যাখ্যান করেছেন`
-                    : `.${name}/ আপনার কমিটিতে বিশেষ সদস্য হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
+                    ? `.${name}/ তাদের কমিটিতে /.${position}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
+                    : `আপনি  /.${name}/ কমিটিতে /.${position}/ হিসেবে যোগদানের অনুরোধ প্রত্যাখ্যান করেছেন`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
-                    ? `আপনি /.${name}/কে আপনার কমিটির একজন /.${position}/ হিসাবে যোগদান করার জন্য গ্রহণ করেছেন।`
-                    : `.${name}/ আপনার কমিটিতে বিশেষ সদস্য হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
+                    ? `.${name}/ তাদের কমিটিতে /.${position}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
+                    : `আপনি /.${name}/ কমিটিতে /.${position}/ হিসেবে যোগদানের অনুরোধ গ্রহণ করেছেন`
                 }`
-              : `.${name}/ আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।`
+              : `আপনি /.${name}/ কমিটিতে /.${position}/ হিসেবে যোগদানের জন্য একটি নতুন অনুরোধ পেয়েছেন`
           }`
         : `${
             type == "Reject-Member-Request"
               ? `${
                   comity
-                    ? `You have declined /.${name}/ to join your comity`
-                    : `.${name}/ আপনার কমিটিতে বিশেষ সদস্য হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
+                    ? `.${name}/ has declined your request to join their comity.`
+                    : `You've declined the request to join the /.${name}/' as a /.${position}`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
                     ? `You have accepted /.${name}/ to join your committee as a /.${position}`
-                    : `.${name}/ আপনার কমিটিতে বিশেষ সদস্য হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
+                    : `You've accepted the request to join the /.${name}/' as a /.${position}`
                 }`
-              : `.${name}/ has requested to join your comity`
+              : `You've received a new request to join the /.${name}/ as a /.${position}`
           }`;
     }
   };
@@ -154,7 +163,7 @@ export default function MemberRequestCard({
           {getText(
             type,
             c ? data?.user?.name : data?.comity?.name,
-            "General Member",
+            data.message,
             isBn
           )
             .split("/")
@@ -200,7 +209,7 @@ export default function MemberRequestCard({
           />
           <View style={{ width: 12 }} />
           <Button
-            onPress={() => accept(data.entityId)}
+            onPress={() =>onPress?onPress:accept(data.entityId)}
             style={{ paddingHorizontal: 24 }}
             active={true}
             title={headlines._accept}

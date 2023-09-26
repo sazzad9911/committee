@@ -11,7 +11,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function DashboardNotification() {
+export default function DashboardNotification({navigation}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
@@ -22,18 +22,21 @@ export default function DashboardNotification() {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.isLoading);
-
+  const [change, setChange] = useState();
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
     !data && dispatch(loader.show());
     fetch();
-    socket.on("newNotification", (e) => {
-      console.log(e);
-      fetch();
-    });
+
     // socket.off("newNotification")
-  }, [isFocused]);
+  }, [isFocused, change]);
+  useEffect(() => {
+    socket.on("newNotification", (e) => {
+      setChange(e);
+    });
+    socket.off("newNotification");
+  }, []);
 
   const fetch = async () => {
     try {
@@ -41,7 +44,7 @@ export default function DashboardNotification() {
         `/notification/comity/get/${comity?.id}`,
         user.token
       );
-      //console.log(res.data.notifications);
+      
       setData(res.data.notifications);
       dispatch(loader.hide());
     } catch (e) {
@@ -64,13 +67,16 @@ export default function DashboardNotification() {
         {data?.map((doc, i) => (
           <MemberRequestCard
             key={i}
-            data={doc}
+            doc={doc}
             type={doc.notificationType}
             comity={doc.availableFor.match("Comity") ? true : false}
             mainColor={colors.getMainColor()}
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
+            onPress={()=>{
+              navigation?.navigate("AcceptMember")
+            }}
           />
         ))}
 

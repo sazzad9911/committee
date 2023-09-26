@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { get } from "../../apis/multipleApi";
+import { get, socket } from "../../apis/multipleApi";
 import MemberRequestCard from "../../components/cart/MemberRequestCard";
 import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
@@ -23,29 +23,28 @@ export default function Notification() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.isLoading);
   const toast = useSelector((state) => state.toast);
-
+  const [change, setChange] = useState();
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
+    !data&&dispatch(loader.show());
     fetch();
-  }, [isFocused, isLoading,toast]);
+  }, [isFocused,toast,change]);
   useEffect(() => {
-    if (!data) {
-      dispatch(loader.show());
-    } else {
-      dispatch(loader.hide());
-    }
-  }, [data]);
+    socket.on("newNotification", (e) => {
+      setChange(e);
+    });
+    socket.off("newNotification");
+  }, []);
   const fetch = () => {
-    get("/member/get-my-membership", user.token)
+    get("/notification/user/get", user.token)
       .then((res) => {
-        setData(
-          res.data.membership.filter((member) =>
-            member.requestBy.includes("Comity")
-          )
-        );
+        dispatch(loader.hide());
+        //console.log(res.data.notifications);
+        setData(res.data.notifications);
       })
       .catch((e) => {
+        dispatch(loader.hide());
         dispatch(toast.error(e.response.data.msg))
       });
   };
@@ -78,9 +77,9 @@ export default function Notification() {
         {data?.map((doc, i) => (
           <MemberRequestCard
             key={i}
-            data={doc}
-            name={doc.comity.name}
-            type={doc.category}
+            doc={doc}
+            type={doc.notificationType}
+            comity={doc.availableFor.match("Comity") ? true : false}
             mainColor={colors.getMainColor()}
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}

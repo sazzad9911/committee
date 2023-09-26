@@ -13,6 +13,7 @@ import { SvgXml } from "react-native-svg";
 import { AppColors } from "../functions/colors";
 import { AppValues } from "../functions/values";
 import { Ionicons } from "@expo/vector-icons";
+import { get, socket } from "../apis/multipleApi";
 
 const { width, height } = Dimensions.get("window");
 export default function UserBottomBar({ navigation, state }) {
@@ -28,6 +29,7 @@ export default function UserBottomBar({ navigation, state }) {
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
+  const [number, setNumber] = useState(0);
 
   const press = (v) => {
     Animated.spring(translateValue, {
@@ -43,6 +45,24 @@ export default function UserBottomBar({ navigation, state }) {
     press(route);
     //press(state.index);
   }, [state?.index, route]);
+  React.useEffect(() => {
+    socket.on("newNotification", (e) => {
+      fetchCount();
+    });
+  }, []);
+  const fetchCount = async () => {
+    try {
+      const { data } = await get(
+        `/notification/user/get-unread-count`,
+        user.token
+      );
+      setNumber(data.count);
+      //console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const profileActiveIcon = `<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M9.80486 0.0111389C7.32066 0.228943 5.10667 1.23955 3.42003 2.92534C1.89464 4.45432 0.918392 6.40583 0.578448 8.61C0.473851 9.29825 0.473851 10.7096 0.578448 11.3979C0.914034 13.5803 1.87721 15.5231 3.37209 17.0303C4.94977 18.6159 6.84561 19.5742 9.10754 19.9183C9.79614 20.0272 11.2039 20.0272 11.8968 19.9183C15.2396 19.413 18.0245 17.3962 19.4802 14.4253C20.1949 12.9617 20.5 11.6549 20.5 10.0039C20.5 8.34428 20.1906 7.01132 19.4584 5.53026C18.0114 2.61606 15.1917 0.577427 11.9404 0.0939045C11.4915 0.0285645 10.1884 -0.0237083 9.80486 0.0111389ZM11.7879 1.5314C13.1215 1.73614 14.4856 2.30243 15.5795 3.1083C16.0851 3.47856 17.0308 4.42383 17.4013 4.92913C18.2294 6.04864 18.8134 7.49049 19.0051 8.87136C19.0879 9.45943 19.0792 10.6573 18.9877 11.2454C18.8134 12.3736 18.4168 13.4714 17.8502 14.3992C17.5843 14.8348 17.1398 15.449 17.0875 15.449C17.0701 15.449 16.9785 15.327 16.8783 15.1746C16.0982 13.9897 14.3636 13.014 12.4242 12.6655C10.7114 12.3562 8.90706 12.4651 7.36424 12.9748C5.87372 13.4626 4.67956 14.2903 4.08248 15.2399C4.00839 15.3575 3.93866 15.449 3.91687 15.449C3.80791 15.449 3.01471 14.2293 2.7445 13.6412C2.18228 12.4172 1.94258 11.3325 1.94258 10.0039C1.94258 8.42269 2.32611 7.00697 3.11059 5.67837C3.59 4.86814 4.35269 3.97515 5.08488 3.37402C6.29647 2.38519 7.90902 1.68387 9.36903 1.51398C9.59566 1.48784 9.84408 1.45735 9.91382 1.44864C10.1666 1.41379 11.3564 1.46606 11.7879 1.5314ZM11.4523 13.9723C12.7249 14.1073 13.9844 14.5429 14.7951 15.1179C15.305 15.4839 15.95 16.281 15.95 16.5511C15.95 16.6426 15.2875 17.1304 14.7253 17.4528C12.0537 18.9861 8.70222 18.9339 6.06112 17.3221C5.56428 17.0215 5.05437 16.6295 5.05437 16.5554C5.05437 16.4465 5.27664 16.0501 5.47712 15.7888C6.18751 14.8871 7.78263 14.1683 9.49978 13.9723C9.97919 13.92 10.9642 13.9157 11.4523 13.9723Z" fill=${
     isDark ? "#fff" : "#737AFF"
@@ -188,10 +208,27 @@ export default function UserBottomBar({ navigation, state }) {
             setRoute(3);
             navigation?.navigate("Notification");
           }}>
-          <Ionicons name="notifications" size={24} color={route==3?isDark?"#fff":"#737AFF":"#159696"} />
+          <Ionicons
+            name="notifications"
+            size={24}
+            color={route == 3 ? (isDark ? "#fff" : "#737AFF") : "#159696"}
+          />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[6] : ""}
           </Text>
+          {number ? (
+            <View
+              style={{
+                backgroundColor: "#4ADE80",
+                width: 10,
+                height: 10,
+                borderRadius: 6,
+                position: "absolute",
+                right: 26,
+                top: -5,
+              }}
+            />
+          ) : null}
         </Pressable>
         <Pressable
           style={[style.buttons]}
