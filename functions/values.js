@@ -76,7 +76,7 @@ export class AppValues {
     } else {
       return {
         name: "Comity Name",
-        required: "Require",
+        required: "Required",
         highest30: "Maxi. 30 Cha.",
         highest50: "Maxi. 50 Cha.",
         notRequired: "Optional",
@@ -263,6 +263,7 @@ export class AppValues {
           _selectProvider: "দাতা নির্বাচন করুন",
           _selectPayee: "পরিশোধ দাতা নির্বাচন করুন",
           _addFromComity: "বর্তমান সদস্য লিস্ট থেকে নির্বাচন করুন",
+          _addFromComityAlt: "Add From Comity Users",
           _createMemberOwn: "নতুন দাতা তৈরি করুন",
           _memberInfo: "ব্যাক্তির তথ্য",
           _name: "নাম",
@@ -324,6 +325,7 @@ export class AppValues {
               - 'বিশেষ সদস্য': এই বিকল্পটি বেছে নিন যদি কমিটির মধ্যে সদস্যের একটি নির্দিষ্ট ভূমিকা থাকে, যেমন ম্যানেজার বা নেতা৷।
           
           এই বিশদ বিবরণ প্রদান করে, আপনি নিশ্চিত করেন যে নতুন সদস্যের ভূমিকা এবং ধরন সঠিকভাবে কমিটির মধ্যে সংজ্ঞায়িত করা হয়েছে, আপনার কমিটির পরিচালনা প্রক্রিয়াকে সহজসাধ্য করে`
+
         }
       : {
           write: "Write",
@@ -343,16 +345,17 @@ export class AppValues {
           _placeholder1: "Example:Salary, Developmemt etc",
           _placeholder2: "Example:1000, 2000",
           _ammoutSubs: "Amount",
-          _positionAndQualification: "Position and Qualification",
+          _positionAndQualification: "Position and Category",
           _position: "Position",
           _selectAmembershipPlan: "Choose a member category",
-          _requestForMember: "Request for being member",
+          _requestForMember: "Request to become a member",
           _generalMember: "General Member",
           _specialMember: "Special Member",
           _allMember: "All Member",
           _selectProvider: "Paying member",
           _selectPayee: "Select Paying member",
           _addFromComity: "Choose From Member list",
+          _addFromComityAlt: "Add From Comity Users",
           _createMemberOwn: "Create a new Member",
           _memberInfo: "Member Info",
           _name: "Name",

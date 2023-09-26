@@ -41,7 +41,6 @@ const InputButton = ({
   const borderColor = colors.getShadowColor();
   const mainColor = colors.getMainColor();
   const subTextColor = colors.getSubTextColor();
-  
 
   return (
     <View style={[outSideStyle]}>
@@ -52,13 +51,15 @@ const InputButton = ({
             justifyContent: "space-between",
             marginBottom: 12,
             alignItems: "center",
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 20,
               fontWeight: "400",
               color: textColor,
-            }}>
+            }}
+          >
             {level}
             {optionalLevel && (
               <Text
@@ -68,7 +69,8 @@ const InputButton = ({
                     color: borderColor,
                   },
                   levelStyle,
-                ]}>
+                ]}
+              >
                 ( {optionalLevel} )
               </Text>
             )}
@@ -81,13 +83,15 @@ const InputButton = ({
                   color: borderColor,
                 },
                 levelStyle,
-              ]}>
+              ]}
+            >
               {subLevel}
             </Text>
           )}
         </View>
       )}
-      <Pressable onPress={onPress}
+      <Pressable
+        onPress={onPress}
         style={[
           {
             flexDirection: "row",
@@ -102,53 +106,53 @@ const InputButton = ({
           { borderColor: !Focus ? borderColor : mainColor },
           ,
           containerStyle,
-        ]}>
+        ]}
+      >
         {leftIcon}
-        
-            <TextInput
-              secureTextEntry={secureTextEntry}
-              placeholderTextColor={
-                placeholderTextColor ? placeholderTextColor : borderColor
-              }
-              ref={innerRef}
-              returnKeyType={returnKeyType}
-              onSubmitEditing={() => {
-                if (onSubmitEditing) {
-                  onSubmitEditing();
-                }
-              }}
-              autoCapitalize={autoCapitalize}
-              
-              editable={editable}
-              keyboardType={keyboardType}
-              value={value}
-              onChangeText={(val) => {
-                if (onChange) {
-                  onChange(val);
-                }
-              }}
-              onFocus={() => {
-                setFocus((v) => !v);
-                if (onFocus) {
-                  onFocus();
-                }
-              }}
-              onEndEditing={() => {
-                setFocus(!Focus);
-              }}
-              placeholder={placeholder ? placeholder : "Type here"}
-              style={[
-                {
-                  flex: 1,
-                  paddingLeft: leftIcon ? 10 : 0,
-                  fontSize: 15,
-                  color: textColor,
-                  paddingRight: rightIcon ? 10 : 0,
-                },
-                style,
-              ]}
-            />
-          
+
+        <TextInput
+          secureTextEntry={secureTextEntry}
+          placeholderTextColor={
+            placeholderTextColor ? placeholderTextColor : borderColor
+          }
+          ref={innerRef}
+          returnKeyType={returnKeyType}
+          onSubmitEditing={() => {
+            if (onSubmitEditing) {
+              onSubmitEditing();
+            }
+          }}
+          autoCapitalize={autoCapitalize}
+          editable={editable}
+          keyboardType={keyboardType}
+          value={value}
+          onChangeText={(val) => {
+            if (onChange) {
+              onChange(val);
+            }
+          }}
+          onFocus={() => {
+            setFocus((v) => !v);
+            if (onFocus) {
+              onFocus();
+            }
+          }}
+          onEndEditing={() => {
+            setFocus(!Focus);
+          }}
+          placeholder={placeholder ? placeholder : "Type here"}
+          style={[
+            {
+              flex: 1,
+              paddingLeft: leftIcon ? 10 : 0,
+              fontSize: 15,
+              color: textColor,
+              paddingRight: rightIcon ? 10 : 0,
+            },
+            style,
+          ]}
+        />
+
         {rightIcon}
       </Pressable>
       {Error && (
@@ -163,11 +167,11 @@ const InputButton = ({
               marginBottom: 0,
               marginLeft: style?.marginLeft,
             },
-          ]}>
+          ]}
+        >
           {Error}
         </Text>
       )}
-      
     </View>
   );
 };

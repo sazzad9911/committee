@@ -15,26 +15,26 @@ const Button = ({
   bg,
   placeholder,
   placeholderTextColor,
-  color
+  color,
 }) => {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const primaryColor = colors.getMainColor();
-  const ac=["#1488CC", "#2B32B2"]
-  const dc=[backgroundColor,backgroundColor]
-  const borderColor=colors.getShadowColor()
+  const ac = ["#1488CC", "#2B32B2"];
+  const dc = [backgroundColor, backgroundColor];
+  const borderColor = colors.getShadowColor();
 
   return (
     <TouchableOpacity
       disabled={disabled}
-      
       onPress={() => {
         if (onPress) {
           onPress();
         }
-      }}>
+      }}
+    >
       <LinearGradient
         // Button Linear Gradient
         style={[
@@ -51,8 +51,9 @@ const Button = ({
           },
           style,
         ]}
-        start={{x:0.2,y:0}}
-        colors={Array.isArray(bg)?bg:active?ac:dc}>
+        start={{ x: 0.2, y: 0 }}
+        colors={Array.isArray(bg) ? bg : active ? ac : dc}
+      >
         {LeftIcon && (
           <View>
             <LeftIcon />
@@ -63,26 +64,22 @@ const Button = ({
           <Text
             style={{
               fontSize: style && style.fontSize ? style.fontSize : 14,
-              color: active
-                ? "white"
-                : color
-                ? color
-                : borderColor,
+              color: active ? "white" : color ? color : borderColor,
               opacity: disabled ? 0.4 : 1,
-              fontWeight:"600"
-            }}>
+              fontWeight: "600",
+            }}
+          >
             {title}
           </Text>
         )}
-        {placeholder&&!title && (
+        {placeholder && !title && (
           <Text
             style={{
               fontSize: style && style.fontSize ? style.fontSize : 14,
-              color: placeholderTextColor
-                ? placeholderTextColor
-                : borderColor,
+              color: placeholderTextColor ? placeholderTextColor : borderColor,
               opacity: disabled ? 0.4 : 1,
-            }}>
+            }}
+          >
             {placeholder}
           </Text>
         )}
