@@ -1,5 +1,11 @@
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import React, { createRef, forwardRef, useRef, useState } from "react";
+import React, {
+  createRef,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
@@ -33,6 +39,12 @@ export default function CreateCommittee({ navigation }) {
   const [area, setArea] = useState();
   const [address, setAddress] = useState();
   const ref = createRef();
+  const [bg, setBg] = useState();
+  useEffect(() => {
+    isDark
+      ? setBg("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.2)")
+      : setBg("#fff", "#fff");
+  }, [isDark]);
 
   return (
     <BottomShitLayout
@@ -41,15 +53,20 @@ export default function CreateCommittee({ navigation }) {
           style={{
             paddingHorizontal: 20,
             paddingVertical: 10,
-          }}>
-          <Input value={name} onChange={setName}
+          }}
+        >
+          <Input
+            value={name}
+            onChange={setName}
             level={`${createCommitteeValues.name} `}
             optionalLevel={`${createCommitteeValues.required}`}
             subLevel={`${createCommitteeValues.highest30}`}
             placeholder={createCommitteeValues.write}
           />
 
-          <Input value={mobile} onChange={setMobile}
+          <Input
+            value={mobile}
+            onChange={setMobile}
             outSideStyle={mainStyle.mt24}
             keyboardType="numeric"
             level={`${createCommitteeValues.mobile} `}
@@ -64,7 +81,8 @@ export default function CreateCommittee({ navigation }) {
                 color: textColor,
               },
               mainStyle.mt24,
-            ]}>
+            ]}
+          >
             {createCommitteeValues.address}
             <Text style={[mainStyle.subLevel, { color: borderColor }]}>
               {" "}
@@ -73,31 +91,37 @@ export default function CreateCommittee({ navigation }) {
           </Text>
 
           <Text
-            style={[mainStyle.mt12, { color: textColor }, mainStyle.subLevel]}>
+            style={[mainStyle.mt12, { color: textColor }, mainStyle.subLevel]}
+          >
             {createCommitteeValues.division}
           </Text>
-          <InputButton
+
+          <Button
+            bg={bg}
+            title={division}
             onPress={() => {
               setSelect("Division");
               setIndex(2);
-              
             }}
-            outSideStyle={mainStyle.mt8}
-            editable={false}
-            value={division}
-            placeholder={createCommitteeValues.select}
+            color={colors.getTextColor()}
+            style={[
+              {
+                marginTop: 8,
+                justifyContent: "start",
+                borderColor: colors.getShadowColor(),
+              },
+            ]}
+            placeholder={"Choose"}
+            placeholderTextColor={colors.getTextColor()}
           />
           <View style={[mainStyle.mt12, mainStyle.flexBox]}>
             <View>
               <Text style={[{ color: textColor }, mainStyle.subLevel]}>
                 {createCommitteeValues.district}
               </Text>
+
               <InputButton
                 editable={false}
-                onPress={() => {
-                  setSelect("District");
-                  setIndex(2);
-                }}
                 value={district}
                 placeholder={createCommitteeValues.select}
                 outSideStyle={mainStyle.halfInput}
@@ -120,8 +144,9 @@ export default function CreateCommittee({ navigation }) {
             </View>
           </View>
 
-          <TextArea value={address}
-          onChange={setAddress}
+          <TextArea
+            value={address}
+            onChange={setAddress}
             outSideStyle={mainStyle.mt12}
             level={`${createCommitteeValues.address} `}
             optionalLevel={createCommitteeValues.notRequired}
@@ -198,8 +223,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor:colors.getSchemeColor()
-      }}>
+        backgroundColor: colors.getSchemeColor(),
+      }}
+    >
       <Text
         style={{
           marginVertical: 12,
@@ -207,14 +233,12 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
           fontSize: 20,
           width: "100%",
           textAlign: "center",
-          color:colors.getTextColor()
-        }}>
+          color: colors.getTextColor(),
+        }}
+      >
         {type ? type : "Division"}
       </Text>
-      <View
-        contentContainerStyle={{
-          
-        }}>
+      <View contentContainerStyle={{}}>
         {type == "Division" &&
           DistrictList.map((doc, i) => (
             <Pressable
@@ -223,9 +247,17 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   onChange(doc.title);
                 }
               }}
-              style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
-              key={i}>
-              <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc.title}</Text>
+              style={[
+                newStyles.box,
+                { borderBottomColor: colors.getShadowColor() },
+              ]}
+              key={i}
+            >
+              <Text
+                style={[newStyles.textSp, { color: colors.getTextColor() }]}
+              >
+                {doc.title}
+              </Text>
               {select == doc.title && <SvgXml xml={tick} />}
             </Pressable>
           ))}
@@ -238,9 +270,17 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                     onChange(doc);
                   }
                 }}
-                style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
-                key={i}>
-                <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc}</Text>
+                style={[
+                  newStyles.box,
+                  { borderBottomColor: colors.getShadowColor() },
+                ]}
+                key={i}
+              >
+                <Text
+                  style={[newStyles.textSp, { color: colors.getTextColor() }]}
+                >
+                  {doc}
+                </Text>
                 {select == doc && <SvgXml xml={tick} />}
               </Pressable>
             )
@@ -253,14 +293,21 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   onChange(doc);
                 }
               }}
-              style={[newStyles.box,{borderBottomColor:colors.getShadowColor()}]}
-              key={i}>
-              <Text style={[newStyles.textSp,{color:colors.getTextColor()}]}>{doc}</Text>
+              style={[
+                newStyles.box,
+                { borderBottomColor: colors.getShadowColor() },
+              ]}
+              key={i}
+            >
+              <Text
+                style={[newStyles.textSp, { color: colors.getTextColor() }]}
+              >
+                {doc}
+              </Text>
               {select == doc && <SvgXml xml={tick} />}
             </Pressable>
           ))}
       </View>
-      
     </View>
   );
 };

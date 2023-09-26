@@ -76,7 +76,7 @@ export class AppValues {
     } else {
       return {
         name: "Comity Name",
-        required: "Require",
+        required: "Required",
         highest30: "Maxi. 30 Cha.",
         highest50: "Maxi. 50 Cha.",
         notRequired: "Optional",
@@ -336,10 +336,10 @@ export class AppValues {
           _placeholder1: "Example:Salary, Developmemt etc",
           _placeholder2: "Example:1000, 2000",
           _ammoutSubs: "Amount",
-          _positionAndQualification: "Position and Qualification",
+          _positionAndQualification: "Position and Category",
           _position: "Position",
           _selectAmembershipPlan: "Choose a member category",
-          _requestForMember: "Request for being member",
+          _requestForMember: "Request to become a member",
           _generalMember: "General Member",
           _specialMember: "Special Member",
           _allMember: "All Member",
