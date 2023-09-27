@@ -47,7 +47,8 @@ export default function CreateCommittee({ navigation }) {
   }, [isDark]);
 
   return (
-    <BottomShitLayout points={["75%"]}
+    <BottomShitLayout
+      points={["75%"]}
       screen={
         <View
           style={{
@@ -111,39 +112,57 @@ export default function CreateCommittee({ navigation }) {
                 borderColor: colors.getShadowColor(),
               },
             ]}
-            placeholder={"Choose"}
+            placeholder={createCommitteeValues.select}
             placeholderTextColor={colors.getTextColor()}
           />
-          <View style={[mainStyle.mt12, mainStyle.flexBox]}>
-            <View>
+          <View style={[mainStyle.mt12, mainStyle.flexBox, { width: "100%" }]}>
+            <View style={{ width: "50%" }}>
               <Text style={[{ color: textColor }, mainStyle.subLevel]}>
                 {createCommitteeValues.district}
               </Text>
-
-              <InputButton
-                editable={false}
+              <Button
+                bg={bg}
+                title={district}
                 onPress={() => {
                   setSelect("District");
                   setIndex(0);
                 }}
-                value={district}
+                color={colors.getTextColor()}
+                style={[
+                  {
+                    width: "95%",
+                    marginTop: 8,
+                    justifyContent: "start",
+                    borderColor: colors.getShadowColor(),
+                  },
+                ]}
                 placeholder={createCommitteeValues.select}
-                outSideStyle={mainStyle.halfInput}
+                placeholderTextColor={colors.getTextColor()}
               />
             </View>
-            <View>
+            <View style={{ width: "50%" }}>
               <Text style={[{ color: textColor }, mainStyle.subLevel]}>
                 {createCommitteeValues.thana}
               </Text>
-              <InputButton
-                editable={false}
+              <Button
+                bg={bg}
+                title={area}
                 onPress={() => {
                   setSelect("Thana");
                   setIndex(0);
                 }}
-                value={area}
+                color={colors.getTextColor()}
+                style={[
+                  {
+                    width: "95%",
+                    marginTop: 8,
+                    marginLeft: "5%",
+                    justifyContent: "start",
+                    borderColor: colors.getShadowColor(),
+                  },
+                ]}
                 placeholder={createCommitteeValues.select}
-                outSideStyle={mainStyle.halfInput}
+                placeholderTextColor={colors.getTextColor()}
               />
             </View>
           </View>

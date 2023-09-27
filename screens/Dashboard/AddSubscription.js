@@ -30,17 +30,22 @@ export default function AddSubscription({ navigation, route }) {
         comityId: comity.id,
       },
       user.token
-    ).then((res) => {
-      dispatch(loader.hide());
-      navigation.navigate(`${route?.params?.route}`);
-    }).catch((err) => {
-      dispatch(loader.hide());
-      dispatch(toast.error(err.response.data.msg))
-    })
+    )
+      .then((res) => {
+        dispatch(loader.hide());
+        navigation.navigate(`${route?.params?.route}`);
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+        dispatch(toast.error(err.response.data.msg));
+      });
   };
 
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: colors.getBackgroundColor() }}
+      showsHorizontalScrollIndicator={false}
+    >
       <View style={[mainStyle.pdH20, mainStyle.mt24]}>
         <Input
           value={name}
