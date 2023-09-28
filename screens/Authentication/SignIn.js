@@ -63,7 +63,7 @@ const LogIn = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, paddingTop: inset?.top }}
+      style={{ flex: 1, paddingTop: inset?.top, backgroundColor:colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
       <ScrollView showsVerticalScrollIndicator={false}>

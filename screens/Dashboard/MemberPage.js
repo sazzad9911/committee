@@ -100,7 +100,7 @@ export default function MemberPage({ navigation, route }) {
   };
   useEffect(() => {
     
-    fetch();
+    //fetch();
   }, [special]);
   useEffect(() => {
     searches&&setSort(

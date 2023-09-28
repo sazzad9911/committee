@@ -12,13 +12,14 @@ export default function Paid({ navigation }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  const isFocused =useIsFocused()
-  const { comity, user } = useSelector((state) => state);
+  const isFocused = useIsFocused();
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   useEffect(() => {
     const fetch = async () => {
       const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
       //console.log(res.data.subs);
-      setPaidList(res.data.subs?.filter(sub => sub.completed));
+      setPaidList(res.data.subs?.filter((sub) => sub.completed));
     };
     fetch();
   }, [isFocused]);
@@ -37,11 +38,14 @@ export default function Paid({ navigation }) {
               title={doc.name}
             />
           ))}
-        {paidList?.length == 0 && <NoOption title={"No subscription list has been created"}
-        subTitle={"Create a subscription by clicking the Add button"} />}
+        {paidList?.length == 0 && (
+          <NoOption
+            title={"No subscription list has been created"}
+            subTitle={"Create a subscription by clicking the Add button"}
+          />
+        )}
         <View style={{ height: 6 }} />
       </ScrollView>
-      
     </View>
   );
 }

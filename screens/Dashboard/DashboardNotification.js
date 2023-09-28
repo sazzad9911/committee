@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import { get, socket } from "../../apis/multipleApi";
+import { get, post, socket } from "../../apis/multipleApi";
 import MemberRequestCard from "../../components/cart/MemberRequestCard";
 import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
+import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
@@ -52,6 +53,7 @@ export default function DashboardNotification({navigation}) {
       console.error(e.message);
     }
   };
+  
 
   return (
     <View
@@ -74,8 +76,8 @@ export default function DashboardNotification({navigation}) {
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
-            onPress={()=>{
-              navigation?.navigate("AcceptMember")
+            onPress={(id)=>{
+              navigation?.navigate("AcceptMember",{id:id})
             }}
           />
         ))}

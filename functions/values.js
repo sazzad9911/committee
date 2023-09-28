@@ -30,7 +30,7 @@ export class AppValues {
   }
   getLanguageHeadline() {
     if (this.isBn) {
-      return "Change Language";
+      return "ভাষা পরিবর্তন করুন";
     } else {
       return "Change Language";
     }

@@ -15,8 +15,9 @@ export default function UnPaid({ navigation }) {
   const [paidList, setPaidList] = useState([]);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
 
-  const { comity, user } = useSelector((state) => state);
   useEffect(() => {
     const fetch = async () => {
       dispatch(loader.show());

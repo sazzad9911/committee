@@ -91,7 +91,7 @@ LogBox.ignoreLogs([
   "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
 ]);
 
-export default function MainRoute() {
+export default function AdminRoute() {
   const colorScheme = useColorScheme();
   const dispatch = useDispatch();
   const colors = new AppColors(colorScheme == "dark" ? true : false);
@@ -108,7 +108,7 @@ export default function MainRoute() {
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
   const [isReady, setIsReady] = useState(false);
-  const [isConnect,setIsConnect]=useState(false)
+  const [isConnect, setIsConnect] = useState(false);
 
   useEffect(() => {
     //dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -144,17 +144,17 @@ export default function MainRoute() {
   useEffect(() => {
     const fetch = async () => {
       const user = await checkUser();
-      if(!isConnect){
+      if (!isConnect) {
         socket.emit("join", user.user.id);
-        setIsConnect(true)
+        setIsConnect(true);
       }
-      
+
       dispatch(storeUser(user));
       const com = await localStorage.getData("SET_COMITY");
       //console.log(com);
       dispatch({ type: "SET_COMITY", value: com });
       setIsReady(true);
-      
+
       // socket.on("getUsers", (u) => {
       //   console.log(u);
       // });
@@ -176,166 +176,14 @@ export default function MainRoute() {
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>
         <NavigationContainer theme={MyTheme}>
           <Stack.Navigator>
-            {user ? (
-              <Stack.Screen
-                options={{
-                  headerShown: false,
-                }}
-                name="Dashboard"
-                component={comity ? DashboardRoute : UserTabRoute}
-              />
-            ) : (
-              <>
-                <Stack.Screen
-                  options={{
-                    //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
-                    headerShown: false,
-                  }}
-                  name="SignIn"
-                  component={SignIn}
-                />
-                <Stack.Screen
-                  options={{
-                    header: (props) => (
-                      <BackHeader title={"User Information"} {...props} />
-                    ),
-                  }}
-                  name="Information"
-                  component={Information}
-                />
-                <Stack.Screen
-                  options={{
-                    header: (props) => (
-                      <BackHeader
-                        title={"Phone Number Verification"}
-                        {...props}
-                      />
-                    ),
-                  }}
-                  name="SignUp"
-                  component={SignUp}
-                />
-                <Stack.Screen
-                  options={{
-                    header: (props) => (
-                      <BackHeader
-                        title={"Phone Number Verification"}
-                        {...props}
-                      />
-                    ),
-                  }}
-                  name="Otp"
-                  component={Otp}
-                />
-                <Stack.Screen
-                  options={{
-                    header: (props) => (
-                      <BackHeader title={"Recovery Account"} {...props} />
-                    ),
-                  }}
-                  name="Recovery"
-                  component={Recovery}
-                />
-                <Stack.Screen
-                  options={{
-                    header: (props) => (
-                      <BackHeader title={"Recovery Account"} {...props} />
-                    ),
-                  }}
-                  name="Reset"
-                  component={Reset}
-                />
-              </>
-            )}
-
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <SimpleHeader title={"Search Comity"} {...props} />
-                ),
-              }}
-              name="Search"
-              component={Search}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Edit Email"} {...props} />
-                ),
-              }}
-              name="EditEmail"
-              component={EditEmail}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Popular Comities"} {...props} />
-                ),
-              }}
-              name="PopularComities"
-              component={PopularComities}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Recent Comities"} {...props} />
-                ),
-              }}
-              name="RecentComities"
-              component={RecentComities}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={"Edit Address"} {...props} />
-                ),
-              }}
-              name="EditAddress"
-              component={EditLocation}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => <BackHeader title={"Legal"} {...props} />,
-              }}
-              name="Legal"
-              component={Legal}
-            />
-
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={languageTitle} {...props} />
-                ),
-              }}
-              name="LanguageScreen"
-              component={LanguageScreen}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={editProfileInfo} {...props} />
-                ),
-              }}
-              name="EditProfileInfo"
-              component={EditProfileInfo}
-            />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={getComityHeadLine} {...props} />
-                ),
-              }}
-              name="CreateCommittee"
-              component={CreateCommittee}
-            />
             <Stack.Screen
               options={{
                 headerShown: false,
               }}
-              name="CreateCommitteeNext"
-              component={CreateCommitteeNext}
+              name="Dashboard"
+              component={DashboardRoute}
             />
-
+            
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -509,22 +357,8 @@ export default function MainRoute() {
               name="Support"
               component={Support}
             />
-            <Stack.Screen
-              options={{
-                header: (props) => (
-                  <BackHeader title={values.getValues()._contact} {...props} />
-                ),
-              }}
-              name="ContactUs"
-              component={ContactUs}
-            />
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="ContactSuccess"
-              component={ContactSuccess}
-            />
+           
+           
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -555,13 +389,7 @@ export default function MainRoute() {
               name="DashboardNotification"
               component={DashboardNotification}
             />
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="ComityProfile"
-              component={ComityProfile}
-            />
+            
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -678,13 +506,7 @@ export default function MainRoute() {
               name="DeleteMemberConfirmation"
               component={DeleteMemberConfirmation}
             />
-            <Stack.Screen
-              options={{
-                headerShown: false,
-              }}
-              name="CommitteeList"
-              component={CommitteeList}
-            />
+            
             <Stack.Screen
               options={{
                 header: (props) => (
