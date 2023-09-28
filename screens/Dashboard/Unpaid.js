@@ -37,6 +37,7 @@ export default function UnPaid({ navigation }) {
             <SubscriptionCard
               data={doc}
               key={i}
+              index={i + 1}
               onPress={() => {
                 navigation?.navigate("SubscriptionDetails", { data: doc });
               }}

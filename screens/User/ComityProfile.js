@@ -347,7 +347,13 @@ export default function ComityProfile({ navigation, route }) {
           >
             {comity?.memberStatus !== "Rejected" && (
               <Button
-                color={comity?.memberStatus ? "red" : null}
+                color={
+                  comity?.memberStatus
+                    ? "red"
+                    : isDark
+                    ? "white"
+                    : "rgba(0,0,0,0.8)"
+                }
                 onPress={handelRequest}
                 LeftIcon={() => <SvgXml xml={member} />}
                 style={{
@@ -389,6 +395,7 @@ export default function ComityProfile({ navigation, route }) {
               style={{
                 width: width / 2 - 30,
               }}
+              color={isDark ? "white" : "rgba(0,0,0,0.8)"}
               title={"Message"}
             />
           </View>

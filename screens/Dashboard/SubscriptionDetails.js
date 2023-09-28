@@ -51,7 +51,7 @@ export default function SubscriptionDetails({ navigation, route }) {
     }
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <Tab.Navigator
         style={{ backgroundColor: colors.getBackgroundColor() }}
         tabBar={(props) => (

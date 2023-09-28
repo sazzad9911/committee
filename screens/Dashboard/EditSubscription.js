@@ -67,7 +67,10 @@ export default function EditSubscription({ navigation, route }) {
   };
 
   return (
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: colors.getBackgroundColor() }}
+      showsHorizontalScrollIndicator={false}
+    >
       <View style={[mainStyle.pdH20, mainStyle.mt24]}>
         <Input
           value={name}

@@ -42,13 +42,17 @@ export default function DeleteMemberCollection({ navigation, route }) {
       });
   }, [isFocused]);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: colors.getBackgroundColor() }}
+      showsVerticalScrollIndicator={false}
+    >
       <View
         style={{
           paddingTop: inset.top,
           backgroundColor: colors.getSchemeColor(),
           flex: 1,
-        }}>
+        }}
+      >
         <View
           style={{
             height: 32,
@@ -66,9 +70,9 @@ export default function DeleteMemberCollection({ navigation, route }) {
                     dispatch(loader.hide());
                     dispatch(toast.success("Success"));
                     navigation.goBack();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                       navigation.goBack();
-                    },100)
+                    }, 100);
                   })
                   .catch((err) => {
                     dispatch(loader.hide());
@@ -81,7 +85,8 @@ export default function DeleteMemberCollection({ navigation, route }) {
             position: "absolute",
             right: 20,
             top: inset.top + 20,
-          }}>
+          }}
+        >
           <SvgXml xml={deleteIcon} />
         </Pressable>
         <View
@@ -90,7 +95,8 @@ export default function DeleteMemberCollection({ navigation, route }) {
             justifyContent: "center",
             paddingHorizontal: 20,
             paddingBottom: 20,
-          }}>
+          }}
+        >
           <ProfilePicture
             size={54}
             source={{
@@ -106,28 +112,32 @@ export default function DeleteMemberCollection({ navigation, route }) {
                 marginVertical: 0,
                 marginTop: 10,
               },
-            ]}>
+            ]}
+          >
             {data ? data.member.name : "Easin arafat aryan xyz"}
           </Text>
           <Text
             style={[
               mainStyle.text14,
               { color: colors.getTextColor(), marginTop: 5 },
-            ]}>
+            ]}
+          >
             {data ? data.member.gender : "Male"}
           </Text>
           <Text
             style={[
               mainStyle.text14,
               { color: colors.getTextColor(), marginTop: 10 },
-            ]}>
+            ]}
+          >
             {data ? data.member.mobile : "01676182543"}
           </Text>
           <Text
             style={[
               mainStyle.text14,
               { color: colors.getTextColor(), marginTop: 5 },
-            ]}>
+            ]}
+          >
             {data
               ? data.member.address
               : "ss s road bandar narayanaganj ss s road bandar narayanaganj"}
@@ -138,7 +148,8 @@ export default function DeleteMemberCollection({ navigation, route }) {
             flex: 1,
             backgroundColor: colors.getBackgroundColor(),
             paddingTop: 20,
-          }}>
+          }}
+        >
           <CollectionCart
             onPress={() => {
               navigation.navigate("AddMemberSubscription", {
