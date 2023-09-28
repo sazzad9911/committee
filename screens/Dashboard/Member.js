@@ -32,7 +32,8 @@ export default function Member({ navigation, route }) {
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const comityListText = values.getHeadLines();
-  const { comity, user } = useSelector((state) => state);
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   const dispatch = useDispatch();
   const [allMember, setAllMember] = useState();
   const [sortedMember, setSortedMember] = useState();

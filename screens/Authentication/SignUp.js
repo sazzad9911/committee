@@ -30,7 +30,7 @@ export default function SignUp({ navigation, route }) {
   
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
       <ScrollView ref={scrollRef} style={{flex:1}} showsVerticalScrollIndicator={false}>

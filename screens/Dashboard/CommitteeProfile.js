@@ -248,9 +248,10 @@ export default function CommitteeProfile({ navigation }) {
               marginLeft: 10,
               color: textColor,
               fontSize: 16,
+              flex:1
             }}
           >
-            {`${comity?.address}, ${comity.thana}, ${comity.district}, ${comity.division}`}
+            {`${comity?.address||""}${comity?.address?",":""} ${comity.thana}, ${comity.district}, ${comity.division}`}
           </Text>
         </View>
         <View

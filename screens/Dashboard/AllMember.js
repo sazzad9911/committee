@@ -4,7 +4,7 @@ import { Pressable, ScrollView, Text, ToastAndroid, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import { get, post } from "../../apis/multipleApi";
+import { deletes, get, post } from "../../apis/multipleApi";
 import MemberCard from "../../components/cart/MemberCard";
 import Input from "../../components/main/Input";
 import NoOption from "../../components/main/NoOption";
@@ -86,11 +86,9 @@ export default function AllMember({ navigation, route }) {
               <MemberCard
                 onAdd={async () => {
                   if(doc?.alreadyMember){
+                    //console.log(doc);
                     dispatch(loader.show())
-                    return post(`/member/request/reject`,{
-                      userId:doc.id,
-                      comityId:comity.id
-                    },user.token).then(res=>{
+                    return deletes(`/member/delete/${doc.members[0].id}`,user.token).then(res=>{
                       dispatch(loader.hide())
                       
                       dispatch(toast.success("Request rejected"));

@@ -20,13 +20,38 @@ export default function AcceptMember({ navigation, route }) {
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
   const [position, setPosition] = useState();
-  const data = route?.params?.data;
+  const id = route?.params?.id;
   const { comity, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [explain, setExplain] = useState();
 
+  const accept = () => {
+    dispatch(loader.show());
+    post(
+      `/member/request/accept/${id}`,
+      {
+        notificationId: id,
+        position: explain,
+        category: position,
+      },
+      user.token
+    )
+      .then((res) => {
+        dispatch(loader.hide());
+        dispatch(toast.success("Request accepted"));
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+        dispatch(toast.error(err.response.data.msg));
+      });
+  };
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{
+        backgroundColor: colors.getBackgroundColor(),
+      }}
+      showsVerticalScrollIndicator={false}>
       <View
         style={{
           flex: 1,
@@ -68,40 +93,16 @@ export default function AcceptMember({ navigation, route }) {
           />
         </View>
         <Button
-          onPress={async () => {
-            dispatch(loader.show());
-            try {
-              await post(
-                "/member/create",
-                {
-                  comityId: comity.id,
-                  position: explain,
-                  userId: data.id,
-                  category: position,
-                },
-                user.token
-              );
-              dispatch(loader.hide());
-              dispatch(toast.success("Request send"));
-              navigation.goBack();
-            } catch (e) {
-              dispatch(loader.hide());
-              dispatch(toast.error("Failed to create"));
-            }
+          onPress={() => {
+            accept();
           }}
           style={[mainStyle.mt32]}
           active={position && explain ? true : false}
           disabled={!position || !explain ? true : false}
-          title={headlines._requestForMember}
+          title={headlines._ok}
         />
         <ReadMoreComponent
-          message={`Specify the member's position within the committee. You can assign any position, such as 'General Member' or other suitable roles based on your committee's structure.
-
-Select the member category:
-   - 'General Member': This option designates the member as a regular committee member.
-   - 'Special Member': Choose this option if the member holds a specific role within the committee, such as manager or leader.
-
-By providing these details, you ensure that the new member's role and type are accurately defined within the committee, streamlining your committee management process."`}
+          message={headlines._positionAndCategoryText}
           textColor={colors.getTextColor()}
         />
       </View>

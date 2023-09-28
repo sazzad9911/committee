@@ -124,7 +124,7 @@ export default function CommitteeList({ navigation }) {
                   //console.log(com);
                   dispatch({ type: "SET_COMITY", value: res.data.comity });
                   dispatch(loader.hide());
-                  navigation.navigate("Subscription");
+                  navigation.navigate("Dashboard");
                 }}
                 title={doc.name}
                 subTitle={doc.thana}

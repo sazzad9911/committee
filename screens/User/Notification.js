@@ -54,6 +54,7 @@ export default function Notification() {
       style={{
         flex: 1,
         paddingTop: inset?.top,
+        backgroundColor:colors.getBackgroundColor()
       }}>
       <View
         style={[

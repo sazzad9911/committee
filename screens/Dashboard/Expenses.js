@@ -17,7 +17,9 @@ import mainStyle from "../../styles/mainStyle";
 export default function Expenses({ navigation }) {
   const ref = useRef();
   const dispatch = useDispatch();
-  const { isDark, user, comity } = useSelector((state) => state);
+  const isDark = useSelector((state) => state.isDark);
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
   const headlines = values.getDashboardHeadlines();
@@ -49,8 +51,7 @@ export default function Expenses({ navigation }) {
               color: textColor,
               marginTop: 20,
               marginBottom: 14,
-            }}
-          >
+            }}>
             {headlines._latestExpenses}
           </Text>
           <Button

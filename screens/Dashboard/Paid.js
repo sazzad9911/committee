@@ -13,7 +13,8 @@ export default function Paid({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const isFocused = useIsFocused();
-  const { comity, user } = useSelector((state) => state);
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   useEffect(() => {
     const fetch = async () => {
       const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);

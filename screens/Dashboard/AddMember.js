@@ -26,7 +26,7 @@ export default function AddMember({ navigation, route }) {
   const [explain, setExplain] = useState();
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={{backgroundColor:colors.getBackgroundColor()}} showsVerticalScrollIndicator={false}>
       <View
         style={{
           flex: 1,
