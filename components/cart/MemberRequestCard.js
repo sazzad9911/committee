@@ -51,19 +51,13 @@ export default function MemberRequestCard({
                 }`
               : type == "Accept-Member-Request"
               ? `${
-<<<<<<< Updated upstream
-                  comity
+                  !comity
                     ? `আপনি /.${name}/কে আপনার কমিটির একজন /.${
                         position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                       }/ হিসাবে যোগদান করার জন্য গ্রহণ করেছেন।`
                     : `.${name}/ আপনার কমিটিতে /.${
                         position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                       }/ হিসাবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
-=======
-                  !comity
-                    ? `আপনি /.${name}/কে আপনার কমিটির একজন /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসাবে যোগদান করার জন্য গ্রহণ করেছেন।`
-                    : `.${name}/ আপনার কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসাবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
->>>>>>> Stashed changes
                 }`
               : `.${name}/ আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।`
           }`
@@ -80,8 +74,7 @@ export default function MemberRequestCard({
                 }`
               : type == "Accept-Member-Request"
               ? `${
-<<<<<<< Updated upstream
-                  comity
+                  !comity
                     ? `You have accepted /.${name}/ to join your committee as a /.${
                         position === "Special"
                           ? "Special Member"
@@ -92,11 +85,6 @@ export default function MemberRequestCard({
                           ? "Special Member"
                           : "General Member"
                       }`
-=======
-                  !comity
-                    ? `You have accepted /.${name}/ to join your committee as a /.${position==="Special"?"Special Member":"General Member"}`
-                    : `.${name}/ has Accepted your request to join your comity as a /.${position==="Special"?"Special Member":"General Member"}`
->>>>>>> Stashed changes
                 }`
               : `.${name}/ has requested to join your comity`
           }`;
@@ -105,8 +93,7 @@ export default function MemberRequestCard({
         ? `${
             type == "Reject-Member-Request"
               ? `${
-<<<<<<< Updated upstream
-                  comity
+                  !comity
                     ? `.${name}/ তাদের কমিটিতে /.${
                         position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                       }/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
@@ -116,24 +103,13 @@ export default function MemberRequestCard({
                 }`
               : type == "Accept-Member-Request"
               ? `${
-                  comity
+                  !comity
                     ? `.${name}/ তাদের কমিটিতে /.${
                         position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                       }/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
                     : `আপনি /.${name}/ কমিটিতে /.${
                         position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                       }/ হিসেবে যোগদানের অনুরোধ গ্রহণ করেছেন`
-=======
-                  !comity
-                    ? `.${name}/ তাদের কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
-                    : `আপনি  /.${name}/ কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের অনুরোধ প্রত্যাখ্যান করেছেন`
-                }`
-              : type == "Accept-Member-Request"
-              ? `${
-                  !comity
-                    ? `.${name}/ তাদের কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
-                    : `আপনি /.${name}/ কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের অনুরোধ গ্রহণ করেছেন`
->>>>>>> Stashed changes
                 }`
               : `আপনি /.${name}/ কমিটিতে /.${
                   position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
@@ -152,8 +128,7 @@ export default function MemberRequestCard({
                 }`
               : type == "Accept-Member-Request"
               ? `${
-<<<<<<< Updated upstream
-                  comity
+                  !comity
                     ? `You have accepted /.${name}/ to join your committee as a /.${
                         position === "Special"
                           ? "Special Member"
@@ -167,11 +142,6 @@ export default function MemberRequestCard({
                 }`
               : `You've received a new request to join the /.${name}/ as a /.${
                   position === "Special" ? "Special Member" : "General Member"
-=======
-                  !comity
-                    ? `You have accepted /.${name}/ to join your committee as a /.${position==="Special"?"Special Member":"General Member"}`
-                    : `You've accepted the request to join the /.${name}/' as a /.${position==="Special"?"Special Member":"General Member"}`
->>>>>>> Stashed changes
                 }`
           }`;
     }
@@ -226,14 +196,12 @@ export default function MemberRequestCard({
       style={{
         marginHorizontal: 20,
         marginVertical: 12,
-      }}
-    >
+      }}>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-        }}
-      >
+        }}>
         <Avatar
           source={{
             uri: c ? data?.user?.profilePhoto : data?.comity?.profilePhoto,
@@ -247,8 +215,7 @@ export default function MemberRequestCard({
             fontWeight: "400",
             color: textColor,
             flex: 1,
-          }}
-        >
+          }}>
           {getText(
             type,
             c ? data?.user?.name : data?.comity?.name,
@@ -262,8 +229,7 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "700",
-                  }}
-                >
+                  }}>
                   {doc
                     ? doc
                         .split("")
@@ -276,8 +242,7 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "400",
-                  }}
-                >
+                  }}>
                   {doc ? doc : ""}
                 </Text>
               )
@@ -290,8 +255,7 @@ export default function MemberRequestCard({
             marginTop: 12,
             flexDirection: "row",
             justifyContent: "flex-end",
-          }}
-        >
+          }}>
           <Button
             onPress={() => reject(data.entityId)}
             bg={["#F00", "#F00"]}
