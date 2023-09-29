@@ -144,7 +144,7 @@ export default function MainRoute() {
   useEffect(() => {
     const fetch = async () => {
       const user = await checkUser();
-      if(!isConnect){
+      if(!isConnect&&user){
         socket.emit("join", user.user.id);
         setIsConnect(true)
       }
