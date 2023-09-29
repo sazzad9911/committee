@@ -53,14 +53,25 @@ export default function AllExpenses({ navigation, route }) {
   const [dateSorted, setDateSorted] = useState();
   const [sorted, setSorted] = useState(data);
   const [text, setText] = useState();
-  const [filterData, setFilterData] = useState([
-    "Last 7 days collection",
-    "Last 15 days collection",
-    "Last 30 days collection",
-    "Last 3 months collection",
-    "Last 6 months collection",
-    "Last 1 years collection",
-  ]);
+  const [filterData, setFilterData] = useState(
+    isBn
+      ? [
+          "সর্বশেষ ৭ দিনের খরচ",
+          "সর্বশেষ ১৫ দিনের খরচ",
+          "সর্বশেষ ৩০ দিনের খরচ",
+          "সর্বশেষ ৩ মাসের খরচ",
+          "সর্বশেষ ৬ মাসের খরচ",
+          "সর্বশেষ ১ বছরের খরচ",
+        ]
+      : [
+          "Last 7 days expense",
+          "Last 15 days expense",
+          "Last 30 days expense",
+          "Last 3 months expense",
+          "Last 6 months expense",
+          "Last 1 years expense",
+        ]
+  );
   const [selected, setSelected] = useState();
   const [choose, setChoose] = useState();
   const dispatch = useDispatch();
@@ -150,6 +161,9 @@ export default function AllExpenses({ navigation, route }) {
           navigation={navigation}
           isDark={isDark}
           sorted={sorted}
+          selected={selected}
+          choose={choose}
+
         />
       }
       bottom={
@@ -182,9 +196,9 @@ export default function AllExpenses({ navigation, route }) {
                 filterData={filterData}
                 colors={colors}
                 value={selected}
-                onChoose={e=>{
-                  handleSorted(e)
-                  setSelected(e)
+                onChoose={(e) => {
+                  handleSorted(e);
+                  setSelected(e);
                 }}
                 headlines={headlines}
               />
@@ -201,7 +215,7 @@ export default function AllExpenses({ navigation, route }) {
                 marginHorizontal: 8,
                 color: "white",
               }}
-              title={"Done"}
+              title={headlines._ok}
             />
           </BottomSheet>
         </>
@@ -289,9 +303,11 @@ const Header = ({
   );
 };
 
-const Component = ({ sorted, isDark, textColor, borderColor, navigation }) => {
+const Component = ({ sorted, isDark, textColor, borderColor, navigation,selected }) => {
+  
   return (
     <View style={{ marginVertical: 14 }}>
+      <Chip title={selected}/>
       {sorted?.map((doc, i) => (
         <ExpensesCart
           key={i}
@@ -302,12 +318,19 @@ const Component = ({ sorted, isDark, textColor, borderColor, navigation }) => {
           navigation={navigation}
         />
       ))}
-      {sorted?.length===0&&(
-        <NoOption/>
-      )}
+      {sorted?.length === 0 && <NoOption />}
     </View>
   );
 };
+const Chip=({title,onCancel})=>{
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
+  return(
+    <TouchableOpacity>
+      <Text>{title}</Text>
+    </TouchableOpacity>
+  )
+}
 const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
   return (
     <View

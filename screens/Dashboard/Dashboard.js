@@ -181,7 +181,7 @@ const Header = ({
           right: 20,
         }}>
         <SvgXml xml={state?.index === 0 ? icon : set} />
-        {number ? (
+        {state?.index === 0&&number ? (
           <View
             style={{
               backgroundColor: "#4ADE80",
