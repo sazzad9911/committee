@@ -169,10 +169,11 @@ export default function MemberRequestCard({
     //console.log(data);
     post(
       `/member/request/reject`,
-      comity
+      c?.id
         ? {
             userId: user?.user?.id,
-            comityId: comity.id,
+            memberId: id,
+            comityId: c.id,
             notificationId: doc.id,
           }
         : {
