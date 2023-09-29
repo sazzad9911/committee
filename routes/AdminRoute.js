@@ -197,7 +197,7 @@ export default function AdminRoute() {
               options={{
                 header: (props) => (
                   <BackHeader
-                    title={headlines._chooseDateHeadline}
+                    title={values.getValues()._selectTheDate}
                     {...props}
                   />
                 ),

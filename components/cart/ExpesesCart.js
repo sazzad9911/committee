@@ -10,6 +10,7 @@ export default function ExpensesCart({
   data,
   navigation,
 }) {
+ 
   return (
     <Pressable
       onPress={() => navigation.navigate("EditExpenses", { data: data })}

@@ -318,6 +318,7 @@ export class AppValues {
           _decline:"প্রত্যাখ্যান করুন",
           _notiReqMsg:"আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।",
           _positionAndCategory:"ভূমিকা এবং শ্রেণী",
+          _selectTheDate:"তারিখ বাছাই করুন",
           _positionAndCategoryText:`কমিটির মধ্যে সদস্যদের অবস্থান উল্লেখ করুন৷ আপনি আপনার কমিটির কাঠামোর উপর ভিত্তি করে যেকোন পদ, যেমন 'সাধারণ সদস্য' বা অন্যান্য উপযুক্ত ভূমিকা প্রদান করতে পারেন৷।
 
           সদস্য বিভাগ নির্বাচন করুন:
@@ -409,6 +410,7 @@ export class AppValues {
           _exampleGeneral: "Example: General ,President,VIP etc",
           _accept:"Accept",
           _decline:"Declie",
+          _selectTheDate:"Select the date",
           _notiReqMsg:"Easin Arafat has requested to join your comity",
           _positionAndCategory:"Position And Category",
           _positionAndCategoryText:`Specify the member's position within the committee. You can assign any position, such as 'General Member' or other suitable roles based on your committee's structure.
