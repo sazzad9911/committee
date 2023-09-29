@@ -98,7 +98,7 @@ export default function CommitteeProfile({ navigation }) {
       dispatch(loader.hide());
     }
   };
-
+ 
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}

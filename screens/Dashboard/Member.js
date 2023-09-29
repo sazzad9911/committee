@@ -102,6 +102,8 @@ export default function Member({ navigation, route }) {
     );
   };
 
+  
+
   return (
     <BottomShitLayout points={["80%"]} scrollable={true} index={index} setIndex={setIndex}
       screen={

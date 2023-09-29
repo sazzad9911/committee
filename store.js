@@ -1,5 +1,6 @@
 import { createStore,combineReducers } from 'redux'
 import comity from './data/comity'
+import expenseDateSort from './data/expenseDateSort'
 import isBn from './data/isBn'
 import isDark from './data/isDark'
 import loader from './data/loader'
@@ -14,7 +15,8 @@ const reducers=combineReducers({
     user:user,
     loader:loader,
     comity:comity,
-    toast:toast
+    toast:toast,
+    expenseDateSort:expenseDateSort
 })
 const store=createStore(reducers)
 export default store

@@ -21,7 +21,8 @@ export default function AcceptMember({ navigation, route }) {
   const colors = new AppColors(isDark);
   const [position, setPosition] = useState();
   const id = route?.params?.id;
-  const { comity, user } = useSelector((state) => state);
+  const comity  = useSelector((state) => state.comity);
+  const  user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [explain, setExplain] = useState();
 

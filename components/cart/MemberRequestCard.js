@@ -106,7 +106,9 @@ export default function MemberRequestCard({
   };
   const accept = (id) => {
     dispatch(loader.show());
-    post(`/member/request/accept/${id}`, null, user.token)
+    post(`/member/request/accept/${id}`, {
+      notificationId:doc.id
+    }, user.token)
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
@@ -118,11 +120,12 @@ export default function MemberRequestCard({
   };
   const reject = (id) => {
     dispatch(loader.show());
-    console.log(data);
+    //console.log(data);
     post(
       `/member/request/reject`,
       {
         memberId: id,
+        notificationId:doc.id
       },
       user.token
     )

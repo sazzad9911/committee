@@ -19,7 +19,7 @@ import Button from "../../components/main/Button";
 import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
 import { post } from "../../apis/multipleApi";
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function AddExpenses({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -33,7 +33,8 @@ export default function AddExpenses({ navigation }) {
   const textColor = colors.getTextColor();
 
   const dispatch = useDispatch();
-  const { user, comity } = useSelector((state) => state);
+  const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   //console.log(new Date().toISOString());
 
   const showDatePicker = () => {
@@ -48,8 +49,6 @@ export default function AddExpenses({ navigation }) {
     setDate(date);
     hideDatePicker();
   };
-
-  
 
   const calender = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.75 4V6.25M18.25 4V6.25M4 19.75V8.5C4 7.90326 4.23705 7.33097 4.65901 6.90901C5.08097 6.48705 5.65326 6.25 6.25 6.25H19.75C20.3467 6.25 20.919 6.48705 21.341 6.90901C21.7629 7.33097 22 7.90326 22 8.5V19.75M4 19.75C4 20.3467 4.23705 20.919 4.65901 21.341C5.08097 21.7629 5.65326 22 6.25 22H19.75C20.3467 22 20.919 21.7629 21.341 21.341C21.7629 20.919 22 20.3467 22 19.75M4 19.75V12.25C4 11.6533 4.23705 11.081 4.65901 10.659C5.08097 10.2371 5.65326 10 6.25 10H19.75C20.3467 10 20.919 10.2371 21.341 10.659C21.7629 11.081 22 11.6533 22 12.25V19.75M13 13.75H13.008V13.758H13V13.75ZM13 16H13.008V16.008H13V16ZM13 18.25H13.008V18.258H13V18.25ZM10.75 16H10.758V16.008H10.75V16ZM10.75 18.25H10.758V18.258H10.75V18.25ZM8.5 16H8.508V16.008H8.5V16ZM8.5 18.25H8.508V18.258H8.5V18.25ZM15.25 13.75H15.258V13.758H15.25V13.75ZM15.25 16H15.258V16.008H15.25V16ZM15.25 18.25H15.258V18.258H15.25V18.25ZM17.5 13.75H17.508V13.758H17.5V13.75ZM17.5 16H17.508V16.008H17.5V16Z" stroke="${colors.getTextColor()}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -119,15 +118,13 @@ export default function AddExpenses({ navigation }) {
               minHeight: 45,
               paddingHorizontal: 10,
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
-            }}
-          >
-            <SvgXml xml={calender}/>
+            }}>
+            <SvgXml xml={calender} />
             <Text
               style={{
                 color: textColor,
-                marginLeft:5
-              }}
-            >
+                marginLeft: 5,
+              }}>
               {date?.toDateString()}
             </Text>
           </View>
@@ -153,7 +150,7 @@ export default function AddExpenses({ navigation }) {
         }}
         title={"Confirm"}
       />
-     <DateTimePickerModal
+      <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={handleConfirm}

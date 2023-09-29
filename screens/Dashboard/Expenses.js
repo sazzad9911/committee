@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Expenses({ navigation }) {
+export default function Expenses({ navigation,route }) {
   const ref = useRef();
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
@@ -29,6 +29,7 @@ export default function Expenses({ navigation }) {
   const backgroundColor = colors.getBackgroundColor();
   const [data, setData] = useState();
   const isFocus = useIsFocused();
+  const expenseDateSort = useSelector((state) => state.expenseDateSort);
 
   React.useEffect(() => {
     !data && dispatch(loader.show());
@@ -36,10 +37,13 @@ export default function Expenses({ navigation }) {
       const res = await get(`/comity/expense/get/${comity.id}`, user.token);
       //console.log(res.data.expenses);
       dispatch(loader.hide());
+      //console.log(sortDate);
       setData(res.data.expenses);
+      expenseDateSort&&setData(res.data.expenses.filter(exp => new Date(exp.date)>new Date(expenseDateSort)));
     };
     fetch();
-  }, [isFocus]);
+  }, [isFocus,expenseDateSort]);
+ 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
@@ -55,7 +59,7 @@ export default function Expenses({ navigation }) {
             {headlines._latestExpenses}
           </Text>
           <Button
-            onPress={() => navigation?.navigate("AllExpenses", { data: data })}
+            onPress={() => navigation?.navigate("AllExpenses")}
             style={{
               borderWidth: 0,
             }}

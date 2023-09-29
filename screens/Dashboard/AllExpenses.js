@@ -82,16 +82,14 @@ export default function AllExpenses({ navigation, route }) {
           style={{
             fontSize: 24,
             fontWeight: "500",
-            color: textColor,
+            color: "#fff",
           }}>
           {headlines._allExpenses}
         </Text>
         <View style={[mainStyle.flexBox]}>
           <SvgXml
             onPress={() =>
-              navigation?.navigate("DateShort", {
-                setDateSorted: setDateSorted,
-              })
+              navigation?.navigate("DateShort")
             }
             xml={calender}
           />
