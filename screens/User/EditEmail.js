@@ -27,7 +27,9 @@ export default function EditEmail({ navigation, route }) {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [layoutHeight, setLayoutHeight] = useState(0);
-  const [type, setType] = useState("Only me");
+  const [type, setType] = useState(
+    user?.user?.addressIsPublic ? "Public" : "Only me"
+  );
   const [visible, setVisible] = React.useState(false);
   const [email, setEmail] = useState(user?.email || "");
   const newUser = useSelector((state) => state.user);

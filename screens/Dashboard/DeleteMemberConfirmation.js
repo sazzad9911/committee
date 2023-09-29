@@ -26,7 +26,10 @@ export default function DeleteMemberConfirmation({ navigation, route }) {
   const [deleteOnly, setDeleteOnly] = useState(true);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: colors.getBackgroundColor() }}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={[{ flex: 1 }, mainStyle.pdH20]}>
         <Text
           style={[mainStyle.mt32, mainStyle.level, { color: "#f00" }, style]}

@@ -18,14 +18,14 @@ export default function MemberRequestCard({
   id,
   doc,
   comity,
-  onPress
+  onPress,
 }) {
   const user = useSelector((state) => state.user);
   const c = useSelector((state) => state.comity);
   const dispatch = useDispatch();
   const isBn = useSelector((state) => state.isBn);
   const headlines = new AppValues(isBn).getValues();
-  const [data,setData]=useState(doc) 
+  const [data, setData] = useState(doc);
   //console.log(doc);
   useEffect(() => {
     //console.log(data.id);
@@ -45,13 +45,19 @@ export default function MemberRequestCard({
               ? `${
                   comity
                     ? `আপনি /.${name}/কে আপনার কমিটিতে যোগ দিতে প্রত্যাখ্যান করেছেন`
-                    : `.${name}/ আপনার কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
+                    : `.${name}/ আপনার কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসাবে যোগদানের জন্য আপনার  অনুরোধ প্রত্যাখ্যান করেছেন`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
-                    ? `আপনি /.${name}/কে আপনার কমিটির একজন /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসাবে যোগদান করার জন্য গ্রহণ করেছেন।`
-                    : `.${name}/ আপনার কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসাবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
+                    ? `আপনি /.${name}/কে আপনার কমিটির একজন /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসাবে যোগদান করার জন্য গ্রহণ করেছেন।`
+                    : `.${name}/ আপনার কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসাবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
                 }`
               : `.${name}/ আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।`
           }`
@@ -60,13 +66,25 @@ export default function MemberRequestCard({
               ? `${
                   comity
                     ? `You have declined /.${name}/ to join your comity`
-                    : `.${name}/ has declined your request to join your comity as a /.${position==="Special"?"Special Member":"General Member"}/`
+                    : `.${name}/ has declined your request to join your comity as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }/`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
-                    ? `You have accepted /.${name}/ to join your committee as a /.${position==="Special"?"Special Member":"General Member"}`
-                    : `.${name}/ has Accepted your request to join your comity as a /.${position==="Special"?"Special Member":"General Member"}`
+                    ? `You have accepted /.${name}/ to join your committee as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }`
+                    : `.${name}/ has Accepted your request to join your comity as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }`
                 }`
               : `.${name}/ has requested to join your comity`
           }`;
@@ -76,39 +94,67 @@ export default function MemberRequestCard({
             type == "Reject-Member-Request"
               ? `${
                   comity
-                    ? `.${name}/ তাদের কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
-                    : `আপনি  /.${name}/ কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের অনুরোধ প্রত্যাখ্যান করেছেন`
+                    ? `.${name}/ তাদের কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
+                    : `আপনি  /.${name}/ কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসেবে যোগদানের অনুরোধ প্রত্যাখ্যান করেছেন`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
-                    ? `.${name}/ তাদের কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
-                    : `আপনি /.${name}/ কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের অনুরোধ গ্রহণ করেছেন`
+                    ? `.${name}/ তাদের কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসেবে যোগদানের জন্য আপনার অনুরোধ গ্রহণ করেছেন।`
+                    : `আপনি /.${name}/ কমিটিতে /.${
+                        position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                      }/ হিসেবে যোগদানের অনুরোধ গ্রহণ করেছেন`
                 }`
-              : `আপনি /.${name}/ কমিটিতে /.${position==="Special"?"বিশেষ সদস্য":"সাধারণ সদস্য"}/ হিসেবে যোগদানের জন্য একটি নতুন অনুরোধ পেয়েছেন`
+              : `আপনি /.${name}/ কমিটিতে /.${
+                  position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
+                }/ হিসেবে যোগদানের জন্য একটি নতুন অনুরোধ পেয়েছেন`
           }`
         : `${
             type == "Reject-Member-Request"
               ? `${
                   comity
                     ? `.${name}/ has declined your request to join their comity.`
-                    : `You've declined the request to join the /.${name}/' as a /.${position==="Special"?"Special Member":"General Member"}`
+                    : `You've declined the request to join the /.${name}/' as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }`
                 }`
               : type == "Accept-Member-Request"
               ? `${
                   comity
-                    ? `You have accepted /.${name}/ to join your committee as a /.${position==="Special"?"Special Member":"General Member"}`
-                    : `You've accepted the request to join the /.${name}/' as a /.${position==="Special"?"Special Member":"General Member"}`
+                    ? `You have accepted /.${name}/ to join your committee as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }`
+                    : `You've accepted the request to join the /.${name}/' as a /.${
+                        position === "Special"
+                          ? "Special Member"
+                          : "General Member"
+                      }`
                 }`
-              : `You've received a new request to join the /.${name}/ as a /.${position==="Special"?"Special Member":"General Member"}`
+              : `You've received a new request to join the /.${name}/ as a /.${
+                  position === "Special" ? "Special Member" : "General Member"
+                }`
           }`;
     }
   };
   const accept = (id) => {
     dispatch(loader.show());
-    post(`/member/request/accept/${id}`, {
-      notificationId:doc.id
-    }, user.token)
+    post(
+      `/member/request/accept/${id}`,
+      {
+        notificationId: doc.id,
+      },
+      user.token
+    )
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
@@ -123,10 +169,16 @@ export default function MemberRequestCard({
     //console.log(data);
     post(
       `/member/request/reject`,
-      {
-        memberId: id,
-        notificationId:doc.id
-      },
+      comity
+        ? {
+            userId: user?.user?.id,
+            comityId: comity.id,
+            notificationId: doc.id,
+          }
+        : {
+            memberId: id,
+            notificationId: doc.id,
+          },
       user.token
     )
       .then((res) => {
@@ -143,12 +195,14 @@ export default function MemberRequestCard({
       style={{
         marginHorizontal: 20,
         marginVertical: 12,
-      }}>
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Avatar
           source={{
             uri: c ? data?.user?.profilePhoto : data?.comity?.profilePhoto,
@@ -162,7 +216,8 @@ export default function MemberRequestCard({
             fontWeight: "400",
             color: textColor,
             flex: 1,
-          }}>
+          }}
+        >
           {getText(
             type,
             c ? data?.user?.name : data?.comity?.name,
@@ -176,7 +231,8 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "700",
-                  }}>
+                  }}
+                >
                   {doc
                     ? doc
                         .split("")
@@ -189,7 +245,8 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "400",
-                  }}>
+                  }}
+                >
                   {doc ? doc : ""}
                 </Text>
               )
@@ -202,7 +259,8 @@ export default function MemberRequestCard({
             marginTop: 12,
             flexDirection: "row",
             justifyContent: "flex-end",
-          }}>
+          }}
+        >
           <Button
             onPress={() => reject(data.entityId)}
             bg={["#F00", "#F00"]}
@@ -212,7 +270,9 @@ export default function MemberRequestCard({
           />
           <View style={{ width: 12 }} />
           <Button
-            onPress={() =>onPress?onPress(data.entityId):accept(data.entityId)}
+            onPress={() =>
+              onPress ? onPress(data.entityId) : accept(data.entityId)
+            }
             style={{ paddingHorizontal: 24 }}
             active={true}
             title={headlines._accept}

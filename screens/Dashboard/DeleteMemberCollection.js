@@ -12,6 +12,7 @@ import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function DeleteMemberCollection({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -24,6 +25,8 @@ export default function DeleteMemberCollection({ navigation, route }) {
   const dispatch = useDispatch();
   const [data, setData] = useState(route?.params?.data);
   const isFocused = useIsFocused();
+  const ac = ["#1488CC", "#2B32B2"];
+  const dc = ["#FF5C5C", "#FF6B6B"];
   const st = {
     fontSize: 20,
     color: colors.getTextColor(),
@@ -46,12 +49,13 @@ export default function DeleteMemberCollection({ navigation, route }) {
       style={{ backgroundColor: colors.getBackgroundColor() }}
       showsVerticalScrollIndicator={false}
     >
-      <View
+      <LinearGradient
         style={{
           paddingTop: inset.top,
-          backgroundColor: colors.getSchemeColor(),
+          backgroundColor: "green",
           flex: 1,
         }}
+        colors={paid ? ac : dc}
       >
         <View
           style={{
@@ -165,7 +169,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
             title={data?.name}
           />
         </View>
-      </View>
+      </LinearGradient>
     </ScrollView>
   );
 }

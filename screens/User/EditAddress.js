@@ -35,12 +35,14 @@ import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
 
 export default function EditLocation({ navigation }) {
-  const [type, setType] = useState("Only me");
-  const [visible, setVisible] = React.useState(false);
   const [layoutHeight, setLayoutHeight] = useState(0);
+  const [visible, setVisible] = React.useState(false);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [type, setType] = useState(
+    user?.user?.addressIsPublic ? "Public" : "Only me"
+  );
   const [division, setDivision] = useState(user?.user?.address?.division);
   const [district, setDistrict] = useState(user?.user?.address?.district);
   const [area, setArea] = useState(user?.user?.address?.area);
