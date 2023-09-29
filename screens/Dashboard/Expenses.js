@@ -46,7 +46,7 @@ export default function Expenses({ navigation,route }) {
  
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
-      <ScrollView onScroll={(e) => {}} scrollEventThrottle={16}>
+      <ScrollView scrollEventThrottle={16}>
         <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
           <Text
             style={{
