@@ -12,7 +12,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function DashboardNotification({navigation}) {
+export default function DashboardNotification({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
@@ -23,7 +23,7 @@ export default function DashboardNotification({navigation}) {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.isLoading);
-  const [change, setChange] = useState();
+  const [change, setChange] = useState(false);
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
@@ -34,10 +34,13 @@ export default function DashboardNotification({navigation}) {
   }, [isFocused, change]);
   useEffect(() => {
     socket.on("newNotification", (e) => {
-      console.log(e);
-      setChange(e);
+
+      setChange(!change);
+
     });
-    socket.off("newNotification");
+    return () => {
+      socket.off("newNotification");
+    };
   }, []);
 
   const fetch = async () => {
@@ -46,7 +49,7 @@ export default function DashboardNotification({navigation}) {
         `/notification/comity/get/${comity?.id}`,
         user.token
       );
-      
+
       setData(res.data.notifications);
       dispatch(loader.hide());
     } catch (e) {
@@ -54,18 +57,19 @@ export default function DashboardNotification({navigation}) {
       console.error(e.message);
     }
   };
-  
 
   return (
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
           backgroundColor: colors.getBackgroundColor(),
-        }}>
+        }}
+      >
         <View style={{ height: 12 }} />
         {data?.map((doc, i) => (
           <MemberRequestCard
@@ -77,8 +81,11 @@ export default function DashboardNotification({navigation}) {
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
-            onPress={(id)=>{
-              navigation?.navigate("AcceptMember",{id:id})
+            onPress={(id) => {
+              navigation?.navigate("AcceptMember", { id: id, nId: doc.id });
+            }}
+            onDone={() => {
+              setChange(!change);
             }}
           />
         ))}

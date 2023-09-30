@@ -19,6 +19,7 @@ export default function MemberRequestCard({
   doc,
   comity,
   onPress,
+  onDone,
 }) {
   const user = useSelector((state) => state.user);
   const c = useSelector((state) => state.comity);
@@ -128,6 +129,7 @@ export default function MemberRequestCard({
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
+        onDone();
       })
       .catch((err) => {
         dispatch(loader.hide());
@@ -141,7 +143,7 @@ export default function MemberRequestCard({
       `/member/request/reject`,
       c?.id
         ? {
-            userId: user?.user?.id,
+            userId: doc.userId,
             memberId: id,
             comityId: c.id,
             notificationId: doc.id,
@@ -155,6 +157,7 @@ export default function MemberRequestCard({
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request cancelled"));
+        onDone();
       })
       .catch((err) => {
         dispatch(loader.hide());
@@ -166,12 +169,14 @@ export default function MemberRequestCard({
       style={{
         marginHorizontal: 20,
         marginVertical: 12,
-      }}>
+      }}
+    >
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Avatar
           source={{
             uri: c ? data?.user?.profilePhoto : data?.comity?.profilePhoto,
@@ -185,7 +190,8 @@ export default function MemberRequestCard({
             fontWeight: "400",
             color: textColor,
             flex: 1,
-          }}>
+          }}
+        >
           {getText(
             type,
             c ? data?.user?.name : data?.comity?.name,
@@ -199,7 +205,8 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "700",
-                  }}>
+                  }}
+                >
                   {doc
                     ? doc
                         .split("")
@@ -212,7 +219,8 @@ export default function MemberRequestCard({
                   key={i}
                   style={{
                     fontWeight: "400",
-                  }}>
+                  }}
+                >
                   {doc ? doc : ""}
                 </Text>
               )
@@ -225,7 +233,8 @@ export default function MemberRequestCard({
             marginTop: 12,
             flexDirection: "row",
             justifyContent: "flex-end",
-          }}>
+          }}
+        >
           <Button
             onPress={() => reject(data.entityId)}
             bg={["#F00", "#F00"]}

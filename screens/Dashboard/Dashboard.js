@@ -151,11 +151,11 @@ const Header = ({
           fontSize: 16,
           color: "#B0B0B0",
         }}>
-        {headlines?._totalBalance}
+        {state.index==0?headlines?._currentBalance:headlines?._totalBalance}
       </Text>
       <Text
         style={{
-          fontSize: 40,
+          fontSize: 40, 
           fontWeight: "800",
           color: "#fff",
         }}>
