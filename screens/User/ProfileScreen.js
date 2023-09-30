@@ -20,7 +20,7 @@ export default function ProfileScreen({ navigation }) {
   const textColor = colors.getTextPrimaryColor();
   const borderColor = colors.getBorderColor();
   const subTextColor = colors.getSubTextColor();
-  const values = new AppValues(isDark);
+  const values = new AppValues(isBn);
   const backgroudColor = colors.getBackgroundColor();
   const createCommitteeValues = values.createCommitteeValues();
   const dispatch = useDispatch();
@@ -48,7 +48,12 @@ export default function ProfileScreen({ navigation }) {
           mainStyle.pdH20,
         ]}
       >
-        <View style={[mainStyle.flexBox, { marginBottom: 40 ,alignItems:"center"}]}>
+        <View
+          style={[
+            mainStyle.flexBox,
+            { marginBottom: 40, alignItems: "center" },
+          ]}
+        >
           <Avatar
             style={mainStyle.mt12}
             url={

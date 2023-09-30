@@ -20,7 +20,7 @@ export default function Profile({ navigation }) {
   const textColor = colors.getTextPrimaryColor();
   const borderColor = colors.getBorderColor();
   const subTextColor = colors.getSubTextColor();
-  const values = new AppValues(isDark);
+  const values = new AppValues(isBn);
   const backgroudColor = colors.getBackgroundColor();
   const createCommitteeValues = values.createCommitteeValues();
   const dispatch = useDispatch();
@@ -38,19 +38,22 @@ export default function Profile({ navigation }) {
   return (
     <ScrollView
       style={{ backgroundColor: backgroudColor }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <View
         style={[
           {
             marginTop: inset?.top,
           },
           mainStyle.pdH20,
-        ]}>
+        ]}
+      >
         <View
           style={[
             mainStyle.flexBox,
             { marginBottom: 40, alignItems: "center" },
-          ]}>
+          ]}
+        >
           <Avatar
             style={mainStyle.mt12}
             url={
@@ -62,7 +65,8 @@ export default function Profile({ navigation }) {
               flex: 1,
               marginHorizontal: 12,
               justifyContent: "center",
-            }}>
+            }}
+          >
             <Text style={[mainStyle.subLevel, { color: textColor }]}>
               {user.user.name}
             </Text>
@@ -75,7 +79,8 @@ export default function Profile({ navigation }) {
               navigation?.navigate("EditProfileInfo", {
                 user: user?.user,
               });
-            }}>
+            }}
+          >
             <SvgXml xml={editIcon} />
           </Pressable>
         </View>
@@ -85,7 +90,8 @@ export default function Profile({ navigation }) {
             borderWidth: 1,
             borderRadius: 8,
             marginLeft: 0,
-          }}>
+          }}
+        >
           <Clickable
             subTextColor={subTextColor}
             border={borderColor}
@@ -134,7 +140,8 @@ export default function Profile({ navigation }) {
             marginLeft: 0,
             marginTop: 12,
             marginBottom: 32,
-          }}>
+          }}
+        >
           <Clickable
             onPress={() => {
               navigation?.navigate("CommitteeList");
@@ -229,7 +236,8 @@ export const Clickable = ({
         flexDirection: "row",
         justifyContent: "space-between",
       }}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       <View>
         <Text style={{ color: active ? activeColor : color, fontSize: 14 }}>
           {title}

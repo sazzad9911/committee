@@ -21,8 +21,8 @@ export default function AcceptMember({ navigation, route }) {
   const colors = new AppColors(isDark);
   const [position, setPosition] = useState();
   const id = route?.params?.id;
-  const comity  = useSelector((state) => state.comity);
-  const  user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [explain, setExplain] = useState();
 
@@ -40,6 +40,7 @@ export default function AcceptMember({ navigation, route }) {
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
+        navigation.goBack();
       })
       .catch((err) => {
         dispatch(loader.hide());
@@ -52,13 +53,15 @@ export default function AcceptMember({ navigation, route }) {
       style={{
         backgroundColor: colors.getBackgroundColor(),
       }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <View
         style={{
           flex: 1,
           backgroundColor: colors.getBackgroundColor(),
           marginHorizontal: 20,
-        }}>
+        }}
+      >
         <Input
           level={headlines._position}
           placeholder={headlines._exampleGeneral}
@@ -73,14 +76,16 @@ export default function AcceptMember({ navigation, route }) {
             mainStyle.mt24,
             mainStyle.text20,
             { color: colors.getTextColor() },
-          ]}>
+          ]}
+        >
           {headlines._selectAmembershipPlan}
         </Text>
         <View
           style={[
             mainStyle.flexBox,
             { paddingVertical: 15, justifyContent: "flex-start" },
-          ]}>
+          ]}
+        >
           <RadioButton
             value={position == "General" ? true : false}
             title={headlines._generalMember}
