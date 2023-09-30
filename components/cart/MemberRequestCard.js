@@ -143,7 +143,7 @@ export default function MemberRequestCard({
       `/member/request/reject`,
       c?.id
         ? {
-            userId: user?.user?.id,
+            userId: doc.userId,
             memberId: id,
             comityId: c.id,
             notificationId: doc.id,

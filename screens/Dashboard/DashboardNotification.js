@@ -80,7 +80,7 @@ export default function DashboardNotification({ navigation }) {
             textColor={colors.getTextColor()}
             id={doc?.id}
             onPress={(id) => {
-              navigation?.navigate("AcceptMember", { id: id });
+              navigation?.navigate("AcceptMember", { id: id, nId: doc.id });
             }}
             onDone={() => {
               setChange(!change);

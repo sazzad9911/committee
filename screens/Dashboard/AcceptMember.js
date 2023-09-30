@@ -21,6 +21,7 @@ export default function AcceptMember({ navigation, route }) {
   const colors = new AppColors(isDark);
   const [position, setPosition] = useState();
   const id = route?.params?.id;
+  const nId = route?.params?.nId;
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function AcceptMember({ navigation, route }) {
     post(
       `/member/request/accept/${id}`,
       {
-        notificationId: id,
+        notificationId: nId,
         position: explain,
         category: position,
       },
