@@ -38,6 +38,7 @@ export default function Expenses({ navigation,route }) {
       //console.log(res.data.expenses);
       dispatch(loader.hide());
       //console.log(sortDate);
+      //setData([])
       setData(res.data.expenses);
       expenseDateSort&&setData(res.data.expenses.filter(exp => new Date(exp.date)>new Date(expenseDateSort)));
     };
@@ -47,7 +48,7 @@ export default function Expenses({ navigation,route }) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView scrollEventThrottle={16}>
-        <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
+        <View style={[mainStyle.pdH20, mainStyle.flexBox,data?.length===0&&{justifyContent:"center"}]}>
           <Text
             style={{
               fontSize: 20,
@@ -58,14 +59,14 @@ export default function Expenses({ navigation,route }) {
             }}>
             {headlines._latestExpenses}
           </Text>
-          <Button
+          {data?.length!=0&&(<Button
             onPress={() => navigation?.navigate("AllExpenses")}
             style={{
               borderWidth: 0,
             }}
             Icon={() => <SvgXml xml={right}></SvgXml>}
             title={headlines._more}
-          />
+          />)}
         </View>
         {data?.slice(0, 5).map((doc, i) => (
           <ExpensesCart
@@ -77,7 +78,7 @@ export default function Expenses({ navigation,route }) {
             navigation={navigation}
           />
         ))}
-        {data?.length == 0 && <NoOption />}
+        {data?.length == 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি":"No expenses added"} />}
 
         <View style={{ height: 90 }} />
       </ScrollView>
