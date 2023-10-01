@@ -168,7 +168,8 @@ export default function AdminRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -183,7 +184,7 @@ export default function AdminRoute() {
               name="Dashboard"
               component={DashboardRoute}
             />
-            
+
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -254,7 +255,7 @@ export default function AdminRoute() {
               options={{
                 header: (props) => (
                   <BackHeader
-                    title={isBn ? "সদস্য যোগ করুন" : "Add Member"}
+                    title={isBn ? "চাঁদা যোগ করুন" : "Add Collection"}
                     {...props}
                   />
                 ),
@@ -357,8 +358,7 @@ export default function AdminRoute() {
               name="Support"
               component={Support}
             />
-           
-           
+
             <Stack.Screen
               options={{
                 header: (props) => (
@@ -389,7 +389,7 @@ export default function AdminRoute() {
               name="DashboardNotification"
               component={DashboardNotification}
             />
-            
+
             <Stack.Screen
               options={{
                 headerShown: false,
@@ -506,7 +506,7 @@ export default function AdminRoute() {
               name="DeleteMemberConfirmation"
               component={DeleteMemberConfirmation}
             />
-            
+
             <Stack.Screen
               options={{
                 header: (props) => (

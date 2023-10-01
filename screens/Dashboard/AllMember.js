@@ -64,7 +64,6 @@ export default function AllMember({ navigation, route }) {
       );
     }
   }, [allMember, searchIp]);
-  
 
   return (
     <HidableHeaderLayout
@@ -85,18 +84,23 @@ export default function AllMember({ navigation, route }) {
             sortedMember?.map((doc, i) => (
               <MemberCard
                 onAdd={async () => {
-                  if(doc?.alreadyMember){
+                  if (doc?.alreadyMember) {
                     //console.log(doc);
-                    dispatch(loader.show())
-                    return deletes(`/member/delete/${doc.members[0].id}`,user.token).then(res=>{
-                      dispatch(loader.hide())
-                      
-                      dispatch(toast.success("Request rejected"));
-                      getRandomMember()
-                    }).catch(err=>{
-                      dispatch(loader.hide())
-                      dispatch(toast.error(err.response.data.msg))
-                    })
+                    dispatch(loader.show());
+                    return deletes(
+                      `/member/delete/${doc.members[0].id}`,
+                      user.token
+                    )
+                      .then((res) => {
+                        dispatch(loader.hide());
+
+                        dispatch(toast.success("Request rejected"));
+                        getRandomMember();
+                      })
+                      .catch((err) => {
+                        dispatch(loader.hide());
+                        dispatch(toast.error(err.response.data.msg));
+                      });
                   }
                   navigation?.navigate("AddMember", { data: doc });
                   return;
@@ -118,7 +122,7 @@ export default function AllMember({ navigation, route }) {
                 }}
                 onProfile={() => {
                   //console.log(doc);
-                  return
+                  return;
                   navigation?.navigate("UserProfile", { data: doc });
                 }}
                 requested={doc?.alreadyMember ? true : false}
@@ -149,6 +153,7 @@ export default function AllMember({ navigation, route }) {
                       data: doc,
                       subscriptionId: subscription,
                       paid: paid,
+                      memberData: doc,
                     });
                   } else {
                     dispatch(toast.error("Request pending already"));
@@ -225,7 +230,8 @@ const Header = ({
           paddingHorizontal: 20,
           paddingBottom: 12,
         },
-      ]}>
+      ]}
+    >
       <Pressable
         onPress={() => {
           if (onPress) {
@@ -239,11 +245,13 @@ const Header = ({
           zIndex: 100,
           left: 20,
           top: inset?.top + 16,
-        }}>
+        }}
+      >
         <SvgXml xml={icon} />
       </Pressable>
       <Text
-        style={[mainStyle.level, { color: textColor, textAlign: "center" }]}>
+        style={[mainStyle.level, { color: textColor, textAlign: "center" }]}
+      >
         {headlines._allMember}
       </Text>
       <Input
