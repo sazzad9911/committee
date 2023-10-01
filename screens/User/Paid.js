@@ -13,37 +13,35 @@ import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Paid({ navigation,route }) {
+export default function Paid({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
   const [collections, setCollections] = React.useState();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const {comityId}=route?.params;
-  const isFocused=useIsFocused()
-
+  const { comityId } = route?.params;
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if(collections){
-      dispatch(loader.hide())
-    }else{
-      dispatch(loader.show())
+    if (collections) {
+      dispatch(loader.hide());
+    } else {
+      dispatch(loader.show());
     }
-   
+
     get(`/subs/get-subs-by-user/${comityId}`, user.token)
       .then((res) => {
-        setCollections(res.data.subs.filter(sub => sub.collections[0].paid));
-        dispatch(loader.hide())
+        setCollections(res.data.subs.filter((sub) => sub.collections[0].paid));
+        dispatch(loader.hide());
       })
       .catch((err) => {
-        dispatch(loader.hide())
+        dispatch(loader.hide());
         console.error(err.message);
       });
   }, [isFocused]);
-
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
@@ -56,14 +54,16 @@ export default function Paid({ navigation,route }) {
             isDark={isDark}
             title={collection.name}
             key={collection.id}
+            data={collection}
+            index={index + 1}
             onPress={() => {
-              navigation?.navigate("UserSubscriptionDetails", { data: collection });
+              navigation?.navigate("UserSubscriptionDetails", {
+                data: collection,
+              });
             }}
           />
         ))}
-        {collections?.length===0&&(
-          <NoOption/>
-        )}
+        {collections?.length === 0 && <NoOption />}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

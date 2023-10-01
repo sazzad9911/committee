@@ -43,7 +43,7 @@ export default function SubscriptionCard({ title, onPress, index, data }) {
         }}
       >
         <Text style={[mainStyle.subLevel, { color: colors.getTextColor() }]}>
-          {dateConverter(data.createdAt)}
+          {dateConverter(data?.createdAt)}
           {/* {values.getValues()._details} */}
         </Text>
         <SvgXml

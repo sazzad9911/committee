@@ -153,7 +153,7 @@ export default function AllMember({ navigation, route }) {
                       data: doc,
                       subscriptionId: subscription,
                       paid: paid,
-                      memberData: doc,
+                      oldMember: true,
                     });
                   } else {
                     dispatch(toast.error("Request pending already"));

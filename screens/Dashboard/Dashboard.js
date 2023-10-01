@@ -41,11 +41,11 @@ export default function Dashboard({ navigation }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const expenseDateSort = useSelector((state) => state.expenseDateSort);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   //console.log(comity);
-  useEffect(()=>{
-    dispatch(setExpenseDateSort(new Date(`${d[0]}-${d[1]}-01`)))
-  },[])
+  useEffect(() => {
+    dispatch(setExpenseDateSort(new Date(`${d[0]}-${d[1]}-01`)));
+  }, []);
   return (
     <Tab.Navigator
       tabBar={(props) => (
@@ -69,7 +69,8 @@ export default function Dashboard({ navigation }) {
           }
           {...props}
         />
-      )}>
+      )}
+    >
       <Tab.Screen name={headlines._collection} component={Collection} />
       <Tab.Screen name={headlines._expenses} component={Expenses} />
     </Tab.Navigator>
@@ -95,6 +96,8 @@ const Header = ({
   const isBn = useSelector((state) => state.isBn);
   const isFocused = useIsFocused();
   const [balance, setBalance] = useState(comity?.balance || 0);
+  const [expense, setExpense] = useState(comity?.expense || 0);
+
   const inset = useSafeAreaInsets();
   const [number, setNumber] = useState(0);
 
@@ -102,7 +105,7 @@ const Header = ({
     try {
       const { data } = await getBalance(comity.id);
       setBalance(data.balance?.balance);
-      //console.log(data);
+      setExpense(data.totalExpense);
     } catch (error) {
       console.log(error);
     }
@@ -145,31 +148,37 @@ const Header = ({
         alignItems: "center",
         paddingTop: inset?.top,
         width: Dimensions.get("window").width,
-      }}>
+      }}
+    >
       <Text
         style={{
           fontSize: 16,
           color: "#B0B0B0",
-        }}>
-        {state.index==0?headlines?._currentBalance:headlines?._totalBalance}
+        }}
+      >
+        {state.index == 0
+          ? headlines?._currentBalance
+          : headlines?._totalBalance}
       </Text>
       <Text
         style={{
-          fontSize: 40, 
+          fontSize: 40,
           fontWeight: "800",
           color: "#fff",
-        }}>
-        {balance}
+        }}
+      >
+        {state.index == 0 ? balance : expense}
       </Text>
       <Text
         style={{
           fontSize: 16,
           color: "#fff",
-        }}>
+        }}
+      >
         {sortDate
           ? sortDate.toDateString()
           : new Date(comity?.createdAt).toDateString()}{" "}
-        {!isBn?"to Today":"থেকে আজ পর্যন্ত"}
+        {!isBn ? "to Today" : "থেকে আজ পর্যন্ত"}
       </Text>
 
       <Pressable
@@ -180,9 +189,10 @@ const Header = ({
           position: "absolute",
           top: 10,
           right: 20,
-        }}>
+        }}
+      >
         <SvgXml xml={state?.index === 0 ? icon : set} />
-        {state?.index === 0&&number ? (
+        {state?.index === 0 && number ? (
           <View
             style={{
               backgroundColor: "#4ADE80",
