@@ -13,6 +13,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import { useIsFocused } from "@react-navigation/native";
+import NoOption from "../../components/main/NoOption";
 
 export default function Collection({ navigation }) {
   const ref = useRef();
@@ -52,7 +53,7 @@ export default function Collection({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={[mainStyle.pdH20, mainStyle.flexBox]}>
+        <View style={[mainStyle.pdH20, mainStyle.flexBox,collectionList?.length===0&&{justifyContent:"center"}]}>
           <Text
             style={{
               fontSize: 20,
@@ -64,16 +65,18 @@ export default function Collection({ navigation }) {
           >
             {headlines._latestCollection}
           </Text>
-          <Button
-            onPress={() =>
-              navigation?.navigate("AllCollections", { data: collectionList })
-            }
-            style={{
-              borderWidth: 0,
-            }}
-            Icon={() => <SvgXml xml={right}></SvgXml>}
-            title={headlines._more}
-          />
+         {collectionList?.length!=0&&(
+           <Button
+           onPress={() =>
+             navigation?.navigate("AllCollections", { data: collectionList })
+           }
+           style={{
+             borderWidth: 0,
+           }}
+           Icon={() => <SvgXml xml={right}></SvgXml>}
+           title={headlines._more}
+         />
+         )}
         </View>
         {collectionList?.map((doc, i) => (
           <CollectionCart
@@ -90,6 +93,7 @@ export default function Collection({ navigation }) {
             }}
           />
         ))}
+        {collectionList?.length == 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন কালেকশন যোগ করা হয়নি":"No collection added"} />}
         <View style={{ height: 32 }} />
       </ScrollView>
     </View>

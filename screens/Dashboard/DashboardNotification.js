@@ -34,7 +34,9 @@ export default function DashboardNotification({ navigation }) {
   }, [isFocused, change]);
   useEffect(() => {
     socket.on("newNotification", (e) => {
+
       setChange(!change);
+
     });
     return () => {
       socket.off("newNotification");

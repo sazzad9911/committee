@@ -101,7 +101,7 @@ export default function AllExpenses({ navigation, route }) {
         : setSorted(res.data.expenses);
     };
     fetch();
-  }, [isFocus]);
+  }, [isFocus,choose]);
   useEffect(() => {
     text
       ? data &&
@@ -163,7 +163,12 @@ export default function AllExpenses({ navigation, route }) {
           sorted={sorted}
           selected={selected}
           choose={choose}
-
+          isBn={isBn}
+          onCancel={()=>{
+            setSelected()
+            setChoose()
+            setSorted(data)
+          }}
         />
       }
       bottom={
@@ -197,8 +202,8 @@ export default function AllExpenses({ navigation, route }) {
                 colors={colors}
                 value={selected}
                 onChoose={(e) => {
-                  handleSorted(e);
                   setSelected(e);
+                  handleSorted(e);
                 }}
                 headlines={headlines}
               />
@@ -303,11 +308,23 @@ const Header = ({
   );
 };
 
-const Component = ({ sorted, isDark, textColor, borderColor, navigation,selected }) => {
-  
+const Component = ({
+  sorted,
+  isDark,
+  textColor,
+  borderColor,
+  navigation,
+  selected,
+  onCancel,
+  choose,
+  isBn
+}) => {
+  //console.log();
   return (
     <View style={{ marginVertical: 14 }}>
-      <Chip title={selected}/>
+      <View style={[mainStyle.pdH20,{flexDirection:"row",marginBottom:6}]}>
+        {selected?(<Chip onCancel={onCancel} title={selected} />):choose?(<Chip onCancel={onCancel} title={`${new Date(choose[0]).toLocaleDateString()} ${isBn?"থেকে":"To"} ${new Date(choose[1]).toLocaleDateString()}`} />):null}
+      </View>
       {sorted?.map((doc, i) => (
         <ExpensesCart
           key={i}
@@ -318,19 +335,35 @@ const Component = ({ sorted, isDark, textColor, borderColor, navigation,selected
           navigation={navigation}
         />
       ))}
-      {sorted?.length === 0 && <NoOption />}
+       {sorted?.length === 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি":"No expenses added"} />}
+     
     </View>
   );
 };
-const Chip=({title,onCancel})=>{
+const Chip = ({ title, onCancel }) => {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  return(
-    <TouchableOpacity>
-      <Text>{title}</Text>
+  const ic = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M8 16C3.58698 16 0 12.413 0 8C0 3.58698 3.58698 0 8 0C12.413 0 16 3.58698 16 8C16 12.413 12.413 16 8 16ZM8 1.11628C4.20465 1.11628 1.11628 4.20465 1.11628 8C1.11628 11.7953 4.20465 14.8837 8 14.8837C11.7953 14.8837 14.8837 11.7953 14.8837 8C14.8837 4.20465 11.7953 1.11628 8 1.11628Z" fill="${colors.getTextColor()}"/>
+  <path d="M5.89432 10.6644C5.75292 10.6644 5.61153 10.6123 5.4999 10.5007C5.3961 10.3956 5.33789 10.2539 5.33789 10.1063C5.33789 9.95859 5.3961 9.81688 5.4999 9.71184L9.71199 5.49975C9.92781 5.28394 10.285 5.28394 10.5008 5.49975C10.7166 5.71557 10.7166 6.07277 10.5008 6.28859L6.28874 10.5007C6.18455 10.6123 6.03572 10.6644 5.89432 10.6644Z" fill="${colors.getTextColor()}"/>
+  <path d="M10.1064 10.6644C9.96502 10.6644 9.82362 10.6123 9.71199 10.5007L5.4999 6.28859C5.3961 6.18356 5.33789 6.04184 5.33789 5.89417C5.33789 5.7465 5.3961 5.60478 5.4999 5.49975C5.71572 5.28394 6.07292 5.28394 6.28874 5.49975L10.5008 9.71184C10.7166 9.92766 10.7166 10.2849 10.5008 10.5007C10.3892 10.6123 10.2478 10.6644 10.1064 10.6644Z" fill="${colors.getTextColor()}"/>
+  </svg>
+  `;
+  return (
+    <TouchableOpacity onPress={onCancel}
+      style={{
+        flexDirection: "row",
+        backgroundColor:colors.getSchemeColor(),
+        paddingHorizontal:8,
+        paddingVertical:4,
+        alignItems:"center",
+        borderRadius:8
+      }}>
+      <Text style={[mainStyle.text14,{color:colors.getTextColor()}]}>{title}</Text>
+      <SvgXml style={{ marginLeft: 5 }} xml={ic} />
     </TouchableOpacity>
-  )
-}
+  );
+};
 const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
   return (
     <View

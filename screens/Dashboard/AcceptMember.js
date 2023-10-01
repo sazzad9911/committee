@@ -41,7 +41,7 @@ export default function AcceptMember({ navigation, route }) {
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
-        navigation.goBack();
+        navigation.goBack()
       })
       .catch((err) => {
         dispatch(loader.hide());

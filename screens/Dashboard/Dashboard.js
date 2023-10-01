@@ -92,6 +92,7 @@ const Header = ({
   const scrollValue = useSelector((state) => state.scrollValue);
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
+  const isBn = useSelector((state) => state.isBn);
   const isFocused = useIsFocused();
   const [balance, setBalance] = useState(comity?.balance || 0);
   const inset = useSafeAreaInsets();
@@ -150,11 +151,11 @@ const Header = ({
           fontSize: 16,
           color: "#B0B0B0",
         }}>
-        {headlines?._currentBalance}
+        {state.index==0?headlines?._currentBalance:headlines?._totalBalance}
       </Text>
       <Text
         style={{
-          fontSize: 40,
+          fontSize: 40, 
           fontWeight: "800",
           color: "#fff",
         }}>
@@ -168,7 +169,7 @@ const Header = ({
         {sortDate
           ? sortDate.toDateString()
           : new Date(comity?.createdAt).toDateString()}{" "}
-        to Today
+        {!isBn?"to Today":"থেকে আজ পর্যন্ত"}
       </Text>
 
       <Pressable

@@ -175,12 +175,14 @@ export class AppValues {
         _deleteConfirmation: "মুছে ফেলা",
         _importantMessage: "গুরুত্বপূর্ণ টিপস",
         _delete: "মুছে ফেলা",
+        _totalBalance: "সর্বমোট খরচ",
       };
     } else {
       return {
         _currentBalance: "Current Balance",
         _collection: "Collection",
         _expenses: "Expenses",
+        _totalBalance: "Total Balance",
         _latestCollection: "Latest Collection",
         _latestExpenses: "Latest Expenses",
         _messageCollection: "No collection has added yet",
@@ -319,6 +321,7 @@ export class AppValues {
           _notiReqMsg: "আপনার কমিটিতে যোগদানের জন্য অনুরোধ করেছেন।",
           _positionAndCategory: "ভূমিকা এবং শ্রেণী",
           _selectTheDate: "তারিখ বাছাই করুন",
+          _totalBalance: "সর্বমোট খরচ",
           _positionAndCategoryText: `কমিটির মধ্যে সদস্যদের অবস্থান উল্লেখ করুন৷ আপনি আপনার কমিটির কাঠামোর উপর ভিত্তি করে যেকোন পদ, যেমন 'সাধারণ সদস্য' বা অন্যান্য উপযুক্ত ভূমিকা প্রদান করতে পারেন৷।
 
           সদস্য বিভাগ নির্বাচন করুন:
@@ -335,6 +338,7 @@ export class AppValues {
           comityList: "Comity List",
           _paid: "Paid",
           _unPaid: "Unpaid",
+          _totalBalance: "Total Balance",
           _nameDateTaka: "Name, date or Amout",
           _allSubscription: "All Subscription",
           _details: "Details",

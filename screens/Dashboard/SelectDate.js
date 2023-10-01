@@ -53,7 +53,7 @@ export default function SelectDate({ navigation, route }) {
           Icon={() => <SvgXml xml={icon} />}
           title={fromDate ? fromDate.toLocaleDateString() : "dd/mm/yyyy"}
         />
-        <Text style={[mainStyle.subLevel, { marginHorizontal: 10 }]}>
+        <Text style={[mainStyle.subLevel, { marginHorizontal: 10,color:colors.getTextColor() }]}>
           {isBn ? "থেকে" : "To"}
         </Text>
         <Button
