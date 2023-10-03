@@ -1,5 +1,5 @@
-const url="http://158.220.101.235/comity/api"
-import axios from "axios"
+const url = "http://158.220.101.235/comity/api";
+import axios from "axios";
 import localStorage from "../functions/localStorage";
 
 const userLogin = async (email, password) => {
@@ -9,10 +9,10 @@ const userLogin = async (email, password) => {
   });
 
   if (response.data) {
-   await localStorage.storeData("user", response.data);
+    await localStorage.storeData("user", response.data);
     return response.data;
   }
-  return response
+  return response;
 };
 const checkUser = async () => {
   const res = await localStorage.getData("user");
@@ -59,80 +59,100 @@ const getFavoriteCategories = async (token) => {
   return res;
 };
 const sendOTP = async (number) => {
-  const res = await axios.post(`${url}/auth/register/send-otp`,{
-    phone:number
+  const res = await axios.post(`${url}/auth/register/send-otp`, {
+    phone: number,
   });
   return res;
 };
 const resetUser = async (number) => {
-  const res = await axios.post(`${url}/auth/reset/send-otp`,{
-    phone:number
+  const res = await axios.post(`${url}/auth/reset/send-otp`, {
+    phone: number,
   });
   return res;
 };
-const checkResetUser = async (number,otp) => {
-  const res = await axios.post(`${url}/auth/reset/verify-otp`,{
-    phone:number,
-    otp:otp
+const checkResetUser = async (number, otp) => {
+  const res = await axios.post(`${url}/auth/reset/verify-otp`, {
+    phone: number,
+    otp: otp,
   });
   return res;
 };
-const resetUserPassword=async(token,password)=>{
-  const res = await axios.post(`${url}/auth/reset`,{
-    token:token,
-    password:password,
-  });
-  return res;
-}
-const checkOTP = async (number,otp) => {
-  const res = await axios.post(`${url}/auth/register/verify-otp`,{
-    phone:number,
-    otp:otp
+const resetUserPassword = async (token, password) => {
+  const res = await axios.post(`${url}/auth/reset`, {
+    token: token,
+    password: password,
   });
   return res;
 };
-const registerUser=async(token,name,username,password,age,gender)=>{
-  const res = await axios.post(`${url}/auth/register`,{
-    token:token,
-    name:name,
-    username:username,
-    password:password,
-    age:age,
-    gender:gender
+const checkOTP = async (number, otp) => {
+  const res = await axios.post(`${url}/auth/register/verify-otp`, {
+    phone: number,
+    otp: otp,
   });
   return res;
-}
-const updateDeviceToken=async(token,deviceToken)=>{
-  const res = await axios.put(`${url}/auth/update-device-token`,{
-    deviceToken:deviceToken
-  },{
-    headers: { Authorization: `Bearer ${token}` },
+};
+const registerUser = async (token, name, username, password, age, gender) => {
+  const res = await axios.post(`${url}/auth/register`, {
+    token: token,
+    name: name,
+    username: username,
+    password: password,
+    age: age,
+    gender: gender,
   });
   return res;
-}
-const removeDeviceToken=async(token,deviceToken)=>{
-  const res = await axios.put(`${url}/auth/remove-device-token`,{
-    deviceToken:deviceToken
-  },{
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res;
-}
-export const createComity=async(name,phone,division,district,thana,address,about,token)=>{
-    
-    const res = await axios.post(`${url}/comity/create`,{
-      name:name,
-      phone:phone,
-      division:division,
-      district:district,
-      thana:thana,
-      address:address,
-      about:about
-    },{
+};
+const updateDeviceToken = async (token, deviceToken) => {
+  const res = await axios.put(
+    `${url}/auth/update-device-token`,
+    {
+      deviceToken: deviceToken,
+    },
+    {
       headers: { Authorization: `Bearer ${token}` },
-    });
-    return res;
-  }
+    }
+  );
+  return res;
+};
+const removeDeviceToken = async (token, deviceToken) => {
+  const res = await axios.put(
+    `${url}/auth/remove-device-token`,
+    {
+      deviceToken: deviceToken,
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return res;
+};
+export const createComity = async (
+  name,
+  phone,
+  division,
+  district,
+  thana,
+  address,
+  about,
+  token
+) => {
+  const res = await axios.post(
+    `${url}/comity/create`,
+    {
+      name: name,
+      phone: phone,
+      division: division,
+      district: district,
+      thana: thana,
+      address: address,
+      about: about,
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return res;
+};
 export {
   userLogin,
   checkUser,
@@ -149,5 +169,5 @@ export {
   checkResetUser,
   resetUserPassword,
   updateDeviceToken,
-  removeDeviceToken
+  removeDeviceToken,
 };
