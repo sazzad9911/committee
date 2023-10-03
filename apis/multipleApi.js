@@ -1,4 +1,4 @@
-const url = "http://158.220.101.235/comity/api";
+const url = "https://comity.onrender.com";
 import axios from "axios";
 import localStorage from "../functions/localStorage";
 import { io } from "socket.io-client";
@@ -21,7 +21,7 @@ export const deletes = async (route, token) =>
   API.delete(`${url}${route}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-export const socket = io("http://158.220.101.235", {
+export const socket = io("https://comity.onrender.com", {
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionAttempts: 989538344345623,
