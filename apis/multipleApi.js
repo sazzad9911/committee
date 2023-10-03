@@ -1,7 +1,6 @@
-<<<<<<< HEAD
+
 //const url = "http://158.220.101.235/comity/api";
-=======
->>>>>>> 9e52bd1cac1f71f17a5a0f508c20de5c19987614
+
 const url = "https://comity.onrender.com";
 import axios from "axios";
 import localStorage from "../functions/localStorage";
