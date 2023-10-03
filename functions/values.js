@@ -198,7 +198,7 @@ export class AppValues {
         _currentBalance: "Current Balance",
         _collection: "Collection",
         _expenses: "Expenses",
-        _totalBalance: "Total Balance",
+        _totalBalance: "Total Expenses",
         _latestCollection: "Latest Collection",
         _latestExpenses: "Latest Expenses",
         _messageCollection: "No collection has added yet",

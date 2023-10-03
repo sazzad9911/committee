@@ -63,7 +63,6 @@ export default function ComityProfile({ navigation, route }) {
       dispatch(loader.show());
       const { data } = await getComityById(comityId);
       setComity(data.comity);
-      console.log(data.comity);
     } catch (error) {
       console.log(error);
     } finally {

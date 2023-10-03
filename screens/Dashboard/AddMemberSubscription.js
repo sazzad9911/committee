@@ -68,12 +68,16 @@ export default function AddMemberSubscription({ navigation, route }) {
   const createData = async () => {
     try {
       dispatch(loader.show());
-      const { data: res } = await createMember({
-        ...memberData,
-      });
+      let newMemberId = null;
+      if (memberData) {
+        const { data: res } = await createMember({
+          ...memberData,
+        });
+        newMemberId = res?.member.id;
+      }
       await createCollection({
         subscriptionId: subscriptionId,
-        memberId: res?.member.id,
+        memberId: newMemberId ? newMemberId : data?.id,
         amount: amount,
         paid: paid ? "true" : "",
       });

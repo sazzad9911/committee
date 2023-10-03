@@ -27,7 +27,7 @@ export default function MemberRequestCard({
   const isBn = useSelector((state) => state.isBn);
   const headlines = new AppValues(isBn).getValues();
   const [data, setData] = useState(doc);
-  //console.log(doc);
+  // console.log(doc?.message);
   useEffect(() => {
     //console.log(data.id);
     // socket.on("newNotification", (e) => {
@@ -195,7 +195,7 @@ export default function MemberRequestCard({
           {getText(
             type,
             c ? data?.user?.name : data?.comity?.name,
-            data.message,
+            doc?.message,
             isBn
           )
             .split("/")

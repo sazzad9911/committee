@@ -66,18 +66,21 @@ const Header = ({ searchIp, setSearch }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? ac : dc}>
+      colors={!isDark ? ac : dc}
+    >
       <View
         style={{
           justifyContent: "space-between",
           flexDirection: "row",
-        }}>
+        }}
+      >
         <Text
           style={{
             color: "#fff",
             fontSize: 24,
             fontWeight: "500",
-          }}>
+          }}
+        >
           {values.getValues().comityList}
           {"   "}
         </Text>
@@ -103,17 +106,17 @@ const Header = ({ searchIp, setSearch }) => {
 const Component = ({ navigation }) => {
   const user = useSelector((state) => state.user);
   const [data, setData] = useState();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loader.show())
+    dispatch(loader.show());
     get("/auth/get-joined-comities", user.token)
       .then((res) => {
         setData(res.data.comities);
-        dispatch(loader.hide())
+        dispatch(loader.hide());
       })
       .catch((err) => {
-        dispatch(loader.hide())
+        dispatch(loader.hide());
         console.error(err.message);
       });
   }, [user]);
@@ -122,13 +125,15 @@ const Component = ({ navigation }) => {
       style={{
         paddingHorizontal: 14,
         paddingVertical: 12,
-      }}>
+      }}
+    >
       {data?.length > 1 && (
         <View
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
-          }}>
+          }}
+        >
           {data.map((doc, i) => (
             <PopularCategoryCart
               onPress={() => {
@@ -153,15 +158,16 @@ const Component = ({ navigation }) => {
               navigation.navigate("Subscription List", { comityId: doc.id });
             }}
             containerStyle={{
-              marginHorizontal:6,
-              width:width-40,
-              
+              marginHorizontal: 6,
+              width: width - 40,
             }}
             index={0}
             comity={doc}
           />
         ))}
-        {data?.length === 0 &&(<NoOption title={"You are not a member of comity"}/>)}
+      {data?.length === 0 && (
+        <NoOption title={"You are not a member of comity"} />
+      )}
 
       {/* <NoOption title={"You are not a member of comity"}/> */}
     </View>

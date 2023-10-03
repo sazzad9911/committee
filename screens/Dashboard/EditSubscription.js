@@ -52,7 +52,6 @@ export default function EditSubscription({ navigation, route }) {
   };
 
   const handelDelete = async () => {
-    console.log(data);
     try {
       dispatch(loader.show());
       await deleteSubs(data?.id);

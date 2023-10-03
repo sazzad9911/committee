@@ -12,7 +12,7 @@ import { dateConverter, timeConverter } from "../../functions/action";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Unpaid({ navigation,route }) {
+export default function Unpaid({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
@@ -24,10 +24,10 @@ export default function Unpaid({ navigation,route }) {
   const { comityId } = route?.params;
 
   useEffect(() => {
-    !collections&& dispatch(loader.show());
+    !collections && dispatch(loader.show());
     get(`/subs/get-subs-by-user/${comityId}`, user.token)
       .then((res) => {
-        setCollections(res.data.subs.filter(sub => !sub.collections[0].paid));
+        setCollections(res.data.subs.filter((sub) => !sub.collections[0].paid));
         dispatch(loader.hide());
       })
       .catch((err) => {
@@ -47,13 +47,11 @@ export default function Unpaid({ navigation,route }) {
             onPress={() => {
               navigation?.navigate("UserSubscriptionDetails", { data: doc });
             }}
+            index={i + 1}
             title={doc.name}
           />
-
         ))}
-        {collections?.length===0&&(
-          <NoOption/>
-        )}
+        {collections?.length === 0 && <NoOption />}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>
@@ -73,7 +71,8 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
           backgroundColor: isDark ? "#000" : "#fff",
           borderRadius: 8,
         },
-      ]}>
+      ]}
+    >
       <View style={[mainStyle.flexBox]}>
         <Avatar
           source={{
@@ -83,7 +82,8 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
         <View style={{ marginLeft: 12, width: 150 }}>
           <Text
             numberOfLines={1}
-            style={[mainStyle.mediumText, { color: textColor }]}>
+            style={[mainStyle.mediumText, { color: textColor }]}
+          >
             {user.user.name}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
@@ -94,7 +94,8 @@ const CollectionCart = ({ collection, textColor, borderColor, isDark }) => {
       <View>
         <Text
           numberOfLines={1}
-          style={[mainStyle.mediumText, { color: textColor }]}>
+          style={[mainStyle.mediumText, { color: textColor }]}
+        >
           {collection.amount} ৳
         </Text>
         <Text style={[mainStyle.smallText, { color: "red" }]}>Unpaid</Text>
