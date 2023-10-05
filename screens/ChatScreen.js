@@ -46,6 +46,7 @@ import ChatHead from "../components/headers/ChatHead";
 import { AppValues } from "../functions/values";
 import { getMessages, sendMessage } from "../apis/api";
 import { useRef } from "react";
+import { socket } from "../apis/multipleApi";
 //import { EvilIcons } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
@@ -368,10 +369,17 @@ const ChatScreen = (props) => {
       console.log(error);
     }
   };
+  useEffect(()=>{
+    socket.on("newMessage",e=>{
+      setMessages([...messages,e])
+    })
+  },[])
 
   useEffect(() => {
     fetchMessages();
+    //console.log(data);
     setUserInfo(data.users.filter(u => u.userId!==user.user.id)[0].user);
+    //console.log(data.users.filter(u => u.userId!==user.user.id)[0].user);
   }, [isFocus]);
   if(!UserInfo){
     return null

@@ -48,6 +48,7 @@ export default function ChatList(props) {
   const [type, setType] = useState("");
   const dispatch = useDispatch();
   const [data, setData] = useState();
+  const [searchList, setSearchList] = useState();
 
   const snapPoints = useMemo(() => ["90%"], []);
   const handleSheetChange = useCallback((index) => {
@@ -77,6 +78,7 @@ export default function ChatList(props) {
         ? await getComityConversations(comity.id)
         : await getUserConversations();
       setConversations(data.conversations);
+      setSearchList(data.conversations);
     } catch (error) {}
   };
 
@@ -116,13 +118,11 @@ export default function ChatList(props) {
         }
         onScroll={(e) => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
-        }}
-      >
+        }}>
         <View
           style={{
             minHeight: "100%",
-          }}
-        >
+          }}>
           <View style={{ height: 0 }} />
           {conversations.map((item, index) => (
             <ChatCart
@@ -130,7 +130,7 @@ export default function ChatList(props) {
               onPress={() => {
                 props?.navigation?.navigate("ChatScreen", {
                   conversationId: item.id,
-                  data:item
+                  data: item,
                 });
               }}
               conversation={item}
@@ -167,25 +167,34 @@ export default function ChatList(props) {
           index={index}
           enablePanDownToClose={true}
           snapPoints={snapPoints}
-          onChange={handleSheetChange}
-        >
+          onChange={handleSheetChange}>
           {index != -1 && isFocused && (
             <Header
               type={type}
               value={chatSearchRef}
-              onChange={(e) => {}}
+              onChange={(e) => {
+                if (e && comity) {
+                } else if (e && !comity) {
+                  setSearchList(
+                    conversations.filter((d) =>
+                      d.comity.name.toUpperCase().match(e.toUpperCase())
+                    )
+                  );
+                } else {
+                  setSearchList(conversations);
+                }
+              }}
               onConfirm={() => {
                 handleClosePress();
               }}
             />
           )}
           <BottomSheetScrollView
-            style={{ backgroundColor: colors.getBackgroundColor() }}
-          >
+            style={{ backgroundColor: colors.getBackgroundColor() }}>
             {type == "Search" ? (
               <ComitteeList
                 bottomRef={sheetRef}
-                data={data}
+                data={searchList}
                 onClose={setData}
                 navigation={props.navigation}
                 seller={true}
@@ -376,28 +385,24 @@ const Header = ({ type, onConfirm, onChange, value }) => {
         borderTopStartRadius: 20,
       }}
       start={{ x: 0.2, y: 0 }}
-      colors={isDark ? ["#000", "#000"] : ac}
-    >
+      colors={isDark ? ["#000", "#000"] : ac}>
       <View
         style={{
           paddingHorizontal: 20,
           paddingVertical: 24,
-        }}
-      >
+        }}>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: 20,
               fontWeight: "700",
               color: "#fff",
-            }}
-          >
-            {type == "Search" ? values.comityList : values.memberList}
+            }}>
+            {type == "Search" ? values.allMessage : values.memberList}
           </Text>
           <Text
             onPress={onConfirm}
@@ -405,8 +410,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontSize: 16,
               fontWeight: "400",
               color: "#fff",
-            }}
-          >
+            }}>
             {values.done}
           </Text>
         </View>
@@ -420,8 +424,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
             alignItems: "center",
             paddingHorizontal: 8,
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <TextInput
             onChangeText={onChange}
             value={value}

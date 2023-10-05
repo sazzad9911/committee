@@ -83,6 +83,7 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
   const users = useSelector((state) => state.user);
   const [data, setData] = useState();
   const [notify, setNotify] = useState(true);
+ // console.log(message);
   //const [AudioOnly,setAudioOnly]=React.useState(false)
   //console.log(newUser.user)
   const backIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,15 +135,15 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
           ) : (
             <Avatar
               style={styles.image}
-              source={vendor?{ uri: image ? image : "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg" }:{ uri: message?.service ? message?.service?.profilePhoto : "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg" }}
+              source={vendor?{ uri: image }:{ uri:  message?.comity?.profilePhoto }}
             />
           )}
 
-          {readOnly||vendor?(<Text numberOfLines={1} style={[styles.text,{color:textColor}]}>
+          {(readOnly||vendor)?(<Text numberOfLines={1} style={[styles.text,{color:textColor}]}>
             {name ? `${name}` : "Hello World"}
             {readOnly ? " Support" : ""}
           </Text>):(<Text numberOfLines={1} style={[styles.text,{color:textColor}]}>
-            {message?.service ? `${message?.service?.serviceCenterName}` : "Hello World"}
+            {message?.comity ? `${message?.comity?.name}` : "Hello World"}
             {readOnly ? " Support" : ""}
           </Text>)}
         </Pressable>

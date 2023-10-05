@@ -345,6 +345,7 @@ export class AppValues {
               - 'বিশেষ সদস্য': এই বিকল্পটি বেছে নিন যদি কমিটির মধ্যে সদস্যের একটি নির্দিষ্ট ভূমিকা থাকে, যেমন ম্যানেজার বা নেতা৷।
           
           এই বিশদ বিবরণ প্রদান করে, আপনি নিশ্চিত করেন যে নতুন সদস্যের ভূমিকা এবং ধরন সঠিকভাবে কমিটির মধ্যে সংজ্ঞায়িত করা হয়েছে, আপনার কমিটির পরিচালনা প্রক্রিয়াকে সহজসাধ্য করে`,
+          allMessage:"সব বার্তা"
         }
       : {
           write: "Write",
@@ -439,6 +440,7 @@ export class AppValues {
              - 'Special Member': Choose this option if the member holds a specific role within the committee, such as manager or leader.
           
           By providing these details, you ensure that the new member's role and type are accurately defined within the committee, streamlining your committee management process`,
+          allMessage:"All message"
         };
   }
 }
