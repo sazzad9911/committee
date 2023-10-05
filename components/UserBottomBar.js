@@ -149,14 +149,16 @@ export default function UserBottomBar({ navigation, state }) {
       style={{
         paddingBottom: inset?.bottom,
         backgroundColor: backgroundColor,
-      }}>
+      }}
+    >
       <View style={style.box}>
         <View style={[StyleSheet.absoluteFillObject]}>
           <Animated.View
             style={{
               width: width / 5,
               transform: [{ translateX: translateValue }],
-            }}>
+            }}
+          >
             <Animated.View
               style={[
                 {
@@ -174,7 +176,8 @@ export default function UserBottomBar({ navigation, state }) {
           onPress={() => {
             setRoute(0);
             navigation?.navigate("Home");
-          }}>
+          }}
+        >
           <SvgXml xml={route == 0 ? homeActiveIcon : homeIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[0] : ""}
@@ -185,7 +188,8 @@ export default function UserBottomBar({ navigation, state }) {
           onPress={() => {
             setRoute(1);
             navigation?.navigate("Subscription");
-          }}>
+          }}
+        >
           <SvgXml xml={route == 1 ? subsActiveIcon : subsIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[1] : ""}
@@ -196,7 +200,8 @@ export default function UserBottomBar({ navigation, state }) {
           onPress={() => {
             setRoute(2);
             navigation?.navigate("Inbox");
-          }}>
+          }}
+        >
           <SvgXml xml={route == 2 ? inboxActiveIcon : inboxIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[2] : ""}
@@ -207,7 +212,8 @@ export default function UserBottomBar({ navigation, state }) {
           onPress={() => {
             setRoute(3);
             navigation?.navigate("Notification");
-          }}>
+          }}
+        >
           <Ionicons
             name="notifications"
             size={24}
@@ -235,7 +241,8 @@ export default function UserBottomBar({ navigation, state }) {
           onPress={() => {
             setRoute(4);
             navigation?.navigate("Profile");
-          }}>
+          }}
+        >
           <SvgXml xml={route == 4 ? profileActiveIcon : profileIcon} />
           <Text style={style.text}>
             {bottomBarName ? bottomBarName[3] : ""}

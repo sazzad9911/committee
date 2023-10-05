@@ -2,9 +2,12 @@ import React from "react";
 import { Dimensions, Image, Pressable, Text, View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import cart from "../../assets/cart.png";
+import { useSelector } from "react-redux";
 const { width, height } = Dimensions.get("window");
 
 export default function SignUpCart({ title, onPress }) {
+  const isBn = useSelector((state) => state.isBn);
+
   return (
     <View style={{ flex: 1, marginHorizontal: 20 }}>
       {/* <SvgXml style={{}}  width={"100%"} xml={vector} /> */}
@@ -52,7 +55,9 @@ export default function SignUpCart({ title, onPress }) {
               textAlign: "center",
             }}
           >
-            নিজের একটি শক্তিশালী কমিটি গঠন করুন{" "}
+            {isBn
+              ? "নিজের একটি শক্তিশালী কমিটি গঠন করুন"
+              : "Build a strong committee of your own"}
           </Text>
           <View
             style={{
@@ -68,7 +73,7 @@ export default function SignUpCart({ title, onPress }) {
                 color: "#fff",
               }}
             >
-              একটি কমিটি গঠন করুন{" "}
+              {isBn ? "একটি কমিটি গঠন করুন" : "Create a comity"}
             </Text>
             <Pressable
               onPress={onPress}
@@ -85,7 +90,7 @@ export default function SignUpCart({ title, onPress }) {
                   color: "#fff",
                 }}
               >
-                সাইন আপ{" "}
+                {isBn ? "সাইন আপ" : "Sign Up"}
               </Text>
             </Pressable>
           </View>

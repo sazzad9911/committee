@@ -108,7 +108,7 @@ export default function MainRoute() {
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
   const [isReady, setIsReady] = useState(false);
-  const [isConnect,setIsConnect]=useState(false)
+  const [isConnect, setIsConnect] = useState(false);
 
   useEffect(() => {
     //dispatch(setIsDark(colorScheme == "dark" ? true : false));
@@ -144,17 +144,17 @@ export default function MainRoute() {
   useEffect(() => {
     const fetch = async () => {
       const user = await checkUser();
-      if(!isConnect&&user){
+      if (!isConnect && user) {
         socket.emit("join", user.user.id);
-        setIsConnect(true)
+        setIsConnect(true);
       }
-      
+
       dispatch(storeUser(user));
       const com = await localStorage.getData("SET_COMITY");
       //console.log(com);
       dispatch({ type: "SET_COMITY", value: com });
       setIsReady(true);
-      
+
       // socket.on("getUsers", (u) => {
       //   console.log(u);
       // });
@@ -168,7 +168,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}

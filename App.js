@@ -26,14 +26,15 @@ export default function App() {
       }, 5000);
     }, [t]);
     return (
-      <View style={{flex:1}}>
-        {comity?(<AdminRoute/>):(<MainRoute/>)}
+      <View style={{ flex: 1 }}>
+        {comity ? <AdminRoute /> : <MainRoute />}
         <AnimatedLoader
           source={require("./assets/animation.json")}
           visible={loader}
           overlayColor="rgba(255,255,255,0.25)"
           animationStyle={styles.lottie}
-          speed={1}></AnimatedLoader>
+          speed={1}
+        ></AnimatedLoader>
       </View>
     );
   };

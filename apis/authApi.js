@@ -1,4 +1,4 @@
-const url = "https://comity.onrender.com";
+const url = "http://158.220.101.235/comity/api";
 import axios from "axios";
 import localStorage from "../functions/localStorage";
 
