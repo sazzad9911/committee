@@ -19,14 +19,16 @@ export default function UnPaid({ navigation }) {
   const comity = useSelector((state) => state.comity);
 
   useEffect(() => {
-    const fetch = async () => {
-      dispatch(loader.show());
-      const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
-      //console.log(res.data.subs);
-      setPaidList(res.data.subs?.filter((sub) => !sub.completed));
-      dispatch(loader.hide());
-    };
-    fetch();
+    dispatch(loader.show());
+    get(`/subs/get-all-subs/${comity.id}`, user.token)
+      .then((res) => {
+        setPaidList(res.data.subs?.filter((sub) => !sub.completed));
+        dispatch(loader.hide());
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+      });
+    //console.log(res.data.subs);
   }, [isFocused]);
 
   return (

@@ -1,11 +1,12 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get } from "../../apis/multipleApi";
 import SubscriptionCard from "../../components/cart/SubscriptionCard";
 import FloatingButton from "../../components/main/FloatingButton";
 import NoOption from "../../components/main/NoOption";
+import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
 export default function Paid({ navigation }) {
@@ -15,13 +16,15 @@ export default function Paid({ navigation }) {
   const isFocused = useIsFocused();
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
+  const dispatch=useDispatch()
   useEffect(() => {
-    const fetch = async () => {
-      const res = await get(`/subs/get-all-subs/${comity.id}`, user.token);
-      //console.log(res.data.subs);
-      setPaidList(res.data.subs?.filter((sub) => sub.completed));
-    };
-    fetch();
+    get(`/subs/get-all-subs/${comity.id}`, user.token)
+      .then((res) => {
+        setPaidList(res.data.subs?.filter((sub) => sub.completed));
+      })
+      .catch((err) => {
+        dispatch(loader.hide());
+      });
   }, [isFocused]);
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>

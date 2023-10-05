@@ -105,7 +105,7 @@ export default function Profile({ navigation }) {
             border={borderColor}
             color={textColor}
             subTitle={user.user?.email || "-"}
-            title={"E-mail"}
+            title={createCommitteeValues.email}
             onPress={() =>
               navigation.navigate("EditEmail", {
                 user: user?.user,
@@ -117,7 +117,7 @@ export default function Profile({ navigation }) {
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            subTitle={`${user.user?.address?.division}, ${user.user?.address?.district}, ${user.user?.address?.area}`}
+            subTitle={`${user.user?.address?.division||""}${user.user?.address?.district?", ":""}${user.user?.address?.district||""}${user.user?.address?.area?", ":""}${user.user?.address?.area||""}`||`${isBn?"আপনার ঠিকানা আপডেট করুন":"Update your address"}`}
             title={createCommitteeValues.address}
             onPress={() => navigation.navigate("EditAddress")}
           />
@@ -127,7 +127,7 @@ export default function Profile({ navigation }) {
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            subTitle={"Your rights, our legal duty!"}
+            subTitle={createCommitteeValues.legalText}
             title={"Legal"}
             onPress={() => navigation.navigate("Legal")}
           />
@@ -150,7 +150,7 @@ export default function Profile({ navigation }) {
             border={borderColor}
             color={textColor}
             icon={cmt}
-            title={"Comity"}
+            title={createCommitteeValues.comity}
           />
           <Clickable
             onPress={() => {
@@ -160,7 +160,7 @@ export default function Profile({ navigation }) {
             border={borderColor}
             color={textColor}
             icon={cmt}
-            title={"Support"}
+            title={createCommitteeValues.support}
           />
           <Clickable
             onPress={() => {
@@ -170,7 +170,7 @@ export default function Profile({ navigation }) {
             border={borderColor}
             color={textColor}
             icon={cmt}
-            title={"Contact Us"}
+            title={createCommitteeValues.contactUs}
           />
           <Clickable
             onPress={() => {
@@ -180,7 +180,7 @@ export default function Profile({ navigation }) {
             subTextColor={subTextColor}
             border={borderColor}
             color={textColor}
-            title={"Log Out"}
+            title={createCommitteeValues.logout}
           />
           <Clickable
             icon={color}
@@ -191,7 +191,7 @@ export default function Profile({ navigation }) {
               localStorage.setDark(isDark ? false : true);
               dispatch(setIsDark(isDark ? false : true));
             }}
-            title={"Dark mode"}
+            title={isDark?createCommitteeValues.lightMode:createCommitteeValues.darkMode}
           />
           <Clickable
             bottom={true}
@@ -200,7 +200,7 @@ export default function Profile({ navigation }) {
             border={borderColor}
             color={textColor}
             onPress={() => navigation?.navigate("LanguageScreen")}
-            title={!isBn ? "English" : "Bangla"}
+            title={!isBn ? "English" : "বাংলা"}
           />
         </View>
       </View>
@@ -225,6 +225,7 @@ export const Clickable = ({
 <path d="M15.9915 21.4122L15.9927 21.4131C16.1485 21.5419 16.3398 21.5973 16.5218 21.5973C16.7107 21.5973 16.8968 21.5322 17.0444 21.4183L17.0444 21.4185L17.0509 21.4131L21.5991 17.654C21.5994 17.6537 21.5998 17.6535 21.6001 17.6532C22.0157 17.3159 22.25 16.8491 22.25 16.3466C22.25 15.8416 22.0067 15.376 21.601 15.0407L17.0509 11.28C16.7561 11.0364 16.2875 11.0364 15.9927 11.28L15.9927 11.28L15.9915 11.281C15.8444 11.404 15.75 11.5813 15.75 11.7784C15.75 11.9756 15.8444 12.1528 15.9915 12.2759L15.9915 12.2759L15.9927 12.2768L20.5427 16.0375C20.6572 16.1321 20.7032 16.2451 20.7032 16.3466C20.7032 16.448 20.6572 16.561 20.5427 16.6557L15.9927 20.4163L15.9927 20.4163L15.9915 20.4172C15.8444 20.5403 15.75 20.7176 15.75 20.9147C15.75 21.1118 15.8444 21.2891 15.9915 21.4122Z" stroke="white" stroke-opacity="0.2" stroke-width="0.5"/>
 </svg>
 `;
+
   return (
     <Pressable
       style={{
@@ -242,11 +243,11 @@ export const Clickable = ({
         <Text style={{ color: active ? activeColor : color, fontSize: 14 }}>
           {title}
         </Text>
-        {subTitle && (
+        {subTitle ? (
           <Text style={{ color: subTextColor, fontSize: 12, marginTop: 3 }}>
             {subTitle}
           </Text>
-        )}
+        ):null}
       </View>
       {canGo && <SvgXml xml={right} />}
       {icon && <SvgXml xml={icon} />}
