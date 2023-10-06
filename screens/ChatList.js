@@ -28,6 +28,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AppValues } from "../functions/values";
 import ComitteeList from "./ComitteeList";
 import { getComityConversations, getUserConversations } from "../apis/api";
+import loader from "../data/loader";
+import mainStyle from "../styles/mainStyle";
+import { get } from "../apis/multipleApi";
 const { height, width } = Dimensions.get("window");
 
 export default function ChatList(props) {
@@ -37,11 +40,11 @@ export default function ChatList(props) {
     inputRange: [0, 300],
     outputRange: [0, -300],
   });
-  const [conversations, setConversations] = React.useState([]);
-  const [Loader, setLoader] = React.useState(false);
+  const [conversations, setConversations] = React.useState();
   const isFocused = useIsFocused();
   const chatSearchRef = useSelector((state) => state.chatSearchRef);
   const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
   const searchX = props?.route?.params?.search;
   const sheetRef = useRef(null);
   const [index, setIndex] = useState(-1);
@@ -49,19 +52,15 @@ export default function ChatList(props) {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [searchList, setSearchList] = useState();
-
+  const [members,setMembers] = useState();
+  const [membersList,setMembersList] = useState();
   const snapPoints = useMemo(() => ["90%"], []);
   const handleSheetChange = useCallback((index) => {
     setIndex(index);
   }, []);
-  const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-  }, []);
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
-    //dispatch(setChatBottomRef(null));
   }, []);
-  const [newMessage, setNewMessage] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -70,8 +69,6 @@ export default function ChatList(props) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
 
-  //console.log(chatBottomRef)
-
   const fetchConversations = async () => {
     try {
       const { data } = comity?.id
@@ -79,12 +76,27 @@ export default function ChatList(props) {
         : await getUserConversations();
       setConversations(data.conversations);
       setSearchList(data.conversations);
-    } catch (error) {}
+      dispatch(loader.hide())
+    } catch (error) {
+      dispatch(loader.hide())
+    }
   };
+  const fetchMembers=async()=>{
+    try{
+      const {data}=await get(`/member/get-all/${comity.id}`,user.token)
+      setMembers(data.members.filter(d=>d.user));
+      setMembersList(data.members.filter(d=>d.user))
+      //console.log(data.members.filter(d=>d.user));
+    }catch(e){
+      console.error(e.message)
+    }
+  }
 
   useEffect(() => {
+    !conversations&&dispatch(loader.show())
     fetchConversations();
-  }, []);
+    fetchMembers()
+  }, [isFocused]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
@@ -124,8 +136,8 @@ export default function ChatList(props) {
             minHeight: "100%",
           }}>
           <View style={{ height: 0 }} />
-          {conversations.map((item, index) => (
-            <ChatCart
+          {conversations?.map((item, index) => (
+            <ChatCart key={index}
               index={item.id}
               onPress={() => {
                 props?.navigation?.navigate("ChatScreen", {
@@ -137,20 +149,20 @@ export default function ChatList(props) {
               active={true}
             />
           ))}
-
-          {/* {conversations && conversations.length == 0 && (
-            <View style={[customStyle.fullBox, { height: height - 200 }]}>
+          {conversations && conversations.length == 0 && (
+            <View style={[mainStyle.flexBox, { height: height - 200,justifyContent:"center" }]}>
               <Text
                 style={{
                   marginVertical: 20,
                   textAlign: "center",
                   fontSize: 24,
+                  color:colors.getTextColor()
                 }}
               >
-                {searchX ? "Ops, No Result" : "No Member Added"}
+                 You have no conversation!
               </Text>
             </View>
-          )} */}
+          )}
         </View>
         <View style={{ height: 0 }} />
       </ScrollView>
@@ -174,6 +186,12 @@ export default function ChatList(props) {
               value={chatSearchRef}
               onChange={(e) => {
                 if (e && comity) {
+                  setSearchList(
+                    conversations.filter((d) =>
+                      d.users[0].user.name.toUpperCase().match(e.toUpperCase())
+                    )
+                  );
+                  setMembersList(members?.filter(d=>d.user.name.toUpperCase().match(e.toUpperCase())))
                 } else if (e && !comity) {
                   setSearchList(
                     conversations.filter((d) =>
@@ -182,6 +200,7 @@ export default function ChatList(props) {
                   );
                 } else {
                   setSearchList(conversations);
+                  setMembersList(members)
                 }
               }}
               onConfirm={() => {
@@ -195,16 +214,17 @@ export default function ChatList(props) {
               <ComitteeList
                 bottomRef={sheetRef}
                 data={searchList}
-                onClose={setData}
+                onClose={handleClosePress}
                 navigation={props.navigation}
                 seller={true}
                 setIndex={setIndex}
+                
               />
             ) : (
               <ContactList
                 bottomRef={sheetRef}
-                data={data}
-                onClose={setData}
+                data={membersList}
+                onClose={handleClosePress}
                 seller={false}
                 navigation={props.navigation}
                 setIndex={setIndex}
