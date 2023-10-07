@@ -8,7 +8,6 @@ import {
   Pressable,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
-import { getRecentComities } from "../../apis/api";
 import mainStyle from "../../styles/mainStyle";
 import Button from "../main/Button";
 import { useSelector } from "react-redux";

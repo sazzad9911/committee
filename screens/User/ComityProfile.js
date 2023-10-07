@@ -20,7 +20,6 @@ import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
 import loader from "../../data/loader";
 import { get, post } from "../../apis/multipleApi";
-import { getComityById, leaveComity, sendMemberRequest } from "../../apis/api";
 import toast from "../../data/toast";
 import MoreText from "../../components/main/MoreText";
 
@@ -86,7 +85,7 @@ export default function ComityProfile({ navigation, route }) {
   const handelDelete = async () => {
     try {
       dispatch(loader.show());
-      await leaveComity(comity?.id);
+      await post(`/member/leave-comity/${comity?.id}`, {}, user.token);
       dispatch(toast.success("You leave the comity!"));
       navigation.pop(2);
     } catch (error) {
@@ -112,7 +111,7 @@ export default function ComityProfile({ navigation, route }) {
             : "By confirming, you will be removed from the committee list, and your payment information and data for this committee will no longer be accessible. However, should you choose to rejoin the committee in the future, your data will be reinstated",
         });
       } else if (!comity?.memberStatus) {
-        await sendMemberRequest(comity.id);
+        await post(`/member/request/send/${comity?.id}`, {}, user.token);
         dispatch(toast.success("Request sent"));
         setRefetch(!refetch);
       } else {
@@ -125,7 +124,11 @@ export default function ComityProfile({ navigation, route }) {
               onPress: async () => {
                 try {
                   dispatch(loader.show());
-                  await leaveComity(comity?.id);
+                  await post(
+                    `/member/leave-comity/${comity?.id}`,
+                    {},
+                    user.token
+                  );
                   dispatch(toast.success("You cancel the request!"));
                 } catch (error) {
                   dispatch(toast.error(error?.response?.data?.msg));
