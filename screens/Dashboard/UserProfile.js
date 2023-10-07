@@ -52,7 +52,6 @@ export default function UserProfile({ navigation, route }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
-  
 
   //console.log(data);
   //console.log(user)
@@ -74,13 +73,15 @@ export default function UserProfile({ navigation, route }) {
         paddingTop: inset?.top,
         alignItems: "center",
         backgroundColor: colors.getBackgroundColor(),
-      }}>
+      }}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <SvgXml
             onPress={() => navigation.goBack()}
             style={{ marginTop: 12 }}
@@ -98,7 +99,8 @@ export default function UserProfile({ navigation, route }) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("EditMemberInfo", { member: data })
-            }>
+            }
+          >
             <SvgXml style={{ marginTop: 12 }} xml={edit} />
           </TouchableOpacity>
         </View>
@@ -108,7 +110,8 @@ export default function UserProfile({ navigation, route }) {
             alignItems: "center",
             flex: 1,
             paddingHorizontal: 40,
-          }}>
+          }}
+        >
           <Text
             numberOfLines={1}
             style={{
@@ -116,7 +119,8 @@ export default function UserProfile({ navigation, route }) {
               fontWeight: "500",
               flex: 1,
               color: colors.getTextColor(),
-            }}>
+            }}
+          >
             {data?.name || data?.user?.name}
           </Text>
           <Text
@@ -124,7 +128,8 @@ export default function UserProfile({ navigation, route }) {
               fontSize: 16,
               fontWeight: "400",
               color: colors.getTextColor(),
-            }}>
+            }}
+          >
             {data?.gender || data?.user?.gender}
           </Text>
           <Text
@@ -132,7 +137,8 @@ export default function UserProfile({ navigation, route }) {
               fontSize: 16,
               fontWeight: "400",
               color: colors.getTextColor(),
-            }}>
+            }}
+          >
             {data?.position}
           </Text>
         </View>
@@ -141,7 +147,8 @@ export default function UserProfile({ navigation, route }) {
             flexDirection: "row",
             marginTop: 20,
             justifyContent: "center",
-          }}>
+          }}
+        >
           <SquireCard
             onPress={() => {
               navigation.navigate("MemberSubs", {
@@ -155,7 +162,7 @@ export default function UserProfile({ navigation, route }) {
 
           {data.userId && (
             <SquireCard
-              onPress={async() => {
+              onPress={async () => {
                 dispatch(loader.show());
                 try {
                   const res = await post(
@@ -223,24 +230,8 @@ export default function UserProfile({ navigation, route }) {
             style={{ borderBottomWidth: 0, paddingBottom: 0 }}
           />
         </View>
-        <View style={[styles.subContainer, { marginBottom: 20 }]}>
-          {data?.userId ? (
-            <FlatCard
-              onPress={() => {
-                navigation.navigate("DeleteMemberConfirmation", {data:data});
-              }}
-              icon={noteIcon}
-              title={headlines._deleteThisAccount}
-              type={""}
-              color="red"
-              style={{
-                borderBottomWidth: 0,
-                paddingTop: 0,
-                paddingBottom: 0,
-                color: "red",
-              }}
-            />
-          ) : (
+        {!data?.userId && (
+          <View style={[styles.subContainer, { marginBottom: 20 }]}>
             <FlatCard
               onPress={() => {
                 navigation.navigate("MemberList", { id: data.id });
@@ -256,7 +247,24 @@ export default function UserProfile({ navigation, route }) {
                 color: "red",
               }}
             />
-          )}
+          </View>
+        )}
+        <View style={[styles.subContainer, { marginBottom: 20 }]}>
+          <FlatCard
+            onPress={() => {
+              navigation.navigate("DeleteMemberConfirmation", { data: data });
+            }}
+            icon={noteIcon}
+            title={headlines._deleteThisAccount}
+            type={""}
+            color="red"
+            style={{
+              borderBottomWidth: 0,
+              paddingTop: 0,
+              paddingBottom: 0,
+              color: "red",
+            }}
+          />
         </View>
       </ScrollView>
     </View>
