@@ -393,8 +393,10 @@ export default function ComityProfile({ navigation, route }) {
                     },
                     user.token
                   );
+                  //console.log(res.data);
                   navigation.navigate("ChatScreen", {
                     conversationId: res.data.conversation.id,
+                    data:res.data.conversation
                   });
                   dispatch(loader.hide());
                 } catch (e) {

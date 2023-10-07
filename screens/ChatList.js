@@ -28,6 +28,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AppValues } from "../functions/values";
 import ComitteeList from "./ComitteeList";
 import { getComityConversations, getUserConversations } from "../apis/api";
+import loader from "../data/loader";
+import mainStyle from "../styles/mainStyle";
+import { get } from "../apis/multipleApi";
 const { height, width } = Dimensions.get("window");
 
 export default function ChatList(props) {
@@ -37,30 +40,27 @@ export default function ChatList(props) {
     inputRange: [0, 300],
     outputRange: [0, -300],
   });
-  const [conversations, setConversations] = React.useState([]);
-  const [Loader, setLoader] = React.useState(false);
+  const [conversations, setConversations] = React.useState();
   const isFocused = useIsFocused();
   const chatSearchRef = useSelector((state) => state.chatSearchRef);
   const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
   const searchX = props?.route?.params?.search;
   const sheetRef = useRef(null);
   const [index, setIndex] = useState(-1);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
   const [data, setData] = useState();
-
+  const [searchList, setSearchList] = useState();
+  const [members,setMembers] = useState();
+  const [membersList,setMembersList] = useState();
   const snapPoints = useMemo(() => ["90%"], []);
   const handleSheetChange = useCallback((index) => {
     setIndex(index);
   }, []);
-  const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-  }, []);
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
-    //dispatch(setChatBottomRef(null));
   }, []);
-  const [newMessage, setNewMessage] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -69,20 +69,34 @@ export default function ChatList(props) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
 
-  //console.log(chatBottomRef)
-
   const fetchConversations = async () => {
     try {
       const { data } = comity?.id
         ? await getComityConversations(comity.id)
         : await getUserConversations();
       setConversations(data.conversations);
-    } catch (error) {}
+      setSearchList(data.conversations);
+      dispatch(loader.hide())
+    } catch (error) {
+      dispatch(loader.hide())
+    }
   };
+  const fetchMembers=async()=>{
+    try{
+      const {data}=await get(`/member/get-all/${comity.id}`,user.token)
+      setMembers(data.members.filter(d=>d.user));
+      setMembersList(data.members.filter(d=>d.user))
+      //console.log(data.members.filter(d=>d.user));
+    }catch(e){
+      console.error(e.message)
+    }
+  }
 
   useEffect(() => {
+    !conversations&&dispatch(loader.show())
     fetchConversations();
-  }, []);
+    fetchMembers()
+  }, [isFocused]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
@@ -116,41 +130,39 @@ export default function ChatList(props) {
         }
         onScroll={(e) => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
-        }}
-      >
+        }}>
         <View
           style={{
             minHeight: "100%",
-          }}
-        >
+          }}>
           <View style={{ height: 0 }} />
-          {conversations.map((item, index) => (
-            <ChatCart
+          {conversations?.map((item, index) => (
+            <ChatCart key={index}
               index={item.id}
               onPress={() => {
                 props?.navigation?.navigate("ChatScreen", {
                   conversationId: item.id,
-                  data:item
+                  data: item,
                 });
               }}
               conversation={item}
               active={true}
             />
           ))}
-
-          {/* {conversations && conversations.length == 0 && (
-            <View style={[customStyle.fullBox, { height: height - 200 }]}>
+          {conversations && conversations.length == 0 && (
+            <View style={[mainStyle.flexBox, { height: height - 200,justifyContent:"center" }]}>
               <Text
                 style={{
                   marginVertical: 20,
                   textAlign: "center",
                   fontSize: 24,
+                  color:colors.getTextColor()
                 }}
               >
-                {searchX ? "Ops, No Result" : "No Member Added"}
+                 You have no conversation!
               </Text>
             </View>
-          )} */}
+          )}
         </View>
         <View style={{ height: 0 }} />
       </ScrollView>
@@ -167,35 +179,52 @@ export default function ChatList(props) {
           index={index}
           enablePanDownToClose={true}
           snapPoints={snapPoints}
-          onChange={handleSheetChange}
-        >
+          onChange={handleSheetChange}>
           {index != -1 && isFocused && (
             <Header
               type={type}
               value={chatSearchRef}
-              onChange={(e) => {}}
+              onChange={(e) => {
+                if (e && comity) {
+                  setSearchList(
+                    conversations.filter((d) =>
+                      d.users[0].user.name.toUpperCase().match(e.toUpperCase())
+                    )
+                  );
+                  setMembersList(members?.filter(d=>d.user.name.toUpperCase().match(e.toUpperCase())))
+                } else if (e && !comity) {
+                  setSearchList(
+                    conversations.filter((d) =>
+                      d.comity.name.toUpperCase().match(e.toUpperCase())
+                    )
+                  );
+                } else {
+                  setSearchList(conversations);
+                  setMembersList(members)
+                }
+              }}
               onConfirm={() => {
                 handleClosePress();
               }}
             />
           )}
           <BottomSheetScrollView
-            style={{ backgroundColor: colors.getBackgroundColor() }}
-          >
+            style={{ backgroundColor: colors.getBackgroundColor() }}>
             {type == "Search" ? (
               <ComitteeList
                 bottomRef={sheetRef}
-                data={data}
-                onClose={setData}
+                data={searchList}
+                onClose={handleClosePress}
                 navigation={props.navigation}
                 seller={true}
                 setIndex={setIndex}
+                
               />
             ) : (
               <ContactList
                 bottomRef={sheetRef}
-                data={data}
-                onClose={setData}
+                data={membersList}
+                onClose={handleClosePress}
                 seller={false}
                 navigation={props.navigation}
                 setIndex={setIndex}
@@ -376,28 +405,24 @@ const Header = ({ type, onConfirm, onChange, value }) => {
         borderTopStartRadius: 20,
       }}
       start={{ x: 0.2, y: 0 }}
-      colors={isDark ? ["#000", "#000"] : ac}
-    >
+      colors={isDark ? ["#000", "#000"] : ac}>
       <View
         style={{
           paddingHorizontal: 20,
           paddingVertical: 24,
-        }}
-      >
+        }}>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: 20,
               fontWeight: "700",
               color: "#fff",
-            }}
-          >
-            {type == "Search" ? values.comityList : values.memberList}
+            }}>
+            {type == "Search" ? values.allMessage : values.memberList}
           </Text>
           <Text
             onPress={onConfirm}
@@ -405,8 +430,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontSize: 16,
               fontWeight: "400",
               color: "#fff",
-            }}
-          >
+            }}>
             {values.done}
           </Text>
         </View>
@@ -420,8 +444,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
             alignItems: "center",
             paddingHorizontal: 8,
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <TextInput
             onChangeText={onChange}
             value={value}

@@ -16,6 +16,7 @@ import {
   timeConverter,
 } from "../../functions/action";
 import Avatar from "../main/Avatar";
+import { socket } from "../../apis/multipleApi";
 
 const ChatCart = ({
   navigation,
@@ -36,10 +37,10 @@ const ChatCart = ({
   const user = useSelector((state) => state.user);
   const [UserInfo, setUserInfo] = React.useState();
   const [LastMessage, setLastMessage] = React.useState();
-  const vendor = useSelector((state) => state.vendor);
+  const vendor = useSelector((state) => state.comity);
   const [count, setCount] = useState(1);
   //console.log(data.serviceId)
-
+//console.log(conversation);
   const styles = StyleSheet.create({
     outBox: {
       marginLeft: 20,
@@ -90,6 +91,14 @@ const ChatCart = ({
       borderColor: "white",
     },
   });
+  useEffect(() => {
+    setUserInfo(conversation.users.filter(u => u.userId!==user.user.id)[0].user);
+  },[conversation])
+  useEffect(()=>{
+    socket.on("users",e=>{
+      console.log(e)
+    })
+  },[])
   return (
     <TouchableOpacity
       onPress={() => onPress && onPress()}
@@ -104,12 +113,10 @@ const ChatCart = ({
             source={
               vendor
                 ? {
-                    uri: UserInfo.profilePhoto ? UserInfo.profilePhoto : null,
+                    uri: UserInfo?.profilePhoto,
                   }
                 : {
-                    uri: data?.service?.profilePhoto
-                      ? data.service.profilePhoto
-                      : "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+                    uri: conversation?.comity?.profilePhoto
                   }
             }
           />
@@ -144,13 +151,13 @@ const ChatCart = ({
         }}
       >
         <View style={{ flex: 1 }}>
-          {vendor && !data?.readOnly ? (
-            <Text style={styles.head}>Hello All</Text>
-          ) : data?.readOnly ? (
-            <Text style={styles.head}>Duty</Text>
+          {!vendor && !conversation?.readOnly ? (
+            <Text style={styles.head}>{conversation?.comity?.name}</Text>
+          ) : conversation?.readOnly ? (
+            <Text style={styles.head}>Comity</Text>
           ) : (
             <Text numberOfLines={1} style={[styles.head, { flex: 1 }]}>
-              {conversation.users[1].user?.name}
+              {UserInfo?.name}
             </Text>
           )}
           <Text

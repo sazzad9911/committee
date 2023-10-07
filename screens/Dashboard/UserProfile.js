@@ -51,6 +51,7 @@ export default function UserProfile({ navigation, route }) {
   const headlines = values.getValues();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   
 
   //console.log(data);
@@ -154,7 +155,28 @@ export default function UserProfile({ navigation, route }) {
 
           {data.userId && (
             <SquireCard
-              onPress={() => {}}
+              onPress={async() => {
+                dispatch(loader.show());
+                try {
+                  const res = await post(
+                    "/chat/conversation/create",
+                    {
+                      userId: data.userId,
+                      comityId: comity.id,
+                    },
+                    user.token
+                  );
+                  navigation.navigate("ChatScreen", {
+                    conversationId: res.data.conversation.id,
+                    data: res.data.conversation,
+                  });
+                  dispatch(loader.hide());
+                } catch (e) {
+                  console.error(e.message);
+                  dispatch(loader.hide());
+                  dispatch(toast.error("Error loading"));
+                }
+              }}
               style={{
                 marginHorizontal: 24,
               }}

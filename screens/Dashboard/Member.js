@@ -138,6 +138,7 @@ export default function Member({ navigation, route }) {
                         );
                         navigation.navigate("ChatScreen", {
                           conversationId: res.data.conversation.id,
+                          data: res.data.conversation,
                         });
                         dispatch(loader.hide());
                       } catch (e) {
