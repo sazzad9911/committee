@@ -194,7 +194,7 @@ export default function MemberRequestCard({
         >
           {getText(
             type,
-            c ? data?.user?.name : data?.comity?.name,
+            c ? doc?.user?.name : doc?.comity?.name,
             doc?.message,
             isBn
           )
@@ -236,7 +236,7 @@ export default function MemberRequestCard({
           }}
         >
           <Button
-            onPress={() => reject(data.entityId)}
+            onPress={() => reject(doc.entityId)}
             bg={["#F00", "#F00"]}
             active={true}
             style={{ paddingHorizontal: 24 }}
@@ -245,7 +245,7 @@ export default function MemberRequestCard({
           <View style={{ width: 12 }} />
           <Button
             onPress={() =>
-              onPress ? onPress(data.entityId) : accept(data.entityId)
+              onPress ? onPress(doc.entityId) : accept(doc.entityId)
             }
             style={{ paddingHorizontal: 24 }}
             active={true}

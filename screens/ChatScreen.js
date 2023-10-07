@@ -109,32 +109,31 @@ const ChatScreen = (props) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const serviceId = params?.serviceId;
-  const vendor = true;
+  const vendor = useSelector((s) => s.comity);
   const [readOnly, setReadOnly] = useState(false);
   const [message, setMessage] = useState();
   const [show, setShow] = useState(false);
   const isFocus = useIsFocused();
+  const [lim, setLim] = useState(20);
 
   const send = async (message, image) => {
     try {
-      const msg={
-        conversationId:conversationId,
-        createdAt:new Date(),
-        id:uuid.v4(),
-        image:image,
-        text:message,
-        updatedAt:new Date(),
-        send:true
-      }
+      // const msg={
+      //   conversationId:conversationId,
+      //   createdAt:new Date(),
+      //   id:uuid.v4(),
+      //   image:image,
+      //   text:message,
+      //   updatedAt:new Date(),
+      //   send:true
+      // }
       const { data } = await sendMessage({
         text: message,
         image,
         conversationId,
       });
       //console.log(data);
-      setMessages((d) => [{
-        ...data.message,send:false
-      }, ...d]);
+      setMessages((d) => [data.message, ...d]);
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     } catch (error) {
@@ -147,7 +146,7 @@ const ChatScreen = (props) => {
   //return <AudioCallScreen user={UserInfo}/>
   const RenderBubble = (props) => {
     const currentMessage = props?.item;
-    // console.log(UserInfo.id)
+    //console.log(UserInfo)
     const regex = /((http|https|ftp):\/\/[^\s]+)/g;
     const navigation = useNavigation();
 
@@ -230,7 +229,7 @@ const ChatScreen = (props) => {
       let type = newArr[newArr.length - 1];
       let three = newArr[0].split("")?.slice(-3)?.join("");
       return (
-        <Pressable
+        <TouchableOpacity
           onPress={() => {
             props.navigation.navigate("ChatImage", {
               uri: currentMessage?.image,
@@ -240,7 +239,7 @@ const ChatScreen = (props) => {
             newStyles.imageBox,
             {
               alignSelf:
-                UserInfo?.id == currentMessage?.user?._id
+                UserInfo?.id == currentMessage?.senderId
                   ? "flex-start"
                   : "flex-end",
             },
@@ -252,14 +251,18 @@ const ChatScreen = (props) => {
           <View style={{ flexDirection: "row", paddingHorizontal: 8, flex: 1 }}>
             <Text
               numberOfLines={1}
-              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}>
+              style={[
+                newStyles.dateText,
+                { textAlign: "left", flex: 1, color: colors.getTextColor() },
+              ]}>
               {arr[arr.length - 1]}
             </Text>
-            <Text style={newStyles.dateText}>
+            <Text
+              style={[newStyles.dateText, { color: colors.getTextColor() }]}>
               {three}.{type}{" "}
             </Text>
             <View style={{ width: 8 }} />
-            <Text style={newStyles.dateText}>
+            <Text style={[newStyles.dateText, { color: textColor }]}>
               {dateDifference(new Date(), currentMessage.createdAt) == 0
                 ? timeConverter(currentMessage.createdAt)
                 : dateDifference(new Date(), currentMessage.createdAt) == 1
@@ -267,7 +270,7 @@ const ChatScreen = (props) => {
                 : serverTimeToLocal(currentMessage.createdAt)}
             </Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       );
     }
     if (UserInfo?.id == currentMessage?.senderId) {
@@ -278,9 +281,7 @@ const ChatScreen = (props) => {
             { backgroundColor: colors.getShadowColor() },
           ]}>
           <Text style={newStyles.title}>
-            {vendor
-              ? currentMessage?.user?.name
-              : data?.service?.serviceCenterName}
+            {vendor ? UserInfo?.name : props.data?.comity?.name}
           </Text>
           <Hyperlink
             onPress={(url, text) => {
@@ -314,7 +315,11 @@ const ChatScreen = (props) => {
           marginRight: 16,
           marginVertical: 8,
         }}>
-        <View style={newStyles.receiverBox}>
+        <View
+          style={[
+            newStyles.receiverBox,
+            isDark && { backgroundColor: colors.getShadowColor() },
+          ]}>
           <Hyperlink
             onPress={(url, text) => {
               navigation.navigate("WebViews", { url: url, title: "" });
@@ -343,7 +348,7 @@ const ChatScreen = (props) => {
               width: 14,
               height: 14,
               borderWidth: 1,
-              borderColor: colors.getBorderColor(),
+              borderColor: isDark ? colors.getShadowColor() : "#737AFF",
               marginLeft: 5,
               marginHorizontal: 5,
             }}
@@ -355,7 +360,7 @@ const ChatScreen = (props) => {
             }}
             name="check"
             size={20}
-            color="#4ADE80"
+            color={isDark ? colors.getShadowColor() : "#737AFF"}
           />
         )}
       </View>
@@ -367,9 +372,10 @@ const ChatScreen = (props) => {
 
   const fetchMessages = async () => {
     try {
-      const { data } = await getMessages(conversationId);
+      const { data } = await getMessages(conversationId, lim, 0);
       setMessages(data.messages);
       //console.log(data.messages[0]);
+      dispatch(loader.hide());
     } catch (error) {
       console.log(error);
     }
@@ -377,18 +383,23 @@ const ChatScreen = (props) => {
   useEffect(() => {
     socket.on("newMessage", (e) => {
       //console.log(e);
-      setMessages((v) => [e, ...v]);
+      addMessage()
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     });
   }, []);
+  const addMessage=(e)=>{
+    if(e.id===conversationId){
+      setMessages((v) => [e, ...v]);
+    }
+  }
 
   useEffect(() => {
     fetchMessages();
     //console.log(data);
     setUserInfo(data.users.filter((u) => u.userId !== user.user.id)[0].user);
     //console.log(data.users.filter(u => u.userId!==user.user.id)[0].user);
-  }, [isFocus]);
+  }, [isFocus, lim]);
   if (!UserInfo) {
     return null;
   }
@@ -417,10 +428,17 @@ const ChatScreen = (props) => {
         readOnly={readOnly}
       />
       <FlatList
+        onEndReached={(e) => {
+          dispatch(loader.show());
+          setLim((v) => v + 20);
+          console.log("end");
+          //console.log(e.nativeEvent.contentOffset);
+        }}
+        style={{ flex: 1 }}
         ref={ref}
         data={messages}
         renderItem={(pr) => (
-          <RenderBubble navigation={props.navigation} {...pr} />
+          <RenderBubble data={data} navigation={props.navigation} {...pr} />
         )}
         inverted
         keyExtractor={(item, i) => i.toString()}
@@ -610,12 +628,12 @@ const BottomBar = (props) => {
           setVisible(!Visible);
         }}>
         <ImageScreen
-          onConfirm={async() => {
+          onConfirm={async () => {
             setImageLoader(true);
             //dispatch(loader.show());
-            const from=new FormData()
-            from.append("files",fileFromURL(image))
-            const {data}=await post("/upload",from,user.token)
+            const from = new FormData();
+            from.append("files", fileFromURL(image));
+            const { data } = await post("/upload", from, user.token);
             props
               .onSend(null, data.files[0])
               .then(() => {
@@ -639,7 +657,14 @@ const BottomBar = (props) => {
         />
         {ImageLoader && (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center",position:"absolute",width:width,height:height }}>
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              width: width,
+              height: height,
+            }}>
             <ActivityIndicator size={"small"} />
           </View>
         )}
@@ -758,7 +783,7 @@ const serverMessageToLocal = (message, user) => {
 };
 
 const send = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M5.44 12.0001H10.84M9.51 4.23013L18.07 8.51013C21.91 10.4301 21.91 13.5701 18.07 15.4901L9.51 19.7701C3.75 22.6501 1.4 20.2901 4.28 14.5401L5.15 12.8101C5.37 12.3701 5.37 11.6401 5.15 11.2001L4.28 9.46013C1.4 3.71013 3.76 1.35013 9.51 4.23013Z" stroke="#00A53C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18.0693 8.50901L9.50929 4.22901C3.75929 1.34901 1.39929 3.709 4.27929 9.459L5.14929 11.199C5.39929 11.709 5.39929 12.299 5.14929 12.809L4.27929 14.539C1.39929 20.289 3.74929 22.649 9.50929 19.769L18.0693 15.489C21.9093 13.569 21.9093 10.429 18.0693 8.50901ZM14.8393 12.749H9.43929C9.02929 12.749 8.68929 12.409 8.68929 11.999C8.68929 11.589 9.02929 11.249 9.43929 11.249H14.8393C15.2493 11.249 15.5893 11.589 15.5893 11.999C15.5893 12.409 15.2493 12.749 14.8393 12.749Z" fill="#737AFF"/>
 </svg>
 `;
 const com = `<svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -782,7 +807,7 @@ const newStyles = StyleSheet.create({
     fontSize: 14,
 
     fontWeight: "500",
-    color: "#21AD54",
+    color: "#737AFF",
   },
   senderBox: {
     backgroundColor: "#EFF8F4",
@@ -797,7 +822,7 @@ const newStyles = StyleSheet.create({
     padding: 8,
     maxWidth: "60%",
     borderRadius: 12,
-    backgroundColor: "#4ADE80",
+    backgroundColor: "#737AFF",
     borderBottomRightRadius: 4,
     alignSelf: "flex-end",
   },

@@ -95,7 +95,7 @@ export default function ChatList(props) {
   useEffect(() => {
     !conversations&&dispatch(loader.show())
     fetchConversations();
-    fetchMembers()
+    comity&&fetchMembers()
   }, [isFocused]);
 
   return (

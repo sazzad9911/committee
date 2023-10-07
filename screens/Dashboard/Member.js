@@ -127,6 +127,7 @@ export default function Member({ navigation, route }) {
                   onAdd={async () => {
                     if (doc.status === "Accepted") {
                       dispatch(loader.show());
+                      //console.log(doc);
                       try {
                         const res = await post(
                           "/chat/conversation/create",

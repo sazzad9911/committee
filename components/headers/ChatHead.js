@@ -90,7 +90,13 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
 <path d="M15 19.9201L8.48 13.4001C7.71 12.6301 7.71 11.3701 8.48 10.6001L15 4.08008" stroke="${textColor}" stroke-opacity="0.87" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
- 
+ useEffect(()=>{
+  message&&setData({
+    user:message.users[0].user,
+    userId:message.users[0].userId
+  })
+  //console.log(message.comity);
+ },[message])
 
   //console.log(data)
   return (
@@ -118,17 +124,15 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
             alignSelf: "center",
           }}
           onPress={() => {
-            if (data&&!readOnly) {
-              if(vendor){
-                navigation.navigate("UserProfile", { user: data });
-              }else{
-                navigation.navigate("OtherProfile", {
-                  serviceId: message.serviceId,
-                  data: message,
-                });
-              }
-              
+            //console.log("s");
+            if(vendor&&data){
+              navigation.navigate("UserProfile", { data: data });
+            }else{
+              navigation.navigate("ComityProfile", {
+                comityId: message.comity?.id,
+              });
             }
+            
           }}>
           {readOnly ? (
             <Image style={[styles.image,{borderWidth:.2}]} source={logo} />

@@ -53,6 +53,7 @@ import ComityDeleteSuccess from "../screens/Dashboard/ComityDeleteSuccess";
 import AttachMemberConfirm from "../screens/Dashboard/AttachMemberConfirm";
 import { socket } from "../apis/multipleApi";
 import AcceptMember from "../screens/Dashboard/AcceptMember";
+import ChatImage from "../screens/ChatImage";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -506,6 +507,13 @@ export default function AdminRoute() {
               }}
               name="ComityDeleteSuccess"
               component={ComityDeleteSuccess}
+            />
+             <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="ChatImage"
+              component={ChatImage}
             />
           </Stack.Navigator>
         </NavigationContainer>

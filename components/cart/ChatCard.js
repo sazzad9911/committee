@@ -16,7 +16,7 @@ import {
   timeConverter,
 } from "../../functions/action";
 import Avatar from "../main/Avatar";
-import { socket } from "../../apis/multipleApi";
+import { get, socket } from "../../apis/multipleApi";
 
 const ChatCart = ({
   navigation,
@@ -26,7 +26,7 @@ const ChatCart = ({
   readOnly,
   onPress,
 }) => {
-  const [Active, setActive] = React.useState(active);
+  const [Active, setActive] = React.useState(false);
   //const navigation = props.navigation;
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
@@ -38,7 +38,7 @@ const ChatCart = ({
   const [UserInfo, setUserInfo] = React.useState();
   const [LastMessage, setLastMessage] = React.useState();
   const vendor = useSelector((state) => state.comity);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   //console.log(data.serviceId)
 //console.log(conversation);
   const styles = StyleSheet.create({
@@ -95,8 +95,15 @@ const ChatCart = ({
     setUserInfo(conversation.users.filter(u => u.userId!==user.user.id)[0].user);
   },[conversation])
   useEffect(()=>{
-    socket.on("users",e=>{
-      console.log(e)
+    socket.on("getUsers",e=>{
+      if(Array.isArray(e)){
+        let usr=e.filter(u=>u.userId===conversation.users[0].userId)
+        usr>0?setActive(true):setActive(false)
+      }
+    })
+    //socket.emit("sendOnlineUsers")
+    get(`/chat/message/unread-count/${conversation.id}`,user.token).then(res=>{
+      setCount(res.data.count)
     })
   },[])
   return (

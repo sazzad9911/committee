@@ -54,8 +54,7 @@ export default function CreateCommittee({ navigation }) {
           style={{
             paddingHorizontal: 20,
             paddingVertical: 10,
-          }}
-        >
+          }}>
           <Input
             value={name}
             onChange={setName}
@@ -82,8 +81,7 @@ export default function CreateCommittee({ navigation }) {
                 color: textColor,
               },
               mainStyle.mt24,
-            ]}
-          >
+            ]}>
             {createCommitteeValues.address}
             <Text style={[mainStyle.subLevel, { color: borderColor }]}>
               {" "}
@@ -92,8 +90,7 @@ export default function CreateCommittee({ navigation }) {
           </Text>
 
           <Text
-            style={[mainStyle.mt12, { color: textColor }, mainStyle.subLevel]}
-          >
+            style={[mainStyle.mt12, { color: textColor }, mainStyle.subLevel]}>
             {createCommitteeValues.division}
           </Text>
 
@@ -108,7 +105,7 @@ export default function CreateCommittee({ navigation }) {
             style={[
               {
                 marginTop: 8,
-                justifyContent: "start",
+                justifyContent: "flex-start",
                 borderColor: colors.getShadowColor(),
               },
             ]}
@@ -132,7 +129,7 @@ export default function CreateCommittee({ navigation }) {
                   {
                     width: "95%",
                     marginTop: 8,
-                    justifyContent: "start",
+                    justifyContent: "flex-start",
                     borderColor: colors.getShadowColor(),
                   },
                 ]}
@@ -157,7 +154,7 @@ export default function CreateCommittee({ navigation }) {
                     width: "95%",
                     marginTop: 8,
                     marginLeft: "5%",
-                    justifyContent: "start",
+                    justifyContent: "flex-start",
                     borderColor: colors.getShadowColor(),
                   },
                 ]}
@@ -247,8 +244,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
       style={{
         flex: 1,
         backgroundColor: colors.getSchemeColor(),
-      }}
-    >
+      }}>
       <Text
         style={{
           marginVertical: 12,
@@ -257,8 +253,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
           width: "100%",
           textAlign: "center",
           color: colors.getTextColor(),
-        }}
-      >
+        }}>
         {type ? type : "Division"}
       </Text>
       <View contentContainerStyle={{}}>
@@ -274,11 +269,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                 newStyles.box,
                 { borderBottomColor: colors.getShadowColor() },
               ]}
-              key={i}
-            >
+              key={i}>
               <Text
-                style={[newStyles.textSp, { color: colors.getTextColor() }]}
-              >
+                style={[newStyles.textSp, { color: colors.getTextColor() }]}>
                 {doc.title}
               </Text>
               {select == doc.title && <SvgXml xml={tick} />}
@@ -297,11 +290,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                   newStyles.box,
                   { borderBottomColor: colors.getShadowColor() },
                 ]}
-                key={i}
-              >
+                key={i}>
                 <Text
-                  style={[newStyles.textSp, { color: colors.getTextColor() }]}
-                >
+                  style={[newStyles.textSp, { color: colors.getTextColor() }]}>
                   {doc}
                 </Text>
                 {select == doc && <SvgXml xml={tick} />}
@@ -320,11 +311,9 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
                 newStyles.box,
                 { borderBottomColor: colors.getShadowColor() },
               ]}
-              key={i}
-            >
+              key={i}>
               <Text
-                style={[newStyles.textSp, { color: colors.getTextColor() }]}
-              >
+                style={[newStyles.textSp, { color: colors.getTextColor() }]}>
                 {doc}
               </Text>
               {select == doc && <SvgXml xml={tick} />}
