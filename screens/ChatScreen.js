@@ -431,7 +431,7 @@ const ChatScreen = (props) => {
         onEndReached={(e) => {
           dispatch(loader.show());
           setLim((v) => v + 20);
-          console.log("end");
+          //console.log("end");
           //console.log(e.nativeEvent.contentOffset);
         }}
         style={{ flex: 1 }}
@@ -632,8 +632,10 @@ const BottomBar = (props) => {
             setImageLoader(true);
             //dispatch(loader.show());
             const from = new FormData();
+            //console.log(fileFromURL(image));
             from.append("files", fileFromURL(image));
-            const { data } = await post("/upload", from, user.token);
+            const {data}=await post("/upload", from, user.token)
+            //console.log(data);
             props
               .onSend(null, data.files[0])
               .then(() => {

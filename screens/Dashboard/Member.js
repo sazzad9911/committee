@@ -133,7 +133,7 @@ export default function Member({ navigation, route }) {
                           "/chat/conversation/create",
                           {
                             userId: doc.userId,
-                            comityId: doc.comityId,
+                            comityId: comity.id,
                           },
                           user.token
                         );

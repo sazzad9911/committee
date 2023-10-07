@@ -3,10 +3,7 @@ import axios from "axios";
 import localStorage from "../functions/localStorage";
 import { io } from "socket.io-client";
 
-const API = axios.create({
-  baseURL: url,
-  withCredentials: true,
-});
+
 export const post = async (route, data, token) =>
   API.post(`${url}${route}`, data, {
     headers: { Authorization: `Bearer ${token}` },
