@@ -3,19 +3,20 @@ import axios from "axios";
 import localStorage from "../functions/localStorage";
 import { io } from "socket.io-client";
 
-
 export const post = async (route, data, token) =>
-  API.post(`${url}${route}`, data, {
+  axios.post(`${url}${route}`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 export const get = async (route, token) =>
-  API.get(`${url}${route}`, { headers: { Authorization: `Bearer ${token}` } });
+  axios.get(`${url}${route}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 export const put = async (route, data, token) =>
-  API.put(`${url}${route}`, data, {
+  axios.put(`${url}${route}`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 export const deletes = async (route, token) =>
-  API.delete(`${url}${route}`, {
+  axios.delete(`${url}${route}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 export const socket = io("http://158.220.101.235", {

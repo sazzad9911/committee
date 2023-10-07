@@ -176,7 +176,8 @@ const ChatScreen = (props) => {
                   : "flex-end",
               height: "auto",
             },
-          ]}>
+          ]}
+        >
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -184,7 +185,8 @@ const ChatScreen = (props) => {
           <View style={{ flexDirection: "row", paddingHorizontal: 8, flex: 1 }}>
             <Text
               numberOfLines={1}
-              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}>
+              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}
+            >
               {arr[arr.length - 1]}
             </Text>
             <Text style={newStyles.dateText}>
@@ -208,12 +210,14 @@ const ChatScreen = (props) => {
                 color: "#000",
                 textDecorationLine: "underline",
               }}
-              linkDefault={false}>
+              linkDefault={false}
+            >
               <Text
                 style={[
                   newStyles.text,
                   { marginHorizontal: 8, marginBottom: 3 },
-                ]}>
+                ]}
+              >
                 {currentMessage?.text}
               </Text>
             </Hyperlink>
@@ -243,7 +247,8 @@ const ChatScreen = (props) => {
                   ? "flex-start"
                   : "flex-end",
             },
-          ]}>
+          ]}
+        >
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -254,11 +259,13 @@ const ChatScreen = (props) => {
               style={[
                 newStyles.dateText,
                 { textAlign: "left", flex: 1, color: colors.getTextColor() },
-              ]}>
+              ]}
+            >
               {arr[arr.length - 1]}
             </Text>
             <Text
-              style={[newStyles.dateText, { color: colors.getTextColor() }]}>
+              style={[newStyles.dateText, { color: colors.getTextColor() }]}
+            >
               {three}.{type}{" "}
             </Text>
             <View style={{ width: 8 }} />
@@ -279,7 +286,8 @@ const ChatScreen = (props) => {
           style={[
             newStyles.senderBox,
             { backgroundColor: colors.getShadowColor() },
-          ]}>
+          ]}
+        >
           <Text style={newStyles.title}>
             {vendor ? UserInfo?.name : props.data?.comity?.name}
           </Text>
@@ -290,7 +298,8 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "blue",
               textDecorationLine: "underline",
-            }}>
+            }}
+          >
             <Text style={[newStyles.text, { color: textColor }]}>
               {currentMessage?.text}
             </Text>
@@ -314,12 +323,14 @@ const ChatScreen = (props) => {
           alignItems: "flex-end",
           marginRight: 16,
           marginVertical: 8,
-        }}>
+        }}
+      >
         <View
           style={[
             newStyles.receiverBox,
             isDark && { backgroundColor: colors.getShadowColor() },
-          ]}>
+          ]}
+        >
           <Hyperlink
             onPress={(url, text) => {
               navigation.navigate("WebViews", { url: url, title: "" });
@@ -327,7 +338,8 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "#000",
               textDecorationLine: "underline",
-            }}>
+            }}
+          >
             <Text style={[newStyles.text, { color: "white" }]}>
               {currentMessage?.text}
             </Text>
@@ -383,16 +395,16 @@ const ChatScreen = (props) => {
   useEffect(() => {
     socket.on("newMessage", (e) => {
       //console.log(e);
-      addMessage()
+      addMessage();
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     });
   }, []);
-  const addMessage=(e)=>{
-    if(e.id===conversationId){
+  const addMessage = (e) => {
+    if (e.id === conversationId) {
       setMessages((v) => [e, ...v]);
     }
-  }
+  };
 
   useEffect(() => {
     fetchMessages();
@@ -408,7 +420,8 @@ const ChatScreen = (props) => {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <View
         style={{
           height: inset?.top,
@@ -453,7 +466,8 @@ const ChatScreen = (props) => {
             color: "#4D4E4F",
             marginHorizontal: 20,
             marginVertical: 30,
-          }}>
+          }}
+        >
           Can’t reply here. If you have other inquiry check our{" "}
           <Text
             onPress={() => {
@@ -462,7 +476,8 @@ const ChatScreen = (props) => {
             style={{
               color: "#4ADE80",
               fontWeight: "500",
-            }}>
+            }}
+          >
             support link.
           </Text>{" "}
         </Text>
@@ -544,7 +559,8 @@ const BottomBar = (props) => {
           }}
           onPress={() => {
             setFocused(false);
-          }}>
+          }}
+        >
           <SvgXml xml={com} />
         </Pressable>
       ) : (
@@ -563,14 +579,16 @@ const BottomBar = (props) => {
                   Alert.alert("Opps!", "Could not load image");
                 });
             }}
-            style={[styles.icon]}>
+            style={[styles.icon]}
+          >
             <SvgXml xml={img} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setCameraVisible(true);
             }}
-            style={styles.icon}>
+            style={styles.icon}
+          >
             <SvgXml xml={cam} />
           </TouchableOpacity>
         </Animated.View>
@@ -587,7 +605,8 @@ const BottomBar = (props) => {
           type: "timing",
           duration: 200,
         }}
-        style={[styles.inputOutBox]}>
+        style={[styles.inputOutBox]}
+      >
         <TextInput
           onPressIn={() => {
             setFocused(true);
@@ -618,7 +637,8 @@ const BottomBar = (props) => {
               //setMessage("");
             });
             setMessage("");
-          }}>
+          }}
+        >
           <SvgXml xml={send} />
         </TouchableOpacity>
       </MotiView>
@@ -626,7 +646,8 @@ const BottomBar = (props) => {
         visible={Visible}
         onRequestClose={() => {
           setVisible(!Visible);
-        }}>
+        }}
+      >
         <ImageScreen
           onConfirm={async () => {
             setImageLoader(true);
@@ -634,7 +655,7 @@ const BottomBar = (props) => {
             const from = new FormData();
             //console.log(fileFromURL(image));
             from.append("files", fileFromURL(image));
-            const {data}=await post("/upload", from, user.token)
+            const { data } = await post("/upload", from, user.token);
             //console.log(data);
             props
               .onSend(null, data.files[0])
@@ -666,7 +687,8 @@ const BottomBar = (props) => {
               position: "absolute",
               width: width,
               height: height,
-            }}>
+            }}
+          >
             <ActivityIndicator size={"small"} />
           </View>
         )}
@@ -675,7 +697,8 @@ const BottomBar = (props) => {
         visible={CameraVisible}
         onRequestClose={() => {
           setCameraVisible(!CameraVisible);
-        }}>
+        }}
+      >
         <CameraScreen
           onTakePhoto={(pic) => {
             setImage(pic);
@@ -727,7 +750,8 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
         backgroundColor: "rgba(0, 0, 0, 0.786)",
         justifyContent: "center",
         alignItems: "center",
-      }}>
+      }}
+    >
       <Image
         style={{
           width: width,
@@ -744,13 +768,15 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
           paddingHorizontal: 20,
           position: "absolute",
           bottom: 0,
-        }}>
+        }}
+      >
         <TouchableOpacity
           onPress={() => {
             if (onCancel) {
               onCancel();
             }
-          }}>
+          }}
+        >
           <Ionicons name="arrow-back" size={25} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
@@ -758,7 +784,8 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
             if (onConfirm) {
               onConfirm();
             }
-          }}>
+          }}
+        >
           <Ionicons name="send-outline" size={25} color={"white"} />
         </TouchableOpacity>
       </View>
