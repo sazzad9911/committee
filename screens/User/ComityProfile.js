@@ -377,9 +377,15 @@ export default function ComityProfile({ navigation, route }) {
                 }}
                 title={
                   comity?.iAmMember
-                    ? "Leave from comity"
+                    ? isBn
+                      ? "কমিটি থেকে চলে যান"
+                      : "Leave from comity"
                     : !comity?.memberStatus
-                    ? "Member"
+                    ? isBn
+                      ? "মেম্বার"
+                      : "Member"
+                    : isBn
+                    ? "অনুরোধ বাতিল করুন"
                     : "Cancel request"
                 }
               />
@@ -413,7 +419,7 @@ export default function ComityProfile({ navigation, route }) {
                 width: width / 2 - 30,
               }}
               color={isDark ? "white" : "rgba(0,0,0,0.8)"}
-              title={"Message"}
+              title={isBn ? "ম্যাসেজ" : "Message"}
             />
           </View>
           <View style={mainStyle.mt32} />
