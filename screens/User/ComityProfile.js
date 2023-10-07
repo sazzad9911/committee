@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("window");
 import Button from "../../components/main/Button";
 import localStorage from "../../functions/localStorage";
 import loader from "../../data/loader";
-import { post } from "../../apis/multipleApi";
+import { get, post } from "../../apis/multipleApi";
 import { getComityById, leaveComity, sendMemberRequest } from "../../apis/api";
 import toast from "../../data/toast";
 import MoreText from "../../components/main/MoreText";
@@ -396,7 +396,7 @@ export default function ComityProfile({ navigation, route }) {
                   //console.log(res.data);
                   navigation.navigate("ChatScreen", {
                     conversationId: res.data.conversation.id,
-                    data:res.data.conversation
+                    data: res.data.conversation,
                   });
                   dispatch(loader.hide());
                 } catch (e) {
