@@ -58,10 +58,23 @@ export default function ComityProfile({ navigation, route }) {
   </svg> 
   `;
 
+  const formatPrivacy = (privacy) => {
+    switch (privacy) {
+      case "MembersOnly":
+        return isBn ? "শুধু মেম্বার" : "Members Only";
+      case "Private":
+        return isBn ? "প্রাইভেট" : "Private";
+      case "Public":
+        return isBn ? "পাবলিক" : "Public";
+      default:
+        return privacy;
+    }
+  };
+
   const fetchData = async () => {
     try {
       dispatch(loader.show());
-      const { data } = await getComityById(comityId);
+      const { data } = await get(`/comity/get/${comityId}`, user.token);
       setComity(data.comity);
     } catch (error) {
       console.log(error);
@@ -201,7 +214,7 @@ export default function ComityProfile({ navigation, route }) {
             }
           }}
           borderColor={borderColor}
-          privacy={comity?.membersPrivacy}
+          privacy={formatPrivacy(comity?.membersPrivacy)}
           number={
             comity?.membersPrivacy === "Private"
               ? "---"
@@ -226,7 +239,7 @@ export default function ComityProfile({ navigation, route }) {
             }
           }}
           borderColor={borderColor}
-          privacy={comity?.specialMembersPrivacy}
+          privacy={formatPrivacy(comity?.specialMembersPrivacy)}
           number={
             comity?.specialMembersPrivacy === "Private"
               ? "---"
@@ -252,7 +265,7 @@ export default function ComityProfile({ navigation, route }) {
             }
           }}
           borderColor={borderColor}
-          privacy={comity?.balancePrivacy}
+          privacy={formatPrivacy(comity?.balancePrivacy)}
           number={
             comity?.balancePrivacy === "Private"
               ? "---"
@@ -277,7 +290,7 @@ export default function ComityProfile({ navigation, route }) {
             }
           }}
           borderColor={borderColor}
-          privacy={comity?.noticePrivacy}
+          privacy={formatPrivacy(comity?.noticePrivacy)}
           number={
             comity?.noticePrivacy === "Private"
               ? "---"
