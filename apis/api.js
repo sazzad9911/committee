@@ -32,15 +32,11 @@ export const updateNotice = (noticeId, formData) =>
   API.put(`/notice/update/${noticeId}`, formData);
 
 //Comity
-export const getRecentComities = () => API.get("/comity/get-recent");
 export const updateComity = (formData) => API.put("/comity/update", formData);
 export const updateExpense = (formData) =>
   API.put("/comity/expense/update", formData);
 export const getPopularComities = () => API.get("/comity/get-popular");
 export const searchComities = (q) => API.get(`/comity/search?q=${q}`);
-export const getComityById = (comityId) => API.get(`/comity/get/${comityId}`);
-export const getBalance = (comityId) =>
-  API.get(`/comity/get-balance/${comityId}`);
 export const deleteExpense = (expenseId) =>
   API.delete(`/comity/expense/delete/${expenseId}`);
 export const deleteComity = (formData) => API.post("/comity/delete", formData);
@@ -93,7 +89,3 @@ export const createCollection = (formData) =>
 export const updateMember = (formData) => API.put(`/member/update`, formData);
 export const attachMember = (formData) => API.post(`/member/attach`, formData);
 export const createMember = (formData) => API.post(`/member/create`, formData);
-export const sendMemberRequest = (comityId) =>
-  API.post(`/member/request/send/${comityId}`);
-export const leaveComity = (comityId) =>
-  API.post(`/member/leave-comity/${comityId}`);

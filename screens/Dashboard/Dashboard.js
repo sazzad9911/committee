@@ -20,7 +20,6 @@ import { AppValues } from "../../functions/values";
 import AllCollections from "./AllCollections";
 import AllExpenses from "./AllExpenses";
 import { useIsFocused } from "@react-navigation/native";
-import { getBalance } from "../../apis/api";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { get, socket } from "../../apis/multipleApi";
@@ -103,7 +102,10 @@ const Header = ({
 
   const fetchData = async () => {
     try {
-      const { data } = await getBalance(comity.id);
+      const { data } = await get(
+        `/comity/get-balance/${comity.id}`,
+        user.token
+      );
       setBalance(data.balance?.balance);
       setExpense(data.totalExpense);
     } catch (error) {
