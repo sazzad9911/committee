@@ -6,7 +6,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
 import { get, put, socket } from "../../apis/multipleApi";
-import MemberCard from "../../components/cart/MemberCard";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import NoOption from "../../components/main/NoOption";
@@ -16,6 +15,7 @@ import { AppColors } from "../../functions/colors";
 import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
+import MemberCardAlien from "../../components/cart/MemberCardAlien";
 const { width, height } = Dimensions.get("window");
 
 export default function MemberPage({ navigation, route }) {
@@ -99,20 +99,20 @@ export default function MemberPage({ navigation, route }) {
     }
   };
   useEffect(() => {
-    
-    //fetch();
+    fetch();
   }, [special]);
   useEffect(() => {
-    searches&&setSort(
-      members?.filter(
-        (member) =>
-          member.name?.toUpperCase().includes(searches?.toUpperCase()) ||
-          member?.user?.name?.toUpperCase().includes(searches?.toUpperCase())
-      )
-    );
+    searches &&
+      setSort(
+        members?.filter(
+          (member) =>
+            member.name?.toUpperCase().includes(searches?.toUpperCase()) ||
+            member?.user?.name?.toUpperCase().includes(searches?.toUpperCase())
+        )
+      );
   }, [searches]);
   const fetch = async () => {
-    !members&&dispatch(loader.show());
+    !members && dispatch(loader.show());
     try {
       const res = await get(`/member/get-all/${comity.id}`, user.token);
       if (special) {
@@ -145,18 +145,21 @@ export default function MemberPage({ navigation, route }) {
           },
         ]}
         start={{ x: 0.2, y: 0 }}
-        colors={!isDark ? ac : dc}>
+        colors={!isDark ? ac : dc}
+      >
         <View
           style={{
             justifyContent: "space-between",
             flexDirection: "row",
-          }}>
+          }}
+        >
           <Text
             style={{
               color: "#B0B0B0",
               fontSize: 16,
               fontWeight: "500",
-            }}>
+            }}
+          >
             {special
               ? comityListText.specialMember
               : comityListText.totalMember}
@@ -166,7 +169,8 @@ export default function MemberPage({ navigation, route }) {
                 fontSize: 20,
                 fontWeight: "800",
                 color: textColor,
-              }}>
+              }}
+            >
               {comity?.totalMembers}
             </Text>
           </Text>
@@ -180,7 +184,8 @@ export default function MemberPage({ navigation, route }) {
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                }}>
+                }}
+              >
                 <SvgXml xml={eye} />
                 <Text
                   style={{
@@ -188,7 +193,8 @@ export default function MemberPage({ navigation, route }) {
                       ? "rgba(255, 255, 255, 1)"
                       : "rgba(255, 255, 255, 1)",
                     marginHorizontal: 5,
-                  }}>
+                  }}
+                >
                   {!special &&
                     (comity?.membersPrivacy === "Private"
                       ? comityListText.private
@@ -204,7 +210,8 @@ export default function MemberPage({ navigation, route }) {
                 </Text>
                 <SvgXml xml={bottom} />
               </Pressable>
-            }>
+            }
+          >
             <Menu.Item
               titleStyle={{ color: textColor }}
               onPress={() => {
@@ -249,8 +256,10 @@ export default function MemberPage({ navigation, route }) {
         />
       </LinearGradient>
       {sort?.map((doc, i) => (
-        <MemberCard
+        <MemberCardAlien
           accepted
+          position={doc.position}
+          onPress={() => navigation.navigate("UserProfile", { data: doc })}
           onAdd={async () => {
             if (doc.status === "Accepted") {
               dispatch(loader.show());
@@ -279,7 +288,7 @@ export default function MemberPage({ navigation, route }) {
               await deletes(`/member/delete/${doc.id}`, user.token);
               dispatch(loader.hide());
               dispatch(toast.success("Member deleted"));
-              getMember();
+              fetch();
             } catch (e) {
               dispatch(loader.hide());
               dispatch(toast.error("Request failed"));
