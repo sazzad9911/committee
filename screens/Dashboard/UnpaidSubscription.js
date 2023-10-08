@@ -11,7 +11,7 @@ import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
 export default function UnPaidSubscription({ navigation, route }) {
-  const [paidList, setPaidList] = useState([]);
+  const [paidList, setPaidList] = useState();
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const subscriptionId = route?.params?.subscriptionId;
@@ -21,7 +21,7 @@ export default function UnPaidSubscription({ navigation, route }) {
   const dispatch=useDispatch()
 
   useEffect(() => {
-    dispatch(loader.show());
+    !paidList&&dispatch(loader.show());
     get(`/subs/get-all-collections/${subscriptionId}`, user.token)
       .then((res) => {
         dispatch(loader.hide());

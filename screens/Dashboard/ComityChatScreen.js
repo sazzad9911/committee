@@ -20,7 +20,6 @@ import { EvilIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-const Tab = createBottomTabNavigator();
 
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
@@ -30,28 +29,24 @@ import {
   fileFromURL,
   serverTimeToLocal,
   timeConverter,
-} from "../functions/action";
-
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+} from "../../functions/action";
 import { MotiView, SafeAreaView } from "moti";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
-import uuid from "react-native-uuid";
-import { Linking } from "react-native";
 import Hyperlink from "react-native-hyperlink";
-import { AppColors } from "../functions/colors";
-import CameraScreen from "./CameraScreen";
-import ChatHead from "../components/headers/ChatHead";
-import { AppValues } from "../functions/values";
-import { getMessages, sendMessage } from "../apis/api";
+import { AppColors } from "../../functions/colors";
+import ChatHead from "../../components/headers/ChatHead";
+import { AppValues } from "../../functions/values";
+import { getMessages, sendMessage } from "../../apis/api";
 import { useRef } from "react";
-import { post, socket } from "../apis/multipleApi";
-import loader from "../data/loader";
+import { post, socket } from "../../apis/multipleApi";
+import loader from "../../data/loader";
+import CameraScreen from "../CameraScreen";
 //import { EvilIcons } from '@expo/vector-icons';
 
-const ChatScreen = (props) => {
+const ComityChatScreen = (props) => {
   const scrollRef = React.useRef();
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
@@ -486,7 +481,7 @@ const ChatScreen = (props) => {
   );
 };
 
-export default ChatScreen;
+export default ComityChatScreen;
 
 const BottomBar = (props) => {
   const [Message, setMessage] = React.useState();
@@ -791,24 +786,6 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
       </View>
     </View>
   );
-};
-const serverMessageToLocal = (message, user) => {
-  if (message && user) {
-    return {
-      _id: message.id,
-      text: message.text,
-      createdAt: message.createdAt,
-      user: {
-        _id: user.id,
-        name: `${user.name}`,
-        avatar: user.profilePhoto,
-      },
-      image: message.image,
-      sent: message.seen,
-      send: message?.send,
-    };
-  }
-  return null;
 };
 
 const send = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

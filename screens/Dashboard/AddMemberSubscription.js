@@ -169,9 +169,10 @@ export default function AddMemberSubscription({ navigation, route }) {
           style={{
             marginBottom: 50,
             marginHorizontal: 20,
-            position: "absolute",
+            marginTop:28,
+           // position: "absolute",
             width: Dimensions.get("window").width - 40,
-            top: Dimensions.get("window").height - 500,
+           // top: Dimensions.get("window").height - 500,
           }}
           title={headlines._ok}
         />

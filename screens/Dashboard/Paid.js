@@ -18,8 +18,10 @@ export default function Paid({ navigation }) {
   const comity = useSelector((state) => state.comity);
   const dispatch=useDispatch()
   useEffect(() => {
+    !paidList&&dispatch(loader.show());
     get(`/subs/get-all-subs/${comity.id}`, user.token)
       .then((res) => {
+        dispatch(loader.hide());
         setPaidList(res.data.subs?.filter((sub) => sub.completed));
       })
       .catch((err) => {
