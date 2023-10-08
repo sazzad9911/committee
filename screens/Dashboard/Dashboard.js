@@ -182,7 +182,7 @@ const Header = ({
           : sortDate
           ? sortDate.toDateString()
           : new Date(comity?.createdAt).toDateString()}{" "}
-        {!isBn ? "to Today" : "থেকে আজ পর্যন্ত"}
+        {!state.index == 0 && (!isBn ? "to Today" : "থেকে আজ পর্যন্ত")}
       </Text>
 
       <Pressable

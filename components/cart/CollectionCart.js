@@ -14,6 +14,7 @@ export default function CollectionCart({
 }) {
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
+  const comity = useSelector((state) => state.comity);
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   return (
@@ -43,7 +44,9 @@ export default function CollectionCart({
             numberOfLines={1}
             style={[mainStyle.mediumText, { color: textColor }]}
           >
-            {user?.user?.name}
+            {!comity
+              ? user?.user?.name
+              : data?.member?.name || data?.member?.user?.name}
           </Text>
           <Text style={[mainStyle.smallText, { color: borderColor }]}>
             {data ? new Date(data.createdAt).toDateString() : "11/12/2024"}
