@@ -54,6 +54,7 @@ import AttachMemberConfirm from "../screens/Dashboard/AttachMemberConfirm";
 import { socket } from "../apis/multipleApi";
 import AcceptMember from "../screens/Dashboard/AcceptMember";
 import ChatImage from "../screens/ChatImage";
+import ComityChatScreen from "../screens/Dashboard/ComityChatScreen";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -213,7 +214,7 @@ export default function AdminRoute() {
                 headerShown: false,
               }}
               name="ChatScreen"
-              component={ChatScreen}
+              component={ComityChatScreen}
             />
             <Stack.Screen
               options={{
