@@ -102,7 +102,6 @@ const ChatScreen = (props) => {
   const user = useSelector((state) => state.user);
   const [Loader, setLoader] = React.useState(false);
   const [Id, setId] = React.useState();
-  const username = params && params.username ? params.username : null;
   const isFocused = useIsFocused();
   const [Refresh, setRefresh] = React.useState(false);
   const inset = useSafeAreaInsets();

@@ -24,7 +24,6 @@ export default function Reset({ navigation, route }) {
   const [rePassword, setRePassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [rePasswordError, setRePasswordError] = useState();
-  const username = route?.params?.username;
   const token = route?.params?.token;
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
@@ -53,26 +52,28 @@ export default function Reset({ navigation, route }) {
         })
         .then((res) => {
           dispatch(loader.hide());
-          dispatch(toast.success("Password has changed"))
+          dispatch(toast.success("Password has changed"));
           navigation.navigate("SignIn");
         });
     } catch (err) {
       dispatch(loader.hide());
-      dispatch(toast.error(err.message))
+      dispatch(toast.error(err.message));
       console.log(err.message);
     }
   };
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           <Image
             width={"100%"}
             style={[
@@ -84,19 +85,8 @@ export default function Reset({ navigation, route }) {
             ]}
             source={pic}
           />
-          <Text style={[signUpStyle.text, signUpStyle.mt44,{color:textColor}]}>
-            Your Username
-          </Text>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: "600",
-              marginTop: 20,
-              color: "#4ADE80",
-            }}>
-            {username}
-          </Text>
-          <Text style={[signUpStyle.text, { marginTop: 32,color:textColor }]}>
+
+          <Text style={[signUpStyle.text, { marginTop: 32, color: textColor }]}>
             Create new password
           </Text>
           <Input
@@ -107,7 +97,7 @@ export default function Reset({ navigation, route }) {
             containerStyle={[signUpStyle.mt8]}
             placeholder={"Type password"}
           />
-          <Text style={[signUpStyle.text, { marginTop: 20,color:textColor }]}>
+          <Text style={[signUpStyle.text, { marginTop: 20, color: textColor }]}>
             Retype password
           </Text>
           <Input
@@ -115,7 +105,7 @@ export default function Reset({ navigation, route }) {
             value={rePassword}
             onChange={setRePassword}
             secureTextEntry={true}
-            containerStyle={[ signUpStyle.mt8]}
+            containerStyle={[signUpStyle.mt8]}
             placeholder={"Retype password"}
           />
         </View>

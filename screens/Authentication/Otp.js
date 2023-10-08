@@ -9,7 +9,12 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
-import { checkOTP, checkResetUser, resetUser, sendOTP } from "../../apis/authApi";
+import {
+  checkOTP,
+  checkResetUser,
+  resetUser,
+  sendOTP,
+} from "../../apis/authApi";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
@@ -22,12 +27,11 @@ export default function Otp({ navigation, route }) {
   const [counter, setCounter] = useState(90);
   const [loader, setLoader] = useState(false);
   const [token, setToken] = useState();
-  const reset=route?.params?.reset;
-  const isDark=useSelector(state=>state.isDark)
-  const colors=new AppColors(isDark)
-  const textColor=colors.getTextColor()
-  const scrollRef=useRef()
-  
+  const reset = route?.params?.reset;
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
+  const textColor = colors.getTextColor();
+  const scrollRef = useRef();
 
   useEffect(() => {
     const timer =
@@ -38,8 +42,8 @@ export default function Otp({ navigation, route }) {
     setError();
     console.log(number);
     setCounter(90);
-    setOtp()
-    if(reset){
+    setOtp();
+    if (reset) {
       try {
         await resetUser(number);
         setLoader(false);
@@ -47,7 +51,7 @@ export default function Otp({ navigation, route }) {
         setLoader(false);
         console.error(err.message);
       }
-      return
+      return;
     }
     try {
       await sendOTP(number);
@@ -60,27 +64,26 @@ export default function Otp({ navigation, route }) {
   const check = () => {
     setError();
     setLoader(true);
-    if(reset){
-      checkResetUser(number,otp)
-      .then((res) => {
-        setLoader(false);
-        //console.log(res.data);
-        navigation.navigate("Reset",{token:res.data?.token,username:res.data?.username})
-        //console.log(res.data);
-      })
-      .catch((err) => {
-        setLoader(false);
-        setError(err.response.data.msg);
-      });
-      return
+    if (reset) {
+      checkResetUser(number, otp)
+        .then((res) => {
+          setLoader(false);
+          //console.log(res.data);
+          navigation.navigate("Reset", { token: res.data?.token });
+          //console.log(res.data);
+        })
+        .catch((err) => {
+          setLoader(false);
+          setError(err.response.data.msg);
+        });
+      return;
     }
     //console.log(number);
     //console.log(otp);
     checkOTP(number, otp)
       .then((res) => {
         setLoader(false);
-        navigation.navigate("Information",{token:res.data?.token})
-        
+        navigation.navigate("Information", { token: res.data?.token });
       })
       .catch((err) => {
         setLoader(false);
@@ -88,77 +91,93 @@ export default function Otp({ navigation, route }) {
         setError(err.response.data.msg);
       });
   };
-  
+
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
-      <ScrollView  ref={scrollRef}  style={{flex:1}} showsVerticalScrollIndicator={false}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
+      <ScrollView
+        ref={scrollRef}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View
           style={{
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           <SvgXml width={"100%"} style={signUpStyle.mt28} xml={vector} />
-          <Text style={[signUpStyle.headLine, signUpStyle.mt44,{color:textColor}]}>
+          <Text
+            style={[
+              signUpStyle.headLine,
+              signUpStyle.mt44,
+              { color: textColor },
+            ]}
+          >
             Verify your Number
           </Text>
-          <Text style={[signUpStyle.mt8, signUpStyle.text,{color:textColor}]}>
+          <Text
+            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}
+          >
             We have sent a code to your {number}. Please enter the code to
             proceed.
           </Text>
-          <Input onFocus={()=>{
-            setTimeout(()=>{
-                scrollRef?.current?.scrollToEnd()
-            },100)
-          }}
+          <Input
+            onFocus={() => {
+              setTimeout(() => {
+                scrollRef?.current?.scrollToEnd();
+              }, 100);
+            }}
             keyboardType={"number-pad"}
             value={otp}
             onChange={setOtp}
             containerStyle={[signUpStyle.input, signUpStyle.mt18]}
             placeholder={"Enter 4 digit code"}
-            style={{color:"#000"}}
+            style={{ color: "#000" }}
             placeholderTextColor={"#A3A3A3"}
           />
-          {counter > 0&&!error ? (
-            <Text style={[signUpStyle.text,{color:textColor}]}>
+          {counter > 0 && !error ? (
+            <Text style={[signUpStyle.text, { color: textColor }]}>
               Wait {counter}s before requesting another code
             </Text>
-          ) :!error? (
-            <Text style={[signUpStyle.text,{color:textColor}]}>
+          ) : !error ? (
+            <Text style={[signUpStyle.text, { color: textColor }]}>
               Did not get it yet?{" "}
               <Text
                 onPress={resendOTP}
                 style={{
                   color: "red",
                   textDecorationLine: "underline",
-                }}>
+                }}
+              >
                 Send again
               </Text>
               .
             </Text>
-          ):error?(
-            <Text style={[signUpStyle.text,{color:"red"}]}>
-            The code you entered does not match. {" "}
+          ) : error ? (
+            <Text style={[signUpStyle.text, { color: "red" }]}>
+              The code you entered does not match.{" "}
               <Text
                 onPress={resendOTP}
                 style={{
                   color: textColor,
                   textDecorationLine: "underline",
-                }}>
+                }}
+              >
                 Send again
               </Text>
               .
             </Text>
-          ):null}
+          ) : null}
         </View>
       </ScrollView>
       <Button
         disabled={otp && counter > 0 ? false : true}
         active={otp && counter > 0 ? true : false}
         onPress={() => {
-          check()
-          
+          check();
         }}
         style={signUpStyle.button}
         title={"Continue"}
@@ -313,17 +332,15 @@ const signUpStyle = StyleSheet.create({
     borderRadius: 4,
     borderBottomWidth: 0,
     marginHorizontal: 0,
-    borderWidth:0,
+    borderWidth: 0,
   },
   headLine: {
     fontSize: 24,
     fontWeight: "700",
-    
   },
   text: {
     fontSize: 14,
     fontWeight: "400",
-    
   },
   button: {
     marginHorizontal: 20,

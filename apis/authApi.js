@@ -91,11 +91,10 @@ const checkOTP = async (number, otp) => {
   });
   return res;
 };
-const registerUser = async (token, name, username, password, age, gender) => {
+const registerUser = async (token, name, password, age, gender) => {
   const res = await axios.post(`${url}/auth/register`, {
     token: token,
     name: name,
-    username: username,
     password: password,
     age: age,
     gender: gender,
