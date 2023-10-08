@@ -116,11 +116,13 @@ export default function ComityProfile({ navigation, route }) {
         setRefetch(!refetch);
       } else {
         Alert.alert(
-          "Are your sure?",
-          "Are you sure you want to cancel the request?",
+          isBn ? "আপনি কি নিশ্চিত?" : "Are your sure?",
+          isBn
+            ? "আপনি কি নিশ্চিত যে আপনি অনুরোধটি বাতিল করতে চান?"
+            : "Are you sure you want to cancel the request?",
           [
             {
-              text: "Yes",
+              text: isBn ? "হ্যাঁ" : "Yes",
               onPress: async () => {
                 try {
                   dispatch(loader.show());
@@ -139,7 +141,7 @@ export default function ComityProfile({ navigation, route }) {
               },
             },
             {
-              text: "No",
+              text: isBn ? "না" : "No",
             },
           ]
         );
