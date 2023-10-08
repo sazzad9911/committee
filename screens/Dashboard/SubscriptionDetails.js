@@ -40,7 +40,7 @@ export default function SubscriptionDetails({ navigation, route }) {
     fetch();
   }, [isFocused]);
   const fetch = async () => {
-    dispatch(loader.show());
+   !data&& dispatch(loader.show());
     try {
       const res = await get(`/subs/get-subs-by-id/${data?.id}`, user.token);
       setData(res.data.subscription);

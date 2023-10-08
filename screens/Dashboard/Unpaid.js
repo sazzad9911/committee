@@ -19,7 +19,7 @@ export default function UnPaid({ navigation }) {
   const comity = useSelector((state) => state.comity);
 
   useEffect(() => {
-    dispatch(loader.show());
+    !paidList&&dispatch(loader.show());
     get(`/subs/get-all-subs/${comity.id}`, user.token)
       .then((res) => {
         setPaidList(res.data.subs?.filter((sub) => !sub.completed));
