@@ -1,6 +1,12 @@
 import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { Menu } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,6 +26,7 @@ import { AppValues } from "../../functions/values";
 import BottomShitLayout from "../../layouts/BottomShitLayout";
 import HidableHeaderLayout from "../../layouts/HidableHeaderLayout";
 import mainStyle from "../../styles/mainStyle";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 const { width, height } = Dimensions.get("window");
 
 export default function Member({ navigation, route }) {
@@ -40,6 +47,11 @@ export default function Member({ navigation, route }) {
   const [searchIp, setSearch] = useState("");
   const isFocused = useIsFocused();
   const [index, setIndex] = useState(-1);
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["80%"], []);
+  const handleSheetChanges = useCallback((index) => {
+    setIndex && setIndex(index);
+  }, []);
 
   const [filterData, setFilterData] = useState([
     "All Member",
@@ -50,13 +62,12 @@ export default function Member({ navigation, route }) {
     "Within 1-20 years",
     "Within 21-40 years",
     "Within 41-60 years",
-    "Within 61-80 years"
+    "Within 61-80 years",
   ]);
-  const [choose,setChoose]=useState()
-  
+  const [choose, setChoose] = useState();
 
   useEffect(() => {
-    !allMember&&dispatch(loader.show());
+    !allMember && dispatch(loader.show());
     getMember();
   }, [isFocused]);
   const getMember = async () => {
@@ -65,8 +76,7 @@ export default function Member({ navigation, route }) {
     dispatch(loader.hide());
   };
   useEffect(() => {
-    
-    if (allMember&&searchIp) {
+    if (allMember && searchIp) {
       dispatch(loader.hide());
       setSortedMember(
         allMember.filter(
@@ -75,12 +85,12 @@ export default function Member({ navigation, route }) {
             member?.user?.name?.toUpperCase().includes(searchIp?.toUpperCase())
         )
       );
-    } else{
-      setSortedMember(allMember)
+    } else {
+      setSortedMember(allMember);
     }
   }, [allMember, searchIp]);
 
-  const Bottom = ({ filterData,onChoose,value }) => {
+  const Bottom = ({ filterData, onChoose, value }) => {
     return (
       <View
         style={{
@@ -96,101 +106,143 @@ export default function Member({ navigation, route }) {
         <View style={{ height: 24 }} />
 
         {filterData?.map((doc, i) => (
-          <SheetCard select={doc===value?true:false} title={doc} key={i} />
+          <SheetCard
+            select={doc === value ? true : false}
+            title={doc}
+            key={i}
+            onPress={()=>onChoose(doc)}
+          />
         ))}
       </View>
     );
   };
 
-  
-
   return (
-    <BottomShitLayout points={["80%"]} scrollable={true} index={index} setIndex={setIndex}
-      screen={
-        <HidableHeaderLayout
-          header={
-            <Header
-              number={allMember ? allMember.length : "0"}
-              searchIp={searchIp}
-              setSearch={setSearch}
-              setIndex={setIndex}
-            />
-          }
-          component={
-            <View>
-              {sortedMember?.map((doc, i) => (
-                <MemberCard
-                  //onPress={() => navigation?.navigate("AddMember")}
-                  onPress={() =>
-                    navigation?.navigate("UserProfile", { data: doc })
-                  }
-                  onAdd={async () => {
-                    if (doc.status === "Accepted") {
-                      dispatch(loader.show());
-                      //console.log(doc);
-                      try {
-                        const res = await post(
-                          "/chat/conversation/create",
-                          {
-                            userId: doc.userId,
-                            comityId: comity.id,
-                          },
-                          user.token
-                        );
-                        navigation.navigate("ChatScreen", {
-                          conversationId: res.data.conversation.id,
-                          data: res.data.conversation,
-                        });
-                        dispatch(loader.hide());
-                      } catch (e) {
-                        console.error(e.message);
-                        dispatch(loader.hide());
-                        dispatch(toast.error("Error loading"));
-                      }
-                      return;
-                    }
-                    dispatch(loader.show());
-                    try {
-                      await deletes(`/member/delete/${doc.id}`, user.token);
-                      dispatch(loader.hide());
-                      dispatch(toast.success("Member deleted"));
-                      getMember();
-                    } catch (e) {
-                      dispatch(loader.hide());
-                      dispatch(toast.error("Request failed"));
-                      console.error(e);
-                    }
-                  }}
-                  requested={doc.status === "Pending" ? true : false}
-                  accepted={doc.status === "Accepted" ? true : false}
-                  key={i}
-                  offline={doc.userId ? false : true}
-                  name={doc.name || doc.user?.name}
-                  url={doc.profilePhoto || doc.user?.profilePhoto}
-                  borderColor={colors.getShadowColor()}
-                  backgroundColor={colors.getBackgroundColor()}
-                  textColor={colors.getTextColor()}
-                />
-              ))}
-              {sortedMember?.length == 0 && (
-                <NoOption title={"Ops!"} subTitle={"Member not found"} />
-              )}
-            </View>
-          }
-          
+    <HidableHeaderLayout
+      header={
+        <Header
+          number={allMember ? allMember.length : "0"}
+          searchIp={searchIp}
+          setSearch={setSearch}
+          setIndex={setIndex}
         />
+      }
+      component={
+        <View>
+          {sortedMember?.map((doc, i) => (
+            <MemberCard
+              //onPress={() => navigation?.navigate("AddMember")}
+              onPress={() => navigation?.navigate("UserProfile", { data: doc })}
+              onAdd={async () => {
+                if (doc.status === "Accepted") {
+                  dispatch(loader.show());
+                  //console.log(doc);
+                  try {
+                    const res = await post(
+                      "/chat/conversation/create",
+                      {
+                        userId: doc.userId,
+                        comityId: comity.id,
+                      },
+                      user.token
+                    );
+                    navigation.navigate("ChatScreen", {
+                      conversationId: res.data.conversation.id,
+                      data: res.data.conversation,
+                    });
+                    dispatch(loader.hide());
+                  } catch (e) {
+                    console.error(e.message);
+                    dispatch(loader.hide());
+                    dispatch(toast.error("Error loading"));
+                  }
+                  return;
+                }
+                dispatch(loader.show());
+                try {
+                  await deletes(`/member/delete/${doc.id}`, user.token);
+                  dispatch(loader.hide());
+                  dispatch(toast.success("Member deleted"));
+                  getMember();
+                } catch (e) {
+                  dispatch(loader.hide());
+                  dispatch(toast.error("Request failed"));
+                  console.error(e);
+                }
+              }}
+              requested={doc.status === "Pending" ? true : false}
+              accepted={doc.status === "Accepted" ? true : false}
+              key={i}
+              offline={doc.userId ? false : true}
+              name={doc.name || doc.user?.name}
+              url={doc.profilePhoto || doc.user?.profilePhoto}
+              borderColor={colors.getShadowColor()}
+              backgroundColor={colors.getBackgroundColor()}
+              textColor={colors.getTextColor()}
+            />
+          ))}
+          {sortedMember?.length == 0 && (
+            <NoOption title={"Ops!"} subTitle={"Member not found"} />
+          )}
+        </View>
       }
       bottom={
-        <FloatingButton
-          icon={plus}
-          onPress={() => navigation.navigate("SelectMemberType")}
-        />
+        <>
+          <FloatingButton
+            icon={plus}
+            onPress={() => navigation.navigate("SelectMemberType")}
+          />
+          {index != -1 && (
+            <View
+              style={{
+                flex: 1,
+                position: "absolute",
+                backgroundColor: colors.getSchemeColor(),
+                width: Dimensions.get("window").width,
+                height: Dimensions.get("window").height,
+                opacity: 0.1,
+              }}></View>
+          )}
+          <BottomSheet
+            handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
+            ref={bottomSheetRef}
+            index={index}
+            snapPoints={snapPoints}
+            enablePanDownToClose={true}
+            backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
+            onChange={handleSheetChanges}>
+            <BottomSheetScrollView
+              contentContainerStyle={{
+                backgroundColor: colors.getSchemeColor(),
+              }}
+              style={{ flex: 1 }}>
+              <Bottom
+                value={choose}
+                onChoose={setChoose}
+                filterData={filterData}
+              />
+            </BottomSheetScrollView>
+            <Button
+              active={true}
+              onPress={() => {
+                bottomSheetRef.current?.close();
+              }}
+              style={{
+                marginBottom: 30,
+                marginTop: 20,
+                backgroundColor: "#4ADE80",
+                marginHorizontal: 8,
+                color: "white",
+              }}
+              title={"Done"}
+            />
+          </BottomSheet>
+        </>
       }
-      component={<Bottom value={choose} onChoose={e=>console.log(e)} filterData={filterData} />}
     />
   );
 }
-const Header = ({ searchIp, setSearch, number,setIndex }) => {
+const Header = ({ searchIp, setSearch, number, setIndex }) => {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const isDark = useSelector((state) => state.isDark);
@@ -243,7 +295,6 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
-
           }}>
           {comityListText.totalMember}
           {"   "}
@@ -256,7 +307,7 @@ const Header = ({ searchIp, setSearch, number,setIndex }) => {
             {number}
           </Text>
         </Text>
-        <Pressable onPress={()=>setIndex(0)}>
+        <Pressable onPress={() => setIndex(0)}>
           <SvgXml xml={filter} />
         </Pressable>
       </View>
