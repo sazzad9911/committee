@@ -40,14 +40,14 @@ const Button = ({
         style={[
           {
             paddingHorizontal: 10,
-            backgroundColor: active ? backgroundColor : primaryColor,
+           
             flexDirection: "row",
             borderRadius: 5,
             justifyContent: "center",
             alignItems: "center",
             height: 45,
             borderWidth: active ? 0 : 1,
-            borderColor: borderColor,
+            borderColor: colors.getShadowColor(),
           },
           style,
         ]}
