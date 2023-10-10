@@ -55,6 +55,7 @@ import { socket } from "../apis/multipleApi";
 import AcceptMember from "../screens/Dashboard/AcceptMember";
 import ChatImage from "../screens/ChatImage";
 import ComityChatScreen from "../screens/Dashboard/ComityChatScreen";
+import AccountSettings from "../screens/Dashboard/AccountSettinngs";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -145,8 +146,7 @@ export default function AdminRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -509,12 +509,21 @@ export default function AdminRoute() {
               name="ComityDeleteSuccess"
               component={ComityDeleteSuccess}
             />
-             <Stack.Screen
+            <Stack.Screen
               options={{
                 headerShown: false,
               }}
               name="ChatImage"
               component={ChatImage}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader title={values.getHeadLines().accountSettings} {...props} />
+                ),
+              }}
+              name="AccountSettings"
+              component={AccountSettings}
             />
           </Stack.Navigator>
         </NavigationContainer>

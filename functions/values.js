@@ -72,14 +72,16 @@ export class AppValues {
         text2: "নীতিমালার",
         text3: "বিষয়ে সম্মতি দিলাম",
         gender: "লিঙ্গ",
-        email: "ই-মেইল",
-        legalText: "আপনার অধিকার, আমাদের আইনি কর্তব্য!",
-        comity: "কমিটি",
-        support: "সহায়তা",
-        contactUs: "যোগাযোগ করুন",
-        logout: "লগ আউট",
-        darkMode: "ডার্ক মোড",
-        lightMode: "লাইট মোড",
+
+        email:"ই-মেইল",
+        legalText:"আপনার অধিকার, আমাদের আইনি কর্তব্য!",
+        comity:"কমিটি",
+        support:"সহায়তা",
+        contactUs:"যোগাযোগ করুন",
+        logout:"লগ আউট",
+        darkMode:"ডার্ক মোড",
+        lightMode:"লাইট মোড",
+        deleteComity:"কমিটি অ্যাকাউন্ট ডিলিট করুন"
       };
     } else {
       return {
@@ -103,14 +105,16 @@ export class AppValues {
         text2: "terms and conditions",
         text3: "",
         gender: "Gender",
-        email: "E-mail",
-        legalText: "Your rights, our legal duty!",
-        comity: "Comity",
-        support: "Support",
-        contactUs: "Contact Us",
-        logout: "Log Out",
-        darkMode: "Dark Mode",
-        lightMode: "Light Mode",
+
+        email:"E-mail",
+        legalText:"Your rights, our legal duty!",
+        comity:"Comity",
+        support:"Support",
+        contactUs:"Contact Us",
+        logout:"Log Out",
+        darkMode:"Dark Mode",
+        lightMode:"Light Mode",
+        deleteComity:"Delete comity Account"
       };
     }
   }
@@ -145,6 +149,7 @@ export class AppValues {
         logOut: "লগ আউট",
         membersOnly: "শুধু মেম্বার",
         notification: "নোটিফিকেশান",
+        accountSettings:"অ্যাকাউন্ট সেটিং"
       };
     } else {
       return {
@@ -159,6 +164,7 @@ export class AppValues {
         logOut: "Log Out",
         membersOnly: "Members Only",
         notification: "Notification",
+        accountSettings:"Account Settings",
       };
     }
   }

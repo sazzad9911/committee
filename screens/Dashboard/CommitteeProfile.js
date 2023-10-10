@@ -52,6 +52,12 @@ export default function CommitteeProfile({ navigation }) {
   <path d="M11.05 14.95L9.2 16.8C8.81 17.19 8.19 17.19 7.79 16.81C7.68 16.7 7.57 16.6 7.46 16.49C6.44877 15.472 5.5161 14.3789 4.67 13.22C3.85 12.08 3.19 10.94 2.71 9.81C2.24 8.67 2 7.58 2 6.54C2 5.86 2.12 5.21 2.36 4.61C2.6 4 2.98 3.44 3.51 2.94C4.15 2.31 4.85 2 5.59 2C5.87 2 6.15 2.06 6.4 2.18C6.66 2.3 6.89 2.48 7.07 2.74L9.39 6.01C9.57 6.26 9.7 6.49 9.79 6.71C9.88 6.92 9.93 7.13 9.93 7.32C9.93 7.56 9.86 7.8 9.72 8.03C9.59 8.26 9.4 8.5 9.16 8.74L8.4 9.53C8.29 9.64 8.24 9.77 8.24 9.93C8.24 10.01 8.25 10.08 8.27 10.16C8.3 10.24 8.33 10.3 8.35 10.36C8.53 10.69 8.84 11.12 9.28 11.64C9.73 12.16 10.21 12.69 10.73 13.22C10.83 13.32 10.94 13.42 11.04 13.52C11.44 13.91 11.45 14.55 11.05 14.95ZM21.97 18.33C21.9687 18.7074 21.8833 19.0798 21.72 19.42C21.55 19.78 21.33 20.12 21.04 20.44C20.55 20.98 20.01 21.37 19.4 21.62C19.39 21.62 19.38 21.63 19.37 21.63C18.78 21.87 18.14 22 17.45 22C16.43 22 15.34 21.76 14.19 21.27C13.04 20.78 11.89 20.12 10.75 19.29C10.36 19 9.97 18.71 9.6 18.4L12.87 15.13C13.15 15.34 13.4 15.5 13.61 15.61C13.66 15.63 13.72 15.66 13.79 15.69C13.87 15.72 13.95 15.73 14.04 15.73C14.21 15.73 14.34 15.67 14.45 15.56L15.21 14.81C15.46 14.56 15.7 14.37 15.93 14.25C16.16 14.11 16.39 14.04 16.64 14.04C16.83 14.04 17.03 14.08 17.25 14.17C17.47 14.26 17.7 14.39 17.95 14.56L21.26 16.91C21.52 17.09 21.7 17.3 21.81 17.55C21.91 17.8 21.97 18.05 21.97 18.33Z" fill="${textColor}"/>
   </svg>
   `;
+
+  const icon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7 7H6C5.46957 7 4.96086 7.21071 4.58579 7.58579C4.21071 7.96086 4 8.46957 4 9V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H15C15.5304 20 16.0391 19.7893 16.4142 19.4142C16.7893 19.0391 17 18.5304 17 18V17" stroke="${textColor}" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 5L19 8M20.385 6.585C20.7788 6.19115 21.0001 5.65698 21.0001 5.1C21.0001 4.54302 20.7788 4.00885 20.385 3.615C19.9912 3.22115 19.457 2.99989 18.9 2.99989C18.343 2.99989 17.8088 3.22115 17.415 3.615L9 12V15H12L20.385 6.585Z" stroke="${textColor}" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
   useEffect(() => {
     //fetch();
     //console.log(comity.id);
@@ -98,20 +104,18 @@ export default function CommitteeProfile({ navigation }) {
       dispatch(loader.hide());
     }
   };
- 
+
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
-      showsVerticalScrollIndicator={false}
-    >
+      showsVerticalScrollIndicator={false}>
       <ImageBackground
         style={{
           height: height / 2 + 80,
         }}
         source={{
           uri: background,
-        }}
-      >
+        }}>
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           {/* <Pressable
             onPress={() => {
@@ -133,8 +137,7 @@ export default function CommitteeProfile({ navigation }) {
               const img = await pickImage();
               setBackground(img.uri);
               uploadPicture(img);
-            }}
-          >
+            }}>
             <SvgXml xml={cameraIcon} />
           </Pressable>
         </View>
@@ -144,19 +147,104 @@ export default function CommitteeProfile({ navigation }) {
           backgroundColor: backgroundColor,
           marginTop: -20,
           borderRadius: 25,
-        }}
-      >
-        <Text
-          numberOfLines={2}
+        }}>
+        <View
           style={[
-            style.headLie,
-            { color: textColor },
+            {
+              flexDirection: "row",
+              flex: 1,
+            },
             mainStyle.mt24,
             mainStyle.pdH20,
-          ]}
-        >
-          {comity?.name}
+          ]}>
+          <Text
+            numberOfLines={2}
+            style={[style.headLie, { color: textColor, flex: 1 }]}>
+            {comity?.name}
+          </Text>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("EditCommitteeInfo");
+            }}>
+            <SvgXml xml={icon} />
+          </Pressable>
+        </View>
+        <View
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}>
+          <SvgXml xml={location} />
+          <Text
+            style={{
+              marginLeft: 10,
+              color: textColor,
+              fontSize: 16,
+              flex: 1,
+            }}>
+            {`${comity?.address || ""}${comity?.address ? "," : ""} ${
+              comity.thana
+            }, ${comity.district}, ${comity.division}`}
+          </Text>
+        </View>
+        <View
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}>
+          <SvgXml xml={call} />
+          <Text
+            style={{
+              marginLeft: 10,
+              color: textColor,
+              fontSize: 16,
+            }}>
+            {comity.phone}
+          </Text>
+        </View>
+        <Text
+          style={[
+            mainStyle.pdH20,
+            { color: textColor, fontSize: 24, fontWeight: "600" },
+            mainStyle.mt24,
+          ]}>
+          {allHeadlines.aboutComity}
         </Text>
+
+        <View style={[mainStyle.pdH20, mainStyle.mt12]}>
+          <MoreText text={comity?.about ? comity.about : ""} />
+
+          {/* <Button
+            active={true}
+            style={[mainStyle.mt24]}
+            title={"Edit the information"}
+          />
+          <Button
+            onPress={() => {
+              //navigation.navigate("Notice");
+              localStorage.comityLogOut();
+              dispatch({ type: "SET_COMITY", value: null });
+              navigation.navigate("Dashboard");
+            }}
+            active={true}
+            style={[mainStyle.mt24]}
+            title={"Sign out From Comity"}
+          />
+          <Button
+            onPress={async () => {
+              // dispatch(loader.show());
+              // try {
+              //   await deletes(`/comity/delete/${comity?.id}`, user.token);
+              //   dispatch(loader.hide());
+              //   dispatch(toast.success("Comity deleted"));
+              //   localStorage.comityLogOut();
+              //   dispatch({ type: "SET_COMITY", value: null });
+              // } catch (e) {
+              //   dispatch(loader.hide());
+              //   dispatch(toast.error("Problem deleting"));
+              // }
+              navigation.navigate("DeleteComity");
+            }}
+            style={[mainStyle.mt24, { borderColor: "#F00" }]}
+            color={"#F00"}
+            title={"Delete the community profile"}
+          /> */}
+          <View style={mainStyle.mt12} />
+        </View>
         <View style={mainStyle.mt24} />
         <ProfileCart
           onPress={() => {
@@ -229,98 +317,16 @@ export default function CommitteeProfile({ navigation }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-        {/* <ProfileCart
+        <ProfileCart
           onPress={() => {
-            navigation.navigate("DashboardNotification");
+            navigation.navigate("AccountSettings");
           }}
-          number={"0"}
+         
           borderColor={borderColor}
-          title={allHeadlines.notification}
+          title={allHeadlines.accountSettings}
           color={textColor}
         />
-        <View style={{ height: 16 }} /> */}
-        <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
-        >
-          <SvgXml xml={location} />
-          <Text
-            style={{
-              marginLeft: 10,
-              color: textColor,
-              fontSize: 16,
-              flex:1
-            }}
-          >
-            {`${comity?.address||""}${comity?.address?",":""} ${comity.thana}, ${comity.district}, ${comity.division}`}
-          </Text>
-        </View>
-        <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
-        >
-          <SvgXml xml={call} />
-          <Text
-            style={{
-              marginLeft: 10,
-              color: textColor,
-              fontSize: 16,
-            }}
-          >
-            {comity.phone}
-          </Text>
-        </View>
-        <Text
-          style={[
-            mainStyle.pdH20,
-            { color: textColor, fontSize: 24, fontWeight: "600" },
-            mainStyle.mt24,
-          ]}
-        >
-          {allHeadlines.aboutComity}
-        </Text>
-
-        <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-          <MoreText text={comity?.about ? comity.about : ""} />
-
-          <Button
-            onPress={() => {
-              navigation.navigate("EditCommitteeInfo");
-            }}
-            active={true}
-            style={[mainStyle.mt24]}
-            title={"Edit the information"}
-          />
-          <Button
-            onPress={() => {
-              //navigation.navigate("Notice");
-              localStorage.comityLogOut();
-              dispatch({ type: "SET_COMITY", value: null });
-              navigation.navigate("Dashboard");
-            }}
-            active={true}
-            style={[mainStyle.mt24]}
-            title={"Sign out From Comity"}
-          />
-          <Button
-            onPress={async () => {
-              // dispatch(loader.show());
-              // try {
-              //   await deletes(`/comity/delete/${comity?.id}`, user.token);
-              //   dispatch(loader.hide());
-              //   dispatch(toast.success("Comity deleted"));
-              //   localStorage.comityLogOut();
-              //   dispatch({ type: "SET_COMITY", value: null });
-              // } catch (e) {
-              //   dispatch(loader.hide());
-              //   dispatch(toast.error("Problem deleting"));
-              // }
-              navigation.navigate("DeleteComity");
-            }}
-            style={[mainStyle.mt24, { borderColor: "#F00" }]}
-            color={"#F00"}
-            title={"Delete the community profile"}
-          />
-          <View style={mainStyle.mt32} />
-        </View>
+        <View style={{ height: 24 }} />
       </View>
     </ScrollView>
   );
@@ -359,15 +365,13 @@ export const ProfileCart = ({
           borderBottomColor: "#F3F3F3",
         },
         style,
-      ]}
-    >
+      ]}>
       <View>
         <Text
           style={{
             color: borderColor,
             fontSize: 16,
-          }}
-        >
+          }}>
           {title}
         </Text>
         {number ? (
@@ -377,8 +381,7 @@ export const ProfileCart = ({
               color: color,
               fontWeight: "800",
               marginTop: 1,
-            }}
-          >
+            }}>
             {number}
           </Text>
         ) : null}
@@ -392,15 +395,13 @@ export const ProfileCart = ({
             flexDirection: "row",
             alignItems: "center",
             marginRight: 20,
-          }}
-        >
+          }}>
           {privacy && <SvgXml xml={eye} />}
           <Text
             style={{
               color: borderColor,
               marginHorizontal: 5,
-            }}
-          >
+            }}>
             {privacy}
           </Text>
 
