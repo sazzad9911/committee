@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
 import localStorage from "../../functions/localStorage";
 
-export default function ComityDeleteSuccess() {
+export default function ComityDeleteSuccess({ navigation }) {
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
@@ -29,6 +29,12 @@ export default function ComityDeleteSuccess() {
     }
     return () => clearInterval(timer);
   }, [counter]);
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", (e) => {
+      e.preventDefault();
+    });
+  }, [navigation]);
 
   return (
     <KeyboardAvoidingView
