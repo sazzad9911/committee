@@ -191,13 +191,15 @@ export default function MainRoute() {
               />
             ) : (
               <>
-                <Stack.Screen
-                  options={{
-                    headerShown: false,
-                  }}
-                  name="ChooseLanguage"
-                  component={ChooseLanguage}
-                />
+                {!localStorage.isNotFirstTime && (
+                  <Stack.Screen
+                    options={{
+                      headerShown: false,
+                    }}
+                    name="ChooseLanguage"
+                    component={ChooseLanguage}
+                  />
+                )}
                 <Stack.Screen
                   options={{
                     header: (props) => (

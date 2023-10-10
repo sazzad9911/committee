@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, Dimensions, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
@@ -20,6 +20,10 @@ export default function ChooseLanguage({ navigation }) {
   const borderColor = colors.getBorderColor();
   const textPrimaryColor = colors.getTextPrimaryColor();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    localStorage.setNotFirstTime(true);
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
