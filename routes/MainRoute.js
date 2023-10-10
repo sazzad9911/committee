@@ -195,13 +195,6 @@ export default function MainRoute() {
                   options={{
                     headerShown: false,
                   }}
-                  name="Start"
-                  component={Start}
-                />
-                <Stack.Screen
-                  options={{
-                    headerShown: false,
-                  }}
                   name="ChooseLanguage"
                   component={ChooseLanguage}
                 />
