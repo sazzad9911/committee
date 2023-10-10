@@ -98,7 +98,13 @@ export default function EditProfileInfo({ route, navigation }) {
             />
           </View>
         </View>
-        <Button onPress={updateUser} style={mainStyle.mt32} title={"Confirm"} />
+        <Button
+          disabled={name && gender ? false : true}
+          active={name && gender ? true : false}
+          onPress={updateUser}
+          style={mainStyle.mt32}
+          title={"Confirm"}
+        />
       </View>
     </ScrollView>
   );

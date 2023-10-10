@@ -16,48 +16,64 @@ import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
+import isBn from "../../data/isBn";
 
 export default function SignUp({ navigation, route }) {
   const [number, setNumber] = useState("");
   const [error, setError] = useState();
-  const isDark=useSelector(state=>state.isDark)
-  const colors=new AppColors(isDark)
-  const textColor=colors.getTextColor()
-  const scrollRef=useRef()
-  const inset=useSafeAreaInsets()
-  const dispatch=useDispatch()
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
+  const textColor = colors.getTextColor();
+  const scrollRef = useRef();
+  const inset = useSafeAreaInsets();
+  const dispatch = useDispatch();
 
-  
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
-      <ScrollView ref={scrollRef} style={{flex:1}} showsVerticalScrollIndicator={false}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
+      <ScrollView
+        ref={scrollRef}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View
           style={{
             paddingHorizontal: 20,
-            
-          }}>
-          <SvgXml width={"100%"} style={signUpStyle.mt28} xml={vector} />
-          <Text style={[signUpStyle.headLine, signUpStyle.mt44,{color:textColor}]}>
-            Enter Your Phone Number
-          </Text>
-          <Text style={[signUpStyle.mt8, signUpStyle.text,{color:textColor}]}>
-          Your privacy is important to us. Rest assured, your number will only be used for verification purposes.
-          </Text>
-          <Input onFocus={()=>{
-            setTimeout(()=>{
-                scrollRef?.current?.scrollToEnd()
-            },100)
           }}
+        >
+          <SvgXml width={"100%"} style={signUpStyle.mt28} xml={vector} />
+          <Text
+            style={[
+              signUpStyle.headLine,
+              signUpStyle.mt44,
+              { color: textColor },
+            ]}
+          >
+            {isBn ? "আপনার ফোন নাম্বার লিখুন" : "Enter Your Phone Number"}
+          </Text>
+          <Text
+            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}
+          >
+            {isBn
+              ? "আপনার গোপনীয়তা আমাদের কাছে গুরুত্বপূর্ণ৷ নিশ্চিন্ত থাকুন, আপনার নম্বরটি শুধুমাত্র যাচাইকরণের উদ্দেশ্যে ব্যবহার করা হবে৷"
+              : "Your privacy is important to us. Rest assured, your number will only be used for verification purposes."}
+          </Text>
+          <Input
+            onFocus={() => {
+              setTimeout(() => {
+                scrollRef?.current?.scrollToEnd();
+              }, 100);
+            }}
             error={error}
             keyboardType={"number-pad"}
             value={number}
             onChange={setNumber}
-            style={{color:"#000"}}
+            style={{ color: "#000" }}
             placeholderTextColor={"#A3A3A3"}
-            containerStyle={[signUpStyle.input, signUpStyle.mt18]}
+            containerStyle={[signUpStyle.mt18]}
             placeholder={"01*********"}
           />
         </View>
@@ -65,32 +81,31 @@ export default function SignUp({ navigation, route }) {
       <Button
         active={number ? true : false}
         disabled={number ? false : true}
-        onPress={async() => {
-            
+        onPress={async () => {
           let arr = number.split("");
           if (arr.length != 11) {
             setError("*Number must is not valid");
-            scrollRef?.current?.scrollToEnd()
+            scrollRef?.current?.scrollToEnd();
             return;
           }
           if (arr[0] != "0" || arr[1] != "1") {
             setError("*Number must is not valid");
-            scrollRef?.current?.scrollToEnd()
+            scrollRef?.current?.scrollToEnd();
             return;
           }
-          dispatch(loader.show())
-          
-          try{
-            await sendOTP(number)
-            dispatch(loader.hide())
-            navigation?.navigate("Otp",{number:number})
-          }catch(e){
-            dispatch(loader.hide())
-            Alert.alert(e.message)
+          dispatch(loader.show());
+
+          try {
+            await sendOTP(number);
+            dispatch(loader.hide());
+            navigation?.navigate("Otp", { number: number });
+          } catch (e) {
+            dispatch(loader.hide());
+            Alert.alert(e.message);
           }
         }}
         style={signUpStyle.button}
-        title={"Continue"}
+        title={isBn ? "পরবর্তি" : "Continue"}
       />
     </KeyboardAvoidingView>
   );
@@ -313,12 +328,11 @@ const signUpStyle = StyleSheet.create({
     borderRadius: 4,
     //borderBottomWidth: 0,
     //marginHorizontal: 0,
-    borderWidth:0
+    borderWidth: 0,
   },
   headLine: {
     fontSize: 24,
     fontWeight: "700",
-    
   },
   text: {
     fontSize: 14,

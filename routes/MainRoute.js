@@ -79,6 +79,9 @@ import AttachMemberConfirm from "../screens/Dashboard/AttachMemberConfirm";
 import { socket } from "../apis/multipleApi";
 import AcceptMember from "../screens/Dashboard/AcceptMember";
 import ChatImage from "../screens/ChatImage";
+import ChooseLanguage from "../screens/Onboarding/ChooseLanguage";
+import LoginOrRegister from "../screens/Onboarding/LoginOrRegister";
+import Start from "../screens/Onboarding/Start";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -190,8 +193,38 @@ export default function MainRoute() {
               <>
                 <Stack.Screen
                   options={{
-                    //header:(props)=><BackHeader title={"Phone Number Verification"} onPress={()=>{}} {...props}/>
                     headerShown: false,
+                  }}
+                  name="Start"
+                  component={Start}
+                />
+                <Stack.Screen
+                  options={{
+                    headerShown: false,
+                  }}
+                  name="ChooseLanguage"
+                  component={ChooseLanguage}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader
+                        title={isBn ? "লগইন করুন" : "Login"}
+                        {...props}
+                      />
+                    ),
+                  }}
+                  name="LoginOrRegister"
+                  component={LoginOrRegister}
+                />
+                <Stack.Screen
+                  options={{
+                    header: (props) => (
+                      <BackHeader
+                        title={isBn ? "লগইন করুন" : "Login"}
+                        {...props}
+                      />
+                    ),
                   }}
                   name="SignIn"
                   component={SignIn}
@@ -209,7 +242,11 @@ export default function MainRoute() {
                   options={{
                     header: (props) => (
                       <BackHeader
-                        title={"Phone Number Verification"}
+                        title={
+                          isBn
+                            ? "ফোন নম্বর যাচাইকরণ"
+                            : "Phone Number Verification"
+                        }
                         {...props}
                       />
                     ),
@@ -221,7 +258,11 @@ export default function MainRoute() {
                   options={{
                     header: (props) => (
                       <BackHeader
-                        title={"Phone Number Verification"}
+                        title={
+                          isBn
+                            ? "ফোন নম্বর যাচাইকরণ"
+                            : "Phone Number Verification"
+                        }
                         {...props}
                       />
                     ),
@@ -232,7 +273,12 @@ export default function MainRoute() {
                 <Stack.Screen
                   options={{
                     header: (props) => (
-                      <BackHeader title={"Recovery Account"} {...props} />
+                      <BackHeader
+                        title={
+                          isBn ? "পাসওয়ার্ড রিসেট করুন" : "Recovery Account"
+                        }
+                        {...props}
+                      />
                     ),
                   }}
                   name="Recovery"
@@ -241,7 +287,12 @@ export default function MainRoute() {
                 <Stack.Screen
                   options={{
                     header: (props) => (
-                      <BackHeader title={"Recovery Account"} {...props} />
+                      <BackHeader
+                        title={
+                          isBn ? "পাসওয়ার্ড রিসেট করুন" : "Recovery Account"
+                        }
+                        {...props}
+                      />
                     ),
                   }}
                   name="Reset"

@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
+import isBn from "../../data/isBn";
 
 import pic from "../../assets/pic.jpeg";
 import { resetUserPassword } from "../../apis/authApi";
@@ -87,7 +88,7 @@ export default function Reset({ navigation, route }) {
           />
 
           <Text style={[signUpStyle.text, { marginTop: 32, color: textColor }]}>
-            Create new password
+            {isBn ? "নতুন পাসওয়ার্ডটি লিখুন" : "Create new password"}
           </Text>
           <Input
             error={passwordError}
@@ -98,7 +99,7 @@ export default function Reset({ navigation, route }) {
             placeholder={"Type password"}
           />
           <Text style={[signUpStyle.text, { marginTop: 20, color: textColor }]}>
-            Retype password
+            {isBn ? "পুনরায় পাসওয়ার্ড লিখুন" : "Retype password"}
           </Text>
           <Input
             error={rePasswordError}
@@ -118,7 +119,7 @@ export default function Reset({ navigation, route }) {
           verify();
         }}
         style={signUpStyle.button}
-        title={"Confirm"}
+        title={isBn ? "নিশ্চিত করুন" : "Confirm"}
       />
     </KeyboardAvoidingView>
   );

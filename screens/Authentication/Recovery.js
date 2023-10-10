@@ -17,6 +17,7 @@ import { AppColors } from "../../functions/colors";
 import { sendRecoverOtp } from "../../apis/api";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
+import isBn from "../../data/isBn";
 
 export default function Recovery({ navigation, route }) {
   const [number, setNumber] = useState();
@@ -30,9 +31,9 @@ export default function Recovery({ navigation, route }) {
     try {
       dispatch(loader.show());
       await sendRecoverOtp({ phone: number });
-     
+
       dispatch(toast.success("OTP sent successfully!"));
-      navigation?.navigate('Otp',{ number: number,reset:true })
+      navigation?.navigate("Otp", { number: number, reset: true });
     } catch (error) {
       console.log(error);
       dispatch(toast.error(error?.response?.data?.msg));
@@ -43,14 +44,16 @@ export default function Recovery({ navigation, route }) {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1,backgroundColor:colors.getBackgroundColor() }}
+      style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : null}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingHorizontal: 20,
-          }}>
+          }}
+        >
           {/* <Image width={"100%"} style={[signUpStyle.mt28,{
             height:253,
             width:"100%"
@@ -60,13 +63,16 @@ export default function Recovery({ navigation, route }) {
               signUpStyle.headLine,
               signUpStyle.mt44,
               { color: textColor },
-            ]}>
-            Enter Your Phone Number
+            ]}
+          >
+            {isBn ? "আপনার ফোন নাম্বার লিখুন" : "Enter Your Phone Number"}
           </Text>
           <Text
-            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}>
-            Your privacy is important to us. Rest assured, your number will only
-            be used for verification purposes.{" "}
+            style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}
+          >
+            {isBn
+              ? "আপনার গোপনীয়তা আমাদের কাছে গুরুত্বপূর্ণ৷ নিশ্চিন্ত থাকুন, আপনার নম্বরটি শুধুমাত্র যাচাইকরণের উদ্দেশ্যে ব্যবহার করা হবে৷"
+              : "Your privacy is important to us. Rest assured, your number will onlybe used for verification purposes."}
           </Text>
           <Input
             error={error}
@@ -85,7 +91,7 @@ export default function Recovery({ navigation, route }) {
           sendOtp();
         }}
         style={signUpStyle.button}
-        title={"Continue"}
+        title={isBn ? "পরবর্তি" : "Continue"}
       />
     </KeyboardAvoidingView>
   );

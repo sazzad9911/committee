@@ -72,21 +72,21 @@ export class AppValues {
         text2: "নীতিমালার",
         text3: "বিষয়ে সম্মতি দিলাম",
         gender: "লিঙ্গ",
-        email:"ই-মেইল",
-        legalText:"আপনার অধিকার, আমাদের আইনি কর্তব্য!",
-        comity:"কমিটি",
-        support:"সহায়তা",
-        contactUs:"যোগাযোগ করুন",
-        logout:"লগ আউট",
-        darkMode:"ডার্ক মোড",
-        lightMode:"লাইট মোড",
+        email: "ই-মেইল",
+        legalText: "আপনার অধিকার, আমাদের আইনি কর্তব্য!",
+        comity: "কমিটি",
+        support: "সহায়তা",
+        contactUs: "যোগাযোগ করুন",
+        logout: "লগ আউট",
+        darkMode: "ডার্ক মোড",
+        lightMode: "লাইট মোড",
       };
     } else {
       return {
         name: "Comity Name",
         required: "Required",
-        highest30: "Maxi. 30 Cha.",
-        highest50: "Maxi. 50 Cha.",
+        highest30: "Max. 30 Cha.",
+        highest50: "Max. 50 Cha.",
         notRequired: "Optional",
         mobile: "Mobile",
         write: "Type here",
@@ -96,21 +96,21 @@ export class AppValues {
         district: "District",
         thana: "Thana",
         next: "Next",
-        highest1000: "Maxi. 1000 Cha.",
+        highest1000: "Max. 1000 Cha.",
         about: "About Comity",
         confirm: "Confirm",
         text1: " agree to all",
         text2: "terms and conditions",
         text3: "",
         gender: "Gender",
-        email:"E-mail",
-        legalText:"Your rights, our legal duty!",
-        comity:"Comity",
-        support:"Support",
-        contactUs:"Contact Us",
-        logout:"Log Out",
-        darkMode:"Dark Mode",
-        lightMode:"Light Mode",
+        email: "E-mail",
+        legalText: "Your rights, our legal duty!",
+        comity: "Comity",
+        support: "Support",
+        contactUs: "Contact Us",
+        logout: "Log Out",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
       };
     }
   }
@@ -345,7 +345,7 @@ export class AppValues {
               - 'বিশেষ সদস্য': এই বিকল্পটি বেছে নিন যদি কমিটির মধ্যে সদস্যের একটি নির্দিষ্ট ভূমিকা থাকে, যেমন ম্যানেজার বা নেতা৷।
           
           এই বিশদ বিবরণ প্রদান করে, আপনি নিশ্চিত করেন যে নতুন সদস্যের ভূমিকা এবং ধরন সঠিকভাবে কমিটির মধ্যে সংজ্ঞায়িত করা হয়েছে, আপনার কমিটির পরিচালনা প্রক্রিয়াকে সহজসাধ্য করে`,
-          allMessage:"সব বার্তা"
+          allMessage: "সব বার্তা",
         }
       : {
           write: "Write",
@@ -365,7 +365,7 @@ export class AppValues {
           _max20: "Max 20 cha.",
           _placeholder1: "Example:Salary, Developmemt etc",
           _placeholder2: "Example:1000, 2000",
-          _ammoutSubs: "Amount",
+          _ammoutSubs: "Target Amount",
           _positionAndQualification: "Position and Category",
           _position: "Position",
           _selectAmembershipPlan: "Choose a member category",
@@ -440,7 +440,7 @@ export class AppValues {
              - 'Special Member': Choose this option if the member holds a specific role within the committee, such as manager or leader.
           
           By providing these details, you ensure that the new member's role and type are accurately defined within the committee, streamlining your committee management process`,
-          allMessage:"All message"
+          allMessage: "All message",
         };
   }
 }

@@ -18,6 +18,7 @@ import {
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
+import isBn from "../../data/isBn";
 
 export default function Otp({ navigation, route }) {
   const number = route?.params?.number;
@@ -116,13 +117,14 @@ export default function Otp({ navigation, route }) {
               { color: textColor },
             ]}
           >
-            Verify your Number
+            {isBn ? "আপনার নাম্বার যাচাই করুন" : "Verify your Number"}
           </Text>
           <Text
             style={[signUpStyle.mt8, signUpStyle.text, { color: textColor }]}
           >
-            We have sent a code to your {number}. Please enter the code to
-            proceed.
+            {isBn
+              ? `আমরা আপনার ${number} এ একটি কোড পাঠিয়েছি৷ এগিয়ে যাওয়ার জন্য দয়া করে কোডটি লিখুন৷`
+              : `We have sent a code to your ${number}. Please enter the code to proceed.`}
           </Text>
           <Input
             onFocus={() => {
@@ -134,7 +136,7 @@ export default function Otp({ navigation, route }) {
             value={otp}
             onChange={setOtp}
             containerStyle={[signUpStyle.input, signUpStyle.mt18]}
-            placeholder={"Enter 4 digit code"}
+            placeholder={"Enter 5 digit code"}
             style={{ color: "#000" }}
             placeholderTextColor={"#A3A3A3"}
           />
@@ -144,7 +146,7 @@ export default function Otp({ navigation, route }) {
             </Text>
           ) : !error ? (
             <Text style={[signUpStyle.text, { color: textColor }]}>
-              Did not get it yet?{" "}
+              {isBn ? "কোডটি কি এখনো পাননি?" : "Did not get it yet?"}{" "}
               <Text
                 onPress={resendOTP}
                 style={{
@@ -152,13 +154,15 @@ export default function Otp({ navigation, route }) {
                   textDecorationLine: "underline",
                 }}
               >
-                Send again
+                {isBn ? "অনুগ্রহ করে আবার পাঠান।" : "Send again"}
               </Text>
               .
             </Text>
           ) : error ? (
             <Text style={[signUpStyle.text, { color: "red" }]}>
-              The code you entered does not match.{" "}
+              {isBn
+                ? "আপনি যে কোডটি লিখেছেন সেটি ভুল৷"
+                : "The code you entered does not match."}{" "}
               <Text
                 onPress={resendOTP}
                 style={{
@@ -166,7 +170,7 @@ export default function Otp({ navigation, route }) {
                   textDecorationLine: "underline",
                 }}
               >
-                Send again
+                {isBn ? "অনুগ্রহ করে আবার পাঠান।" : "Send again"}
               </Text>
               .
             </Text>
