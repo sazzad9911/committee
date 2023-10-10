@@ -41,10 +41,12 @@ export default function CreateCommitteeNext({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <ScrollView
         style={{ backgroundColor: backgroundColor }}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <View style={[{ paddingTop: inset?.top }]}>
           <Image
             source={committee}
@@ -66,7 +68,8 @@ export default function CreateCommitteeNext({ navigation, route }) {
           <View
             style={{
               height: inset?.top + 220,
-            }}></View>
+            }}
+          ></View>
           <View
             style={[
               {
@@ -75,7 +78,8 @@ export default function CreateCommitteeNext({ navigation, route }) {
                 paddingTop: 24,
               },
               mainStyle.pdH20,
-            ]}>
+            ]}
+          >
             <TextArea
               value={about}
               onChange={setAbout}
@@ -98,13 +102,22 @@ export default function CreateCommitteeNext({ navigation, route }) {
               onChange={() => setCheck((v) => !v)}
               component={
                 <View>
-                  <Text style={[mainStyle.text14, { color: textColor }]}>
-                    {createCommitteeValues.text1}{" "}
-                    <Text style={{ color: "#737AFF" }}>
-                      {createCommitteeValues.text2}
-                    </Text>{" "}
-                    {createCommitteeValues.text3}
-                  </Text>
+                  {isBn ? (
+                    <Text style={[mainStyle.text14, { color: textColor }]}>
+                      আমি কমিটির সকল{" "}
+                      <Text style={{ color: "#737AFF" }}>শর্তাবলী</Text> এবং{" "}
+                      <Text style={{ color: "#737AFF" }}>
+                        গোপনীয়তার নীতিমালার
+                      </Text>{" "}
+                      বিষয়ে সম্মতি দিলাম
+                    </Text>
+                  ) : (
+                    <Text style={[mainStyle.text14, { color: textColor }]}>
+                      I agree to all Comity's{" "}
+                      <Text style={{ color: "#737AFF" }}>terms</Text> and{" "}
+                      <Text style={{ color: "#737AFF" }}>conditions</Text>
+                    </Text>
+                  )}
                 </View>
               }
             />
