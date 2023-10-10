@@ -1,30 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   Text,
-  Pressable,
   Dimensions,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../../components/main/Button";
-import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
-import mainStyle from "../../styles/mainStyle";
 import localStorage from "../../functions/localStorage";
 
-export default function ComityDeleteSuccess({ navigation }) {
+export default function ComityDeleteSuccess() {
   const dispatch = useDispatch();
-  const [password, setPassword] = useState("");
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const isBn = useSelector((state) => state.isBn);
-  const comity = useSelector((state) => state.comity);
-  const { width, height } = Dimensions.get("window");
+  const { height } = Dimensions.get("window");
+  const [counter, setCounter] = useState(5);
+
+  useEffect(() => {
+    const timer =
+      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+    if (counter == 0) {
+      localStorage.comityLogOut();
+      dispatch({ type: "SET_COMITY", value: null });
+    }
+    return () => clearInterval(timer);
+  }, [counter]);
 
   return (
     <KeyboardAvoidingView
@@ -60,17 +64,13 @@ export default function ComityDeleteSuccess({ navigation }) {
                 : "Comity profile has been successfully deleted"}
             </Text>
           </View>
-
-          <Button
-            onPress={() => {
-              localStorage.comityLogOut();
-              dispatch({ type: "SET_COMITY", value: null });
-              navigation.navigate("Dashboard");
-            }}
-            active={true}
-            style={[mainStyle.mt24]}
-            title={isBn ? "লগ আউট করুন" : "Sign out"}
-          />
+          <View style={{ alignItems: "center", paddingVertical: 20 }}>
+            <Text style={[{}, { color: colors.getTextColor() }]}>
+              {isBn
+                ? `আপনি ${counter} সেকেন্ডের মধ্যে লগ আউট হবেন`
+                : `You will be logged out in ${counter} sec`}
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
