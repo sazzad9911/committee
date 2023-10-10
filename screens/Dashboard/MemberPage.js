@@ -168,10 +168,10 @@ export default function MemberPage({ navigation, route }) {
               style={{
                 fontSize: 20,
                 fontWeight: "800",
-                color: textColor,
+                color: "white",
               }}
             >
-              {comity?.totalMembers}
+              {members?.length || "0"}
             </Text>
           </Text>
           <Menu
