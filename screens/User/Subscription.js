@@ -105,6 +105,7 @@ const Header = ({ searchIp, setSearch }) => {
 };
 const Component = ({ navigation }) => {
   const user = useSelector((state) => state.user);
+  const isBn = useSelector((state) => state.isBn);
   const [data, setData] = useState();
   const dispatch = useDispatch();
 
@@ -166,7 +167,7 @@ const Component = ({ navigation }) => {
           />
         ))}
       {data?.length === 0 && (
-        <NoOption title={"You are not a member of comity"} />
+        <NoOption title={isBn?"আপনি এখন পর্যন্ত কোন কমিটির সদস্য হননি":"You are not a member of any comity"} />
       )}
 
       {/* <NoOption title={"You are not a member of comity"}/> */}

@@ -140,7 +140,7 @@ export default function Notice({ navigation, route }) {
                 style={{
                   fontSize: 20,
                   fontWeight: "800",
-                  color: textColor,
+                  color: "#fff",
                 }}>
                 {comity?.totalNotices}
               </Text>
@@ -232,7 +232,7 @@ export default function Notice({ navigation, route }) {
             />
           ))}
           {notices?.length===0&&(
-            <NoOption/>
+            <NoOption subTitle={isBn?"যোগ বাটন এ ক্লিক করে নোটিশ তৈরি করুন":"Create a Notice by clicking the Add button"} title={isBn?"এখন পর্যন্ত কোন নোটিশ তৈরি করা হয়নাই":"No Notice has been created"}/>
           )}
 
           <View style={{ flex: 1, height: 80 }}></View>

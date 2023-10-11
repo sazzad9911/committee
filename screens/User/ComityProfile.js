@@ -22,6 +22,7 @@ import loader from "../../data/loader";
 import { get, post } from "../../apis/multipleApi";
 import toast from "../../data/toast";
 import MoreText from "../../components/main/MoreText";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ComityProfile({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -56,6 +57,7 @@ export default function ComityProfile({ navigation, route }) {
   <path d="M20.1211 5.45312C20.2734 5.33203 20.5 5.44531 20.5 5.63672V13.625C20.5 14.6602 19.6602 15.5 18.625 15.5H2.375C1.33984 15.5 0.5 14.6602 0.5 13.625V5.64062C0.5 5.44531 0.722656 5.33594 0.878906 5.45703C1.75391 6.13672 2.91406 7 6.89844 9.89453C7.72266 10.4961 9.11328 11.7617 10.5 11.7539C11.8945 11.7656 13.3125 10.4727 14.1055 9.89453C18.0898 7 19.2461 6.13281 20.1211 5.45312ZM10.5 10.5C11.4062 10.5156 12.7109 9.35938 13.3672 8.88281C18.5508 5.12109 18.9453 4.79297 20.1406 3.85547C20.3672 3.67969 20.5 3.40625 20.5 3.11719V2.375C20.5 1.33984 19.6602 0.5 18.625 0.5H2.375C1.33984 0.5 0.5 1.33984 0.5 2.375V3.11719C0.5 3.40625 0.632812 3.67578 0.859375 3.85547C2.05469 4.78906 2.44922 5.12109 7.63281 8.88281C8.28906 9.35938 9.59375 10.5156 10.5 10.5Z" fill="${colors.getBorderColor()}"/>
   </svg> 
   `;
+  const inset=useSafeAreaInsets()
 
   const formatPrivacy = (privacy) => {
     switch (privacy) {
@@ -74,6 +76,7 @@ export default function ComityProfile({ navigation, route }) {
     try {
       dispatch(loader.show());
       const { data } = await get(`/comity/get/${comityId}`, user.token);
+      //console.log(data.comity);
       setComity(data.comity);
     } catch (error) {
       console.log(error);
@@ -168,7 +171,7 @@ export default function ComityProfile({ navigation, route }) {
           height: height / 2 + 80,
         }}
         source={{
-          uri: "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
+          uri:comity?.profilePhoto|| "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
         }}
       >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
@@ -183,6 +186,7 @@ export default function ComityProfile({ navigation, route }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
+              marginTop:inset?.top
             }}
           >
             <SvgXml xml={backIcon} />

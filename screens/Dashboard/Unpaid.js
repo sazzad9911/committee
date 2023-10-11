@@ -12,6 +12,7 @@ import { AppColors } from "../../functions/colors";
 export default function UnPaid({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
   const [paidList, setPaidList] = useState([]);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -19,7 +20,7 @@ export default function UnPaid({ navigation }) {
   const comity = useSelector((state) => state.comity);
 
   useEffect(() => {
-    !paidList&&dispatch(loader.show());
+    !paidList && dispatch(loader.show());
     get(`/subs/get-all-subs/${comity.id}`, user.token)
       .then((res) => {
         setPaidList(res.data.subs?.filter((sub) => !sub.completed));
@@ -49,8 +50,14 @@ export default function UnPaid({ navigation }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={"No payment is collected from any member"}
-            subTitle={"Collect payment by clicking on add button"}
+            title={
+              isBn
+                ? "এখন পর্যন্ত কোন চাঁদার লিস্ট তৈরি করা হয়নাই"
+                : "No subscription list has been created"
+            }
+            subTitle={
+              isBn ? "যোগ বাটন এ ক্লিক করে চাঁদা তৈরি করুন" : "Create a subscription by clicking the Add button"
+            }
           />
         )}
         <View style={{ height: 6 }} />

@@ -156,7 +156,7 @@ export default function UserProfile({ navigation, route }) {
                 memberId: data.id,
               });
             }}
-            title={"Subscription"}
+            title={isBn?"চাঁদা":"Subscription"}
             icon={cart}
           />
 
@@ -187,7 +187,7 @@ export default function UserProfile({ navigation, route }) {
               style={{
                 marginHorizontal: 24,
               }}
-              title={"Message"}
+              title={isBn?"চ্যাট":"Message"}
               icon={love}
             />
           )}

@@ -14,6 +14,7 @@ export default function UnPaidSubscription({ navigation, route }) {
   const [paidList, setPaidList] = useState();
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
   const subscriptionId = route?.params?.subscriptionId;
   const data=route?.params?.data;
   const { comity, user } = useSelector((state) => state);
@@ -54,9 +55,8 @@ export default function UnPaidSubscription({ navigation, route }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={"No paid list has been created"}
-            subTitle={"Create a paid by clicking the Add button"}
-          />
+          title={isBn?"কোন কালেকশন নেই":"No collection"}
+        />
         )}
         <View style={{ height: 6 }} />
       </ScrollView>

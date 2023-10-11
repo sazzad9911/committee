@@ -145,7 +145,7 @@ export default function CurrentBalance({ navigation, route }) {
           active={true}
           title={"Confirm"}
         /> */}
-        <ReadMoreComponent textColor={textColor} />
+        {/* <ReadMoreComponent textColor={textColor} /> */}
       </View>
     </ScrollView>
   );

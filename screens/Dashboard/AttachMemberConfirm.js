@@ -64,13 +64,13 @@ export default function AttachMemberConfirm({ navigation, route }) {
               paddingVertical: 20,
             }}
           >
-            Confirm if you want to add this account
+            {isBn?"আপনি এই অ্যাকাউন্ট যোগ করতে চান কিনা তা নিশ্চিত করুন":"Confirm if you want to add this account"}
           </Text>
 
           <Button
             onPress={handelAttach}
             active={true}
-            title={"Confirm"}
+            title={isBn?"নিশ্চিত করুন":"Confirm"}
             style={[mainStyle.mt24, { marginBottom: 32 }]}
           />
           <ReadMoreComponent
@@ -78,8 +78,8 @@ export default function AttachMemberConfirm({ navigation, route }) {
             title={isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message"}
             message={
               isBn
-                ? "যদি সমাজ একাউন্ট এ কাওকে একবার যোগ করা হয় তাহলে সমাজ ব্যাবহার কারির সকল তথ্য কমিটির কাছে চলেআসবে ।এবং কমিটি চাইলে সেটা এডিট করে সংশোধন অ করতে পারবে ইউজার এর সকল কিছু , কিন্তু সে তথ্য গুলি ইউজার এর সাইডে যোগ হবে না, ইউজার কে একবার আলাদা করে আবার যদি এড করা হয় তাহলে সকল তথ্য পুনরায় নতুন করে যোগ হবে কমিটির ওইখানে এবং আবার যদি কমিটি চায় তাহলে সেটা এডিট করে নিতে পারবে"
-                : "Please be informed that by clicking the 'Confirm' button, you will merge this online user with the offline user. This action implies that all data associated with the offline user, including payments and collections, will be transferred to this online user's account. Once merged, you cannot undo this action. The merged user will gain access to all payment information previously associated with the offline user. Please proceed with caution."
+                ? "অনুগ্রহ করে জানানো হচ্ছে যে 'নিশ্চিত করুন' বাটনে ক্লিক করে, আপনি এই অনলাইন ব্যবহারকারীকে অফলাইন ব্যবহারকারীর সাথে যুক্ত করবেন৷ এতে বোঝায় যে অফলাইন ব্যবহারকারীর সাথে সম্পর্কিত সমস্ত ডেটা, পেমেন্ট সংক্রান্ত সকল কিছু এই অনলাইন ব্যবহারকারীর অ্যাকাউন্টে স্থানান্তর করা হবে৷ একবার একত্রিত হয়ে গেলে, আপনি এই কাজটিকে আগের অবস্থায় ফিরিয়ে আনতে পারবেন না এবং এই অনলাইন ব্যবহারকারী অফলাইন ব্যবহারকারীর সমস্ত অর্থপ্রদানের তথ্যের অ্যাক্সেস লাভ করবে৷ অনুগ্রহ করে সতর্কতার সাথে এগিয়ে যান"
+                : "Please be informed that by clicking the 'Confirm' button, you will merge this online user with the offline user. This action implies that all data associated with the offline user, including payments and collections, will be transferred to this online user's account. Once merged, you cannot undo this action. The online user will gain access to all payment information previously associated with the offline user. Please proceed with caution"
             }
           />
         </View>

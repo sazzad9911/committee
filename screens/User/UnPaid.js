@@ -15,6 +15,7 @@ import mainStyle from "../../styles/mainStyle";
 export default function Unpaid({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const [isLoading, setIsLoading] = React.useState(true);
@@ -51,7 +52,7 @@ export default function Unpaid({ navigation, route }) {
             title={doc.name}
           />
         ))}
-        {collections?.length === 0 && <NoOption />}
+        {collections?.length === 0 &&<NoOption title={isBn?"এই কমিটিতে আপানার কোন চাঁদা নেই":"You have no any subscriptions in this comity"} />}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

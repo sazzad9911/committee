@@ -93,7 +93,7 @@ export default function Collection({ navigation }) {
             }}
           />
         ))}
-        {collectionList?.length == 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন কালেকশন যোগ করা হয়নি":"No collection added"} />}
+        {collectionList?.length == 0 && <NoOption title={isBn?"কোন চাঁদার কালেকশন যোগ করা হয়নি":"No collections added"} />}
         <View style={{ height: 32 }} />
       </ScrollView>
     </View>

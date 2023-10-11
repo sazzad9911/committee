@@ -15,6 +15,7 @@ import mainStyle from "../../styles/mainStyle";
 
 export default function Paid({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
@@ -63,7 +64,7 @@ export default function Paid({ navigation, route }) {
             }}
           />
         ))}
-        {collections?.length === 0 && <NoOption />}
+        {collections?.length === 0 && <NoOption title={isBn?"এই কমিটিতে আপানার কোন চাঁদা নেই":"You have no any subscriptions in this comity"} />}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

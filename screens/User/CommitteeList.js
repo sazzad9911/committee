@@ -132,7 +132,7 @@ export default function CommitteeList({ navigation }) {
                 key={i}
               />
             ))}
-          {data && data.length == 0 && <NoOption />}
+          {data && data.length == 0 && <NoOption title={isBn?"আপনি এখন পর্যন্ত নিজের কোন কমিটি গঠন করেননি":"You have not created your own comity"} />}
           <View style={{ height: 100 }} />
         </View>
       </ScrollView>

@@ -182,7 +182,7 @@ export default function Member({ navigation, route }) {
             />
           ))}
           {sortedMember?.length == 0 && (
-            <NoOption title={"Ops!"} subTitle={"Member not found"} />
+            <NoOption title={isBn?"এখন পর্যন্ত কোন সদস্য এড করা হয়নি":"No members added"} subTitle={isBn?"বাটন এ ক্লিক করে সদস্য এড করুন":"Add member by clicking the button"} />
           )}
         </View>
       }

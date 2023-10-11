@@ -119,7 +119,7 @@ export class AppValues {
     }
   }
   getEditProfileHeadLine() {
-    return this.isBn ? "Address" : "Address";
+    return this.isBn ? "ঠিকানা" : "Address";
   }
   getSearch() {
     return this.isBn ? "খুঁজুন" : "Search";
@@ -287,7 +287,7 @@ export class AppValues {
           _selectProvider: "দাতা নির্বাচন করুন",
           _selectPayee: "পরিশোধ দাতা নির্বাচন করুন",
           _addFromComity: "বর্তমান সদস্য লিস্ট থেকে নির্বাচন করুন",
-          _addFromComityAlt: "Add From Comity Users",
+          _addFromComityAlt: "কমিটি ব্যবহারকারিদের থেকে এড করুন",
           _createMemberOwn: "নতুন দাতা তৈরি করুন",
           _memberInfo: "ব্যাক্তির তথ্য",
           _name: "নাম",
@@ -304,7 +304,7 @@ export class AppValues {
           _max50: "সর্বোচ্চ ৫০  অক্ষর",
           _positionPlaceholder: "উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",
           _notRequired: "বাধ্যতা মূলক নয়",
-          _account: "একাউন্ট",
+          _account: "নিশ্চিতকরণ",
           _deleteCofirmation:
             "একাউন্টটি এখান থেকে আলাদা করতে চাইলে নিশ্চিত করুন",
           _support: "সাপোর্ট",
@@ -400,7 +400,7 @@ export class AppValues {
           _max50: "Max 50 character",
           _positionPlaceholder: "Example:General Member,Member, Chairman E.T.C",
           _notRequired: "Not Required",
-          _account: "Account",
+          _account: "Confirmation",
           _deleteCofirmation:
             "Confirm if you want to separate the account from here",
           _support: "Support",

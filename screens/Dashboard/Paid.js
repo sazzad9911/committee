@@ -13,12 +13,13 @@ export default function Paid({ navigation }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
   const isFocused = useIsFocused();
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    !paidList&&dispatch(loader.show());
+    !paidList && dispatch(loader.show());
     get(`/subs/get-all-subs/${comity.id}`, user.token)
       .then((res) => {
         dispatch(loader.hide());
@@ -46,8 +47,16 @@ export default function Paid({ navigation }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={"No subscription list has been created"}
-            subTitle={"Create a subscription by clicking the Add button"}
+            title={
+              isBn
+                ? "এখন পর্যন্ত কোন চাঁদার লিস্ট তৈরি করা হয়নাই"
+                : "No subscription list has been created"
+            }
+            subTitle={
+              isBn
+                ? "যোগ বাটন এ ক্লিক করে চাঁদা তৈরি করুন"
+                : "Create a subscription by clicking the Add button"
+            }
           />
         )}
         <View style={{ height: 6 }} />

@@ -42,6 +42,10 @@ export default function BackHeader({title,onPress,navigation,style}) {
             position: "absolute",
             zIndex: 100,
             left: 20,
+            width:50,
+            height:28,
+            justifyContent:"center",
+           
           }}>
           <SvgXml xml={icon} />
         </Pressable>

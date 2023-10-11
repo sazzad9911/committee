@@ -83,6 +83,9 @@ export default function DeleteMemberCollection({ navigation, route }) {
                     dispatch(toast.error(err.response.data.msg));
                   });
               },
+              rmTitle:isBn?"গুরুত্বপূর্ণ মেসেজ":"Important message",
+              rmMessage:isBn?"অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, কালেকশনটি স্থায়ীভাবে মুছে যাবে, এবং একবার মুছে ফেলার পর এটি কে আগের অবস্থায় ফেরানো যাবে না৷ সতর্কতার সাথে এগিয়ে যান, কারণ এই কালেকশনটি একবার মুছে ফেলার পরে পুনরায় ফিরিয়ে আনা সম্ভব নয়৷":"Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone.Proceed with caution, as this payment collection data will be irretrievable once deleted"
+
             });
           }}
           style={{

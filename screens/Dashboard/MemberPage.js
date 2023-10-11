@@ -302,7 +302,7 @@ export default function MemberPage({ navigation, route }) {
         />
       ))}
       {sort?.length === 0 && (
-        <NoOption title={"Ops!"} subTitle={"Nothing found"} />
+        <NoOption title={isBn?"কোন সদস্য পাওয়া যায়নি":"No members Found"} />
       )}
     </ScrollView>
   );

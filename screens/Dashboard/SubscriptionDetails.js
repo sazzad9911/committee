@@ -112,6 +112,7 @@ const Header = ({
 }) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const day = newDate.getDay();
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
@@ -155,7 +156,7 @@ const Header = ({
       </View>
       <View style={[mainStyle.flexBox]}>
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-          পরিমাণের লক্ষ{"    "}
+          {isBn?"পরিমাণের লক্ষ":"Target Amount"}{"    "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
             {data?.amount}
           </Text>

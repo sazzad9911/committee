@@ -78,7 +78,7 @@ export default function Expenses({ navigation,route }) {
             navigation={navigation}
           />
         ))}
-        {data?.length == 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি":"No expenses added"} />}
+        {data?.length == 0 && <NoOption title={isBn?"কোন খরচ যোগ করা হয়নি":"No expenses added"} />}
 
         <View style={{ height: 90 }} />
       </ScrollView>

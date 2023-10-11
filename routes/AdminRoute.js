@@ -285,12 +285,7 @@ export default function AdminRoute() {
             />
             <Stack.Screen
               options={{
-                header: (props) => (
-                  <BackHeader
-                    title={values.getValues()._selectProvider}
-                    {...props}
-                  />
-                ),
+                headerShown:false
               }}
               name="SelectMemberType"
               component={SelectMemberType}
@@ -487,7 +482,7 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Confirmation"} {...props} />
+                  <BackHeader title={isBn?"নিশ্চিতকরণ":"Confirmation"} {...props} />
                 ),
               }}
               name="DeleteComity"
@@ -496,7 +491,7 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Confirmation"} {...props} />
+                  <BackHeader title={isBn?"নিশ্চিতকরণ":"Confirmation"} {...props} />
                 ),
               }}
               name="AttachMemberConfirm"
