@@ -86,9 +86,11 @@ export default function Collection({ navigation }) {
             borderColor={borderColor}
             data={doc}
             onPress={() => {
+             
               navigation.navigate("MemberSubDetails", {
                 subscriptionId: doc.subscriptionId,
                 memberId: doc.memberId,
+                paid:doc.paid,
               });
             }}
           />

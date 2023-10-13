@@ -147,8 +147,8 @@ export default function AdminRoute() {
       style={{
         flex: 1,
       }}>
-      <StatusBar
-        backgroundColor={backgroundColor}
+     <StatusBar
+        backgroundColor={isDark?"#1F1F1F":"#F6F6F6"}
         style={isDark ? "light" : "dark"}
       />
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>

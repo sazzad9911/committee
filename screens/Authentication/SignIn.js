@@ -20,7 +20,6 @@ import { userLogin } from "../../apis/authApi";
 import loader from "../../data/loader";
 import localStorage from "../../functions/localStorage";
 import mainStyle from "../../styles/mainStyle";
-import isBn from "../../data/isBn";
 
 const LogIn = ({ navigation }) => {
   const [Email, setEmail] = React.useState();
@@ -32,6 +31,7 @@ const LogIn = ({ navigation }) => {
   const userRef = useRef();
   const passRef = useRef();
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const inset = useSafeAreaInsets();

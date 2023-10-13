@@ -56,9 +56,7 @@ export default function Profile({ navigation }) {
         >
           <Avatar
             style={mainStyle.mt12}
-            url={
-              "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg"
-            }
+            source={{uri:user.user.profilePhoto}}
           />
           <View
             style={{

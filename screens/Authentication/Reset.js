@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
-import isBn from "../../data/isBn";
 
 import pic from "../../assets/pic.jpeg";
 import { resetUserPassword } from "../../apis/authApi";
@@ -30,6 +29,8 @@ export default function Reset({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
+  const isBn = useSelector((state) => state.isBn);
+
 
   const verify = async () => {
     setPasswordError();

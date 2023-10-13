@@ -16,7 +16,6 @@ import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
-import isBn from "../../data/isBn";
 
 export default function SignUp({ navigation, route }) {
   const [number, setNumber] = useState("");
@@ -25,6 +24,7 @@ export default function SignUp({ navigation, route }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const scrollRef = useRef();
+  const isBn = useSelector((state) => state.isBn);
   const inset = useSafeAreaInsets();
   const dispatch = useDispatch();
 

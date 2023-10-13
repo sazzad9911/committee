@@ -73,6 +73,7 @@ export default function Member({ navigation, route }) {
   const getMember = async () => {
     const res = await get(`/member/get-all/${comity.id}`, user.token);
     setAllMember(res.data.members);
+    setSortedMember(res.data.members)
     dispatch(loader.hide());
   };
   useEffect(() => {
@@ -89,33 +90,29 @@ export default function Member({ navigation, route }) {
       setSortedMember(allMember);
     }
   }, [allMember, searchIp]);
-
-  const Bottom = ({ filterData, onChoose, value }) => {
-    return (
-      <View
-        style={{
-          paddingHorizontal: 16,
-        }}>
-        <Text
-          style={[
-            mainStyle.level,
-            { color: colors.getTextColor(), textAlign: "center" },
-          ]}>
-          {headlines._choose}
-        </Text>
-        <View style={{ height: 24 }} />
-
-        {filterData?.map((doc, i) => (
-          <SheetCard
-            select={doc === value ? true : false}
-            title={doc}
-            key={i}
-            onPress={()=>onChoose(doc)}
-          />
-        ))}
-      </View>
-    );
-  };
+  useEffect(()=>{
+    if(filterData.indexOf(choose)===0){
+      setSortedMember(allMember)
+    }else if(filterData.indexOf(choose)===1){
+      setSortedMember(allMember?.filter(d=>d?.category==="General"))
+    }else if(filterData.indexOf(choose)===2){
+      setSortedMember(allMember?.filter(d=>d?.category==="Special"))
+    }else if(filterData.indexOf(choose)===3){
+      setSortedMember(allMember?.filter(d=>d?.gender==="Female"||d?.user?.gender==="Female"))
+    }else if(filterData.indexOf(choose)===4){
+      setSortedMember(allMember?.filter(d=>d?.gender==="Male"||d?.user?.gender==="Male"))
+    }else if(filterData.indexOf(choose)===5){
+      setSortedMember(allMember?.filter(d=>(d?.age>=1&&d?.age<=20)||(d?.user?.age>=1&&d?.user?.age<=20)))
+    }else if(filterData.indexOf(choose)===6){
+      setSortedMember(allMember?.filter(d=>(d?.age>=21&&d?.age<=40)||(d?.user?.age>=21&&d?.user?.age<=40)))
+    }else if(filterData.indexOf(choose)===7){
+      setSortedMember(allMember?.filter(d=>(d?.age>=41&&d?.age<=60)||(d?.user?.age>=41&&d?.user?.age<=60)))
+    }else if(filterData.indexOf(choose)===8){
+      setSortedMember(allMember?.filter(d=>(d?.age>=61&&d?.age<=80)||(d?.user?.age>=61&&d?.user?.age<=80)))
+    }else{
+      setSortedMember(allMember)
+    }
+  },[choose])
 
   return (
     <HidableHeaderLayout
@@ -220,6 +217,8 @@ export default function Member({ navigation, route }) {
                 value={choose}
                 onChoose={setChoose}
                 filterData={filterData}
+                colors={colors}
+                headlines={headlines}
               />
             </BottomSheetScrollView>
             <Button
@@ -345,3 +344,29 @@ const plus = `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns=
 </defs>
 </svg>
 `;
+const Bottom = ({ filterData, onChoose, value,headlines,colors }) => {
+  return (
+    <View
+      style={{
+        paddingHorizontal: 16,
+      }}>
+      <Text
+        style={[
+          mainStyle.level,
+          { color: colors.getTextColor(), textAlign: "center" },
+        ]}>
+        {headlines._choose}
+      </Text>
+      <View style={{ height: 24 }} />
+
+      {filterData?.map((doc, i) => (
+        <SheetCard
+          select={doc === value ? true : false}
+          title={doc}
+          key={i}
+          onPress={()=>onChoose(doc)}
+        />
+      ))}
+    </View>
+  );
+};

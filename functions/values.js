@@ -119,7 +119,7 @@ export class AppValues {
     }
   }
   getEditProfileHeadLine() {
-    return this.isBn ? "ঠিকানা" : "Address";
+    return this.isBn ? "সংশোধন" : "Edit";
   }
   getSearch() {
     return this.isBn ? "খুঁজুন" : "Search";

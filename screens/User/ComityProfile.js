@@ -215,10 +215,10 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.membersPrivacy === "Public") {
-              navigation.navigate("MemberPage");
+              navigation.navigate("MemberPage",{comity:comity});
             } else if (comity?.membersPrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("MemberPage");
+                navigation.navigate("MemberPage",{comity:comity});
               }
             }
           }}
@@ -240,10 +240,12 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.specialMembersPrivacy === "Public") {
-              navigation.navigate("MemberPage", { special: true });
+
+              navigation.navigate("MemberPage",{comity:comity,special: true });
+              
             } else if (comity?.specialMembersPrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("MemberPage", { special: true });
+                navigation.navigate("MemberPage",{comity:comity,special: true });
               }
             }
           }}
@@ -266,10 +268,10 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.balancePrivacy === "Public") {
-              navigation.navigate("CurrentBalance");
+              navigation.navigate("CurrentBalance",{comity:comity});
             } else if (comity?.balancePrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("CurrentBalance");
+                navigation.navigate("CurrentBalance",{comity:comity});
               }
             }
           }}
@@ -291,10 +293,10 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.noticePrivacy === "Public") {
-              navigation.navigate("Notice");
+              navigation.navigate("Notice",{comity:comity});
             } else if (comity?.noticePrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("Notice");
+                navigation.navigate("Notice",{comity:comity});
               }
             }
           }}

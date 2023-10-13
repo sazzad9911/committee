@@ -18,7 +18,6 @@ import {
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
 import { AppColors } from "../../functions/colors";
-import isBn from "../../data/isBn";
 
 export default function Otp({ navigation, route }) {
   const number = route?.params?.number;
@@ -31,6 +30,7 @@ export default function Otp({ navigation, route }) {
   const reset = route?.params?.reset;
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
   const textColor = colors.getTextColor();
   const scrollRef = useRef();
 

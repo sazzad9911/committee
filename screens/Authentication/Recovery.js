@@ -17,7 +17,6 @@ import { AppColors } from "../../functions/colors";
 import { sendRecoverOtp } from "../../apis/api";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
-import isBn from "../../data/isBn";
 
 export default function Recovery({ navigation, route }) {
   const [number, setNumber] = useState();
@@ -26,6 +25,8 @@ export default function Recovery({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
+  const isBn = useSelector((state) => state.isBn);
+
 
   const sendOtp = async () => {
     try {

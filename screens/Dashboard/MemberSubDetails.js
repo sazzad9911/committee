@@ -14,6 +14,7 @@ import ProfilePicture from "../../components/main/ProfilePicture";
 import mainStyle from "../../styles/mainStyle";
 import { SvgXml } from "react-native-svg";
 import { useIsFocused } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function MemberSubDetails({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -25,10 +26,13 @@ export default function MemberSubDetails({ navigation, route }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
-  const { subscriptionId, memberId } = route?.params;
+  const { subscriptionId, memberId, paid } = route?.params;
   const [paidList, setPaidList] = useState([]);
   const dispatch = useDispatch();
   const isFocus = useIsFocused();
+
+  const ac = ["#1488CC", "#2B32B2"];
+  const dc = ["#FF5C5C", "#FF6B6B"];
 
   const handelDelete = async () => {
     try {
@@ -66,90 +70,90 @@ export default function MemberSubDetails({ navigation, route }) {
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View
+        <LinearGradient
           style={{
             paddingTop: inset.top,
-            backgroundColor: colors.getSchemeColor(),
+            backgroundColor: "green",
             flex: 1,
           }}
-        >
+          colors={paid ? ac : dc}>
           <View
             style={{
-              height: 32,
-            }}
-          />
-          <Pressable
-            onPress={async () => {
-              navigation.navigate("DeleteConfirmation", {
-                title: values.getValues()._subsMemberDeleteMessage,
-                onPress: () => handelDelete(),
-                rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
-                rmMessage: isBn
-                  ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বোতামে ক্লিক করবেন, সংগ্রহটি স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরানো যাবে না"
-                  : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone",
-              });
-            }}
-            style={{
-              position: "absolute",
-              right: 20,
-              top: inset.top + 20,
-            }}
-          >
-            <SvgXml xml={deleteIcon} />
-          </Pressable>
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              paddingHorizontal: 20,
-              paddingBottom: 20,
-            }}
-          >
-            <ProfilePicture
-              size={54}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUInq67sadNgn_XinuvN43Tx5LdBN83plfwUJTCUk&s",
+              paddingTop: inset.top,
+              flex: 1,
+            }}>
+            <View
+              style={{
+                height: 32,
               }}
             />
-            <Text
-              numberOfLines={1}
-              style={[
-                mainStyle.headLine,
-                {
-                  color: colors.getTextColor(),
-                  marginVertical: 0,
-                  marginTop: 10,
-                },
-              ]}
-            >
-              {data?.member?.name || data?.member?.user?.name || "N/A"}
-            </Text>
-            <Text
-              style={[
-                mainStyle.text14,
-                { color: colors.getTextColor(), marginTop: 5 },
-              ]}
-            >
-              {data?.member?.gender || data?.member?.user?.gender || "Male"}
-            </Text>
-            <Text
-              style={[
-                mainStyle.text14,
-                { color: colors.getTextColor(), marginTop: 10 },
-              ]}
-            >
-              {data?.member?.mobile || data?.member?.user?.mobile || "N/A"}
-            </Text>
-            <Text
-              style={[
-                mainStyle.text14,
-                { color: colors.getTextColor(), marginTop: 5 },
-              ]}
-            >
-              {data ? data.member.address : "N/A"}
-            </Text>
+            <Pressable
+              onPress={async () => {
+                navigation.navigate("DeleteConfirmation", {
+                  title: values.getValues()._subsMemberDeleteMessage,
+                  onPress: () => handelDelete(),
+                  rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+                  rmMessage: isBn
+                    ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বোতামে ক্লিক করবেন, সংগ্রহটি স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরানো যাবে না"
+                    : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone",
+                });
+              }}
+              style={{
+                position: "absolute",
+                right: 20,
+                top: inset.top + 20,
+              }}>
+              <SvgXml xml={deleteIcon} />
+            </Pressable>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                paddingHorizontal: 20,
+                paddingBottom: 20,
+              }}>
+              <ProfilePicture
+                size={54}
+                source={{
+                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUInq67sadNgn_XinuvN43Tx5LdBN83plfwUJTCUk&s",
+                }}
+              />
+              <Text
+                numberOfLines={1}
+                style={[
+                  mainStyle.headLine,
+                  {
+                    color: colors.getTextColor(),
+                    marginVertical: 0,
+                    marginTop: 10,
+                  },
+                ]}>
+                {data?.member?.name || data?.member?.user?.name || "N/A"}
+              </Text>
+              <Text
+                style={[
+                  mainStyle.text14,
+                  { color: colors.getTextColor(), marginTop: 5 },
+                ]}>
+                {data?.member?.gender || data?.member?.user?.gender || "Male"}
+              </Text>
+              <Text
+                style={[
+                  mainStyle.text14,
+                  { color: colors.getTextColor(), marginTop: 10 },
+                ]}>
+                {data?.member?.mobile || data?.member?.user?.mobile || "N/A"}
+              </Text>
+              <Text
+                style={[
+                  mainStyle.text14,
+                  { color: colors.getTextColor(), marginTop: 5 },
+                ]}>
+                {data ? data.member.address : "N/A"}
+              </Text>
+            </View>
           </View>
-        </View>
+        </LinearGradient>
         <View style={{ height: 6 }} />
         {paidList &&
           paidList.map((doc, i) => (

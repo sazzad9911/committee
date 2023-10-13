@@ -18,7 +18,7 @@ import mainStyle from "../../styles/mainStyle";
 import MemberCardAlien from "../../components/cart/MemberCardAlien";
 const { width, height } = Dimensions.get("window");
 
-export default function MemberPage({ navigation, route }) {
+export default function UserMemberPage({ navigation, route }) {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const isDark = useSelector((state) => state.isDark);
@@ -34,7 +34,7 @@ export default function MemberPage({ navigation, route }) {
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
   const special = route?.params?.special;
-  const comity = useSelector((state) => state.comity);
+  const {comity} = route?.params;
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [members, setMembers] = useState();
@@ -175,70 +175,7 @@ export default function MemberPage({ navigation, route }) {
               {members?.length || "0"}
             </Text>
           </Text>
-          <Menu
-            contentStyle={{ backgroundColor: backgroudColor }}
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={
-              <Pressable
-                onPress={openMenu}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <SvgXml xml={eye} />
-                <Text
-                  style={{
-                    color: isDark
-                      ? "rgba(255, 255, 255, 1)"
-                      : "rgba(255, 255, 255, 1)",
-                    marginHorizontal: 5,
-                  }}
-                >
-                  {!special &&
-                    (comity?.membersPrivacy === "Private"
-                      ? comityListText.private
-                      : comity?.membersPrivacy === "Public"
-                      ? comityListText.public
-                      : comityListText.membersOnly)}
-                  {special &&
-                    (comity?.specialMembersPrivacy === "Private"
-                      ? comityListText.private
-                      : comity?.specialMembersPrivacy === "Public"
-                      ? comityListText.public
-                      : comityListText.membersOnly)}
-                </Text>
-                <SvgXml xml={bottom} />
-              </Pressable>
-            }
-          >
-            <Menu.Item
-              titleStyle={{ color: textColor }}
-              onPress={() => {
-                upload("Private");
-                setVisible(false);
-              }}
-              title={comityListText.private}
-            />
-            <Menu.Item
-              titleStyle={{ color: textColor }}
-              onPress={() => {
-                upload("Public");
-                setVisible(false);
-              }}
-              title={comityListText.public}
-            />
-
-            <Menu.Item
-              titleStyle={{ color: textColor }}
-              onPress={() => {
-                upload("MembersOnly");
-                setVisible(false);
-              }}
-              title={comityListText.membersOnly}
-            />
-          </Menu>
+          
         </View>
         <Input
           value={searches}
@@ -260,42 +197,8 @@ export default function MemberPage({ navigation, route }) {
         <MemberCardAlien
           accepted
           position={doc.position}
-          onPress={() => navigation.navigate("UserProfile", { data: doc })}
-          onAdd={async () => {
-            if (doc.status === "Accepted") {
-              dispatch(loader.show());
-              try {
-                const res = await post(
-                  "/chat/conversation/create",
-                  {
-                    userId: doc.userId,
-                    comityId: doc.comityId,
-                  },
-                  user.token
-                );
-                navigation.navigate("ChatScreen", {
-                  conversationId: res.data.conversation.id,
-                });
-                dispatch(loader.hide());
-              } catch (e) {
-                console.error(e.message);
-                dispatch(loader.hide());
-                dispatch(toast.error("Error loading"));
-              }
-              return;
-            }
-            dispatch(loader.show());
-            try {
-              await deletes(`/member/delete/${doc.id}`, user.token);
-              dispatch(loader.hide());
-              dispatch(toast.success("Member deleted"));
-              fetch();
-            } catch (e) {
-              dispatch(loader.hide());
-              dispatch(toast.error("Request failed"));
-              console.error(e);
-            }
-          }}
+          //onPress={() => navigation.navigate("UserProfile", { data: doc })}
+          offline
           name={doc.user ? doc.user.name : doc.name}
           url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
           textColor={colors.getTextColor()}

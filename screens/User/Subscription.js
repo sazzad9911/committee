@@ -1,4 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Dimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -68,6 +69,7 @@ const Header = ({ searchIp, setSearch }) => {
       start={{ x: 0.2, y: 0 }}
       colors={!isDark ? ac : dc}
     >
+      
       <View
         style={{
           justifyContent: "space-between",
