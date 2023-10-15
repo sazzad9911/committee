@@ -62,42 +62,8 @@ const ComityChatScreen = (props) => {
   const data = params && params.data ? params.data : null;
   const conversationId = params.conversationId;
   const [messages, setMessages] = useState([]);
-  const styles = StyleSheet.create({
-    view: {
-      flexDirection: "row",
-      paddingHorizontal: 10,
-      alignItems: "center",
-      backgroundColor: primaryColor,
-      shadowOffset: {
-        width: 1,
-        height: 1,
-      },
-      shadowColor: backgroundColor,
-      shadowRadius: 3,
-      elevation: 3,
-      paddingVertical: 5,
-    },
-    icon: {
-      margin: 5,
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    input: {
-      backgroundColor: secondaryColor,
-      flex: 7,
-      height: 40,
-      fontSize: 14,
-      borderRadius: 20,
-      paddingHorizontal: 10,
-      fontFamily: "Poppins-Light",
-    },
-  });
   const [UserInfo, setUserInfo] = React.useState();
   const user = useSelector((state) => state.user);
-  const [Loader, setLoader] = React.useState(false);
-  const [Id, setId] = React.useState();
-  const isFocused = useIsFocused();
   const [Refresh, setRefresh] = React.useState(false);
   const inset = useSafeAreaInsets();
   const dispatch = useDispatch();
@@ -143,7 +109,6 @@ const ComityChatScreen = (props) => {
     //console.log(UserInfo)
     const regex = /((http|https|ftp):\/\/[^\s]+)/g;
     const navigation = useNavigation();
-
     if (!currentMessage) {
       return null;
     }
@@ -372,10 +337,7 @@ const ComityChatScreen = (props) => {
       </View>
     );
   };
-  const LeftBubble = (props) => {
-    const currentMessage = props?.item;
-  };
-
+  
   const fetchMessages = async () => {
     try {
       const { data } = await getMessages(conversationId, lim, 0);

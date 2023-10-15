@@ -10,19 +10,23 @@ import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 import { getPaidSubsByComityUser } from "../../apis/api";
 
-export default function PaidSubsMember({ navigation, memberId }) {
+export default function PaidSubsMember({ navigation,route }) {
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
-  const [paidList, setPaidList] = useState([]);
+  const [paidList, setPaidList] = useState();
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const {memberId}=route?.params;
 
-  const { comity, user } = useSelector((state) => state);
+//console.log(memberId);
+  const comity  = useSelector((state) => state.comity);
   useEffect(() => {
     const fetch = async () => {
       try {
         dispatch(loader.show());
         const { data } = await getPaidSubsByComityUser(comity.id, memberId);
+        //console.log(data.subs);
         setPaidList(data.subs);
       } catch (error) {
         console.log(error);
@@ -31,7 +35,7 @@ export default function PaidSubsMember({ navigation, memberId }) {
       }
     };
     fetch();
-  }, [isFocused]);
+  }, [isFocused,memberId,comity]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
@@ -42,6 +46,7 @@ export default function PaidSubsMember({ navigation, memberId }) {
             <SubscriptionCard
               data={doc}
               key={i}
+              index={i+1}
               onPress={() => {
                 navigation?.navigate("MemberSubDetails", {
                   subscriptionId: doc.id,
@@ -52,7 +57,7 @@ export default function PaidSubsMember({ navigation, memberId }) {
             />
           ))}
         {paidList?.length == 0 && (
-          <NoOption title={"No subscription list found"} />
+          <NoOption title={isBn?"কোন কালেকশন নেই":"No collection"} />
         )}
         <View style={{ height: 6 }} />
       </ScrollView>

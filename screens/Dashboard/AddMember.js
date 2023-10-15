@@ -85,7 +85,7 @@ export default function AddMember({ navigation, route }) {
                 user.token
               );
               dispatch(loader.hide());
-              dispatch(toast.success("Request send"));
+              dispatch(toast.success(isBn?"অনুরুধটি সফল ভাবে পাঠানো হয়েছে":"Member Request sent"));
               navigation.goBack();
             } catch (e) {
               dispatch(loader.hide());

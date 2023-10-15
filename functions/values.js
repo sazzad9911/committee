@@ -334,7 +334,7 @@ export class AppValues {
             "সদস্যের লিস্ট থেকে চাঁদাটি মুছে ফেলার জন্য নিশ্চিত করুন",
           _seeProfile: "প্রোফাইল দেখুন",
           _deleteThisAccount: "এই অ্যাকাউন্টটি ডিলিট করুন",
-          _addHisComityAccount: "তার সমাজ একাউন্টটি এখানে যোগ করুন",
+          _addHisComityAccount: "তার কমিটি একাউন্টটি এখানে যোগ করুন",
           _deleteOnly: "শুধুমাত্র সদস্য মুছে ফেলুন",
           _memberAndCollectionDelete: "সদস্য এবং সমস্ত কালেকশন ডিলিট করুন",
           _exampleGeneral: "উদাহরণ:সাধারণ সদস্য,মেম্বর, সভাপতি ইত্যাদি",

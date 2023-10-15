@@ -203,6 +203,8 @@ export default function UserMemberPage({ navigation, route }) {
           url={doc.user ? doc.user.profilePhoto : doc.profilePhoto}
           textColor={colors.getTextColor()}
           key={i}
+          backgroundColor={colors.getBackgroundColor()}
+          borderColor={colors.getShadowColor()}
         />
       ))}
       {sort?.length === 0 && (

@@ -38,26 +38,18 @@ export default function AddMemberSubscription({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const update = route?.params?.update;
+  console.log(update);
 
   const updateData = () => {
-    if (data?.paid) {
-      dispatch(loader.show());
-      put(`/subs/unpaid/collection/${data.id}`, null, user.token)
-        .then((res) => {
-          dispatch(loader.hide());
-          navigation.goBack();
-        })
-        .catch((e) => {
-          dispatch(loader.hide());
-          dispatch(toast.error(e.response.data.msg));
-        });
-      return;
-    }
-
     dispatch(loader.show());
-    put(`/subs/paid/collection/${data.id}`, null, user.token)
+    put(`/subs/update-collection`, {
+      collectionId:data.id,
+      amount:amount,
+      paid:paid?"true":'false'
+    }, user.token)
       .then((res) => {
         dispatch(loader.hide());
+        console.log(res.data);
         navigation.goBack();
       })
       .catch((e) => {
@@ -134,7 +126,7 @@ export default function AddMemberSubscription({ navigation, route }) {
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
             <Input
-              editable={update ? false : true}
+              //editable={update ? false : true}
               value={amount}
               onChange={setAmount}
               keyboardType={"numeric"}

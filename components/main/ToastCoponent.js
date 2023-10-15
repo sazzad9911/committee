@@ -29,14 +29,15 @@ export default function ToastComponent() {
         }}>
         <View
           style={{
-            backgroundColor: isDark ? "#D0D3D4" : "#566573",
+            backgroundColor: isDark ? "#161616" : "#161616",
             borderRadius: 5,
             paddingHorizontal: 10,
             paddingVertical: 12,
             flexDirection: "row",
             alignItems: "center",
+            opacity:isDark?1:.6
           }}>
-          <AntDesign
+          {toast.type!="success"&&(<AntDesign
             name={
               toast.type == "error"
                 ? "closecircle"
@@ -52,10 +53,10 @@ export default function ToastComponent() {
                 ? "green"
                 : textColor
             }
-          />
+          />)}
           <Text
             style={{
-              color: textColor,
+              color: "#fff",
               fontWeight: "500",
               fontSize: 16,
               marginLeft: 10,

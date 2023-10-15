@@ -46,6 +46,7 @@ export default function UserViewNotice({ route, navigation }) {
     <View
       style={{
         flex: 1,
+        backgroundColor:colors.getBackgroundColor()
       }}
     >
       <CustomHeader

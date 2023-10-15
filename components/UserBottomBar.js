@@ -166,7 +166,7 @@ export default function UserBottomBar({ navigation, state }) {
                   height: 2,
                   marginHorizontal: 20,
                   backgroundColor: isDark ? "#ffffff" : "#737AFF",
-                },
+                 },
               ]}
             />
           </Animated.View>
@@ -175,7 +175,7 @@ export default function UserBottomBar({ navigation, state }) {
           style={style.buttons}
           onPress={() => {
             setRoute(0);
-            navigation?.navigate("Home");
+            navigation?.navigate(state.routeNames[0]);
           }}
         >
           <SvgXml xml={route == 0 ? homeActiveIcon : homeIcon} />
@@ -187,7 +187,7 @@ export default function UserBottomBar({ navigation, state }) {
           style={style.buttons}
           onPress={() => {
             setRoute(1);
-            navigation?.navigate("Subscription");
+            navigation?.navigate(state.routeNames[1]);
           }}
         >
           <SvgXml xml={route == 1 ? subsActiveIcon : subsIcon} />
@@ -199,7 +199,7 @@ export default function UserBottomBar({ navigation, state }) {
           style={style.buttons}
           onPress={() => {
             setRoute(2);
-            navigation?.navigate("Inbox");
+            navigation?.navigate(state.routeNames[2]);
           }}
         >
           <SvgXml xml={route == 2 ? inboxActiveIcon : inboxIcon} />
@@ -211,7 +211,7 @@ export default function UserBottomBar({ navigation, state }) {
           style={style.buttons}
           onPress={() => {
             setRoute(3);
-            navigation?.navigate("Notification");
+            navigation?.navigate(state.routeNames[3]);
           }}
         >
           <Ionicons
@@ -240,7 +240,7 @@ export default function UserBottomBar({ navigation, state }) {
           style={[style.buttons]}
           onPress={() => {
             setRoute(4);
-            navigation?.navigate("Profile");
+            navigation?.navigate(state.routeNames[4]);
           }}
         >
           <SvgXml xml={route == 4 ? profileActiveIcon : profileIcon} />

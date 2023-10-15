@@ -13,10 +13,12 @@ import {
   getUnpaidSubsByComityUser,
 } from "../../apis/api";
 
-export default function UnpaidSubsMember({ navigation, memberId }) {
+export default function UnpaidSubsMember({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-  const [paidList, setPaidList] = useState([]);
+  const isBn = useSelector((state) => state.isBn);
+  const [paidList, setPaidList] = useState();
+  const {memberId}=route?.params;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -27,21 +29,25 @@ export default function UnpaidSubsMember({ navigation, memberId }) {
         dispatch(loader.show());
         const { data } = await getUnpaidSubsByComityUser(comity.id, memberId);
         setPaidList(data.subs);
+       // console.log(data.subs);
+        dispatch(loader.hide());
       } catch (error) {
         console.log(error);
-      } finally {
+
         dispatch(loader.hide());
+      } finally {
+        
       }
     };
     fetch();
-  }, [isFocused]);
+  }, [isFocused,memberId,comity]);
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        {paidList &&
-          paidList.map((doc, i) => (
+        {
+          paidList?.map((doc, i) => (
             <SubscriptionCard
               data={doc}
               key={i}
@@ -55,7 +61,7 @@ export default function UnpaidSubsMember({ navigation, memberId }) {
             />
           ))}
         {paidList?.length == 0 && (
-          <NoOption title={"No subscription list found"} />
+          <NoOption title={isBn?"কোন কালেকশন নেই":"No collection"} />
         )}
         <View style={{ height: 6 }} />
       </ScrollView>

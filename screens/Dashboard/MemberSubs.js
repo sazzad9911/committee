@@ -9,7 +9,7 @@ import PaidSubsMember from "./PaidSubMember";
 import UnpaidSubsMember from "./UnpaidSubMember";
 import { AppColors } from "../../functions/colors";
 import { MotiView } from "moti";
-import { Text } from "react-native";
+import { Text,View } from "react-native";
 import { getSummeryOfMembersCollections } from "../../apis/api";
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,6 +26,7 @@ export default function MemberSubs({ navigation, route }) {
   const [totalPaid, setTotalPaid] = React.useState(0);
   const [totalUnPaid, setTotalUnPaid] = React.useState(0);
 
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,6 +40,7 @@ export default function MemberSubs({ navigation, route }) {
     };
     fetchData();
   }, []);
+  
 
   return (
     <Tab.Navigator
@@ -63,15 +65,23 @@ export default function MemberSubs({ navigation, route }) {
     >
       <Tab.Screen
         name={headlines._paid}
-        children={() => (
-          <PaidSubsMember navigation={navigation} memberId={memberId} />
-        )}
+        component={PaidSubsMember}
+        initialParams={{
+          memberId:memberId
+        }}
+        // children={() => (
+        //   <PaidSubsMember navigation={navigation} memberId={memberId} />
+        // )}
       />
       <Tab.Screen
         name={headlines._unPaid}
-        children={() => (
-          <UnpaidSubsMember navigation={navigation} memberId={memberId} />
-        )}
+        component={UnpaidSubsMember}
+        initialParams={{
+          memberId:memberId
+        }}
+        // children={() => (
+        //   <UnpaidSubsMember navigation={navigation} memberId={memberId} />
+        // )}
       />
     </Tab.Navigator>
   );
@@ -89,21 +99,15 @@ const Header = ({
   const day = newDate.getDay();
   const month = newDate.getMonth();
   const year = newDate.getFullYear();
-  const scrollValue = useSelector((state) => state.scrollValue);
+  const isBn = useSelector((state) => state.isBn);
   const comity = useSelector((state) => state.comity);
   return (
-    <MotiView
+    <View
       style={{
         justifyContent: "center",
         alignItems: "center",
       }}
-      animate={{
-        height: 150 - scrollValue,
-        overflow: "hidden",
-      }}
-      transition={{
-        type: "timing",
-      }}
+      
     >
       <Text
         style={{
@@ -111,7 +115,7 @@ const Header = ({
           color: "#B0B0B0",
         }}
       >
-        {index == 0 ? "Total Paid" : "Total Unpaid"}
+        {isBn?index == 0 ? "সর্বমোট পরিশোধ" : "সর্বমোট অপরিশোধ":ndex == 0 ? "Total Paid" : "Total Unpaid"}
       </Text>
       <Text
         style={{
@@ -122,6 +126,6 @@ const Header = ({
       >
         {index == 0 ? totalPaid || "0" : totalUnPaid || "0"}
       </Text>
-    </MotiView>
+    </View>
   );
 };

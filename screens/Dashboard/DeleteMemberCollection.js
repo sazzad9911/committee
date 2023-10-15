@@ -37,6 +37,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
     get(`/subs/get-collection-by-id/${data.id}`, user.token)
       .then((res) => {
         setData(res.data.collection);
+        //console.log(res.data.collection);
         dispatch(loader.hide());
       })
       .catch((err) => {
@@ -55,7 +56,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
           backgroundColor: "green",
           flex: 1,
         }}
-        colors={paid ? ac : dc}
+        colors={data?.paid ? ac : dc}
       >
         <View
           style={{
