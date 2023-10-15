@@ -40,7 +40,7 @@ const ChatCart = ({
   const vendor = useSelector((state) => state.comity);
   const [count, setCount] = useState(0);
   //console.log(data.serviceId)
-//console.log(conversation);
+  //console.log(conversation);
   const styles = StyleSheet.create({
     outBox: {
       marginLeft: 20,
@@ -92,20 +92,25 @@ const ChatCart = ({
     },
   });
   useEffect(() => {
-    setUserInfo(conversation.users.filter(u => u.userId!==user.user.id)[0].user);
-  },[conversation])
-  useEffect(()=>{
-    socket.on("getUsers",e=>{
-      if(Array.isArray(e)){
-        let usr=e.filter(u=>u.userId===conversation.users[0].userId)
-        usr>0?setActive(true):setActive(false)
+    setUserInfo(
+      conversation.users.filter((u) => u.userId !== user.user.id)[0].user
+    );
+  }, [conversation]);
+  useEffect(() => {
+    socket.on("getUsers", (e) => {
+      if (Array.isArray(e)) {
+        let usr = e.filter((u) => u.userId === conversation.users[0].userId);
+        usr > 0 ? setActive(true) : setActive(false);
       }
-    })
+    });
     //socket.emit("sendOnlineUsers")
-    get(`/chat/message/unread-count/${conversation.id}`,user.token).then(res=>{
-      setCount(res.data.count)
-    })
-  },[])
+    get(`/chat/message/unread-count/${conversation.id}`, user.token).then(
+      (res) => {
+        console.log(res.data);
+        setCount(res.data.count);
+      }
+    );
+  }, []);
   return (
     <TouchableOpacity
       onPress={() => onPress && onPress()}
@@ -123,7 +128,7 @@ const ChatCart = ({
                     uri: UserInfo?.profilePhoto,
                   }
                 : {
-                    uri: conversation?.comity?.profilePhoto
+                    uri: conversation?.comity?.profilePhoto,
                   }
             }
           />
@@ -171,7 +176,9 @@ const ChatCart = ({
             numberOfLines={1}
             style={[styles.text, { marginTop: 4, maxWidth: "60%" }]}
           >
-            {conversation?.messages[0]?.text || "-"}
+            {conversation?.messages[0]?.text || conversation?.messages[0]?.image
+              ? "Image"
+              : "-"}
           </Text>
         </View>
         <View

@@ -322,7 +322,7 @@ const ComityChatScreen = (props) => {
         <View
           style={[
             newStyles.receiverBox,
-            isDark && { backgroundColor: colors.getShadowColor() },
+            isDark && { backgroundColor: colors.getSchemeColor() },
           ]}
         >
           <Hyperlink
@@ -437,7 +437,7 @@ const ComityChatScreen = (props) => {
       />
       <FlatList
         onEndReached={(e) => {
-          dispatch(loader.show());
+          // dispatch(loader.show());
           setLim((v) => v + 20);
           //console.log("end");
           //console.log(e.nativeEvent.contentOffset);

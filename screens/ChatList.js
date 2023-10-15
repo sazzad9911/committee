@@ -52,8 +52,8 @@ export default function ChatList(props) {
   const dispatch = useDispatch();
   const [data, setData] = useState();
   const [searchList, setSearchList] = useState();
-  const [members,setMembers] = useState();
-  const [membersList,setMembersList] = useState();
+  const [members, setMembers] = useState();
+  const [membersList, setMembersList] = useState();
   const snapPoints = useMemo(() => ["90%"], []);
   const handleSheetChange = useCallback((index) => {
     setIndex(index);
@@ -76,26 +76,26 @@ export default function ChatList(props) {
         : await getUserConversations();
       setConversations(data.conversations);
       setSearchList(data.conversations);
-      dispatch(loader.hide())
+      dispatch(loader.hide());
     } catch (error) {
-      dispatch(loader.hide())
+      dispatch(loader.hide());
     }
   };
-  const fetchMembers=async()=>{
-    try{
-      const {data}=await get(`/member/get-all/${comity.id}`,user.token)
-      setMembers(data.members.filter(d=>d.user));
-      setMembersList(data.members.filter(d=>d.user))
+  const fetchMembers = async () => {
+    try {
+      const { data } = await get(`/member/get-all/${comity.id}`, user.token);
+      setMembers(data.members.filter((d) => d.user));
+      setMembersList(data.members.filter((d) => d.user));
       //console.log(data.members.filter(d=>d.user));
-    }catch(e){
-      console.error(e.message)
+    } catch (e) {
+      console.error(e.message);
     }
-  }
+  };
 
   useEffect(() => {
-    !conversations&&dispatch(loader.show())
+    !conversations && dispatch(loader.show());
     fetchConversations();
-    comity&&fetchMembers()
+    comity && fetchMembers();
   }, [isFocused]);
 
   return (
@@ -130,14 +130,17 @@ export default function ChatList(props) {
         }
         onScroll={(e) => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
-        }}>
+        }}
+      >
         <View
           style={{
             minHeight: "100%",
-          }}>
+          }}
+        >
           <View style={{ height: 0 }} />
           {conversations?.map((item, index) => (
-            <ChatCart key={index}
+            <ChatCart
+              key={index}
               index={item.id}
               onPress={() => {
                 props?.navigation?.navigate("ChatScreen", {
@@ -150,16 +153,21 @@ export default function ChatList(props) {
             />
           ))}
           {conversations && conversations.length == 0 && (
-            <View style={[mainStyle.flexBox, { height: height - 200,justifyContent:"center" }]}>
+            <View
+              style={[
+                mainStyle.flexBox,
+                { height: height - 200, justifyContent: "center" },
+              ]}
+            >
               <Text
                 style={{
                   marginVertical: 20,
                   textAlign: "center",
                   fontSize: 24,
-                  color:colors.getTextColor()
+                  color: colors.getTextColor(),
                 }}
               >
-                 You have no conversation!
+                You have no conversation!
               </Text>
             </View>
           )}
@@ -179,7 +187,8 @@ export default function ChatList(props) {
           index={index}
           enablePanDownToClose={true}
           snapPoints={snapPoints}
-          onChange={handleSheetChange}>
+          onChange={handleSheetChange}
+        >
           {index != -1 && isFocused && (
             <Header
               type={type}
@@ -191,7 +200,11 @@ export default function ChatList(props) {
                       d.users[0].user.name.toUpperCase().match(e.toUpperCase())
                     )
                   );
-                  setMembersList(members?.filter(d=>d.user.name.toUpperCase().match(e.toUpperCase())))
+                  setMembersList(
+                    members?.filter((d) =>
+                      d.user.name.toUpperCase().match(e.toUpperCase())
+                    )
+                  );
                 } else if (e && !comity) {
                   setSearchList(
                     conversations.filter((d) =>
@@ -200,7 +213,7 @@ export default function ChatList(props) {
                   );
                 } else {
                   setSearchList(conversations);
-                  setMembersList(members)
+                  setMembersList(members);
                 }
               }}
               onConfirm={() => {
@@ -209,7 +222,8 @@ export default function ChatList(props) {
             />
           )}
           <BottomSheetScrollView
-            style={{ backgroundColor: colors.getBackgroundColor() }}>
+            style={{ backgroundColor: colors.getBackgroundColor() }}
+          >
             {type == "Search" ? (
               <ComitteeList
                 bottomRef={sheetRef}
@@ -218,7 +232,6 @@ export default function ChatList(props) {
                 navigation={props.navigation}
                 seller={true}
                 setIndex={setIndex}
-                
               />
             ) : (
               <ContactList
@@ -405,23 +418,27 @@ const Header = ({ type, onConfirm, onChange, value }) => {
         borderTopStartRadius: 20,
       }}
       start={{ x: 0.2, y: 0 }}
-      colors={isDark ? ["#000", "#000"] : ac}>
+      colors={isDark ? ["#000", "#000"] : ac}
+    >
       <View
         style={{
           paddingHorizontal: 20,
           paddingVertical: 24,
-        }}>
+        }}
+      >
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 20,
               fontWeight: "700",
               color: "#fff",
-            }}>
+            }}
+          >
             {type == "Search" ? values.allMessage : values.memberList}
           </Text>
           <Text
@@ -430,7 +447,8 @@ const Header = ({ type, onConfirm, onChange, value }) => {
               fontSize: 16,
               fontWeight: "400",
               color: "#fff",
-            }}>
+            }}
+          >
             {values.done}
           </Text>
         </View>
@@ -444,7 +462,8 @@ const Header = ({ type, onConfirm, onChange, value }) => {
             alignItems: "center",
             paddingHorizontal: 8,
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <TextInput
             onChangeText={onChange}
             value={value}

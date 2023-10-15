@@ -158,7 +158,6 @@ const ChatScreen = (props) => {
       let newArr = arr[arr.length - 1]?.split(".");
       let type = newArr[newArr.length - 1];
       let three = newArr[0].split("")?.slice(-3)?.join("");
-
       return (
         <Pressable
           onPress={() => {
@@ -284,7 +283,7 @@ const ChatScreen = (props) => {
         <View
           style={[
             newStyles.senderBox,
-            { backgroundColor: colors.getShadowColor() },
+            { backgroundColor: colors.getSchemeColor() },
           ]}
         >
           <Text style={newStyles.title}>
@@ -442,7 +441,7 @@ const ChatScreen = (props) => {
       />
       <FlatList
         onEndReached={(e) => {
-          dispatch(loader.show());
+          // dispatch(loader.show());
           setLim((v) => v + 20);
           //console.log("end");
           //console.log(e.nativeEvent.contentOffset);
