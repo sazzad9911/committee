@@ -211,7 +211,127 @@ export default function ComityProfile({ navigation, route }) {
         >
           {comity?.name}
         </Text>
-        <View style={mainStyle.mt24} />
+       
+        <View
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
+        >
+          <SvgXml xml={location} />
+          <Text
+            style={{
+              marginLeft: 10,
+              color: textColor,
+              fontSize: 16,
+              flex: 1,
+            }}
+          >
+            {`${comity?.address}, ${comity?.thana}, ${comity?.district}, ${comity?.division}`}
+          </Text>
+        </View>
+        <View
+          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
+        >
+          <SvgXml xml={call} />
+          <Text
+            style={{
+              marginLeft: 10,
+              color: textColor,
+              fontSize: 16,
+            }}
+          >
+            {comity?.phone}
+          </Text>
+        </View>
+        
+
+        <View style={[mainStyle.pdH20, mainStyle.mt12]}>
+          
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 12,
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderTopWidth: 0,
+              paddingTop: 12,
+              borderTopColor: colors.getShadowColor(),
+            }}
+          >
+            {comity?.memberStatus !== "Rejected" && (
+              <Button
+                color={
+                  comity?.memberStatus
+                    ? "red"
+                    : isDark
+                    ? "white"
+                    : "rgba(0,0,0,0.8)"
+                }
+                onPress={handelRequest}
+                LeftIcon={() => <SvgXml xml={member} />}
+                style={{
+                  width: width / 2 - 30,
+                  ...(!comity?.memberStatus && { color: "red" }),
+                }}
+                title={
+                  comity?.iAmMember
+                    ? isBn
+                      ? "কমিটি থেকে চলে যান"
+                      : "Leave from comity"
+                    : !comity?.memberStatus
+                    ? isBn
+                      ? "মেম্বার"
+                      : "Member"
+                    : isBn
+                    ? "অনুরোধ বাতিল করুন"
+                    : "Cancel request"
+                }
+              />
+            )}
+            <Button
+              onPress={async () => {
+                dispatch(loader.show());
+                try {
+                  const res = await post(
+                    "/chat/conversation/create",
+                    {
+                      userId: comity.userId,
+                      comityId: comity.id,
+                    },
+                    user.token
+                  );
+                  //console.log(res.data);
+                  navigation.navigate("ChatScreen", {
+                    conversationId: res.data.conversation.id,
+                    data: res.data.conversation,
+                  });
+                  dispatch(loader.hide());
+                } catch (e) {
+                  console.error(e.message);
+                  dispatch(loader.hide());
+                  dispatch(toast.error("Error loading"));
+                }
+              }}
+              LeftIcon={() => <SvgXml xml={message} />}
+              style={{
+                width: width / 2 - 30,
+              }}
+              color={isDark ? "white" : "rgba(0,0,0,0.8)"}
+              title={isBn ? "ম্যাসেজ" : "Message"}
+            />
+          </View>
+          
+
+          <Text
+          style={[
+            
+            { color: textColor, fontSize: 24, fontWeight: "600" },
+            mainStyle.mt24,
+          ]}
+        >
+          {allHeadlines.aboutComity}
+        </Text>
+          <MoreText text={comity?.about ? comity.about : ""} />
+        </View>
+        <View style={mainStyle.mt24}/>
         <ProfileCart
           onPress={() => {
             if (comity?.membersPrivacy === "Public") {
@@ -316,122 +436,7 @@ export default function ComityProfile({ navigation, route }) {
         />
         <View style={{ height: 16 }} />
 
-        <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
-        >
-          <SvgXml xml={location} />
-          <Text
-            style={{
-              marginLeft: 10,
-              color: textColor,
-              fontSize: 16,
-              flex: 1,
-            }}
-          >
-            {`${comity?.address}, ${comity?.thana}, ${comity?.district}, ${comity?.division}`}
-          </Text>
-        </View>
-        <View
-          style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt24]}
-        >
-          <SvgXml xml={call} />
-          <Text
-            style={{
-              marginLeft: 10,
-              color: textColor,
-              fontSize: 16,
-            }}
-          >
-            {comity?.phone}
-          </Text>
-        </View>
-        <Text
-          style={[
-            mainStyle.pdH20,
-            { color: textColor, fontSize: 24, fontWeight: "600" },
-            mainStyle.mt24,
-          ]}
-        >
-          {allHeadlines.aboutComity}
-        </Text>
-
-        <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-          <MoreText text={comity?.about ? comity.about : ""} />
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 12,
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderTopWidth: 1,
-              paddingTop: 12,
-              borderTopColor: colors.getShadowColor(),
-            }}
-          >
-            {comity?.memberStatus !== "Rejected" && (
-              <Button
-                color={
-                  comity?.memberStatus
-                    ? "red"
-                    : isDark
-                    ? "white"
-                    : "rgba(0,0,0,0.8)"
-                }
-                onPress={handelRequest}
-                LeftIcon={() => <SvgXml xml={member} />}
-                style={{
-                  width: width / 2 - 30,
-                  ...(!comity?.memberStatus && { color: "red" }),
-                }}
-                title={
-                  comity?.iAmMember
-                    ? isBn
-                      ? "কমিটি থেকে চলে যান"
-                      : "Leave from comity"
-                    : !comity?.memberStatus
-                    ? isBn
-                      ? "মেম্বার"
-                      : "Member"
-                    : isBn
-                    ? "অনুরোধ বাতিল করুন"
-                    : "Cancel request"
-                }
-              />
-            )}
-            <Button
-              onPress={async () => {
-                dispatch(loader.show());
-                try {
-                  const res = await post(
-                    "/chat/conversation/create",
-                    {
-                      userId: comity.userId,
-                      comityId: comity.id,
-                    },
-                    user.token
-                  );
-                  //console.log(res.data);
-                  navigation.navigate("ChatScreen", {
-                    conversationId: res.data.conversation.id,
-                    data: res.data.conversation,
-                  });
-                  dispatch(loader.hide());
-                } catch (e) {
-                  console.error(e.message);
-                  dispatch(loader.hide());
-                  dispatch(toast.error("Error loading"));
-                }
-              }}
-              LeftIcon={() => <SvgXml xml={message} />}
-              style={{
-                width: width / 2 - 30,
-              }}
-              color={isDark ? "white" : "rgba(0,0,0,0.8)"}
-              title={isBn ? "ম্যাসেজ" : "Message"}
-            />
-          </View>
-          <View style={mainStyle.mt32} />
-        </View>
+        
       </View>
     </ScrollView>
   );

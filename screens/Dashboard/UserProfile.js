@@ -154,7 +154,7 @@ export default function UserProfile({ navigation, route }) {
               navigation.navigate("MemberSubs", {
                 userId: data.userId,
                 memberId: data.id,
-              });
+              }); 
             }}
             title={isBn?"চাঁদা":"Subscription"}
             icon={cart}

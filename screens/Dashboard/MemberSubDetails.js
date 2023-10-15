@@ -76,7 +76,7 @@ export default function MemberSubDetails({ navigation, route }) {
             backgroundColor: "green",
             flex: 1,
           }}
-          colors={paid ? ac : dc}>
+          colors={data?.paid ? ac : dc}>
           <View
             style={{
               paddingTop: inset.top,

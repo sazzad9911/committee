@@ -148,7 +148,7 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
   </svg>  
   `;
   const icon = `<svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M9 16.5L1.5 9L9 1.5" stroke="${textColor}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M9 16.5L1.5 9L9 1.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
   return (
@@ -192,7 +192,7 @@ const Header = ({ searchIp, setSearch, number, setIndex, navigation }) => {
           style={{
             fontSize: 20,
             fontWeight: "500",
-            color: textColor,
+            color: "#fff",
             maxWidth: width - 100,
           }}
         >

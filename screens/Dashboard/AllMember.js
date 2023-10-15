@@ -94,7 +94,7 @@ export default function AllMember({ navigation, route }) {
                       .then((res) => {
                         dispatch(loader.hide());
 
-                        dispatch(toast.success("Request rejected"));
+                        dispatch(toast.success(isBn?"অনুরুধটি বাতিল করা হয়েছে":"Canceled member request"));
                         getRandomMember();
                       })
                       .catch((err) => {

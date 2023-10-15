@@ -82,6 +82,10 @@ import ChatImage from "../screens/ChatImage";
 import ChooseLanguage from "../screens/Onboarding/ChooseLanguage";
 import LoginOrRegister from "../screens/Onboarding/LoginOrRegister";
 import Start from "../screens/Onboarding/Start";
+import UserNotice from "../screens/User/UserNotice";
+import UserViewNotice from "../screens/User/UserViewNotice";
+import UserCurrentBalance from "../screens/User/UserCurrentBalance";
+import UserMemberPage from "../screens/User/UserMemberPage";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -429,7 +433,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="ViewNotice"
-              component={ViewNotice}
+              component={UserViewNotice}
             />
             <Stack.Screen
               options={{
@@ -659,7 +663,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="MemberPage"
-              component={MemberPage}
+              component={UserMemberPage}
             />
             <Stack.Screen
               options={{
@@ -668,14 +672,14 @@ export default function MainRoute() {
                 ),
               }}
               name="CurrentBalance"
-              component={CurrentBalance}
+              component={UserCurrentBalance}
             />
             <Stack.Screen
               options={{
                 headerShown: false,
               }}
               name="Notice"
-              component={Notice}
+              component={UserNotice}
             />
             <Stack.Screen
               options={{
