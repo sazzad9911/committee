@@ -58,6 +58,16 @@ import ComityChatScreen from "../screens/Dashboard/ComityChatScreen";
 import AccountSettings from "../screens/Dashboard/AccountSettinngs";
 
 const Stack = createNativeStackNavigator();
+LogBox.ignoreLogs(["Require cycle:"]);
+LogBox.ignoreLogs([
+  "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45",
+]);
+LogBox.ignoreLogs([
+  "Selector unknown returned the root state when called. This can lead to unnecessary rerenders.",
+]);
+LogBox.ignoreLogs([
+  "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
+]);
 
 export default function AdminRoute() {
   const colorScheme = useColorScheme();
