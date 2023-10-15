@@ -14,12 +14,13 @@ export default function FlatCard({
   disableGo,
   onPress,
   Private,
-  color
+  color,
 }) {
-  const isDark=useSelector(state=>state.isDark)
-  const colors=new AppColors(isDark)
+  const isDark = useSelector((state) => state.isDark);
+  const colors = new AppColors(isDark);
   return (
-    <Pressable onPress={onPress}
+    <Pressable
+      onPress={onPress}
       style={[
         {
           flexDirection: "row",
@@ -31,40 +32,49 @@ export default function FlatCard({
           paddingRight: 16,
           borderBottomColor: colors.getShadowColor(),
           width: width - 52,
-          backgroundColor:colors.getSchemeColor()
+          backgroundColor: colors.getSchemeColor(),
         },
         style,
-      ]}>
+      ]}
+    >
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-        }}>
-        <SvgXml style={{
-          opacity:Private?.4:1
-        }} xml={icon} />
+        }}
+      >
+        <SvgXml
+          style={{
+            opacity: Private ? 0.4 : 1,
+          }}
+          xml={icon}
+        />
         <View
           style={{
             marginLeft: 16,
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 14,
-             color:colors.getTextColor(),
+              color: colors.getTextColor(),
               fontWeight: "500",
-              opacity:Private?.4:1,
-              
-            }}>
+              opacity: Private ? 0.4 : 1,
+            }}
+          >
             {title}
           </Text>
-          {value&&(<Text
-            style={{
-              color: colors.getBorderColor(),
-              fontSize: 12,
-              marginTop: 4,
-            }}>
-            {value ? value : `Add your ${title.toLowerCase()}`}
-          </Text>)}
+          {value && (
+            <Text
+              style={{
+                color: colors.getBorderColor(),
+                fontSize: 12,
+                marginTop: 4,
+              }}
+            >
+              {value ? value : `Add your ${title.toLowerCase()}`}
+            </Text>
+          )}
         </View>
       </View>
       {!disableGo && (
@@ -72,13 +82,15 @@ export default function FlatCard({
           style={{
             flexDirection: "row",
             alignItems: "center",
-          }}>
+          }}
+        >
           <Text
             style={{
               color: colors.getBorderColor(),
               fontSize: 12,
               marginTop: 4,
-            }}>
+            }}
+          >
             {type}
           </Text>
           <SvgXml

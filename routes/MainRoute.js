@@ -82,22 +82,8 @@ import ChatImage from "../screens/ChatImage";
 import ChooseLanguage from "../screens/Onboarding/ChooseLanguage";
 import LoginOrRegister from "../screens/Onboarding/LoginOrRegister";
 import Start from "../screens/Onboarding/Start";
-import UserMemberPage from "../screens/User/UserMemberPage";
-import UserCurrentBalance from "../screens/User/UserCurrentBalance";
-import UserNotice from "../screens/User/UserNotice";
-import UserViewNotice from "../screens/User/UserViewNotice";
 
 const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(["Require cycle:"]);
-LogBox.ignoreLogs([
-  "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45",
-]);
-LogBox.ignoreLogs([
-  "Selector unknown returned the root state when called. This can lead to unnecessary rerenders.",
-]);
-LogBox.ignoreLogs([
-  "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
-]);
 
 export default function MainRoute() {
   const colorScheme = useColorScheme();
@@ -168,7 +154,7 @@ export default function MainRoute() {
       // });
     };
     fetch();
-  }, [comity]);
+  }, []);
   if (!isReady) {
     return null;
   }
@@ -179,7 +165,7 @@ export default function MainRoute() {
       }}
     >
       <StatusBar
-        backgroundColor={isDark?"#1F1F1F":"#F6F6F6"}
+        backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
       />
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>
@@ -433,7 +419,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="ViewNotice"
-              component={UserViewNotice}
+              component={ViewNotice}
             />
             <Stack.Screen
               options={{
@@ -663,7 +649,7 @@ export default function MainRoute() {
                 headerShown: false,
               }}
               name="MemberPage"
-              component={UserMemberPage}
+              component={MemberPage}
             />
             <Stack.Screen
               options={{
@@ -672,14 +658,14 @@ export default function MainRoute() {
                 ),
               }}
               name="CurrentBalance"
-              component={UserCurrentBalance}
+              component={CurrentBalance}
             />
             <Stack.Screen
               options={{
                 headerShown: false,
               }}
               name="Notice"
-              component={UserNotice}
+              component={Notice}
             />
             <Stack.Screen
               options={{

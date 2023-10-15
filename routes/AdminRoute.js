@@ -58,16 +58,6 @@ import ComityChatScreen from "../screens/Dashboard/ComityChatScreen";
 import AccountSettings from "../screens/Dashboard/AccountSettinngs";
 
 const Stack = createNativeStackNavigator();
-LogBox.ignoreLogs(["Require cycle:"]);
-LogBox.ignoreLogs([
-  "Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45",
-]);
-LogBox.ignoreLogs([
-  "Selector unknown returned the root state when called. This can lead to unnecessary rerenders.",
-]);
-LogBox.ignoreLogs([
-  "[Unhandled promise rejection: TypeError: Cannot read property 'measure' of null]",
-]);
 
 export default function AdminRoute() {
   const colorScheme = useColorScheme();
@@ -138,7 +128,7 @@ export default function AdminRoute() {
       // });
     };
     fetch();
-  }, [comity]);
+  }, []);
   if (!isReady) {
     return null;
   }
@@ -146,9 +136,10 @@ export default function AdminRoute() {
     <View
       style={{
         flex: 1,
-      }}>
-     <StatusBar
-        backgroundColor={isDark?"#1F1F1F":"#F6F6F6"}
+      }}
+    >
+      <StatusBar
+        backgroundColor={isDark ? "#1F1F1F" : "#F6F6F6"}
         style={isDark ? "light" : "dark"}
       />
       <PaperProvider theme={colorScheme == "dark" ? null : theme}>
@@ -285,7 +276,7 @@ export default function AdminRoute() {
             />
             <Stack.Screen
               options={{
-                headerShown:false
+                headerShown: false,
               }}
               name="SelectMemberType"
               component={SelectMemberType}
@@ -482,7 +473,10 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={isBn?"নিশ্চিতকরণ":"Confirmation"} {...props} />
+                  <BackHeader
+                    title={isBn ? "নিশ্চিতকরণ" : "Confirmation"}
+                    {...props}
+                  />
                 ),
               }}
               name="DeleteComity"
@@ -491,7 +485,10 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={isBn?"নিশ্চিতকরণ":"Confirmation"} {...props} />
+                  <BackHeader
+                    title={isBn ? "নিশ্চিতকরণ" : "Confirmation"}
+                    {...props}
+                  />
                 ),
               }}
               name="AttachMemberConfirm"
@@ -514,7 +511,10 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={values.getHeadLines().accountSettings} {...props} />
+                  <BackHeader
+                    title={values.getHeadLines().accountSettings}
+                    {...props}
+                  />
                 ),
               }}
               name="AccountSettings"
