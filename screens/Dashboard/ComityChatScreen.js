@@ -244,7 +244,7 @@ const ComityChatScreen = (props) => {
         <View
           style={[
             newStyles.senderBox,
-            { backgroundColor: colors.getShadowColor() },
+            { backgroundColor: colors.getSchemeColor() },
           ]}
         >
           <Text style={newStyles.title}>
@@ -337,7 +337,7 @@ const ComityChatScreen = (props) => {
       </View>
     );
   };
-  
+
   const fetchMessages = async () => {
     try {
       const { data } = await getMessages(conversationId, lim, 0);
