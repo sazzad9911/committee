@@ -30,7 +30,7 @@ import ComitteeList from "./ComitteeList";
 import { getComityConversations, getUserConversations } from "../apis/api";
 import loader from "../data/loader";
 import mainStyle from "../styles/mainStyle";
-import { get } from "../apis/multipleApi";
+import { get, socket } from "../apis/multipleApi";
 const { height, width } = Dimensions.get("window");
 
 export default function ChatList(props) {
@@ -91,6 +91,15 @@ export default function ChatList(props) {
       console.error(e.message);
     }
   };
+
+  useEffect(() => {
+    socket?.on("newMessage", (e) => {
+      fetchConversations();
+    });
+    return () => {
+      socket.off("newMessage");
+    };
+  }, [socket]);
 
   useEffect(() => {
     !conversations && dispatch(loader.show());

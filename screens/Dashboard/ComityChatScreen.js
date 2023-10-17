@@ -349,13 +349,16 @@ const ComityChatScreen = (props) => {
     }
   };
   useEffect(() => {
-    socket.on("newMessage", (e) => {
-      //console.log(e);
+    socket?.on("newMessage", (e) => {
+      // console.log(e);
       addMessage(e);
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     });
-  }, []);
+    return () => {
+      socket.off("newMessage");
+    };
+  }, [socket]);
   const addMessage = (e) => {
     //console.log(e);
     if (e.conversationId === conversationId) {

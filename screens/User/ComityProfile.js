@@ -57,7 +57,7 @@ export default function ComityProfile({ navigation, route }) {
   <path d="M20.1211 5.45312C20.2734 5.33203 20.5 5.44531 20.5 5.63672V13.625C20.5 14.6602 19.6602 15.5 18.625 15.5H2.375C1.33984 15.5 0.5 14.6602 0.5 13.625V5.64062C0.5 5.44531 0.722656 5.33594 0.878906 5.45703C1.75391 6.13672 2.91406 7 6.89844 9.89453C7.72266 10.4961 9.11328 11.7617 10.5 11.7539C11.8945 11.7656 13.3125 10.4727 14.1055 9.89453C18.0898 7 19.2461 6.13281 20.1211 5.45312ZM10.5 10.5C11.4062 10.5156 12.7109 9.35938 13.3672 8.88281C18.5508 5.12109 18.9453 4.79297 20.1406 3.85547C20.3672 3.67969 20.5 3.40625 20.5 3.11719V2.375C20.5 1.33984 19.6602 0.5 18.625 0.5H2.375C1.33984 0.5 0.5 1.33984 0.5 2.375V3.11719C0.5 3.40625 0.632812 3.67578 0.859375 3.85547C2.05469 4.78906 2.44922 5.12109 7.63281 8.88281C8.28906 9.35938 9.59375 10.5156 10.5 10.5Z" fill="${colors.getBorderColor()}"/>
   </svg> 
   `;
-  const inset=useSafeAreaInsets()
+  const inset = useSafeAreaInsets();
 
   const formatPrivacy = (privacy) => {
     switch (privacy) {
@@ -171,7 +171,9 @@ export default function ComityProfile({ navigation, route }) {
           height: height / 2 + 80,
         }}
         source={{
-          uri:comity?.profilePhoto|| "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
+          uri:
+            comity?.profilePhoto ||
+            "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
         }}
       >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
@@ -186,7 +188,7 @@ export default function ComityProfile({ navigation, route }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: 15,
-              marginTop:inset?.top
+              marginTop: inset?.top,
             }}
           >
             <SvgXml xml={backIcon} />
@@ -211,7 +213,7 @@ export default function ComityProfile({ navigation, route }) {
         >
           {comity?.name}
         </Text>
-       
+
         <View
           style={[mainStyle.pdH20, { flexDirection: "row" }, mainStyle.mt32]}
         >
@@ -241,104 +243,102 @@ export default function ComityProfile({ navigation, route }) {
             {comity?.phone}
           </Text>
         </View>
-        
 
-        <View style={[mainStyle.pdH20, mainStyle.mt12]}>
-          
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 12,
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderTopWidth: 0,
-              paddingTop: 12,
-              borderTopColor: colors.getShadowColor(),
-            }}
-          >
-            {comity?.memberStatus !== "Rejected" && (
+        {comity?.userId !== user?.user?.id && (
+          <View style={[mainStyle.pdH20, mainStyle.mt12]}>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 12,
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderTopWidth: 0,
+                paddingTop: 12,
+                borderTopColor: colors.getShadowColor(),
+              }}
+            >
+              {comity?.memberStatus !== "Rejected" && (
+                <Button
+                  color={
+                    comity?.memberStatus
+                      ? "red"
+                      : isDark
+                      ? "white"
+                      : "rgba(0,0,0,0.8)"
+                  }
+                  onPress={handelRequest}
+                  LeftIcon={() => <SvgXml xml={member} />}
+                  style={{
+                    width: width / 2 - 30,
+                    ...(!comity?.memberStatus && { color: "red" }),
+                  }}
+                  title={
+                    comity?.iAmMember
+                      ? isBn
+                        ? "কমিটি থেকে চলে যান"
+                        : "Leave from comity"
+                      : !comity?.memberStatus
+                      ? isBn
+                        ? "মেম্বার"
+                        : "Member"
+                      : isBn
+                      ? "অনুরোধ বাতিল করুন"
+                      : "Cancel request"
+                  }
+                />
+              )}
               <Button
-                color={
-                  comity?.memberStatus
-                    ? "red"
-                    : isDark
-                    ? "white"
-                    : "rgba(0,0,0,0.8)"
-                }
-                onPress={handelRequest}
-                LeftIcon={() => <SvgXml xml={member} />}
+                onPress={async () => {
+                  dispatch(loader.show());
+                  try {
+                    const res = await post(
+                      "/chat/conversation/create",
+                      {
+                        userId: comity.userId,
+                        comityId: comity.id,
+                      },
+                      user.token
+                    );
+                    //console.log(res.data);
+                    navigation.navigate("ChatScreen", {
+                      conversationId: res.data.conversation.id,
+                      data: res.data.conversation,
+                    });
+                    dispatch(loader.hide());
+                  } catch (e) {
+                    console.error(e.message);
+                    dispatch(loader.hide());
+                    dispatch(toast.error("Error loading"));
+                  }
+                }}
+                LeftIcon={() => <SvgXml xml={message} />}
                 style={{
                   width: width / 2 - 30,
-                  ...(!comity?.memberStatus && { color: "red" }),
                 }}
-                title={
-                  comity?.iAmMember
-                    ? isBn
-                      ? "কমিটি থেকে চলে যান"
-                      : "Leave from comity"
-                    : !comity?.memberStatus
-                    ? isBn
-                      ? "মেম্বার"
-                      : "Member"
-                    : isBn
-                    ? "অনুরোধ বাতিল করুন"
-                    : "Cancel request"
-                }
+                color={isDark ? "white" : "rgba(0,0,0,0.8)"}
+                title={isBn ? "ম্যাসেজ" : "Message"}
               />
-            )}
-            <Button
-              onPress={async () => {
-                dispatch(loader.show());
-                try {
-                  const res = await post(
-                    "/chat/conversation/create",
-                    {
-                      userId: comity.userId,
-                      comityId: comity.id,
-                    },
-                    user.token
-                  );
-                  //console.log(res.data);
-                  navigation.navigate("ChatScreen", {
-                    conversationId: res.data.conversation.id,
-                    data: res.data.conversation,
-                  });
-                  dispatch(loader.hide());
-                } catch (e) {
-                  console.error(e.message);
-                  dispatch(loader.hide());
-                  dispatch(toast.error("Error loading"));
-                }
-              }}
-              LeftIcon={() => <SvgXml xml={message} />}
-              style={{
-                width: width / 2 - 30,
-              }}
-              color={isDark ? "white" : "rgba(0,0,0,0.8)"}
-              title={isBn ? "ম্যাসেজ" : "Message"}
-            />
-          </View>
-          
+            </View>
 
-          <Text
-          style={[
-            
-            { color: textColor, fontSize: 24, fontWeight: "600" },
-            mainStyle.mt24,
-          ]}
-        >
-          {allHeadlines.aboutComity}
-        </Text>
-          <MoreText text={comity?.about ? comity.about : ""} />
-        </View>
-        <View style={mainStyle.mt24}/>
+            <Text
+              style={[
+                { color: textColor, fontSize: 24, fontWeight: "600" },
+                mainStyle.mt24,
+              ]}
+            >
+              {allHeadlines.aboutComity}
+            </Text>
+            <MoreText text={comity?.about ? comity.about : ""} />
+          </View>
+        )}
+        <View style={mainStyle.mt24} />
         <ProfileCart
           onPress={() => {
             if (comity?.membersPrivacy === "Public") {
-              navigation.navigate("MemberPage",{comity:comity});
+              navigation.navigate("MemberPage", { comity: comity });
             } else if (comity?.membersPrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("MemberPage",{comity:comity});
+                navigation.navigate("MemberPage", { comity: comity });
               }
             }
           }}
@@ -360,12 +360,16 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.specialMembersPrivacy === "Public") {
-
-              navigation.navigate("MemberPage",{comity:comity,special: true });
-              
+              navigation.navigate("MemberPage", {
+                comity: comity,
+                special: true,
+              });
             } else if (comity?.specialMembersPrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("MemberPage",{comity:comity,special: true });
+                navigation.navigate("MemberPage", {
+                  comity: comity,
+                  special: true,
+                });
               }
             }
           }}
@@ -388,10 +392,10 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.balancePrivacy === "Public") {
-              navigation.navigate("CurrentBalance",{comity:comity});
+              navigation.navigate("CurrentBalance", { comity: comity });
             } else if (comity?.balancePrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("CurrentBalance",{comity:comity});
+                navigation.navigate("CurrentBalance", { comity: comity });
               }
             }
           }}
@@ -413,10 +417,10 @@ export default function ComityProfile({ navigation, route }) {
         <ProfileCart
           onPress={() => {
             if (comity?.noticePrivacy === "Public") {
-              navigation.navigate("Notice",{comity:comity});
+              navigation.navigate("Notice", { comity: comity });
             } else if (comity?.noticePrivacy === "MembersOnly") {
               if (comity?.iAmMember) {
-                navigation.navigate("Notice",{comity:comity});
+                navigation.navigate("Notice", { comity: comity });
               }
             }
           }}
@@ -435,8 +439,6 @@ export default function ComityProfile({ navigation, route }) {
           color={textColor}
         />
         <View style={{ height: 16 }} />
-
-        
       </View>
     </ScrollView>
   );

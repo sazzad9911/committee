@@ -40,7 +40,7 @@ const ChatCart = ({
   const vendor = useSelector((state) => state.comity);
   const [count, setCount] = useState(0);
   //console.log(data.serviceId)
-  //console.log(conversation);
+  console.log(conversation);
   const styles = StyleSheet.create({
     outBox: {
       marginLeft: 20,
@@ -193,7 +193,7 @@ const ChatCart = ({
             },
           ]}
         >
-          {count > 0 && (
+          {conversation?._count?.messages > 0 && (
             <View
               style={{
                 backgroundColor: "#737AFF",
@@ -212,7 +212,7 @@ const ChatCart = ({
                   fontWeight: "700",
                 }}
               >
-                {count}
+                {conversation?._count?.messages}
               </Text>
             </View>
           )}
