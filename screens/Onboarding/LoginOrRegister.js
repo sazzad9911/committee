@@ -9,6 +9,8 @@ import Button from "../../components/main/Button";
 import { setIsBn } from "../../data/isBn";
 import { Clickable } from "../User/Profile";
 import { SvgXml } from "react-native-svg";
+import BackHeader from "../../components/main/BackHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function LoginOrRegister({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -22,10 +24,29 @@ export default function LoginOrRegister({ navigation }) {
   const borderColor = colors.getBorderColor();
   const textPrimaryColor = colors.getTextPrimaryColor();
   const dispatch = useDispatch();
+  const inset = useSafeAreaInsets();
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ backgroundColor: backgroundColor }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: backgroundColor,
+        paddingTop: inset?.top,
+      }}>
+      <Text
+        style={[
+          {
+            color: colors.getTextColor(),
+            textAlign: "center",
+            marginTop: 12,
+            fontSize: 20,
+            fontWeight: "500",
+          },
+         
+        ]}>
+        {isBn ? "লগইন করুন" : "Login"}
+      </Text>
+      <ScrollView>
         <View style={{ justifyContent: "space-between", height: height - 100 }}>
           <View style={{ alignItems: "center" }}>
             <SvgXml
@@ -53,8 +74,7 @@ export default function LoginOrRegister({ navigation }) {
                 mainStyle.mediumText,
                 { color: colors.getSubTextColor() },
                 { paddingVertical: 20 },
-              ]}
-            >
+              ]}>
               {isBn ? "অথবা" : "Or"}
             </Text>
             <Button
@@ -75,15 +95,13 @@ export default function LoginOrRegister({ navigation }) {
             style={{
               marginBottom: 32,
               alignItems: "center",
-            }}
-          >
+            }}>
             <Text
               style={[
                 mainStyle.mediumText,
                 { color: colors.getSubTextColor() },
                 { paddingVertical: 20 },
-              ]}
-            >
+              ]}>
               {isBn ? "আমাদের সাথে যোগাযোগ করুন" : "Contact us"}
             </Text>
           </Pressable>

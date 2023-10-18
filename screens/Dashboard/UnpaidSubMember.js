@@ -51,6 +51,7 @@ export default function UnpaidSubsMember({ navigation, route }) {
             <SubscriptionCard
               data={doc}
               key={i}
+              index={i+1}
               onPress={() => {
                 navigation.navigate("MemberSubDetails", {
                   subscriptionId: doc.id,

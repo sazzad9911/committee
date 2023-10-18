@@ -86,6 +86,9 @@ import UserNotice from "../screens/User/UserNotice";
 import UserViewNotice from "../screens/User/UserViewNotice";
 import UserCurrentBalance from "../screens/User/UserCurrentBalance";
 import UserMemberPage from "../screens/User/UserMemberPage";
+import AboutComity from "../screens/AboutComity";
+import Conditions from "../screens/Conditions";
+import Policy from "../screens/Policy";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["Require cycle:"]);
@@ -176,8 +179,7 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -206,12 +208,7 @@ export default function MainRoute() {
                 )}
                 <Stack.Screen
                   options={{
-                    header: (props) => (
-                      <BackHeader
-                        title={isBn ? "লগইন করুন" : "Login"}
-                        {...props}
-                      />
-                    ),
+                    headerShown: false,
                   }}
                   name="LoginOrRegister"
                   component={LoginOrRegister}
@@ -347,7 +344,9 @@ export default function MainRoute() {
             />
             <Stack.Screen
               options={{
-                header: (props) => <BackHeader title={"Legal"} {...props} />,
+                header: (props) => (
+                  <BackHeader title={isBn ? "আইন" : "Legal"} {...props} />
+                ),
               }}
               name="Legal"
               component={Legal}
@@ -768,6 +767,43 @@ export default function MainRoute() {
               }}
               name="ChatImage"
               component={ChatImage}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={isBn ? "কমিটি সম্পর্কে" : "About Comity"}
+                    {...props}
+                  />
+                ),
+              }}
+              name="AboutComity"
+              component={AboutComity}
+            />
+
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={isBn ? "গোপনীয়তা নীতি" : "Privacy Policy"}
+                    {...props}
+                  />
+                ),
+              }}
+              name="Policy"
+              component={Policy}
+            />
+            <Stack.Screen
+              options={{
+                header: (props) => (
+                  <BackHeader
+                    title={isBn ? "শর্তাবলী" : "Term & condition"}
+                    {...props}
+                  />
+                ),
+              }}
+              name="Conditions"
+              component={Conditions}
             />
           </Stack.Navigator>
         </NavigationContainer>

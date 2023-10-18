@@ -230,6 +230,7 @@ export const Clickable = ({
   icon,
   active,
   activeColor,
+  outlineStyle
 }) => {
   const right = `<svg width="38" height="33" viewBox="0 0 38 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M16.5218 21.3473C16.3892 21.3473 16.2566 21.3069 16.1519 21.2204C16.0546 21.139 16 21.0292 16 20.9147C16 20.8002 16.0546 20.6904 16.1519 20.609L20.702 16.8484C21.037 16.5715 21.037 16.1216 20.702 15.8448L16.1519 12.0841C16.0546 12.0027 16 11.8929 16 11.7784C16 11.664 16.0546 11.5541 16.1519 11.4727C16.3543 11.3055 16.6893 11.3055 16.8917 11.4727L21.4417 15.2334C21.7976 15.5275 22 15.9255 22 16.3466C22 16.7676 21.8046 17.1656 21.4417 17.4598L16.8917 21.2204C16.787 21.3011 16.6544 21.3473 16.5218 21.3473Z" fill="${color}" fill-opacity="0.6"/>
@@ -239,7 +240,7 @@ export const Clickable = ({
 
   return (
     <Pressable
-      style={{
+      style={[{
         marginTop: 16,
         marginLeft: 12,
         paddingBottom: 16,
@@ -247,7 +248,7 @@ export const Clickable = ({
         borderBottomWidth: bottom ? 0 : 1,
         flexDirection: "row",
         justifyContent: "space-between",
-      }}
+      },outlineStyle]}
       onPress={onPress}
     >
       <View>
