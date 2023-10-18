@@ -164,16 +164,6 @@ export default function ProfileScreen({ navigation }) {
           />
           <Clickable
             onPress={() => {
-              navigation?.navigate("ContactUs");
-            }}
-            subTextColor={subTextColor}
-            border={borderColor}
-            color={textColor}
-            icon={cmt}
-            title={"Contact Us"}
-          />
-          <Clickable
-            onPress={() => {
               dispatch({ type: "SET_USER", value: null });
               localStorage.logout();
             }}

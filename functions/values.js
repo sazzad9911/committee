@@ -73,15 +73,15 @@ export class AppValues {
         text3: "বিষয়ে সম্মতি দিলাম",
         gender: "লিঙ্গ",
 
-        email:"ই-মেইল",
-        legalText:"আপনার অধিকার, আমাদের আইনি কর্তব্য!",
-        comity:"কমিটি",
-        support:"সহায়তা",
-        contactUs:"যোগাযোগ করুন",
-        logout:"লগ আউট",
-        darkMode:"ডার্ক মোড",
-        lightMode:"লাইট মোড",
-        deleteComity:"কমিটি অ্যাকাউন্ট ডিলিট করুন"
+        email: "ই-মেইল",
+        legalText: "আপনার অধিকার, আমাদের আইনি কর্তব্য!",
+        comity: "কমিটি",
+        support: "সহায়তা",
+        contactUs: "যোগাযোগ করুন",
+        logout: "লগ আউট",
+        darkMode: "ডার্ক মোড",
+        lightMode: "লাইট মোড",
+        deleteComity: "কমিটি অ্যাকাউন্ট ডিলিট করুন",
       };
     } else {
       return {
@@ -106,15 +106,15 @@ export class AppValues {
         text3: "",
         gender: "Gender",
 
-        email:"E-mail",
-        legalText:"Your rights, our legal duty!",
-        comity:"Comity",
-        support:"Support",
-        contactUs:"Contact Us",
-        logout:"Log Out",
-        darkMode:"Dark Mode",
-        lightMode:"Light Mode",
-        deleteComity:"Delete comity Account"
+        email: "E-mail",
+        legalText: "Your rights, our legal duty!",
+        comity: "Comity",
+        support: "Support",
+        contactUs: "Contact Us",
+        logout: "Log Out",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
+        deleteComity: "Delete comity Account",
       };
     }
   }
@@ -149,7 +149,7 @@ export class AppValues {
         logOut: "লগ আউট",
         membersOnly: "শুধু মেম্বার",
         notification: "নোটিফিকেশান",
-        accountSettings:"অ্যাকাউন্ট সেটিং"
+        accountSettings: "অ্যাকাউন্ট সেটিং",
       };
     } else {
       return {
@@ -164,7 +164,7 @@ export class AppValues {
         logOut: "Log Out",
         membersOnly: "Members Only",
         notification: "Notification",
-        accountSettings:"Account Settings",
+        accountSettings: "Account Settings",
       };
     }
   }
@@ -306,7 +306,7 @@ export class AppValues {
           _notRequired: "বাধ্যতা মূলক নয়",
           _account: "নিশ্চিতকরণ",
           _deleteCofirmation:
-            "একাউন্টটি এখান থেকে আলাদা করতে চাইলে নিশ্চিত করুন",
+            "আপনি এখান থেকে এই অ্যাকাউন্টটি ডিলিট করতে চান কিনা তা নিশ্চিত করুন",
           _support: "সাপোর্ট",
           _supportCaution:
             "সংবেদনশীল তথ্য শেয়ার করবেন না। যেমন,  আপনার ক্রেডিট কার্ডের বিবরণ বা ব্যক্তিগত আইডি নম্বর",
@@ -402,7 +402,7 @@ export class AppValues {
           _notRequired: "Not Required",
           _account: "Confirmation",
           _deleteCofirmation:
-            "Confirm if you want to separate the account from here",
+            "Confirm if you want to delete this account from here",
           _support: "Support",
           _supportCaution:
             "Do not share sensitive information (attachments or text).ex.Your credit card details or personal ID number",

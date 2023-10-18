@@ -429,18 +429,38 @@ const ComityChatScreen = (props) => {
             marginVertical: 30,
           }}
         >
-          Can’t reply here. If you have other inquiry check our{" "}
-          <Text
-            onPress={() => {
-              props.navigation.navigate("SupportForm");
-            }}
-            style={{
-              color: "#4ADE80",
-              fontWeight: "500",
-            }}
-          >
-            support link.
-          </Text>{" "}
+          {isBn ? (
+            <>
+              এখানে উত্তর দেওয়া যাবে না। আপনার যদি অন্য কোন জিজ্ঞাসা থাকে তবে{" "}
+              <Text
+                onPress={() => {
+                  props.navigation.navigate("SupportForm");
+                }}
+                style={{
+                  color: "#4ADE80",
+                  fontWeight: "500",
+                }}
+              >
+                লিঙ্কে
+              </Text>{" "}
+              যান।
+            </>
+          ) : (
+            <>
+              Can’t reply here. If you have other inquery go to the{" "}
+              <Text
+                onPress={() => {
+                  props.navigation.navigate("SupportForm");
+                }}
+                style={{
+                  color: "#4ADE80",
+                  fontWeight: "500",
+                }}
+              >
+                support link.
+              </Text>{" "}
+            </>
+          )}
         </Text>
       )}
     </KeyboardAvoidingView>
