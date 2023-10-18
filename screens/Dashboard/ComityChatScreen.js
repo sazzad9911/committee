@@ -661,6 +661,7 @@ const BottomBar = (props) => {
         }}
       >
         <CameraScreen
+          goBack={() => setCameraVisible(false)}
           onTakePhoto={(pic) => {
             setImage(pic);
             setCameraVisible(false);

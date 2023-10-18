@@ -1,6 +1,6 @@
 import React from "react";
 import { Camera, CameraType } from "expo-camera";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Alert,
   Button,
@@ -13,12 +13,13 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get("window");
 import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
+import { SvgXml } from "react-native-svg";
 
-export default function CameraScreen({onTakePhoto}) {
+export default function CameraScreen({ onTakePhoto, goBack }) {
   const [type, setType] = useState(CameraType.back);
   const [permission, setPermission] = useState(null);
-  const cameraRef=useRef()
+  const cameraRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -39,32 +40,36 @@ export default function CameraScreen({onTakePhoto}) {
       current === CameraType.back ? CameraType.front : CameraType.back
     );
   }
-  const takePhoto=async()=>{
-    if(cameraRef){
-      try{
-        const photo= await cameraRef.current.takePictureAsync({
-          accept:[4,3],
-          quality:.1
-        })
-        if(onTakePhoto){
-          onTakePhoto(photo)
+  const takePhoto = async () => {
+    if (cameraRef) {
+      try {
+        const photo = await cameraRef.current.takePictureAsync({
+          accept: [4, 3],
+          quality: 0.1,
+        });
+        if (onTakePhoto) {
+          onTakePhoto(photo);
         }
         //console.log(photo)
-        return photo
-      }catch(err){
-        console.warn(err.message)
+        return photo;
+      } catch (err) {
+        console.warn(err.message);
       }
     }
-  }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Camera ref={cameraRef} style={styles.camera} type={type}>
         <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={goBack}>
+            <Ionicons name="arrow-back" size={30} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={takePhoto}>
+            <MaterialIcons name="camera" size={30} color="white" />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
             <Ionicons name="camera-reverse" size={30} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={takePhoto}>
-          <MaterialIcons name="camera" size={30} color="white" />
           </TouchableOpacity>
         </View>
       </Camera>
@@ -84,9 +89,9 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: "row",
     paddingHorizontal: 20,
-    justifyContent:"space-between",
-    backgroundColor:"rgba(0, 0, 0, 0.427)",
-    paddingVertical:20
+    justifyContent: "space-between",
+    backgroundColor: "rgba(0, 0, 0, 0.427)",
+    paddingVertical: 20,
   },
   button: {},
   text: {
