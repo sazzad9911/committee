@@ -40,7 +40,7 @@ const ChatCart = ({
   const vendor = useSelector((state) => state.comity);
   const [count, setCount] = useState(0);
   //console.log(data.serviceId)
-  console.log(conversation);
+  // console.log(conversation);
   const styles = StyleSheet.create({
     outBox: {
       marginLeft: 20,

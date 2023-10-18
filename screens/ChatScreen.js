@@ -102,7 +102,6 @@ const ChatScreen = (props) => {
   const user = useSelector((state) => state.user);
   const [Loader, setLoader] = React.useState(false);
   const [Id, setId] = React.useState();
-  const isFocused = useIsFocused();
   const [Refresh, setRefresh] = React.useState(false);
   const inset = useSafeAreaInsets();
   const dispatch = useDispatch();
@@ -391,16 +390,17 @@ const ChatScreen = (props) => {
     }
   };
   useEffect(() => {
-    socket?.on("newMessage", (e) => {
+    socket?.on("newMessage", async (e) => {
       // console.log(e);
       addMessage(e);
+      await post("/chat/message/make-it-seen", { message: e }, user?.token);
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     });
     return () => {
       socket.off("newMessage");
     };
-  }, [socket]);
+  }, [socket, isFocus]);
   const addMessage = (e) => {
     //console.log(e);
     if (e.conversationId === conversationId) {

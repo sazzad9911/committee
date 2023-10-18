@@ -93,13 +93,15 @@ export default function ChatList(props) {
   };
 
   useEffect(() => {
-    socket?.on("newMessage", (e) => {
+    fetchConversations();
+    const interval = setInterval(() => {
       fetchConversations();
-    });
+    }, 5000);
+
     return () => {
-      socket.off("newMessage");
+      clearInterval(interval);
     };
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     !conversations && dispatch(loader.show());
