@@ -27,14 +27,16 @@ export default function Notification() {
   //console.log(user.token);
   const [data, setData] = useState();
   useEffect(() => {
-    !data&&dispatch(loader.show());
+    !data && dispatch(loader.show());
     fetch();
-  }, [isFocused,toast,change]);
+  }, [isFocused, toast, change]);
   useEffect(() => {
     socket.on("newNotification", (e) => {
       setChange(e);
     });
-    socket.off("newNotification");
+    return () => {
+      socket.off("newNotification");
+    };
   }, []);
   const fetch = () => {
     get("/notification/user/get", user.token)
@@ -45,7 +47,7 @@ export default function Notification() {
       })
       .catch((e) => {
         dispatch(loader.hide());
-        dispatch(toast.error(e.response.data.msg))
+        dispatch(toast.error(e.response.data.msg));
       });
   };
 
@@ -54,8 +56,9 @@ export default function Notification() {
       style={{
         flex: 1,
         paddingTop: inset?.top,
-        backgroundColor:colors.getBackgroundColor()
-      }}>
+        backgroundColor: colors.getBackgroundColor(),
+      }}
+    >
       <View
         style={[
           mainStyle.flexBox,
@@ -65,7 +68,8 @@ export default function Notification() {
             borderBottomWidth: 1,
             borderBottomColor: colors.getBorderColor(),
           },
-        ]}>
+        ]}
+      >
         <Text style={[mainStyle.level, { color: colors.getTextColor() }]}>
           Notification
         </Text>
@@ -74,7 +78,8 @@ export default function Notification() {
         showsVerticalScrollIndicator={false}
         style={{
           backgroundColor: colors.getBackgroundColor(),
-        }}>
+        }}
+      >
         {data?.map((doc, i) => (
           <MemberRequestCard
             key={i}

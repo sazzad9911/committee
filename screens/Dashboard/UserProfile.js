@@ -53,7 +53,7 @@ export default function UserProfile({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
 
-  //console.log(data);
+  console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
     subContainer: {
@@ -91,9 +91,7 @@ export default function UserProfile({ navigation, route }) {
             containerStyle={{ marginTop: 12 }}
             edit={false}
             source={{
-              uri: data?.profilePhoto
-                ? data?.profilePhoto
-                : data.user?.profilePhoto,
+              uri: data?.profilePhoto,
             }}
           />
           <TouchableOpacity
@@ -154,9 +152,9 @@ export default function UserProfile({ navigation, route }) {
               navigation.navigate("MemberSubs", {
                 userId: data.userId,
                 memberId: data.id,
-              }); 
+              });
             }}
-            title={isBn?"চাঁদা":"Subscription"}
+            title={isBn ? "চাঁদা" : "Subscription"}
             icon={cart}
           />
 
@@ -187,7 +185,7 @@ export default function UserProfile({ navigation, route }) {
               style={{
                 marginHorizontal: 24,
               }}
-              title={isBn?"চ্যাট":"Message"}
+              title={isBn ? "চ্যাট" : "Message"}
               icon={love}
             />
           )}

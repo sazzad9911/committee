@@ -9,7 +9,7 @@ import PaidSubsMember from "./PaidSubMember";
 import UnpaidSubsMember from "./UnpaidSubMember";
 import { AppColors } from "../../functions/colors";
 import { MotiView } from "moti";
-import { Text,View } from "react-native";
+import { Text, View } from "react-native";
 import { getSummeryOfMembersCollections } from "../../apis/api";
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,7 +26,6 @@ export default function MemberSubs({ navigation, route }) {
   const [totalPaid, setTotalPaid] = React.useState(0);
   const [totalUnPaid, setTotalUnPaid] = React.useState(0);
 
-
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,7 +39,6 @@ export default function MemberSubs({ navigation, route }) {
     };
     fetchData();
   }, []);
-  
 
   return (
     <Tab.Navigator
@@ -67,7 +65,7 @@ export default function MemberSubs({ navigation, route }) {
         name={headlines._paid}
         component={PaidSubsMember}
         initialParams={{
-          memberId:memberId
+          memberId: memberId,
         }}
         // children={() => (
         //   <PaidSubsMember navigation={navigation} memberId={memberId} />
@@ -77,7 +75,7 @@ export default function MemberSubs({ navigation, route }) {
         name={headlines._unPaid}
         component={UnpaidSubsMember}
         initialParams={{
-          memberId:memberId
+          memberId: memberId,
         }}
         // children={() => (
         //   <UnpaidSubsMember navigation={navigation} memberId={memberId} />
@@ -107,7 +105,6 @@ const Header = ({
         justifyContent: "center",
         alignItems: "center",
       }}
-      
     >
       <Text
         style={{
@@ -115,7 +112,13 @@ const Header = ({
           color: "#B0B0B0",
         }}
       >
-        {isBn?index == 0 ? "সর্বমোট পরিশোধ" : "সর্বমোট অপরিশোধ":ndex == 0 ? "Total Paid" : "Total Unpaid"}
+        {isBn
+          ? index == 0
+            ? "সর্বমোট পরিশোধ"
+            : "সর্বমোট অপরিশোধ"
+          : index == 0
+          ? "Total Paid"
+          : "Total Unpaid"}
       </Text>
       <Text
         style={{

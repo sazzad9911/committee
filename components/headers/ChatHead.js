@@ -18,8 +18,7 @@ import { SvgXml } from "react-native-svg";
 import Avatar from "../main/Avatar";
 import { AppColors } from "../../functions/colors";
 
-
-const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
+const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
   const primaryColor = colors.getTextColor();
@@ -48,8 +47,8 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
       fontSize: 20,
       fontWeight: "500",
       color: "#000000",
-      
-      flex:1
+
+      flex: 1,
     },
     icon: {
       marginLeft: 20,
@@ -83,20 +82,21 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
   const users = useSelector((state) => state.user);
   const [data, setData] = useState();
   const [notify, setNotify] = useState(true);
- // console.log(message);
+  // console.log(message);
   //const [AudioOnly,setAudioOnly]=React.useState(false)
   //console.log(newUser.user)
   const backIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15 19.9201L8.48 13.4001C7.71 12.6301 7.71 11.3701 8.48 10.6001L15 4.08008" stroke="${textColor}" stroke-opacity="0.87" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
- useEffect(()=>{
-  message&&setData({
-    user:message.users[0].user,
-    userId:message.users[0].userId
-  })
-  //console.log(message.comity);
- },[message])
+  useEffect(() => {
+    message &&
+      setData({
+        user: message.users[0].user,
+        userId: message.users[0].userId,
+      });
+    //console.log(message.comity);
+  }, [message]);
 
   //console.log(data)
   return (
@@ -109,13 +109,15 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
         flexDirection: "row",
         borderBottomWidth: 1,
         borderBottomColor: colors.getShadowColor(),
-        backgroundColor:colors.getSchemeColor()
-      }}>
+        backgroundColor: colors.getSchemeColor(),
+      }}
+    >
       <View style={styles.box}>
         <Pressable
           onPress={() => {
             navigation.goBack();
-          }}>
+          }}
+        >
           <SvgXml xml={backIcon} />
         </Pressable>
         <Pressable
@@ -125,31 +127,37 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
           }}
           onPress={() => {
             //console.log("s");
-            if(vendor&&data){
-              navigation.navigate("UserProfile", { data: data });
-            }else{
+            if (vendor && data) {
+              navigation.navigate("UserProfile", { data: user });
+            } else {
               navigation.navigate("ComityProfile", {
                 comityId: message.comity?.id,
               });
             }
-            
-          }}>
+          }}
+        >
           {readOnly ? (
-            <Image style={[styles.image,{borderWidth:.2}]} source={logo} />
+            <Image style={[styles.image, { borderWidth: 0.2 }]} source={logo} />
           ) : (
             <Avatar
               style={styles.image}
-              source={vendor?{ uri: image }:{ uri:  message?.comity?.profilePhoto }}
+              source={
+                vendor ? { uri: image } : { uri: message?.comity?.profilePhoto }
+              }
             />
           )}
 
-          {(readOnly||vendor)?(<Text numberOfLines={1} style={[styles.text,{color:textColor}]}>
-            {name ? `${name}` : "Hello World"}
-            {readOnly ? " Support" : ""}
-          </Text>):(<Text numberOfLines={1} style={[styles.text,{color:textColor}]}>
-            {message?.comity ? `${message?.comity?.name}` : "Hello World"}
-            {readOnly ? " Support" : ""}
-          </Text>)}
+          {readOnly || vendor ? (
+            <Text numberOfLines={1} style={[styles.text, { color: textColor }]}>
+              {name ? `${name}` : "Hello World"}
+              {readOnly ? " Support" : ""}
+            </Text>
+          ) : (
+            <Text numberOfLines={1} style={[styles.text, { color: textColor }]}>
+              {message?.comity ? `${message?.comity?.name}` : "Hello World"}
+              {readOnly ? " Support" : ""}
+            </Text>
+          )}
         </Pressable>
       </View>
 
@@ -186,7 +194,8 @@ const ChatHead = ({ navigation, name, image, user, readOnly,message }) => {
         visible={visible}
         onRequestClose={() => {
           setVisible(!visible);
-        }}>
+        }}
+      >
         <MenuBar setVisible={setVisible} />
       </Modal>
     </View>
@@ -256,12 +265,14 @@ const MenuBar = (props) => {
       onPressOutside={() => {
         // handle press outside of childRef event
         props.setVisible(false);
-      }}>
+      }}
+    >
       <View
         style={{
           width: "100%",
           height: "100%",
-        }}>
+        }}
+      >
         <View ref={childRef} style={styles.menuContainer}>
           <View style={styles.menuSubContainer}>
             <Ionicons name="ios-call" size={20} color={textColor} />
@@ -270,7 +281,8 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}>
+              }}
+            >
               Call
             </Text>
             <Switch
@@ -295,7 +307,8 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}>
+              }}
+            >
               Mute
             </Text>
             <Switch
@@ -320,7 +333,8 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}>
+              }}
+            >
               View Profile
             </Text>
             <View style={{ width: 5 }} />
@@ -357,9 +371,9 @@ const noNotification = `<svg width="24" height="24" viewBox="0 0 24 24" fill="no
 <path d="M17.4562 18H4.59368C4.46087 18.0005 4.3303 17.9657 4.21532 17.8992C4.10035 17.8327 4.0051 17.7369 3.93931 17.6215C3.87351 17.5062 3.83954 17.3754 3.84086 17.2426C3.84218 17.1098 3.87874 16.9797 3.94681 16.8656C4.56556 15.8062 5.26868 13.8562 5.26868 10.5V9.75C5.26791 8.37786 5.68304 7.0377 6.45931 5.90625" stroke="black" stroke-opacity="0.87" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
-const app=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+const app = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8 2V5M16 2V5M3.5 9.09H20.5M19.49 19.05H16.51M18 17.59V20.58M18 23C19.0609 23 20.0783 22.5786 20.8284 21.8284C21.5786 21.0783 22 20.0609 22 19C22 17.9391 21.5786 16.9217 20.8284 16.1716C20.0783 15.4214 19.0609 15 18 15C16.9391 15 15.9217 15.4214 15.1716 16.1716C14.4214 16.9217 14 17.9391 14 19C14 20.0609 14.4214 21.0783 15.1716 21.8284C15.9217 22.5786 16.9391 23 18 23Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M21 8.5V16.36C20.27 15.53 19.2 15 18 15C15.79 15 14 16.79 14 19C14 19.75 14.21 20.46 14.58 21.06C14.79 21.42 15.06 21.74 15.37 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M11.9949 13.7H12.0049M8.29395 13.7H8.30395M8.29395 16.7H8.30395" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-`
+`;
