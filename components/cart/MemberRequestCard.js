@@ -92,6 +92,8 @@ export default function MemberRequestCard({
               ? `আপনি /.${name}/তে /.${
                   position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                 }/ হিসেবে যোগদানের অনুরোধ প্রত্যাখ্যান করেছেন`
+              : type == "New-Notice"
+              ? `আপনি আপনি আপনি আপনি`
               : `আপনি /.${name}/তে /.${
                   position === "Special" ? "বিশেষ সদস্য" : "সাধারণ সদস্য"
                 }/ হিসেবে যোগদানের জন্য একটি নতুন অনুরোধ পেয়েছেন`
@@ -111,6 +113,8 @@ export default function MemberRequestCard({
               ? `You've declined the request to join the /.${name}/ Committee' as a /.${
                   position === "Special" ? "special member" : "general member"
                 }`
+              : type == "New-Notice"
+              ? `আপনি আপনি আপনি আপনি`
               : `You've received a new request to join the /.${name}/ comity as a /.${
                   position === "Special" ? "special member" : "general member"
                 }`
