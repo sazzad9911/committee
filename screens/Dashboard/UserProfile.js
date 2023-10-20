@@ -94,13 +94,17 @@ export default function UserProfile({ navigation, route }) {
               uri: data?.profilePhoto,
             }}
           />
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("EditMemberInfo", { member: data })
-            }
-          >
-            <SvgXml style={{ marginTop: 12 }} xml={edit} />
-          </TouchableOpacity>
+          {isMember ? (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("EditMemberInfo", { member: data })
+              }
+            >
+              <SvgXml style={{ marginTop: 12 }} xml={edit} />
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
         </View>
         <View
           style={{
