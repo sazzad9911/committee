@@ -46,6 +46,7 @@ export default function ViewNotice({ route, navigation }) {
     <View
       style={{
         flex: 1,
+        backgroundColor:colors.getBackgroundColor()
       }}
     >
       <CustomHeader
@@ -98,6 +99,7 @@ export default function ViewNotice({ route, navigation }) {
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.1)" : "#ffff",
               minHeight: 380,
               padding: "2%",
+              borderRadius:4
             },
           ]}
         >

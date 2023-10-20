@@ -52,7 +52,9 @@ export default function EditNotice({ route, navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{
+      backgroundColor:colors.getBackgroundColor()
+    }}>
       <View style={[mainStyle.pdH20]}>
         <Input
           level={headlines.subject}
