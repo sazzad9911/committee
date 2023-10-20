@@ -69,7 +69,7 @@ export default function MemberRequestCard({
                   position === "Special" ? "special member" : "general member"
                 }`
               : type == "You-Accept-Member-Request"
-              ? `You have accepted /.${name}/ to join your committee as a /.${
+              ? `You have accepted /.${name}/ to join your comity as a /.${
                   position === "Special" ? "special member" : "general member"
                 }`
               : type == "You-Reject-Member-Request"
@@ -111,12 +111,12 @@ export default function MemberRequestCard({
                   position === "Special" ? "special member" : "general member"
                 }`
               : type == "You-Reject-Member-Request"
-              ? `You've declined the request to join the /.${name}/ Committee' as a /.${
+              ? `You've declined the request to join the /.${name}/ Comity' as a /.${
                   position === "Special" ? "special member" : "general member"
                 }`
               : type == "New-Notice"
               ? `New Notice from /.${name}/ Comity`
-              : `You've received a new request to join the /.${name}/ comity as a /.${
+              : `You've received a new request to join the /.${name}/ Comity as a /.${
                   position === "Special" ? "special member" : "general member"
                 }`
           }`;
