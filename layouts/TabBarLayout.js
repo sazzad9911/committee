@@ -86,7 +86,7 @@ export default function TabBarLayout({
                   width: width / 2 - 40,
                   height: 2,
                   marginHorizontal: 20,
-                  backgroundColor: "#fff",
+                  backgroundColor:isDark?(state.index===0?"#6971FF":"#F00"): "#fff",
                 },
               ]}
             />
@@ -105,7 +105,7 @@ export default function TabBarLayout({
               height: 45,
             }}>
             <Text
-              style={{ color: state.index == index ? "#fff" : "#ADADAD",fontSize:16 }}>
+              style={{ color: state.index == index ?isDark?(state.index===0?"#6971FF":"#F00"): "#fff" : "#ADADAD",fontSize:16 }}>
               {route?.name}
             </Text>
           </Pressable>
