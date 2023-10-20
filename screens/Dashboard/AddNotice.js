@@ -11,6 +11,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import loader from "../../data/loader";
+import toast from "../../data/toast";
 
 export default function AddNotice({ navigation }) {
   const ref = useRef();
@@ -43,7 +44,7 @@ export default function AddNotice({ navigation }) {
 
   const handelSubmit = async () => {
     if (!subject || !details) {
-      Alert.alert("Please fill all the fields!");
+      dispatch(toast.info("Please fill all the fields!"))
       return;
     }
     try {
@@ -56,8 +57,7 @@ export default function AddNotice({ navigation }) {
       reset();
       navigation.navigate("Profile");
     } catch (error) {
-      console.log(error);
-      Alert.alert(error.response.data.msg);
+      dispatch(toast.info(error.response.data.msg))
     } finally {
       dispatch(loader.hide());
     }

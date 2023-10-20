@@ -129,6 +129,12 @@ export default function AddExpenses({ navigation }) {
             </Text>
           </View>
         </Pressable>
+        <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
 
         {/* <Button
           editable={false}
@@ -143,19 +149,13 @@ export default function AddExpenses({ navigation }) {
         disabled={name && amount && date ? false : true}
         active={name && amount && date ? true : false}
         style={{
-          position: "absolute",
           marginHorizontal: 20,
-          bottom: 32,
+          marginBottom:32,
           width: Dimensions.get("window").width - 40,
         }}
         title={"Confirm"}
       />
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
+      
     </KeyboardAvoidingView>
   );
 }
