@@ -64,7 +64,15 @@ export default function Paid({ navigation, route }) {
             }}
           />
         ))}
-        {collections?.length === 0 && <NoOption title={isBn?"এই কমিটিতে আপানার কোন চাঁদা নেই":"You have no any subscriptions in this comity"} />}
+        {collections?.length === 0 && (
+          <NoOption
+            title={
+              isBn
+                ? "এই কমিটিতে আপানার কোন চাঁদা নেই"
+                : "You have no any subscriptions in this comity"
+            }
+          />
+        )}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

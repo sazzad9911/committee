@@ -35,12 +35,14 @@ export default function SubscriptionDetails({ navigation, route }) {
   const isFocused = useIsFocused();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [paidCount, setPaidCount] = useState();
+  const [unpaidCount, setUnpaidCount] = useState();
 
   useEffect(() => {
     fetch();
   }, [isFocused]);
   const fetch = async () => {
-   !data&& dispatch(loader.show());
+    !data && dispatch(loader.show());
     try {
       const res = await get(`/subs/get-subs-by-id/${data?.id}`, user.token);
       setData(res.data.subscription);
@@ -50,6 +52,13 @@ export default function SubscriptionDetails({ navigation, route }) {
       console.error(e.message);
     }
   };
+  useEffect(() => {
+    get(`/subs/get-all-collections/${data?.id}`, user.token).then((res) => {
+      dispatch(loader.hide());
+      setPaidCount(res.data.collections?.filter((d) => d.paid).length);
+      setUnpaidCount(res.data.collections?.filter((d) => !d.paid).length);
+    });
+  }, [isFocused]);
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <Tab.Navigator
@@ -59,6 +68,14 @@ export default function SubscriptionDetails({ navigation, route }) {
             color={
               props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
             }
+            counter={[
+              paidCount > 0
+                ? `${paidCount > 9 ? paidCount : `0${paidCount}`}`
+                : "",
+              unpaidCount > 0
+                ? `${unpaidCount > 9 ? unpaidCount : `0${unpaidCount}`}`
+                : "",
+            ]}
             header={
               <Header
                 onEdit={() => {
@@ -156,7 +173,8 @@ const Header = ({
       </View>
       <View style={[mainStyle.flexBox]}>
         <Text style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
-          {isBn?"পরিমাণের লক্ষ":"Target Amount"}{"    "}
+          {isBn ? "পরিমাণের লক্ষ" : "Target Amount"}
+          {"    "}
           <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
             {data?.amount}
           </Text>
