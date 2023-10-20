@@ -42,7 +42,7 @@ export default function Notification() {
     get("/notification/user/get", user.token)
       .then((res) => {
         dispatch(loader.hide());
-        console.log(res.data.notifications[0]);
+        //console.log(res.data.notifications[0]);
         setData(res.data.notifications);
       })
       .catch((e) => {
