@@ -18,6 +18,8 @@ import Paid from "./Paid";
 import Unpaid from "./Unpaid";
 import ComitySubscriptionRoute from "../../routes/ComitySubscriptionRoute";
 import FloatingButton from "../../components/main/FloatingButton";
+import { get } from "../../apis/multipleApi";
+import { useIsFocused } from "@react-navigation/native";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -29,12 +31,24 @@ function DashboardSubscription({ navigation }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
+  const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
 
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
+  const [paidCount, setPaidCount] = useState(0);
+  const [unpaidCount, setUnpaidCount] = useState(0);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    get(`/subs/get-all-subs/${comity.id}`, user.token).then((res) => {
+      setPaidCount(res.data.subs?.filter((sub) => sub.completed).length);
+      setUnpaidCount(res.data.subs?.filter((sub) => !sub.completed).length);
+    });
+  }, [isFocused]);
 
   return (
     <View
@@ -60,8 +74,16 @@ function DashboardSubscription({ navigation }) {
           />
         )}
       >
-        <Tab.Screen name={headlines._completed} component={Paid} />
-        <Tab.Screen name={headlines._incomplete} component={Unpaid} />
+        <Tab.Screen
+          name={`${headlines._completed} ${paidCount > 0 ? paidCount : ""}`}
+          component={Paid}
+        />
+        <Tab.Screen
+          name={`${headlines._incomplete} ${
+            unpaidCount > 0 ? unpaidCount : ""
+          }`}
+          component={Unpaid}
+        />
       </Tab.Navigator>
       <FloatingButton
         onPress={() => {

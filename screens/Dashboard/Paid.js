@@ -47,11 +47,12 @@ export default function Paid({ navigation }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={
-              isBn
-                ? "এখন পর্যন্ত কোন চাঁদার লিস্ট তৈরি করা হয়নাই"
-                : "No subscription list has been created"
-            }
+            // title={
+            //   isBn
+            //     ? "এখন পর্যন্ত কোন চাঁদার লিস্ট তৈরি করা হয়নাই"
+            //     : "No subscription list has been created"
+            // }
+            title={" "}
             subTitle={
               isBn
                 ? "যোগ বাটন এ ক্লিক করে চাঁদা তৈরি করুন"
