@@ -1,7 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
+  Platform,
   StyleSheet,
   Text,
   View,
@@ -14,7 +16,7 @@ import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import AnimatedLoader from "react-native-animated-loader";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ToastComponent from "./components/main/ToastCoponent";
 import toast from "./data/toast";
 import AdminRoute from "./routes/AdminRoute";
@@ -26,6 +28,11 @@ import { setIsDark } from "./data/isDark";
 import localStorage from "./functions/localStorage";
 import { get } from "./apis/multipleApi";
 import loader from "./data/loader";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
+import { updateDeviceToken } from "./apis/authApi";
+
+Notifications.setNotificationHandler(null);
 
 export default function App() {
   const LoaderComponent = () => {
@@ -35,8 +42,13 @@ export default function App() {
     const comity = useSelector((state) => state.comity);
     const isDark = useSelector((state) => state.isDark);
     const colors = new AppColors(isDark);
+    const user = useSelector((state) => state.user);
     const isBn = useSelector((state) => state.isBn);
     const [update, setUpdate] = useState(true);
+    const [expoPushToken, setExpoPushToken] = React.useState("");
+    const [notification, setNotification] = React.useState(false);
+    const notificationListener = React.useRef();
+    const responseListener = React.useRef();
 
     useEffect(() => {
       setTimeout(() => {
@@ -47,6 +59,36 @@ export default function App() {
       getData();
       checkUpdate();
     }, []);
+    useEffect(() => {
+      user &&expoPushToken&&
+        updateDeviceToken(user.token, expoPushToken)
+          .then((res) => {
+            console.log("Success");
+          })
+          .catch((e) => {
+            console.log(e.response.data.msg);
+          });
+    }, [expoPushToken, user]);
+    React.useEffect(() => {
+      regNotification();
+      //getNetworkStatus();
+      notificationListener.current =
+        Notifications.addNotificationReceivedListener((notification) => {
+          setNotification(notification);
+        });
+
+      responseListener.current =
+        Notifications.addNotificationResponseReceivedListener((response) => {
+          console.log(response);
+        });
+
+      return () => {
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        );
+        Notifications.removeNotificationSubscription(responseListener.current);
+      };
+    }, [user]);
     const getData = async () => {
       const bangla = await localStorage.isBn();
       const dark = await localStorage.isDark();
@@ -66,6 +108,26 @@ export default function App() {
       //console.log(data);
       dispatch(loader.hide());
     };
+    const regNotification = async () => {
+      const token = await registerForPushNotificationsAsync();
+      console.log(token);
+      setExpoPushToken(token);
+      //dispatch(setDeviceToken(token))
+      //console.log(token)
+      // if (!Array.isArray(user) && user?.token && token) {
+      //   await updateDeviceToken(user.token, token);
+      // }
+    };
+    // const getNetworkStatus=async()=>{
+
+    //   const res=await Network.getNetworkStateAsync();
+    //   if(!res.isConnected){
+    //     setIsOffline(true)
+    //     Alert.alert("Ops!","You are offline")
+    //   }else{
+    //     setIsOffline(false)
+    //   }
+    // }
     if (!update) {
       return;
     }
@@ -131,3 +193,34 @@ const styles = StyleSheet.create({
     height: 250,
   },
 });
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      //Alert.alert("Failed to get push token for push notification!");
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    //Alert.alert("Must use physical device for Push Notifications");
+  }
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  return token;
+}
