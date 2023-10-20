@@ -88,16 +88,7 @@ export default function AdminRoute() {
   const [isReady, setIsReady] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
 
-  useEffect(() => {
-    //dispatch(setIsDark(colorScheme == "dark" ? true : false));
-    getData();
-  }, [colorScheme]);
-  const getData = async () => {
-    const bangla = await localStorage.isBn();
-    const dark = await localStorage.isDark();
-    dispatch(setIsBn(bangla));
-    dispatch(setIsDark(dark));
-  };
+  
   const MyTheme = {
     ...DefaultTheme,
     colors: {

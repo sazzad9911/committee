@@ -47,7 +47,7 @@ export default function MemberSubs({ navigation, route }) {
           color={
             props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
           }
-          header={
+          header={ 
             <Header
               headlines={headlines}
               borderColor={borderColor}

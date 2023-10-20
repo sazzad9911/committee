@@ -27,7 +27,7 @@ export default function MemberSubDetails({ navigation, route }) {
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
   const { subscriptionId, memberId, paid } = route?.params;
-  const [paidList, setPaidList] = useState([]);
+  const [paidList, setPaidList] = useState();
   const dispatch = useDispatch();
   const isFocus = useIsFocused();
 
@@ -76,7 +76,7 @@ export default function MemberSubDetails({ navigation, route }) {
             backgroundColor: "green",
             flex: 1,
           }}
-          colors={data?.paid ? ac : dc}>
+          colors={isDark?["#000","#000"]:data?.paid ? ac : dc}>
           <View
             style={{
               paddingTop: inset.top,
