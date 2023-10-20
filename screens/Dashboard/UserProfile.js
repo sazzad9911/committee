@@ -52,7 +52,7 @@ export default function UserProfile({ navigation, route }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
-
+  const isMember = data?.comityId ? true : false;
   console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
@@ -147,16 +147,18 @@ export default function UserProfile({ navigation, route }) {
             justifyContent: "center",
           }}
         >
-          <SquireCard
-            onPress={() => {
-              navigation.navigate("MemberSubs", {
-                userId: data.userId,
-                memberId: data.id,
-              });
-            }}
-            title={isBn ? "চাঁদা" : "Subscription"}
-            icon={cart}
-          />
+          {isMember && (
+            <SquireCard
+              onPress={() => {
+                navigation.navigate("MemberSubs", {
+                  userId: data.userId,
+                  memberId: data.id,
+                });
+              }}
+              title={isBn ? "চাঁদা" : "Subscription"}
+              icon={cart}
+            />
+          )}
 
           {data.userId && (
             <SquireCard
@@ -228,7 +230,7 @@ export default function UserProfile({ navigation, route }) {
             style={{ borderBottomWidth: 0, paddingBottom: 0 }}
           />
         </View>
-        {!data?.userId && (
+        {!data?.userId && isMember && (
           <View style={[styles.subContainer, { marginBottom: 20 }]}>
             <FlatCard
               onPress={() => {
@@ -247,23 +249,25 @@ export default function UserProfile({ navigation, route }) {
             />
           </View>
         )}
-        <View style={[styles.subContainer, { marginBottom: 20 }]}>
-          <FlatCard
-            onPress={() => {
-              navigation.navigate("DeleteMemberConfirmation", { data: data });
-            }}
-            icon={noteIcon}
-            title={headlines._deleteThisAccount}
-            type={""}
-            color="red"
-            style={{
-              borderBottomWidth: 0,
-              paddingTop: 0,
-              paddingBottom: 0,
-              color: "red",
-            }}
-          />
-        </View>
+        {isMember && (
+          <View style={[styles.subContainer, { marginBottom: 20 }]}>
+            <FlatCard
+              onPress={() => {
+                navigation.navigate("DeleteMemberConfirmation", { data: data });
+              }}
+              icon={noteIcon}
+              title={headlines._deleteThisAccount}
+              type={""}
+              color="red"
+              style={{
+                borderBottomWidth: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+                color: "red",
+              }}
+            />
+          </View>
+        )}
       </ScrollView>
     </View>
   );

@@ -410,7 +410,7 @@ const ChatScreen = (props) => {
 
   useEffect(() => {
     fetchMessages();
-    //console.log(data);
+    // console.log(data);
     setUserInfo(data.users.filter((u) => u.userId !== user.user.id)[0].user);
     //console.log(data.users.filter(u => u.userId!==user.user.id)[0].user);
   }, [isFocus, lim]);

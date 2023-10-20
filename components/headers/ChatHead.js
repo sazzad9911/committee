@@ -82,7 +82,7 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
   const users = useSelector((state) => state.user);
   const [data, setData] = useState();
   const [notify, setNotify] = useState(true);
-  // console.log(message);
+  // console.log(user);
   //const [AudioOnly,setAudioOnly]=React.useState(false)
   //console.log(newUser.user)
   const backIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +128,9 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
           onPress={() => {
             //console.log("s");
             if (vendor && data) {
-              navigation.navigate("UserProfile", { data: user });
+              navigation.navigate("UserProfile", {
+                data: user.isMember || user,
+              });
             } else {
               navigation.navigate("ComityProfile", {
                 comityId: message.comity?.id,
