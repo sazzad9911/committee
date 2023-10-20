@@ -136,6 +136,7 @@ export default function Support({navigation}) {
         setIndex={setIndex}
         subject={subject}
         isBn={isBn}
+        backgroundColor={colors.getBackgroundColor()}
         onBack={()=>navigation.goBack()}
       />
       {index != -1 && (
@@ -193,7 +194,8 @@ const Screen = ({
   setMessage,
   handelSubmit,
   isBn,
-  onBack
+  onBack,
+  backgroundColor
 }) => (
   <ScrollView showsVerticalScrollIndicator={false}>
     <View style={[mainStyle.pdH20]}>
@@ -233,13 +235,14 @@ const Screen = ({
         level={headlines._details}
       />
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
-        <Button  onPress={onBack}
-          style={{ width: Dimensions.get("window").width / 2 - 30 }}
+        <Button active={true} bg={[backgroundColor,backgroundColor]}  onPress={onBack}
+          style={{ width: Dimensions.get("window").width / 2 - 30,borderWidth:1 }}
           title={headlines._canncel}
         />
         <Button
           onPress={handelSubmit}
-          active={true}
+          active={subject&&message?true:false}
+          disabled={subject&&message?false:true}
           style={{ width: Dimensions.get("window").width / 2 - 30 }}
           title={headlines._send}
         />
