@@ -51,6 +51,7 @@ export default function UserSubscriptionDetails({ navigation, route }) {
       console.error(e.message);
     }
   };
+ 
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -62,7 +63,10 @@ export default function UserSubscriptionDetails({ navigation, route }) {
           marginTop: 20,
         }}
       >
-        <CollectionCart data={info} />
+       {info&&( <CollectionCart 
+        textColor={textColor}
+        borderColor={borderColor}
+        isDark={isDark} data={info} />)}
       </View>
     </View>
   );

@@ -23,7 +23,8 @@ export default function TabBarLayout({
   descriptors,
   BackGround,
   style,
-  color
+  color,
+  counter
 }) {
   //const isFocused = state.index === index;
   const isDark = useSelector((state) => state.isDark);
@@ -106,7 +107,7 @@ export default function TabBarLayout({
             }}>
             <Text
               style={{ color: state.index == index ?isDark?(state.index===0?"#6971FF":"#F00"): "#fff" : "#ADADAD",fontSize:16 }}>
-              {route?.name}
+              {route?.name} {Array.isArray(counter)&&counter[index]}
             </Text>
           </Pressable>
         ))}

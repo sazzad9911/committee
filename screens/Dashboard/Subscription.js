@@ -5,7 +5,7 @@ import Expenses from "./Expenses";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import TabBarLayout from "../../layouts/TabBarLayout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MotiView } from "moti";
 import mainStyle from "../../styles/mainStyle";
 import { AppColors } from "../../functions/colors";
@@ -20,6 +20,7 @@ import ComitySubscriptionRoute from "../../routes/ComitySubscriptionRoute";
 import FloatingButton from "../../components/main/FloatingButton";
 import { get } from "../../apis/multipleApi";
 import { useIsFocused } from "@react-navigation/native";
+import loader from "../../data/loader";
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -39,9 +40,10 @@ function DashboardSubscription({ navigation }) {
   const colors = new AppColors(isDark);
   const textColor = colors.getTextColor();
   const borderColor = colors.getBorderColor();
-  const [paidCount, setPaidCount] = useState(0);
-  const [unpaidCount, setUnpaidCount] = useState(0);
+  const [paidCount, setPaidCount] = useState();
+  const [unpaidCount, setUnpaidCount] = useState();
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     get(`/subs/get-all-subs/${comity.id}`, user.token).then((res) => {
@@ -54,8 +56,7 @@ function DashboardSubscription({ navigation }) {
     <View
       style={{
         flex: 1,
-      }}
-    >
+      }}>
       <Tab.Navigator
         style={{ backgroundColor: colors.getBackgroundColor() }}
         tabBar={(props) => (
@@ -63,6 +64,14 @@ function DashboardSubscription({ navigation }) {
             color={
               props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
             }
+            counter={[
+              paidCount > 0
+                ? `${paidCount > 9 ? paidCount : `0${paidCount}`}`
+                : "",
+              unpaidCount > 0
+                ? `${unpaidCount > 9 ? unpaidCount : `0${unpaidCount}`}`
+                : "",
+            ]}
             header={
               <Header
                 headlines={headlines}
@@ -72,18 +81,9 @@ function DashboardSubscription({ navigation }) {
             }
             {...props}
           />
-        )}
-      >
-        <Tab.Screen
-          name={`${headlines._completed} ${paidCount > 0 ? paidCount : ""}`}
-          component={Paid}
-        />
-        <Tab.Screen
-          name={`${headlines._incomplete} ${
-            unpaidCount > 0 ? unpaidCount : ""
-          }`}
-          component={Unpaid}
-        />
+        )}>
+        <Tab.Screen name={`${headlines._completed}`} component={Paid} />
+        <Tab.Screen name={`${headlines._incomplete}`} component={Unpaid} />
       </Tab.Navigator>
       <FloatingButton
         onPress={() => {
@@ -120,8 +120,7 @@ const Header = ({ textColor, borderColor, headlines }) => {
       }}
       transition={{
         type: "timing",
-      }}
-    >
+      }}>
       <Text
         style={[
           {
@@ -129,8 +128,7 @@ const Header = ({ textColor, borderColor, headlines }) => {
             fontSize: 24,
           },
           mainStyle.mt24,
-        ]}
-      >
+        ]}>
         {headlines._allSubscription}
       </Text>
       <Input

@@ -66,6 +66,9 @@ export default function MemberSubDetails({ navigation, route }) {
   useEffect(() => {
     fetch();
   }, [isFocus]);
+  if(!data){
+    return
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
