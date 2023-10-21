@@ -30,6 +30,7 @@ export default function Expenses({ navigation,route }) {
   const [data, setData] = useState();
   const isFocus = useIsFocused();
   const expenseDateSort = useSelector((state) => state.expenseDateSort);
+  const setLastDate=route?.params?.setLastDate;
 
   React.useEffect(() => {
     !data && dispatch(loader.show());
@@ -40,6 +41,7 @@ export default function Expenses({ navigation,route }) {
       //console.log(sortDate);
       //setData([])
       setData(res.data.expenses);
+      setLastDate&&setLastDate(res.data.expenses[res.data.expenses.length-1])
       expenseDateSort&&setData(res.data.expenses.filter(exp => new Date(exp.date)>new Date(expenseDateSort)));
     };
     fetch();

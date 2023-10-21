@@ -18,9 +18,10 @@ export default function SheetCard({ title,onPress,select }) {
         flexDirection:"row",
         justifyContent:"space-between"
       }}>
-      <Text style={[{
+      <Text style={[mainStyle.mediumText,{
         color:colors.getTextColor(),
-      },mainStyle.mediumText]}>{title?title:"Last 7 days collection"}</Text>
+        fontWeight:"400"
+      }]}>{title?title:"Last 7 days collection"}</Text>
       {select&&(<SvgXml xml={tick}/>)}
     </TouchableOpacity>
   );
