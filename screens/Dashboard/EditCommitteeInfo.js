@@ -75,8 +75,8 @@ export default function EditCommitteeInfo({ navigation }) {
       });
       dispatch({ type: "SET_COMITY", value: data.comity });
       localStorage.comityLogIn(data.comity);
-      navigation.navigate("CommitteeProfile");
-      Alert.alert("Comity updated successfully!");
+      navigation.goBack();
+      //Alert.alert("Comity updated successfully!");
     } catch (error) {
       console.log(error);
       Alert.alert(error.response.data.msg);

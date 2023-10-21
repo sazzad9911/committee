@@ -95,7 +95,7 @@ export default function AllCollections({ navigation, route }) {
         ? setSorted(
             data.filter(
               (d) =>
-                new Date(d.date) >= choose[0] && new Date(d.date) <= choose[1]
+                new Date(d.createdAt) >= choose[0] && new Date(d.createdAt) <= choose[1]
             )
           )
         : setSorted(res.data.collections);
@@ -128,20 +128,21 @@ export default function AllCollections({ navigation, route }) {
   const handleSorted = (value) => {
     let index = filterData.indexOf(value);
     const today = new Date();
+    //console.log(data[0]);
     setSorted(
       data?.filter((d) => {
         if (index === 0) {
-          return new Date(d.date) >= today.setDate(today.getDate() - 7);
+          return new Date(d.createdAt) >= today.setDate(today.getDate() - 7);
         } else if (index === 1) {
-          return new Date(d.date) >= today.setDate(today.getDate() - 15);
+          return new Date(d.createdAt) >= today.setDate(today.getDate() - 15);
         } else if (index === 2) {
-          return new Date(d.date) >= today.setDate(today.getDate() - 30);
+          return new Date(d.createdAt) >= today.setDate(today.getDate() - 30);
         } else if (index === 3) {
-          return new Date(d.date) >= today.setMonth(today.getMonth() - 3);
+          return new Date(d.createdAt) >= today.setMonth(today.getMonth() - 3);
         } else if (index === 4) {
-          return new Date(d.date) >= today.setMonth(today.getMonth() - 6);
+          return new Date(d.createdAt) >= today.setMonth(today.getMonth() - 6);
         } else {
-          return new Date(d.date) >= today.setFullYear(today.getFullYear() - 1);
+          return new Date(d.createdAt) >= today.setFullYear(today.getFullYear() - 1);
         }
       })
     );
@@ -356,6 +357,13 @@ const Component = ({
   choose,
   text,
 }) => {
+  const [total,setTotal]=useState(0)
+  useEffect(()=>{
+    setTotal(0)
+    sorted?.map((d)=>{
+      setTotal(c=>c+d.amount)
+    })
+  },[sorted])
   return (
     <View style={{ marginVertical: 14 }}>
       <View
@@ -371,6 +379,14 @@ const Component = ({
             } ${new Date(choose[1]).toLocaleDateString()}`}
           />
         ) : null}
+        {selected||choose?(
+          <Button fontStyle={{
+            fontWeight:"400"
+          }} style={{
+            height:25,
+            marginLeft:12
+          }} active={true} title={isBn?`সর্বমোট ${total}৳`:`Total ${total}৳`}/>
+        ):null}
       </View>
       {sorted?.map((doc, i) => (
         <CollectionCart
