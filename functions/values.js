@@ -270,7 +270,7 @@ export class AppValues {
           _allSubscription: "সকল পেমেন্ট",
           _details: "বিস্তারিত",
           _aboutSubscription: "পেমেন্ট সম্পর্কে",
-          _subscriptionName: "পেমেন্টর নাম লিখুন",
+          _subscriptionName: "পেমেন্টের নাম লিখুন",
           _required: "বাধ্যতা মূলক",
           _max20: "সর্বোচ্চ ২০ অক্ষর",
           _ok: "নিশ্চিত করুন",

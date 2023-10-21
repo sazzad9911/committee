@@ -50,8 +50,7 @@ export default function AddSubscription({ navigation, route }) {
         <Input
           value={name}
           onChange={setName}
-          level={values.getValues()._subscriptionName}
-          optionalLevel={values.getValues()._required}
+          level={`${values.getValues()._subscriptionName} *`}
           subLevel={values.getValues()._max20}
           placeholder={values.getValues()._placeholder1}
         />
@@ -59,8 +58,7 @@ export default function AddSubscription({ navigation, route }) {
           value={quantity}
           onChange={setQuantity}
           outSideStyle={mainStyle.mt24}
-          level={values.getValues()._ammoutSubs}
-          optionalLevel={values.getValues()._required}
+          level={`${values.getValues()._ammoutSubs} *`}
           keyboardType={"numeric"}
           placeholder={values.getValues()._placeholder2}
         />

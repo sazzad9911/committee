@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Touchable } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useSelector } from "react-redux";
 import Button from "../components/main/Button";
 import { AppColors } from "../functions/colors";
 import { AppValues } from "../functions/values";
 import mainStyle from "../styles/mainStyle";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ContactSuccess({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -16,12 +17,87 @@ export default function ContactSuccess({ navigation }) {
   const subTextColor = colors.getSubTextColor();
   const values = new AppValues(isBn);
   const headlines = values.getValues();
+  const { width, height } = Dimensions.get("window");
+  const backgroundColor = colors.getBackgroundColor();
+
   return (
-    <View style={[{ flex: 1, alignItems: "center" }, mainStyle.pdH20]}>
-      <SvgXml style={{marginTop:100}} xml={icon} />
-      <Text style={[mainStyle.text20,mainStyle.mt24]}>{headlines._successfulMessage}</Text>
-      <Text style={[mainStyle.subLevel,{textAlign:"justify"}]}>{headlines._infoMessage}</Text>
-      <Button onPress={()=>navigation.goBack()} active={true} style={[{width:Dimensions.get("window").width-40},mainStyle.mt32]} title={'Close'}/>
+    <View
+      style={[
+        {
+          flex: 1,
+          alignItems: "center",
+          height: height,
+          justifyContent: "space-between",
+          backgroundColor: backgroundColor,
+        },
+        mainStyle.pdH20,
+      ]}
+    >
+      <View style={{ alignItems: "center" }}>
+        <SvgXml style={{ marginTop: 100 }} xml={icon} />
+        <Text style={[mainStyle.text20, mainStyle.mt24, { color: "#6971FF" }]}>
+          {isBn ? "আপনার অনুরোধ জমা হয়েছে!" : "Your request is submited!"}
+        </Text>
+        <Text
+          style={[
+            mainStyle.subLevel,
+            {
+              textAlign: "center",
+              lineHeight: 65,
+              color: textColor,
+              paddingVertical: 30,
+            },
+          ]}
+        >
+          {isBn ? (
+            <>
+              আপনার যদি অন্য কোনো জিজ্ঞাসা থাকে, অনুগ্রহ করে{" "}
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text
+                  style={[
+                    mainStyle.subLevel,
+                    {
+                      textAlign: "justify",
+                      color: "#6971FF",
+                      paddingVertical: 30,
+                    },
+                  ]}
+                >
+                  সাপোর্ট সেন্টারে
+                </Text>
+              </TouchableOpacity>{" "}
+              ফিরে যান।
+            </>
+          ) : (
+            <>
+              If you have another inquiry, please go back to the{" "}
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text
+                  style={[
+                    mainStyle.subLevel,
+                    {
+                      textAlign: "justify",
+                      color: "#6971FF",
+                      paddingVertical: 30,
+                    },
+                  ]}
+                >
+                  Support Box
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </Text>
+      </View>
+      <Button
+        onPress={() => navigation.goBack()}
+        active={true}
+        style={[
+          { width: Dimensions.get("window").width - 40, marginBottom: 60 },
+          mainStyle.mt32,
+        ]}
+        title={isBn ? "বন্ধ করুন" : "Close"}
+      />
     </View>
   );
 }
