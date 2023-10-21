@@ -58,11 +58,7 @@ export default function UnPaidSubscription({ navigation, route }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={
-              isBn
-                ? "কোন সদস্য থেকে পেমেন্ট কালেকশন করা হয়নাই"
-                : "No payment is collected from any member"
-            }
+            title={" "}
             subTitle={
               isBn
                 ? "যোগ বাটন এ ক্লিক করে পেমেন্ট কালেকশন করুন"

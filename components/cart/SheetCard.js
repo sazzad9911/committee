@@ -5,24 +5,33 @@ import { useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
 import mainStyle from "../../styles/mainStyle";
 
-export default function SheetCard({ title,onPress,select }) {
+export default function SheetCard({ title, onPress, select }) {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
 
   return (
-    <TouchableOpacity onPress={()=>onPress?onPress(title):console.log("ok")}
+    <TouchableOpacity
+      onPress={() => (onPress ? onPress(title) : console.log("ok"))}
       style={{
         paddingVertical: 16,
-        borderBottomWidth:1,
-        borderBottomColor:colors.getShadowColor(),
-        flexDirection:"row",
-        justifyContent:"space-between"
-      }}>
-      <Text style={[mainStyle.mediumText,{
-        color:colors.getTextColor(),
-        fontWeight:"400"
-      }]}>{title?title:"Last 7 days collection"}</Text>
-      {select&&(<SvgXml xml={tick}/>)}
+        borderBottomWidth: 1,
+        borderBottomColor: colors.getShadowColor(),
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <Text
+        style={[
+          mainStyle.mediumText,
+          {
+            color: colors.getTextColor(),
+            fontWeight: "400",
+          },
+        ]}
+      >
+        {title ? title : "Last 7 days collection"}
+      </Text>
+      {select && <SvgXml xml={tick} />}
     </TouchableOpacity>
   );
 }

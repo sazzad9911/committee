@@ -46,7 +46,8 @@ export default function UserNotice({ navigation, route }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isFocused = useIsFocused();
-
+  const [text, setText] = useState("");
+  const [sorted, setSorted] = useState([]);
   const openMenu = () => setVisible(true);
 
   const closeMenu = () => setVisible(false);
@@ -79,6 +80,7 @@ export default function UserNotice({ navigation, route }) {
     try {
       const { data } = await getAllNotices(comity.id);
       setNotices(data.notices);
+      setSorted(data.notices);
     } catch (error) {
       console.log(error);
     } finally {
@@ -112,6 +114,18 @@ export default function UserNotice({ navigation, route }) {
     fetchData();
   }, [isFocused]);
 
+  useEffect(() => {
+    if (text) {
+      setSorted(
+        notices.filter((d) =>
+          d?.subject?.toLowerCase().match(text.toLocaleLowerCase())
+        )
+      );
+    } else {
+      setSorted(notices);
+    }
+  }, [text]);
+
   return (
     <HidableHeaderLayout
       header={
@@ -125,17 +139,20 @@ export default function UserNotice({ navigation, route }) {
             },
           ]}
           start={{ x: 0.2, y: 0 }}
-          colors={!isDark ? ac : dc}>
+          colors={!isDark ? ac : dc}
+        >
           <View
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
-            }}>
+            }}
+          >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Pressable
                 onPress={() => {
                   navigation?.goBack();
-                }}>
+                }}
+              >
                 <SvgXml xml={back} />
               </Pressable>
               <Text
@@ -145,7 +162,8 @@ export default function UserNotice({ navigation, route }) {
                   fontWeight: "500",
                   marginLeft: 5,
                   marginTop: -3,
-                }}>
+                }}
+              >
                 {comityListText.notice}
                 {"   "}
                 <Text
@@ -153,13 +171,16 @@ export default function UserNotice({ navigation, route }) {
                     fontSize: 20,
                     fontWeight: "800",
                     color: "#fff",
-                  }}>
+                  }}
+                >
                   {comity?.totalNotices}
                 </Text>
               </Text>
             </View>
           </View>
           <Input
+            value={text}
+            onChange={setText}
             leftIcon={<SvgXml xml={search} />}
             containerStyle={[
               {
@@ -177,7 +198,7 @@ export default function UserNotice({ navigation, route }) {
       component={
         <>
           <View style={{ flex: 1, height: 10 }}></View>
-          {notices?.map((notice) => (
+          {sorted?.map((notice) => (
             <NoticeCart
               key={notice.id}
               onPress={() => {
@@ -190,7 +211,7 @@ export default function UserNotice({ navigation, route }) {
               color={textColor}
             />
           ))}
-          {notices?.length === 0 && (
+          {sorted?.length === 0 && (
             <NoOption
               title={
                 isBn

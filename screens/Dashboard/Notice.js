@@ -40,12 +40,14 @@ export default function Notice({ navigation, route }) {
   const createComityText = values.createComityText();
   const noComityFound = values.noComityFound();
   const special = route?.params?.special;
-  const [notices, setNotices] = useState();
+  const [notices, setNotices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const isFocused = useIsFocused();
+  const [text, setText] = useState("");
+  const [sorted, setSorted] = useState([]);
 
   const openMenu = () => setVisible(true);
 
@@ -70,15 +72,16 @@ export default function Notice({ navigation, route }) {
   }"/>
   </svg>  
   `;
-  const back=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  ` 
+  `;
 
   const fetchData = async () => {
     try {
       const { data } = await getAllNotices(comity.id);
       setNotices(data.notices);
+      setSorted(data.notices);
     } catch (error) {
       console.log(error);
     } finally {
@@ -112,6 +115,18 @@ export default function Notice({ navigation, route }) {
     fetchData();
   }, [isFocused]);
 
+  useEffect(() => {
+    if (text) {
+      setSorted(
+        notices.filter((d) =>
+          d?.subject?.toLowerCase().match(text.toLocaleLowerCase())
+        )
+      );
+    } else {
+      setSorted(notices);
+    }
+  }, [text]);
+
   return (
     <HidableHeaderLayout
       header={
@@ -125,17 +140,20 @@ export default function Notice({ navigation, route }) {
             },
           ]}
           start={{ x: 0.2, y: 0 }}
-          colors={!isDark ? ac : dc}>
+          colors={!isDark ? ac : dc}
+        >
           <View
             style={{
               justifyContent: "space-between",
               flexDirection: "row",
-            }}>
-            <View style={{flexDirection:"row",alignItems:"center"}}>
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Pressable
                 onPress={() => {
                   navigation?.goBack();
-                }}>
+                }}
+              >
                 <SvgXml xml={back} />
               </Pressable>
               <Text
@@ -143,9 +161,10 @@ export default function Notice({ navigation, route }) {
                   color: "#B0B0B0",
                   fontSize: 16,
                   fontWeight: "500",
-                  marginLeft:5,
-                  marginTop:-3
-                }}>
+                  marginLeft: 5,
+                  marginTop: -3,
+                }}
+              >
                 {comityListText.notice}
                 {"   "}
                 <Text
@@ -153,7 +172,8 @@ export default function Notice({ navigation, route }) {
                     fontSize: 20,
                     fontWeight: "800",
                     color: "#fff",
-                  }}>
+                  }}
+                >
                   {comity?.totalNotices}
                 </Text>
               </Text>
@@ -168,7 +188,8 @@ export default function Notice({ navigation, route }) {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                  }}>
+                  }}
+                >
                   <SvgXml xml={eye} />
                   <Text
                     style={{
@@ -176,7 +197,8 @@ export default function Notice({ navigation, route }) {
                         ? "rgba(255, 255, 255, 1)"
                         : "rgba(255, 255, 255, 1)",
                       marginHorizontal: 5,
-                    }}>
+                    }}
+                  >
                     {comity.noticePrivacy === "Private"
                       ? comityListText.private
                       : comity.noticePrivacy === "Public"
@@ -185,7 +207,8 @@ export default function Notice({ navigation, route }) {
                   </Text>
                   <SvgXml xml={bottom} />
                 </Pressable>
-              }>
+              }
+            >
               <Menu.Item
                 titleStyle={{ color: textColor }}
                 onPress={() => {
@@ -214,6 +237,8 @@ export default function Notice({ navigation, route }) {
             </Menu>
           </View>
           <Input
+            value={text}
+            onChange={setText}
             leftIcon={<SvgXml xml={search} />}
             containerStyle={[
               {
@@ -231,7 +256,7 @@ export default function Notice({ navigation, route }) {
       component={
         <>
           <View style={{ flex: 1, height: 10 }}></View>
-          {notices?.map((notice) => (
+          {sorted?.map((notice) => (
             <NoticeCart
               key={notice.id}
               onPress={() => {
@@ -244,7 +269,7 @@ export default function Notice({ navigation, route }) {
               color={textColor}
             />
           ))}
-          {notices?.length === 0 && (
+          {sorted?.length === 0 && (
             <NoOption
               subTitle={
                 isBn

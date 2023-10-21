@@ -26,11 +26,18 @@ export default function Subscription({ navigation }) {
   const values = new AppValues(isBn);
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
-
+  const [searchIp, setSearch] = useState("");
   return (
     <HidableHeaderLayout
-      component={<Component navigation={navigation} />}
-      header={<Header textColor={textColor} isDark={isDark} />}
+      component={<Component navigation={navigation} searchIp={searchIp} />}
+      header={
+        <Header
+          searchIp={searchIp}
+          setSearch={setSearch}
+          textColor={textColor}
+          isDark={isDark}
+        />
+      }
     />
   );
 }
@@ -69,7 +76,6 @@ const Header = ({ searchIp, setSearch }) => {
       start={{ x: 0.2, y: 0 }}
       colors={!isDark ? ac : dc}
     >
-      
       <View
         style={{
           justifyContent: "space-between",
@@ -105,17 +111,19 @@ const Header = ({ searchIp, setSearch }) => {
     </LinearGradient>
   );
 };
-const Component = ({ navigation }) => {
+const Component = ({ navigation, searchIp }) => {
   const user = useSelector((state) => state.user);
   const isBn = useSelector((state) => state.isBn);
   const [data, setData] = useState();
   const dispatch = useDispatch();
+  const [sorted, setSorted] = useState([]);
 
   useEffect(() => {
     dispatch(loader.show());
     get("/auth/get-joined-comities", user.token)
       .then((res) => {
         setData(res.data.comities);
+        setSorted(res.data.comities);
         dispatch(loader.hide());
       })
       .catch((err) => {
@@ -123,6 +131,19 @@ const Component = ({ navigation }) => {
         console.error(err.message);
       });
   }, [user]);
+
+  useEffect(() => {
+    if (searchIp) {
+      setSorted(
+        data.filter((d) =>
+          d?.name?.toLowerCase().match(searchIp.toLocaleLowerCase())
+        )
+      );
+    } else {
+      setSorted(data);
+    }
+  }, [searchIp]);
+
   return (
     <View
       style={{
@@ -130,14 +151,14 @@ const Component = ({ navigation }) => {
         paddingVertical: 12,
       }}
     >
-      {data?.length > 1 && (
+      {sorted?.length > 1 && (
         <View
           style={{
             flexDirection: "row",
             flexWrap: "wrap",
           }}
         >
-          {data.map((doc, i) => (
+          {sorted.map((doc, i) => (
             <PopularCategoryCart
               onPress={() => {
                 navigation.navigate("Subscription List", { comityId: doc.id });
@@ -153,8 +174,8 @@ const Component = ({ navigation }) => {
           ))}
         </View>
       )}
-      {data?.length === 1 &&
-        data.map((doc, i) => (
+      {sorted?.length === 1 &&
+        sorted.map((doc, i) => (
           <FavoriteCategoryCart
             key={i}
             onPress={() => {
@@ -168,8 +189,14 @@ const Component = ({ navigation }) => {
             comity={doc}
           />
         ))}
-      {data?.length === 0 && (
-        <NoOption title={isBn?"আপনি এখন পর্যন্ত কোন কমিটির সদস্য হননি":"You are not a member of any comity"} />
+      {sorted?.length === 0 && (
+        <NoOption
+          title={
+            isBn
+              ? "আপনি এখন পর্যন্ত কোন কমিটির সদস্য হননি"
+              : "You are not a member of any comity"
+          }
+        />
       )}
 
       {/* <NoOption title={"You are not a member of comity"}/> */}

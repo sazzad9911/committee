@@ -43,29 +43,29 @@ export default function ContactSuccess({ navigation }) {
             mainStyle.subLevel,
             {
               textAlign: "center",
-              lineHeight: 65,
+
               color: textColor,
               paddingVertical: 30,
+              ...(!isBn && {
+                lineHeight: 70,
+              }),
             },
           ]}
         >
           {isBn ? (
             <>
               আপনার যদি অন্য কোনো জিজ্ঞাসা থাকে, অনুগ্রহ করে{" "}
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text
-                  style={[
-                    mainStyle.subLevel,
-                    {
-                      textAlign: "justify",
-                      color: "#6971FF",
-                      paddingVertical: 30,
-                    },
-                  ]}
-                >
-                  সাপোর্ট সেন্টারে
-                </Text>
-              </TouchableOpacity>{" "}
+              <Text
+                style={[
+                  mainStyle.subLevel,
+                  {
+                    textAlign: "justify",
+                    color: "#6971FF",
+                  },
+                ]}
+              >
+                সাপোর্ট সেন্টারে{" "}
+              </Text>
               ফিরে যান।
             </>
           ) : (
@@ -96,7 +96,7 @@ export default function ContactSuccess({ navigation }) {
           { width: Dimensions.get("window").width - 40, marginBottom: 60 },
           mainStyle.mt32,
         ]}
-        title={isBn ? "বন্ধ করুন" : "Close"}
+        title={isBn ? "ফিরে যান" : "Go Back"}
       />
     </View>
   );

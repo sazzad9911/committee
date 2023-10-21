@@ -120,7 +120,8 @@ export default function Support({ navigation }) {
         paddingVertical: 16,
         borderBottomColor: colors.getShadowColor(),
         borderBottomWidth: 1,
-      }}>
+      }}
+    >
       <Text style={[mainStyle.subLevel, { color: colors.getTextColor() }]}>
         {title}
       </Text>
@@ -139,7 +140,8 @@ export default function Support({ navigation }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <Screen
         headlines={headlines}
         setSubject={setSubject}
@@ -162,7 +164,8 @@ export default function Support({ navigation }) {
             width: Dimensions.get("window").width,
             height: Dimensions.get("window").height,
             opacity: 0.1,
-          }}></View>
+          }}
+        ></View>
       )}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -171,12 +174,14 @@ export default function Support({ navigation }) {
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-        onChange={handleSheetChanges}>
+        onChange={handleSheetChanges}
+      >
         <BottomSheetScrollView
           contentContainerStyle={{
             backgroundColor: colors.getSchemeColor(),
           }}
-          style={{ flex: 1 }}>
+          style={{ flex: 1 }}
+        >
           <Options
             onChoose={setChoose}
             setSubject={setSubject}
@@ -210,7 +215,7 @@ const Screen = ({
   isBn,
   onBack,
   backgroundColor,
-  isDark
+  isDark,
 }) => (
   <ScrollView showsVerticalScrollIndicator={false}>
     <View style={[mainStyle.pdH20]}>
@@ -224,7 +229,8 @@ const Screen = ({
             backgroundColor: "#6971FF",
           },
           mainStyle.mt12,
-        ]}>
+        ]}
+      >
         <Text style={[mainStyle.subLevel, { color: "#fff" }]}>
           {headlines._supportCaution}
         </Text>
@@ -259,7 +265,7 @@ const Screen = ({
             borderWidth: 1,
           }}
           fontStyle={{
-            color:isDark?"#fff":"#000"
+            color: isDark ? "#fff" : "#000",
           }}
           title={headlines._canncel}
         />
