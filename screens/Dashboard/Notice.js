@@ -45,7 +45,7 @@ export default function Notice({ navigation, route }) {
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const isFocused=useIsFocused()
+  const isFocused = useIsFocused();
 
   const openMenu = () => setVisible(true);
 
@@ -70,6 +70,10 @@ export default function Notice({ navigation, route }) {
   }"/>
   </svg>  
   `;
+  const back=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  ` 
 
   const fetchData = async () => {
     try {
@@ -78,7 +82,7 @@ export default function Notice({ navigation, route }) {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(loader.hide())
+      dispatch(loader.hide());
     }
   };
   const upload = async (type) => {
@@ -104,11 +108,10 @@ export default function Notice({ navigation, route }) {
   };
 
   useEffect(() => {
-    !notices&&dispatch(loader.show())
+    !notices && dispatch(loader.show());
     fetchData();
   }, [isFocused]);
 
-  
   return (
     <HidableHeaderLayout
       header={
@@ -128,23 +131,33 @@ export default function Notice({ navigation, route }) {
               justifyContent: "space-between",
               flexDirection: "row",
             }}>
-            <Text
-              style={{
-                color: "#B0B0B0",
-                fontSize: 16,
-                fontWeight: "500",
-              }}>
-              {comityListText.notice}
-              {"   "}
+            <View style={{flexDirection:"row",alignItems:"center"}}>
+              <Pressable
+                onPress={() => {
+                  navigation?.goBack();
+                }}>
+                <SvgXml xml={back} />
+              </Pressable>
               <Text
                 style={{
-                  fontSize: 20,
-                  fontWeight: "800",
-                  color: "#fff",
+                  color: "#B0B0B0",
+                  fontSize: 16,
+                  fontWeight: "500",
+                  marginLeft:5,
+                  marginTop:-3
                 }}>
-                {comity?.totalNotices}
+                {comityListText.notice}
+                {"   "}
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "800",
+                    color: "#fff",
+                  }}>
+                  {comity?.totalNotices}
+                </Text>
               </Text>
-            </Text>
+            </View>
             <Menu
               contentStyle={{ backgroundColor: backgroudColor }}
               visible={visible}
@@ -231,8 +244,19 @@ export default function Notice({ navigation, route }) {
               color={textColor}
             />
           ))}
-          {notices?.length===0&&(
-            <NoOption subTitle={isBn?"যোগ বাটন এ ক্লিক করে নোটিশ তৈরি করুন":"Create a Notice by clicking the Add button"} title={isBn?"এখন পর্যন্ত কোন নোটিশ তৈরি করা হয়নাই":"No Notice has been created"}/>
+          {notices?.length === 0 && (
+            <NoOption
+              subTitle={
+                isBn
+                  ? "যোগ বাটন এ ক্লিক করে নোটিশ তৈরি করুন"
+                  : "Create a Notice by clicking the Add button"
+              }
+              title={
+                isBn
+                  ? "এখন পর্যন্ত কোন নোটিশ তৈরি করা হয়নাই"
+                  : "No Notice has been created"
+              }
+            />
           )}
 
           <View style={{ flex: 1, height: 80 }}></View>

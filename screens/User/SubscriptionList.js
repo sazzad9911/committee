@@ -62,12 +62,12 @@ export default function SubscriptionList({ navigation, route }) {
               index={props.state.index}
               navigation={navigation}
               comityId={comityId}
+              {...props}
             />
           }
           {...props}
         />
-      )}
-    >
+      )}>
       <Tab.Screen
         initialParams={{
           comityId: comityId,
@@ -113,6 +113,10 @@ const Header = ({
   <path d="M0.991541 11.0649L0.992658 11.0658C1.14848 11.1946 1.33984 11.25 1.52179 11.25C1.71073 11.25 1.8968 11.1849 2.04436 11.0711L2.04444 11.0712L2.05093 11.0658L6.59914 7.30668C6.59945 7.30643 6.59976 7.30618 6.60007 7.30592C7.01573 6.96858 7.25 6.5018 7.25 5.99928C7.25 5.49427 7.00668 5.0287 6.60098 4.69338L2.05093 0.93275C1.75611 0.689083 1.28747 0.689083 0.992658 0.93275L0.992655 0.932746L0.991541 0.933678C0.844379 1.05675 0.75 1.23402 0.75 1.43115C0.75 1.62827 0.844379 1.80554 0.991541 1.92862L0.991538 1.92862L0.992658 1.92954L5.54271 5.69018C5.65725 5.78484 5.70321 5.89781 5.70321 5.99928C5.70321 6.10075 5.65725 6.21371 5.54271 6.30838L0.992658 10.069L0.992655 10.069L0.991541 10.0699C0.84438 10.193 0.75 10.3703 0.75 10.5674C0.75 10.7645 0.844379 10.9418 0.991541 11.0649Z" stroke="black" stroke-opacity="0.6" stroke-width="0.5"/>
   </svg>
   `;
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
 
   return (
     <View
@@ -122,26 +126,31 @@ const Header = ({
       }}
       transition={{
         type: "timing",
-      }}
-    >
+      }}>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-        }}
-      >
-        <Text
-          style={[
-            {
-              color: "#fff",
-              fontSize: 24,
-            },
-            mainStyle.mt24,
-          ]}
-        >
-          {index === 0 ? headlines._paid : headlines._unPaid}
-        </Text>
+        }}>
+        <View style={[mainStyle.flexBox,{alignItems:"center"},mainStyle.mt24,]}>
+          <Pressable onPress={()=>{
+            navigation.goBack()
+          }}>
+            <SvgXml xml={back} />
+          </Pressable>
+          <Text
+            style={[
+              {
+                color: "#fff",
+                fontSize: 24,
+                marginLeft:5
+              },
+              
+            ]}>
+            {index === 0 ? headlines._paid : headlines._unPaid}
+          </Text>
+        </View>
         <Pressable
           onPress={() => {
             navigation.navigate("ComityProfile", { comityId: comityId });
@@ -150,16 +159,14 @@ const Header = ({
             flexDirection: "row",
             alignItems: "center",
             marginTop: 20,
-          }}
-        >
+          }}>
           <Text
             style={{
               color: "#fff",
               marginRight: 10,
               fontWeight: "500",
               fontSize: 16,
-            }}
-          >
+            }}>
             {headlines._seeProfile}
           </Text>
           <SvgXml xml={ic} />

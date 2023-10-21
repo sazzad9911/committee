@@ -62,7 +62,7 @@ export default function EditEmail({ navigation, route }) {
       });
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
-      Alert.alert("Profile updated successfully!");
+      navigation.goBack()
     } catch (error) {
       console.log(error);
       Alert.alert(error?.response?.data?.msg);

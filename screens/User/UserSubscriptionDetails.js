@@ -51,27 +51,31 @@ export default function UserSubscriptionDetails({ navigation, route }) {
       console.error(e.message);
     }
   };
- 
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <Header
         paid={data?.collections?.length > 0 && data?.collections[0].paid}
         data={data}
+        navigation={navigation}
       />
       <View
         style={{
           marginTop: 20,
-        }}
-      >
-       {info&&( <CollectionCart 
-        textColor={textColor}
-        borderColor={borderColor}
-        isDark={isDark} data={info} />)}
+        }}>
+        {info && (
+          <CollectionCart
+            textColor={textColor}
+            borderColor={borderColor}
+            isDark={isDark}
+            data={info}
+          />
+        )}
       </View>
     </View>
   );
 }
-const Header = ({ searchIp, setSearch, name, data, paid }) => {
+const Header = ({ searchIp, setSearch, name, data, paid, navigation }) => {
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#000", "#000"];
   const un = ["#E52D27", "#B31217"];
@@ -94,6 +98,10 @@ const Header = ({ searchIp, setSearch, name, data, paid }) => {
   }"/>
     </svg>  
     `;
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    `;
   return (
     <LinearGradient
       // Button Linear Gradient
@@ -105,8 +113,7 @@ const Header = ({ searchIp, setSearch, name, data, paid }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? (paid ? ac : un) : dc}
-    >
+      colors={!isDark ? (paid ? ac : un) : dc}>
       <View
         style={{
           paddingHorizontal: 0,
@@ -114,17 +121,25 @@ const Header = ({ searchIp, setSearch, name, data, paid }) => {
         }}
         transition={{
           type: "timing",
-        }}
-      >
-        <View style={[mainStyle.flexBox]}>
-          <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
+        }}>
+        <View
+          style={[
+            mainStyle.flexBox,
+            { justifyContent: "flex-start" },
+            mainStyle.mt24,
+          ]}>
+          <Pressable onPress={()=>{
+            navigation?.goBack()
+          }}>
+            <SvgXml xml={back} />
+          </Pressable>
+          <Text style={[mainStyle.subLevel, { color: "#fff",marginLeft:5 }]}>
             {data?.name}
           </Text>
         </View>
         <View style={[mainStyle.flexBox]}>
           <Text
-            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}
-          >
+            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
             {values.getValues()._ammoutSubs}
             {"    "}
             <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
@@ -132,8 +147,7 @@ const Header = ({ searchIp, setSearch, name, data, paid }) => {
             </Text>
           </Text>
           <Text
-            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}
-          >
+            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
             {paid ? values.getValues()._paid : values.getValues()._unPaid}
             {"   "}
             <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>

@@ -25,7 +25,6 @@ export default function SubscriptionDetails({ navigation, route }) {
   const [activeIndex, setActiveIndex] = useState();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
-
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const colors = new AppColors(isDark);
@@ -89,12 +88,12 @@ export default function SubscriptionDetails({ navigation, route }) {
                   props.state.index == 1 ? headlines._unPaid : headlines._paid
                 }
                 index={props.state.index}
+                {...props}
               />
             }
             {...props}
           />
-        )}
-      >
+        )}>
         <Tab.Screen
           initialParams={{
             subscriptionId: data.id,
@@ -126,6 +125,7 @@ const Header = ({
   onEdit,
   name,
   index,
+  navigation,
 }) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
@@ -153,6 +153,11 @@ const Header = ({
     </svg>
     `;
 
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
+
   return (
     <View
       style={{
@@ -161,12 +166,22 @@ const Header = ({
       }}
       transition={{
         type: "timing",
-      }}
-    >
+      }}>
       <View style={[mainStyle.flexBox]}>
-        <Text style={[mainStyle.subLevel, { color: "#fff" }, mainStyle.mt24]}>
-          {data?.name}
-        </Text>
+        <View
+          style={[
+            mainStyle.mt24,
+            { flexDirection: "row", alignItems: "center" },
+          ]}>
+          <Pressable onPress={()=>{
+            navigation.goBack();
+          }}>
+            <SvgXml xml={back} />
+          </Pressable>
+          <Text style={[mainStyle.subLevel, { color: "#fff", marginLeft: 5 }]}>
+            {data?.name}
+          </Text>
+        </View>
         <Pressable onPress={onEdit}>
           <SvgXml xml={icon} />
         </Pressable>

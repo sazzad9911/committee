@@ -151,6 +151,7 @@ export default function AllExpenses({ navigation, route }) {
               type: "Expense",
             })
           }
+          navigation={navigation}
           onSort={() => setIndex(0)}
         />
       }
@@ -164,7 +165,6 @@ export default function AllExpenses({ navigation, route }) {
           selected={selected}
           choose={choose}
           isBn={isBn}
-          text={text}
           onCancel={() => {
             setSelected();
             setChoose();
@@ -183,8 +183,7 @@ export default function AllExpenses({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}
-            ></View>
+              }}></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -193,14 +192,12 @@ export default function AllExpenses({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}
-          >
+            onChange={handleSheetChanges}>
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}
-            >
+              style={{ flex: 1 }}>
               <Bottom
                 filterData={filterData}
                 colors={colors}
@@ -243,6 +240,7 @@ const Header = ({
   textColor,
   onDate,
   onSort,
+  navigation,
 }) => {
   const ac = ["#E52D27", "#B31217"];
   const inset = useSafeAreaInsets();
@@ -254,6 +252,10 @@ const Header = ({
     isDark ? 1 : 0.4
   }"/>
   </svg>  
+  `;
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
   `;
   return (
     <LinearGradient
@@ -267,18 +269,25 @@ const Header = ({
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
-    >
-      <View style={[mainStyle.flexBox, mainStyle.mt12]}>
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "500",
-            color: "#fff",
-          }}
-        >
-          {headlines._allExpenses}
-        </Text>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      <View style={[mainStyle.flexBox, mainStyle.mt24]}>
+        <View style={{flexDirection:"row",alignItems:"center"}}>
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <SvgXml xml={back} />
+          </Pressable>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "500",
+              color: "#fff",
+              marginLeft:5
+            }}>
+            {headlines._allExpenses}
+          </Text>
+        </View>
         <View style={[mainStyle.flexBox]}>
           <TouchableOpacity onPress={onDate}>
             <SvgXml xml={calender} />
@@ -306,7 +315,7 @@ const Header = ({
             borderWidth: 0,
             marginBottom: 24,
           },
-          mainStyle.mt12,
+          mainStyle.mt24,
         ]}
         placeholder={headlines._placeholder}
       />
@@ -324,14 +333,12 @@ const Component = ({
   onCancel,
   choose,
   isBn,
-  text,
 }) => {
   //console.log();
   return (
     <View style={{ marginVertical: 14 }}>
       <View
-        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}
-      >
+        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}>
         {selected ? (
           <Chip onCancel={onCancel} title={selected} />
         ) : choose ? (
@@ -357,11 +364,7 @@ const Component = ({
         <NoOption
           title={
             isBn
-              ? text
-                ? "খুঁজে পাওয়া যাচ্ছে না"
-                : "এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি"
-              : text
-              ? "Not found"
+              ? "এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি"
               : "No expenses added"
           }
         />
@@ -388,8 +391,7 @@ const Chip = ({ title, onCancel }) => {
         paddingVertical: 4,
         alignItems: "center",
         borderRadius: 8,
-      }}
-    >
+      }}>
       <Text style={[mainStyle.text14, { color: colors.getTextColor() }]}>
         {title}
       </Text>
@@ -402,14 +404,12 @@ const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
     <View
       style={{
         paddingHorizontal: 16,
-      }}
-    >
+      }}>
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}
-      >
+        ]}>
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />
