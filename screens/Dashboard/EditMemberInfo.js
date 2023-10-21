@@ -30,15 +30,15 @@ export default function EditMemberInfo({ navigation, route }) {
   const values = new AppValues(isBn);
   const headlines = values.getValues();
   const { member } = route?.params;
-  const [name, setName] = useState(member.name || "");
+  const [name, setName] = useState(member.name || member.user.name);
   const [explain, setExplain] = useState(member.position || "");
   const [position, setCategory] = useState(member.category || "");
   const [age, setAge] = useState(member.age || "");
   const [mobile, setMobile] = useState(member.mobile || "");
   const [email, setEmail] = useState(member.email || "");
-  const [gender, setGender] = useState(member.gender || "");
+  const [gender, setGender] = useState(member.gender || member.user.gender);
   const [address, setAddress] = useState(member.address || "");
-  const [picture, setPicture] = useState();
+  const [picture, setPicture] = useState({uri:member?.profilePhoto||member.user?.profilePhoto});
   const dispatch = useDispatch();
 
   const handelSubmit = async () => {
