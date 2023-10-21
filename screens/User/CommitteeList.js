@@ -1,7 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { Dimensions, ScrollView, Text, View } from "react-native";
+import { Dimensions, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -64,6 +64,10 @@ export default function CommitteeList({ navigation }) {
     };
     fetch();
   }, [isFocused]);
+  const back=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `
 
   return (
     <View style={{ flex: 1 }}>
@@ -78,14 +82,22 @@ export default function CommitteeList({ navigation }) {
         ]}
         start={{ x: 0.2, y: 0 }}
         colors={!isDark ? ac : dc}>
-        <Text
+       <View style={{flexDirection:"row",alignItems:"center"}}>
+        <Pressable onPress={()=>{
+          navigation.goBack()
+        }}>
+          <SvgXml xml={back}/>
+        </Pressable>
+       <Text
           style={{
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
+            marginLeft:10
           }}>
           {comityListText}
         </Text>
+       </View>
         <Input
           leftIcon={<SvgXml xml={search} />}
           containerStyle={[
