@@ -106,6 +106,13 @@ export default function EditExpenses({ navigation, route }) {
               title: isBn
                 ? "খরচটি মুছে ফেলতে নিশ্চিত করুন"
                 : "Confirm to delete this expense",
+              rmTitle: isBn
+                ? "গুরুত্বপূর্ণ নির্দেশাবলী"
+                : "Important Instructions",
+              rmMessage: isBn
+                ? "আপনি যখন একটি খরচ মুছে ফেলবেন, অনুগ্রহ করে মনে রাখবেন যে পরিমাণটি আপনার কমিটির মূল ব্যালেন্সে আবার যোগ করা হবে। এটি নিশ্চিত করে যে আপনার আর্থিক রেকর্ডগুলি সঠিক থাকে এবং আপনার কমিটির প্রকৃত আর্থিক অবস্থা প্রতিফলিত করে।"
+                : "When you delete an expense, please remember that the amount will be added back to your comity main balance. This ensures that your financial records stay accurate and reflect the true financial status of your comity.",
+
               onPress: () => handelDelete(),
             });
           }}

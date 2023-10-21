@@ -111,7 +111,16 @@ export default function AllCollections({ navigation, route }) {
     text
       ? data &&
         setSorted(
-          data?.filter((d) => d.amount?.toString().match(text ? text : ""))
+          data?.filter(
+            (d) =>
+              d.amount?.toString().match(text ? text : "") ||
+              d.member?.name
+                ?.toLowerCase()
+                .match(text ? text.toLowerCase() : "") ||
+              d.member?.user?.name
+                ?.toLowerCase()
+                .match(text ? text.toLowerCase() : "")
+          )
         )
       : setSorted(data);
   }, [text]);
@@ -249,7 +258,7 @@ const Header = ({
   textColor,
   onDate,
   onSort,
-  navigation
+  navigation,
 }) => {
   const ac = ["#1488CC", "#2B32B2"];
   const inset = useSafeAreaInsets();
@@ -262,10 +271,10 @@ const Header = ({
   }"/>
   </svg>  
   `;
-  const back=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  `
+  `;
   return (
     <LinearGradient
       // Button Linear Gradient
@@ -278,23 +287,27 @@ const Header = ({
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
+    >
       <View style={[mainStyle.flexBox, mainStyle.mt24]}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
-          <Pressable onPress={()=>{
-            navigation.goBack()
-          }}>
-          <SvgXml xml={back}/>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <SvgXml xml={back} />
           </Pressable>
           <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "500",
-            color: "#fff",
-            marginLeft:5
-          }}>
-          {headlines._allCollection}
-        </Text>
+            style={{
+              fontSize: 24,
+              fontWeight: "500",
+              color: "#fff",
+              marginLeft: 5,
+            }}
+          >
+            {headlines._allCollection}
+          </Text>
         </View>
         <View style={[mainStyle.flexBox]}>
           <TouchableOpacity onPress={onDate}>
