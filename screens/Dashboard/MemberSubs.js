@@ -9,8 +9,9 @@ import PaidSubsMember from "./PaidSubMember";
 import UnpaidSubsMember from "./UnpaidSubMember";
 import { AppColors } from "../../functions/colors";
 import { MotiView } from "moti";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { getSummeryOfMembersCollections } from "../../apis/api";
+import { SvgXml } from "react-native-svg";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -47,7 +48,7 @@ export default function MemberSubs({ navigation, route }) {
           color={
             props.state.index == 1 && !isDark ? ["#E52D27", "#B31217"] : null
           }
-          header={ 
+          header={
             <Header
               headlines={headlines}
               borderColor={borderColor}
@@ -55,12 +56,12 @@ export default function MemberSubs({ navigation, route }) {
               totalPaid={totalPaid}
               totalUnPaid={totalUnPaid}
               index={props?.state?.index}
+              {...props}
             />
           }
           {...props}
         />
-      )}
-    >
+      )}>
       <Tab.Screen
         name={headlines._paid}
         component={PaidSubsMember}
@@ -92,6 +93,7 @@ const Header = ({
   totalPaid,
   totalUnPaid,
   index,
+  navigation
 }) => {
   const newDate = new Date();
   const day = newDate.getDay();
@@ -99,36 +101,47 @@ const Header = ({
   const year = newDate.getFullYear();
   const isBn = useSelector((state) => state.isBn);
   const comity = useSelector((state) => state.comity);
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text
+    <View style={{width:"100%"}}>
+      <Pressable onPress={()=>{
+        navigation.goBack()
+      }} style={{
+        marginTop:20,
+        marginLeft:20
+      }}>
+        <SvgXml xml={back} />
+      </Pressable>
+      <View
         style={{
-          fontSize: 16,
-          color: "#B0B0B0",
-        }}
-      >
-        {isBn
-          ? index == 0
-            ? "সর্বমোট পরিশোধ"
-            : "সর্বমোট অপরিশোধ"
-          : index == 0
-          ? "Total Paid"
-          : "Total Unpaid"}
-      </Text>
-      <Text
-        style={{
-          fontSize: 40,
-          fontWeight: "800",
-          color: "#fff",
-        }}
-      >
-        {index == 0 ? totalPaid || "0" : totalUnPaid || "0"}
-      </Text>
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <Text
+          style={{
+            fontSize: 16,
+            color: "#B0B0B0",
+          }}>
+          {isBn
+            ? index == 0
+              ? "সর্বমোট পরিশোধ"
+              : "সর্বমোট অপরিশোধ"
+            : index == 0
+            ? "Total Paid"
+            : "Total Unpaid"}
+        </Text>
+        <Text
+          style={{
+            fontSize: 40,
+            fontWeight: "800",
+            color: "#fff",
+          }}>
+          {index == 0 ? totalPaid || "0" : totalUnPaid || "0"}
+        </Text>
+      </View>
     </View>
   );
 };
