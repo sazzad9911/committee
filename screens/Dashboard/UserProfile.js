@@ -53,7 +53,7 @@ export default function UserProfile({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
   const isMember = data?.comityId ? true : false;
-  console.log(data);
+  //console.log(data);
   //console.log(user)
   const styles = StyleSheet.create({
     subContainer: {
@@ -91,7 +91,7 @@ export default function UserProfile({ navigation, route }) {
             containerStyle={{ marginTop: 12 }}
             edit={false}
             source={{
-              uri: data?.profilePhoto,
+              uri: data?.profilePhoto||data?.user?.profilePhoto,
             }}
           />
           {isMember ? (
