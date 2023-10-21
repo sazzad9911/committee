@@ -121,16 +121,20 @@ export default function EditExpenses({ navigation, route }) {
           value={name}
           onChange={setName}
           outSideStyle={mainStyle.mt24}
-          level={"Name of expense *"}
-          placeholder={"example: salary, bill, maintaining "}
+          level={isBn ? "খরচের নাম *" : "Name of expense *"}
+          placeholder={
+            isBn
+              ? "উদাহরণ: বেতন, বিল, রক্ষণাবেক্ষণ"
+              : "example: salary, bill, maintaining "
+          }
         />
         <Input
           value={amount}
           onChange={setAmount}
           outSideStyle={mainStyle.mt12}
           keyboardType={"numeric"}
-          placeholder={"0.00"}
-          level={"amount *"}
+          placeholder={isBn ? "০০.০০" : "0.00"}
+          level={isBn ? "পরিমানের লক্ষ *" : "amount *"}
         />
         <Text
           style={{
@@ -140,7 +144,7 @@ export default function EditExpenses({ navigation, route }) {
             paddingVertical: 16,
           }}
         >
-          Date *
+          {isBn ? "তারিখ *" : "Date *"}
         </Text>
         {/* <Pressable onPress={showDatepicker}>
           <View
@@ -201,7 +205,7 @@ export default function EditExpenses({ navigation, route }) {
           bottom: 32,
           width: Dimensions.get("window").width - 40,
         }}
-        title={"Confirm"}
+        title={isBn ? "নিশ্চিত করুন" : "Confirm"}
       />
       <DateTimePickerModal
         isVisible={isDatePickerVisible}

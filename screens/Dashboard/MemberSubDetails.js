@@ -57,6 +57,7 @@ export default function MemberSubDetails({ navigation, route }) {
       );
       setPaidList(cData.collections);
       setData(cData.collections[0]);
+      console.log(cData.collections[0]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -66,8 +67,8 @@ export default function MemberSubDetails({ navigation, route }) {
   useEffect(() => {
     fetch();
   }, [isFocus]);
-  if(!data){
-    return
+  if (!data) {
+    return;
   }
 
   return (
@@ -79,12 +80,14 @@ export default function MemberSubDetails({ navigation, route }) {
             backgroundColor: "green",
             flex: 1,
           }}
-          colors={isDark?["#000","#000"]:data?.paid ? ac : dc}>
+          colors={isDark ? ["#000", "#000"] : data?.paid ? ac : dc}
+        >
           <View
             style={{
               paddingTop: inset.top,
               flex: 1,
-            }}>
+            }}
+          >
             <View
               style={{
                 height: 32,
@@ -105,7 +108,8 @@ export default function MemberSubDetails({ navigation, route }) {
                 position: "absolute",
                 right: 20,
                 top: inset.top + 20,
-              }}>
+              }}
+            >
               <SvgXml xml={deleteIcon} />
             </Pressable>
             <View
@@ -114,7 +118,8 @@ export default function MemberSubDetails({ navigation, route }) {
                 justifyContent: "center",
                 paddingHorizontal: 20,
                 paddingBottom: 20,
-              }}>
+              }}
+            >
               <ProfilePicture
                 size={54}
                 source={{
@@ -130,28 +135,32 @@ export default function MemberSubDetails({ navigation, route }) {
                     marginVertical: 0,
                     marginTop: 10,
                   },
-                ]}>
+                ]}
+              >
                 {data?.member?.name || data?.member?.user?.name || "N/A"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 5 },
-                ]}>
+                ]}
+              >
                 {data?.member?.gender || data?.member?.user?.gender || "Male"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 10 },
-                ]}>
+                ]}
+              >
                 {data?.member?.mobile || data?.member?.user?.mobile || "N/A"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 5 },
-                ]}>
+                ]}
+              >
                 {data ? data.member.address : "N/A"}
               </Text>
             </View>

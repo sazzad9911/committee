@@ -46,13 +46,11 @@ export default function UserViewNotice({ route, navigation }) {
     <View
       style={{
         flex: 1,
-        backgroundColor:colors.getBackgroundColor()
+        backgroundColor: colors.getBackgroundColor(),
       }}
     >
       <CustomHeader
-        rightIcon={
-         <></>
-        }
+        rightIcon={<></>}
         onPress={() => {
           navigation?.goBack();
         }}
@@ -87,6 +85,7 @@ export default function UserViewNotice({ route, navigation }) {
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.1)" : "#ffff",
               minHeight: 380,
               padding: "2%",
+              borderRadius: 8,
             },
           ]}
         >
@@ -99,7 +98,7 @@ export default function UserViewNotice({ route, navigation }) {
             {notice.details}
           </Text>
         </View>
-       
+
         <View style={mainStyle.ht32} />
       </ScrollView>
     </View>

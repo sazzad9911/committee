@@ -55,8 +55,8 @@ export default function Paid({ navigation }) {
             title={" "}
             subTitle={
               isBn
-                ? "যোগ বাটন এ ক্লিক করে চাঁদা তৈরি করুন"
-                : "Create a subscription by clicking the Add button"
+                ? "যোগ বাটন এ ক্লিক করে পেমেন্ট তৈরি করুন"
+                : "Create a payment by clicking the Add button"
             }
           />
         )}

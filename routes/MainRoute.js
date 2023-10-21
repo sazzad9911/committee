@@ -120,7 +120,7 @@ export default function MainRoute() {
   const comity = useSelector((state) => state.comity);
   const [isReady, setIsReady] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
-  
+
   const MyTheme = {
     ...DefaultTheme,
     colors: {
@@ -169,7 +169,8 @@ export default function MainRoute() {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <StatusBar
         backgroundColor={backgroundColor}
         style={isDark ? "light" : "dark"}
@@ -569,7 +570,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Add Expense"} {...props} />
+                  <BackHeader
+                    title={isBn ? "খরচ যোগ করুন" : "Add Expense"}
+                    {...props}
+                  />
                 ),
               }}
               name="AddExpenses"

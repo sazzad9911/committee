@@ -54,15 +54,15 @@ export default function Member({ navigation, route }) {
   }, []);
 
   const [filterData, setFilterData] = useState([
-    "All Member",
-    "Special Member",
-    "General Member",
-    "Only Female",
-    "Only Male",
-    "Within 1-20 years",
-    "Within 21-40 years",
-    "Within 41-60 years",
-    "Within 61-80 years",
+    isBn ? "সকল সদস্য" : "All Member",
+    isBn ? "বিশেষ সদস্য" : "Special Member",
+    isBn ? "সাধারণ সদস্য" : "General Member",
+    isBn ? "শুধু মহিলা" : "Only Female",
+    isBn ? "শুধু পরুষ" : "Only Male",
+    isBn ? "১-২০ বছরের ভিতর" : "Within 1-20 years",
+    isBn ? "২১-৪০ বছরের ভিতর" : "Within 21-40 years",
+    isBn ? "৪১-৬০ বছরের ভিতর" : "Within 41-60 years",
+    isBn ? "৬১-৮০ বছরের ভিতর" : "Within 61-80 years",
   ]);
   const [choose, setChoose] = useState();
 
@@ -73,7 +73,7 @@ export default function Member({ navigation, route }) {
   const getMember = async () => {
     const res = await get(`/member/get-all/${comity.id}`, user.token);
     setAllMember(res.data.members);
-    setSortedMember(res.data.members)
+    setSortedMember(res.data.members);
     dispatch(loader.hide());
   };
   useEffect(() => {
@@ -90,29 +90,61 @@ export default function Member({ navigation, route }) {
       setSortedMember(allMember);
     }
   }, [allMember, searchIp]);
-  useEffect(()=>{
-    if(filterData.indexOf(choose)===0){
-      setSortedMember(allMember)
-    }else if(filterData.indexOf(choose)===1){
-      setSortedMember(allMember?.filter(d=>d?.category==="General"))
-    }else if(filterData.indexOf(choose)===2){
-      setSortedMember(allMember?.filter(d=>d?.category==="Special"))
-    }else if(filterData.indexOf(choose)===3){
-      setSortedMember(allMember?.filter(d=>d?.gender==="Female"||d?.user?.gender==="Female"))
-    }else if(filterData.indexOf(choose)===4){
-      setSortedMember(allMember?.filter(d=>d?.gender==="Male"||d?.user?.gender==="Male"))
-    }else if(filterData.indexOf(choose)===5){
-      setSortedMember(allMember?.filter(d=>(d?.age>=1&&d?.age<=20)||(d?.user?.age>=1&&d?.user?.age<=20)))
-    }else if(filterData.indexOf(choose)===6){
-      setSortedMember(allMember?.filter(d=>(d?.age>=21&&d?.age<=40)||(d?.user?.age>=21&&d?.user?.age<=40)))
-    }else if(filterData.indexOf(choose)===7){
-      setSortedMember(allMember?.filter(d=>(d?.age>=41&&d?.age<=60)||(d?.user?.age>=41&&d?.user?.age<=60)))
-    }else if(filterData.indexOf(choose)===8){
-      setSortedMember(allMember?.filter(d=>(d?.age>=61&&d?.age<=80)||(d?.user?.age>=61&&d?.user?.age<=80)))
-    }else{
-      setSortedMember(allMember)
+  useEffect(() => {
+    if (filterData.indexOf(choose) === 0) {
+      setSortedMember(allMember);
+    } else if (filterData.indexOf(choose) === 1) {
+      setSortedMember(allMember?.filter((d) => d?.category === "General"));
+    } else if (filterData.indexOf(choose) === 2) {
+      setSortedMember(allMember?.filter((d) => d?.category === "Special"));
+    } else if (filterData.indexOf(choose) === 3) {
+      setSortedMember(
+        allMember?.filter(
+          (d) => d?.gender === "Female" || d?.user?.gender === "Female"
+        )
+      );
+    } else if (filterData.indexOf(choose) === 4) {
+      setSortedMember(
+        allMember?.filter(
+          (d) => d?.gender === "Male" || d?.user?.gender === "Male"
+        )
+      );
+    } else if (filterData.indexOf(choose) === 5) {
+      setSortedMember(
+        allMember?.filter(
+          (d) =>
+            (d?.age >= 1 && d?.age <= 20) ||
+            (d?.user?.age >= 1 && d?.user?.age <= 20)
+        )
+      );
+    } else if (filterData.indexOf(choose) === 6) {
+      setSortedMember(
+        allMember?.filter(
+          (d) =>
+            (d?.age >= 21 && d?.age <= 40) ||
+            (d?.user?.age >= 21 && d?.user?.age <= 40)
+        )
+      );
+    } else if (filterData.indexOf(choose) === 7) {
+      setSortedMember(
+        allMember?.filter(
+          (d) =>
+            (d?.age >= 41 && d?.age <= 60) ||
+            (d?.user?.age >= 41 && d?.user?.age <= 60)
+        )
+      );
+    } else if (filterData.indexOf(choose) === 8) {
+      setSortedMember(
+        allMember?.filter(
+          (d) =>
+            (d?.age >= 61 && d?.age <= 80) ||
+            (d?.user?.age >= 61 && d?.user?.age <= 80)
+        )
+      );
+    } else {
+      setSortedMember(allMember);
     }
-  },[choose])
+  }, [choose]);
 
   return (
     <HidableHeaderLayout
@@ -179,7 +211,24 @@ export default function Member({ navigation, route }) {
             />
           ))}
           {sortedMember?.length == 0 && (
-            <NoOption title={isBn?"এখন পর্যন্ত কোন সদস্য এড করা হয়নি":"No members added"} subTitle={isBn?"বাটন এ ক্লিক করে সদস্য এড করুন":"Add member by clicking the button"} />
+            <NoOption
+              title={
+                isBn
+                  ? searchIp
+                    ? "সদস্য খুঁজে পাওয়া যাচ্ছে না"
+                    : "এখন পর্যন্ত কোন সদস্য এড করা হয়নি"
+                  : searchIp
+                  ? "Member not found"
+                  : "No members added"
+              }
+              subTitle={
+                searchIp
+                  ? " "
+                  : isBn
+                  ? "বাটন এ ক্লিক করে সদস্য এড করুন"
+                  : "Add member by clicking the button"
+              }
+            />
           )}
         </View>
       }
@@ -198,7 +247,8 @@ export default function Member({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}></View>
+              }}
+            ></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -207,12 +257,14 @@ export default function Member({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}>
+            onChange={handleSheetChanges}
+          >
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}>
+              style={{ flex: 1 }}
+            >
               <Bottom
                 value={choose}
                 onChoose={setChoose}
@@ -283,18 +335,21 @@ const Header = ({ searchIp, setSearch, number, setIndex }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? ac : dc}>
+      colors={!isDark ? ac : dc}
+    >
       <View
         style={{
           justifyContent: "space-between",
           flexDirection: "row",
-        }}>
+        }}
+      >
         <Text
           style={{
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
-          }}>
+          }}
+        >
           {comityListText.totalMember}
           {"   "}
           <Text
@@ -302,7 +357,8 @@ const Header = ({ searchIp, setSearch, number, setIndex }) => {
               fontSize: 20,
               fontWeight: "800",
               color: "#fff",
-            }}>
+            }}
+          >
             {number}
           </Text>
         </Text>
@@ -344,17 +400,19 @@ const plus = `<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns=
 </defs>
 </svg>
 `;
-const Bottom = ({ filterData, onChoose, value,headlines,colors }) => {
+const Bottom = ({ filterData, onChoose, value, headlines, colors }) => {
   return (
     <View
       style={{
         paddingHorizontal: 16,
-      }}>
+      }}
+    >
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}>
+        ]}
+      >
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />
@@ -364,7 +422,7 @@ const Bottom = ({ filterData, onChoose, value,headlines,colors }) => {
           select={doc === value ? true : false}
           title={doc}
           key={i}
-          onPress={()=>onChoose(doc)}
+          onPress={() => onChoose(doc)}
         />
       ))}
     </View>

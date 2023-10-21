@@ -88,7 +88,6 @@ export default function AdminRoute() {
   const [isReady, setIsReady] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
 
-  
   const MyTheme = {
     ...DefaultTheme,
     colors: {
@@ -224,7 +223,7 @@ export default function AdminRoute() {
               options={{
                 header: (props) => (
                   <BackHeader
-                    title={isBn ? "চাঁদা যোগ করুন" : "Add Collection"}
+                    title={isBn ? "পেমেন্ট যোগ করুন" : "Add Collection"}
                     {...props}
                   />
                 ),
@@ -326,7 +325,10 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Add Expense"} {...props} />
+                  <BackHeader
+                    title={isBn ? "খরচ যোগ করুন" : "Add Expense"}
+                    {...props}
+                  />
                 ),
               }}
               name="AddExpenses"

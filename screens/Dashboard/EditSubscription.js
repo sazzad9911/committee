@@ -102,8 +102,8 @@ export default function EditSubscription({ navigation, route }) {
               onPress: () => handelDelete(),
               rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
               rmMessage: isBn
-                ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, চাঁদাটি স্থায়ীভাবে মুছে যাবে, এবং একবার মুছে ফেলার পর এটি কে আগের অবস্থায় ফেরানো যাবে না৷।সতর্কতার সাথে এগিয়ে যান, কারণ এই চাঁদাটি একবার মুছে ফেলার পরে পুনরায় ফিরিয়ে আনা সম্ভব নয়"
-                : "Please be aware that when you click the 'Confirm' button, the subscription will be permanently deleted, and this action cannot be undone. Proceed with caution, as all associated data will be irretrievable once deleted",
+                ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, পেমেন্টটি স্থায়ীভাবে মুছে যাবে, এবং একবার মুছে ফেলার পর এটি কে আগের অবস্থায় ফেরানো যাবে না৷।সতর্কতার সাথে এগিয়ে যান, কারণ এই পেমেন্টটি একবার মুছে ফেলার পরে পুনরায় ফিরিয়ে আনা সম্ভব নয়"
+                : "Please be aware that when you click the 'Confirm' button, the payment will be permanently deleted, and this action cannot be undone. Proceed with caution, as all associated data will be irretrievable once deleted",
             });
           }}
           style={{

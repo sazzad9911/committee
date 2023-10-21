@@ -101,7 +101,7 @@ export default function AllExpenses({ navigation, route }) {
         : setSorted(res.data.expenses);
     };
     fetch();
-  }, [isFocus,choose]);
+  }, [isFocus, choose]);
   useEffect(() => {
     text
       ? data &&
@@ -164,10 +164,11 @@ export default function AllExpenses({ navigation, route }) {
           selected={selected}
           choose={choose}
           isBn={isBn}
-          onCancel={()=>{
-            setSelected()
-            setChoose()
-            setSorted(data)
+          text={text}
+          onCancel={() => {
+            setSelected();
+            setChoose();
+            setSorted(data);
           }}
         />
       }
@@ -182,7 +183,8 @@ export default function AllExpenses({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}></View>
+              }}
+            ></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -191,12 +193,14 @@ export default function AllExpenses({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}>
+            onChange={handleSheetChanges}
+          >
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}>
+              style={{ flex: 1 }}
+            >
               <Bottom
                 filterData={filterData}
                 colors={colors}
@@ -263,14 +267,16 @@ const Header = ({
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
+    >
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
         <Text
           style={{
             fontSize: 24,
             fontWeight: "500",
             color: "#fff",
-          }}>
+          }}
+        >
           {headlines._allExpenses}
         </Text>
         <View style={[mainStyle.flexBox]}>
@@ -317,13 +323,25 @@ const Component = ({
   selected,
   onCancel,
   choose,
-  isBn
+  isBn,
+  text,
 }) => {
   //console.log();
   return (
     <View style={{ marginVertical: 14 }}>
-      <View style={[mainStyle.pdH20,{flexDirection:"row",marginBottom:6}]}>
-        {selected?(<Chip onCancel={onCancel} title={selected} />):choose?(<Chip onCancel={onCancel} title={`${new Date(choose[0]).toLocaleDateString()} ${isBn?"থেকে":"To"} ${new Date(choose[1]).toLocaleDateString()}`} />):null}
+      <View
+        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}
+      >
+        {selected ? (
+          <Chip onCancel={onCancel} title={selected} />
+        ) : choose ? (
+          <Chip
+            onCancel={onCancel}
+            title={`${new Date(choose[0]).toLocaleDateString()} ${
+              isBn ? "থেকে" : "To"
+            } ${new Date(choose[1]).toLocaleDateString()}`}
+          />
+        ) : null}
       </View>
       {sorted?.map((doc, i) => (
         <ExpensesCart
@@ -335,8 +353,19 @@ const Component = ({
           navigation={navigation}
         />
       ))}
-       {sorted?.length === 0 && <NoOption title={isBn?"এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি":"No expenses added"} />}
-     
+      {sorted?.length === 0 && (
+        <NoOption
+          title={
+            isBn
+              ? text
+                ? "খুঁজে পাওয়া যাচ্ছে না"
+                : "এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি"
+              : text
+              ? "Not found"
+              : "No expenses added"
+          }
+        />
+      )}
     </View>
   );
 };
@@ -350,16 +379,20 @@ const Chip = ({ title, onCancel }) => {
   </svg>
   `;
   return (
-    <TouchableOpacity onPress={onCancel}
+    <TouchableOpacity
+      onPress={onCancel}
       style={{
         flexDirection: "row",
-        backgroundColor:colors.getSchemeColor(),
-        paddingHorizontal:8,
-        paddingVertical:4,
-        alignItems:"center",
-        borderRadius:8
-      }}>
-      <Text style={[mainStyle.text14,{color:colors.getTextColor()}]}>{title}</Text>
+        backgroundColor: colors.getSchemeColor(),
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        alignItems: "center",
+        borderRadius: 8,
+      }}
+    >
+      <Text style={[mainStyle.text14, { color: colors.getTextColor() }]}>
+        {title}
+      </Text>
       <SvgXml style={{ marginLeft: 5 }} xml={ic} />
     </TouchableOpacity>
   );
@@ -369,12 +402,14 @@ const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
     <View
       style={{
         paddingHorizontal: 16,
-      }}>
+      }}
+    >
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}>
+        ]}
+      >
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />

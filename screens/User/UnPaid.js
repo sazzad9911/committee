@@ -52,7 +52,15 @@ export default function Unpaid({ navigation, route }) {
             title={doc.name}
           />
         ))}
-        {collections?.length === 0 &&<NoOption title={isBn?"এই কমিটিতে আপানার কোন চাঁদা নেই":"You have no any subscriptions in this comity"} />}
+        {collections?.length === 0 && (
+          <NoOption
+            title={
+              isBn
+                ? "এই কমিটিতে আপানার কোন পেমেন্ট নেই"
+                : "You have no any payment in this comity"
+            }
+          />
+        )}
         <View style={{ height: 70 }} />
       </ScrollView>
     </View>

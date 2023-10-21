@@ -21,7 +21,7 @@ export default function PaidSubscription({ navigation, route }) {
   const { comity, user } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    !paidList&&dispatch(loader.show());
+    !paidList && dispatch(loader.show());
     get(`/subs/get-all-collections/${subscriptionId}`, user.token)
       .then((res) => {
         dispatch(loader.hide());
@@ -57,8 +57,16 @@ export default function PaidSubscription({ navigation, route }) {
           ))}
         {paidList?.length == 0 && (
           <NoOption
-            title={isBn?"কোন সদস্য থেকে চাঁদা কালেকশন করা হয়নাই":"No payment is collected from any member"}
-            subTitle={isBn?"যোগ বাটন এ ক্লিক করে চাঁদা কালেকশন করুন":"Collect payment by clicking on add button"}
+            title={
+              isBn
+                ? "কোন সদস্য থেকে পেমেন্ট কালেকশন করা হয়নাই"
+                : "No payment is collected from any member"
+            }
+            subTitle={
+              isBn
+                ? "যোগ বাটন এ ক্লিক করে পেমেন্ট কালেকশন করুন"
+                : "Collect payment by clicking on add button"
+            }
           />
         )}
         <View style={{ height: 6 }} />

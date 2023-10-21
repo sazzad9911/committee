@@ -53,21 +53,25 @@ export default function AllCollections({ navigation, route }) {
   const dispatch = useDispatch();
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
-  const [filterData, setFilterData] = useState(isBn?[
-    "সর্বশেষ ৭ দিনের কালেকশন",
-    "সর্বশেষ ১৫ দিনের কালেকশন",
-    "সর্বশেষ ৩০ দিনের কালেকশন",
-    "সর্বশেষ ৩ মাসের কালেকশন",
-    "সর্বশেষ ৬ মাসের কালেকশন",
-    "সর্বশেষ ১ বছরের কালেকশন",
-  ]:[
-    "Last 7 days collection",
-    "Last 15 days collection",
-    "Last 30 days collection",
-    "Last 3 months collection",
-    "Last 6 months collection",
-    "Last 1 years collection",
-  ]);
+  const [filterData, setFilterData] = useState(
+    isBn
+      ? [
+          "সর্বশেষ ৭ দিনের কালেকশন",
+          "সর্বশেষ ১৫ দিনের কালেকশন",
+          "সর্বশেষ ৩০ দিনের কালেকশন",
+          "সর্বশেষ ৩ মাসের কালেকশন",
+          "সর্বশেষ ৬ মাসের কালেকশন",
+          "সর্বশেষ ১ বছরের কালেকশন",
+        ]
+      : [
+          "Last 7 days collection",
+          "Last 15 days collection",
+          "Last 30 days collection",
+          "Last 3 months collection",
+          "Last 6 months collection",
+          "Last 1 years collection",
+        ]
+  );
   const [selected, setSelected] = useState();
   const [choose, setChoose] = useState();
   const isFocus = useIsFocused();
@@ -102,7 +106,7 @@ export default function AllCollections({ navigation, route }) {
   };
   useEffect(() => {
     fetch();
-  }, [isFocus,choose]);
+  }, [isFocus, choose]);
   useEffect(() => {
     text
       ? data &&
@@ -156,6 +160,7 @@ export default function AllCollections({ navigation, route }) {
       }
       component={
         <Component
+          text={text}
           isDark={isDark}
           textColor={textColor}
           borderColor={borderColor}
@@ -164,10 +169,10 @@ export default function AllCollections({ navigation, route }) {
           isBn={isBn}
           choose={choose}
           selected={selected}
-          onCancel={()=>{
-            setSelected()
-            setChoose()
-            setSorted(data)
+          onCancel={() => {
+            setSelected();
+            setChoose();
+            setSorted(data);
           }}
         />
       }
@@ -182,7 +187,8 @@ export default function AllCollections({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}></View>
+              }}
+            ></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -191,12 +197,14 @@ export default function AllCollections({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}>
+            onChange={handleSheetChanges}
+          >
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}>
+              style={{ flex: 1 }}
+            >
               <Bottom
                 filterData={filterData}
                 colors={colors}
@@ -264,14 +272,16 @@ const Header = ({
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
+    >
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
         <Text
           style={{
             fontSize: 24,
             fontWeight: "500",
             color: "#fff",
-          }}>
+          }}
+        >
           {headlines._allCollection}
         </Text>
         <View style={[mainStyle.flexBox]}>
@@ -319,11 +329,23 @@ const Component = ({
   selected,
   onCancel,
   choose,
+  text,
 }) => {
   return (
     <View style={{ marginVertical: 14 }}>
-      <View style={[mainStyle.pdH20,{flexDirection:"row",marginBottom:6}]}>
-        {selected?(<Chip onCancel={onCancel} title={selected} />):choose?(<Chip onCancel={onCancel} title={`${new Date(choose[0]).toLocaleDateString()} ${isBn?"থেকে":"To"} ${new Date(choose[1]).toLocaleDateString()}`} />):null}
+      <View
+        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}
+      >
+        {selected ? (
+          <Chip onCancel={onCancel} title={selected} />
+        ) : choose ? (
+          <Chip
+            onCancel={onCancel}
+            title={`${new Date(choose[0]).toLocaleDateString()} ${
+              isBn ? "থেকে" : "To"
+            } ${new Date(choose[1]).toLocaleDateString()}`}
+          />
+        ) : null}
       </View>
       {sorted?.map((doc, i) => (
         <CollectionCart
@@ -339,7 +361,11 @@ const Component = ({
         <NoOption
           title={
             isBn
-              ? "এখন পর্যন্ত কোন কালেকশন যোগ করা হয়নি"
+              ? text
+                ? "খুঁজে পাওয়া যাচ্ছে না"
+                : "এখন পর্যন্ত কোন কালেকশন যোগ করা হয়নি"
+              : text
+              ? "Not found"
               : "No collection added"
           }
         />
@@ -357,16 +383,20 @@ const Chip = ({ title, onCancel }) => {
   </svg>
   `;
   return (
-    <TouchableOpacity onPress={onCancel}
+    <TouchableOpacity
+      onPress={onCancel}
       style={{
         flexDirection: "row",
-        backgroundColor:colors.getSchemeColor(),
-        paddingHorizontal:8,
-        paddingVertical:4,
-        alignItems:"center",
-        borderRadius:8
-      }}>
-      <Text style={[mainStyle.text14,{color:colors.getTextColor()}]}>{title}</Text>
+        backgroundColor: colors.getSchemeColor(),
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        alignItems: "center",
+        borderRadius: 8,
+      }}
+    >
+      <Text style={[mainStyle.text14, { color: colors.getTextColor() }]}>
+        {title}
+      </Text>
       <SvgXml style={{ marginLeft: 5 }} xml={ic} />
     </TouchableOpacity>
   );
@@ -376,12 +406,14 @@ const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
     <View
       style={{
         paddingHorizontal: 16,
-      }}>
+      }}
+    >
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}>
+        ]}
+      >
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />

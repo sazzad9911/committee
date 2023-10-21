@@ -38,15 +38,19 @@ export default function AddMemberSubscription({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const update = route?.params?.update;
-  console.log(update);
+  console.log(data);
 
   const updateData = () => {
     dispatch(loader.show());
-    put(`/subs/update-collection`, {
-      collectionId:data.id,
-      amount:amount,
-      paid:paid?"true":'false'
-    }, user.token)
+    put(
+      `/subs/update-collection`,
+      {
+        collectionId: data.id,
+        amount: amount,
+        paid: paid ? "true" : "false",
+      },
+      user.token
+    )
       .then((res) => {
         dispatch(loader.hide());
         console.log(res.data);
@@ -116,12 +120,14 @@ export default function AddMemberSubscription({ navigation, route }) {
                 { color: colors.getTextColor(), marginVertical: 5 },
               ]}
             >
-              {data && data?.name ? data?.name : data?.user?.name}
+              {(data && data.member?.name) || data?.name || data?.user?.name}
             </Text>
             <Text
               style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}
             >
-              {data && data?.gender ? data?.gender : data?.user?.gender}
+              {(data && data.member?.gender) ||
+                data?.gender ||
+                data?.user?.gender}
             </Text>
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
@@ -161,10 +167,10 @@ export default function AddMemberSubscription({ navigation, route }) {
           style={{
             marginBottom: 50,
             marginHorizontal: 20,
-            marginTop:28,
-           // position: "absolute",
+            marginTop: 28,
+            // position: "absolute",
             width: Dimensions.get("window").width - 40,
-           // top: Dimensions.get("window").height - 500,
+            // top: Dimensions.get("window").height - 500,
           }}
           title={headlines._ok}
         />

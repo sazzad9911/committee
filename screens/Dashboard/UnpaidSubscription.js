@@ -16,13 +16,13 @@ export default function UnPaidSubscription({ navigation, route }) {
   const colors = new AppColors(isDark);
   const isBn = useSelector((state) => state.isBn);
   const subscriptionId = route?.params?.subscriptionId;
-  const data=route?.params?.data;
+  const data = route?.params?.data;
   const { comity, user } = useSelector((state) => state);
-  const isFocused=useIsFocused()
-  const dispatch=useDispatch()
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    !paidList&&dispatch(loader.show());
+    !paidList && dispatch(loader.show());
     get(`/subs/get-all-collections/${subscriptionId}`, user.token)
       .then((res) => {
         dispatch(loader.hide());
@@ -33,31 +33,42 @@ export default function UnPaidSubscription({ navigation, route }) {
         console.error(e.message);
       });
   }, [isFocused]);
-  
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
         {paidList &&
           paidList.map((doc, i) => (
-            <CollectionCart 
+            <CollectionCart
               textColor={colors.getTextColor()}
               borderColor={colors.getBorderColor()}
               isDark={isDark}
               data={doc}
               key={i}
               onPress={() => {
-                
-                navigation?.navigate("DeleteMemberCollection", { data: doc,subscriptionId:subscriptionId,paid:false  });
+                navigation?.navigate("DeleteMemberCollection", {
+                  data: doc,
+                  subscriptionId: subscriptionId,
+                  paid: false,
+                });
               }}
               title={doc.name}
             />
           ))}
         {paidList?.length == 0 && (
           <NoOption
-          title={isBn?"কোন সদস্য থেকে চাঁদা কালেকশন করা হয়নাই":"No payment is collected from any member"}
-          subTitle={isBn?"যোগ বাটন এ ক্লিক করে চাঁদা কালেকশন করুন":"Collect payment by clicking on add button"}
-        />
+            title={
+              isBn
+                ? "কোন সদস্য থেকে পেমেন্ট কালেকশন করা হয়নাই"
+                : "No payment is collected from any member"
+            }
+            subTitle={
+              isBn
+                ? "যোগ বাটন এ ক্লিক করে পেমেন্ট কালেকশন করুন"
+                : "Collect payment by clicking on add button"
+            }
+          />
         )}
         <View style={{ height: 6 }} />
       </ScrollView>
@@ -66,7 +77,7 @@ export default function UnPaidSubscription({ navigation, route }) {
           navigation.navigate("SelectMemberType", {
             data: data,
             subscription: data.id,
-            paid:false
+            paid: false,
           });
         }}
       />

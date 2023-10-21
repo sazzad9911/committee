@@ -159,7 +159,7 @@ export default function UserProfile({ navigation, route }) {
                   memberId: data.id,
                 });
               }}
-              title={isBn ? "চাঁদা" : "Subscription"}
+              title={isBn ? "পেমেন্ট" : "Payment"}
               icon={cart}
             />
           )}

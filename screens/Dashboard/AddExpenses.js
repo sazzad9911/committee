@@ -31,6 +31,7 @@ export default function AddExpenses({ navigation }) {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const textColor = colors.getTextColor();
+  const isBn = useSelector((state) => state.isBn);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -81,22 +82,27 @@ export default function AddExpenses({ navigation }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <ScrollView style={mainStyle.pdH20} showsVerticalScrollIndicator={false}>
         <Input
           value={name}
           onChange={setName}
           outSideStyle={mainStyle.mt24}
-          level={"Name of expense *"}
-          placeholder={"example: salary, bill, maintaining "}
+          level={isBn ? "খরচের নাম *" : "Name of expense *"}
+          placeholder={
+            isBn
+              ? "উদাহরণ: বেতন, বিল, রক্ষণাবেক্ষণ"
+              : "example: salary, bill, maintaining "
+          }
         />
         <Input
           value={amount}
           onChange={setAmount}
           outSideStyle={mainStyle.mt12}
           keyboardType={"numeric"}
-          placeholder={"0.00"}
-          level={"amount *"}
+          placeholder={isBn ? "০০.০০" : "0.00"}
+          level={isBn ? "পরিমানের লক্ষ *" : "amount *"}
         />
         <Text
           style={{
@@ -104,8 +110,9 @@ export default function AddExpenses({ navigation }) {
             fontWeight: "400",
             color: textColor,
             paddingVertical: 16,
-          }}>
-          Date *
+          }}
+        >
+          {isBn ? "তারিখ *" : "Date *"}
         </Text>
         <Pressable onPress={showDatePicker}>
           <View
@@ -118,23 +125,25 @@ export default function AddExpenses({ navigation }) {
               minHeight: 45,
               paddingHorizontal: 10,
               backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
-            }}>
+            }}
+          >
             <SvgXml xml={calender} />
             <Text
               style={{
                 color: textColor,
                 marginLeft: 5,
-              }}>
+              }}
+            >
               {date?.toDateString()}
             </Text>
           </View>
         </Pressable>
         <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
 
         {/* <Button
           editable={false}
@@ -150,12 +159,11 @@ export default function AddExpenses({ navigation }) {
         active={name && amount && date ? true : false}
         style={{
           marginHorizontal: 20,
-          marginBottom:32,
+          marginBottom: 32,
           width: Dimensions.get("window").width - 40,
         }}
-        title={"Confirm"}
+        title={isBn ? "নিশ্চিত করুন" : "Confirm"}
       />
-      
     </KeyboardAvoidingView>
   );
 }
