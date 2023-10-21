@@ -8,6 +8,7 @@ import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { setExpenseDateSort } from "../../data/expenseDateSort";
+import ReadMoreComponent from "../../components/ReadMoreComponent";
 
 export default function DateShort({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -123,7 +124,16 @@ export default function DateShort({ navigation, route }) {
           navigation.goBack();
         }}
         style={mainStyle.mt32}
-        title={"Confirm"}
+        title={isBn ? "নিশ্চিত করুন" : "Confirm"}
+      />
+      <ReadMoreComponent
+        textColor={colors.getTextColor()}
+        title={isBn ? "গুরুত্বপূর্ণ নির্দেশাবলী" : "Important Instructions"}
+        message={
+          isBn
+            ? "আপনি যদি আপনার কমিটির সকল খরচ শুরু থেকে শেষ পর্যন্ত সর্বদা দেখতে চান তাহলে উপরের খরচ বাটনে ক্লিক করে নিশ্চিত করুন অথবা আপনি যদি প্রতি মাসের একটি নির্দিষ্ট তারিখ থেকে আপনার কমিটির খরচ দেখতে চান তাহলে নিচের তারিখের ঘরে ক্লিক করে একটি তারিখ পছন্দ করে নিশ্চিত করুন বাটনে ক্লিক করুন৷ মনে রাখবেন আপনি যেই তারিখটি নির্বাচন করে রাখবেন প্রতি মাসে স্বয়ংক্রিয়ভাবে সেই তারিখ থেকে বর্তমান দিন পর্যন্ত আপনার কাছে আপনার খরচ প্রদর্শিত হবে৷"
+            : "If you want to see all of your comity expenses from start to finish then confirm by clicking on the expense button above or if you want to see your comity expenses from a specific date each month then click on the date box below and choose a date and click on the confirm button . Note that whatever date you select, your expenses will automatically be shown to you every month from that date to the current day."
+        }
       />
     </View>
   );

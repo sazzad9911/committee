@@ -156,7 +156,7 @@ export default function AdminRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={headlines._settings} {...props} />
+                  <BackHeader title={isBn ? "সেটিং" : "Settings"} {...props} />
                 ),
               }}
               name="DateShort"
