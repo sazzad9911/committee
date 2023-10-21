@@ -157,6 +157,7 @@ export default function AllExpenses({ navigation, route }) {
       }
       component={
         <Component
+          text={text}
           textColor={textColor}
           borderColor={borderColor}
           navigation={navigation}
@@ -183,7 +184,8 @@ export default function AllExpenses({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}></View>
+              }}
+            ></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -192,12 +194,14 @@ export default function AllExpenses({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}>
+            onChange={handleSheetChanges}
+          >
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}>
+              style={{ flex: 1 }}
+            >
               <Bottom
                 filterData={filterData}
                 colors={colors}
@@ -269,13 +273,15 @@ const Header = ({
         style,
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}>
+      colors={!color ? (isDark ? ["#000", "#000"] : ac) : color}
+    >
       <View style={[mainStyle.flexBox, mainStyle.mt24]}>
-        <View style={{flexDirection:"row",alignItems:"center"}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Pressable
             onPress={() => {
               navigation.goBack();
-            }}>
+            }}
+          >
             <SvgXml xml={back} />
           </Pressable>
           <Text
@@ -283,8 +289,9 @@ const Header = ({
               fontSize: 24,
               fontWeight: "500",
               color: "#fff",
-              marginLeft:5
-            }}>
+              marginLeft: 5,
+            }}
+          >
             {headlines._allExpenses}
           </Text>
         </View>
@@ -333,18 +340,20 @@ const Component = ({
   onCancel,
   choose,
   isBn,
+  text,
 }) => {
-  const [total,setTotal]=useState(0)
-  useEffect(()=>{
-    setTotal(0)
-    sorted?.map((d)=>{
-      setTotal(c=>c+d.amount)
-    })
-  },[sorted])
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setTotal(0);
+    sorted?.map((d) => {
+      setTotal((c) => c + d.amount);
+    });
+  }, [sorted]);
   return (
     <View style={{ marginVertical: 14 }}>
       <View
-        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}>
+        style={[mainStyle.pdH20, { flexDirection: "row", marginBottom: 6 }]}
+      >
         {selected ? (
           <Chip onCancel={onCancel} title={selected} />
         ) : choose ? (
@@ -355,14 +364,20 @@ const Component = ({
             } ${new Date(choose[1]).toLocaleDateString()}`}
           />
         ) : null}
-        {selected||choose?(
-          <Button fontStyle={{
-            fontWeight:"400"
-          }} style={{
-            height:25,
-            marginLeft:12
-          }} active={true} bg={["#E52D27","#B31217"]} title={isBn?`সর্বমোট ${total}৳`:`Total ${total}৳`}/>
-        ):null}
+        {selected || choose ? (
+          <Button
+            fontStyle={{
+              fontWeight: "400",
+            }}
+            style={{
+              height: 25,
+              marginLeft: 12,
+            }}
+            active={true}
+            bg={["#E52D27", "#B31217"]}
+            title={isBn ? `সর্বমোট ${total}৳` : `Total ${total}৳`}
+          />
+        ) : null}
       </View>
       {sorted?.map((doc, i) => (
         <ExpensesCart
@@ -378,7 +393,11 @@ const Component = ({
         <NoOption
           title={
             isBn
-              ? "এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি"
+              ? text
+                ? "খুঁজে পাওয়া যাচ্ছে না"
+                : "এখন পর্যন্ত কোন খরচের তালিকা যোগ করা হয়নি"
+              : text
+              ? "Not found"
               : "No expenses added"
           }
         />
@@ -405,7 +424,8 @@ const Chip = ({ title, onCancel }) => {
         paddingVertical: 4,
         alignItems: "center",
         borderRadius: 8,
-      }}>
+      }}
+    >
       <Text style={[mainStyle.text14, { color: colors.getTextColor() }]}>
         {title}
       </Text>
@@ -418,12 +438,14 @@ const Bottom = ({ filterData, onChoose, value, colors, headlines }) => {
     <View
       style={{
         paddingHorizontal: 16,
-      }}>
+      }}
+    >
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}>
+        ]}
+      >
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />

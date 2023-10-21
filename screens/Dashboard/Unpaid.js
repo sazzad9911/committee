@@ -65,15 +65,14 @@ export default function UnPaid({ navigation, searchTerm }) {
           ))}
         {sortedPaid?.length == 0 && (
           <NoOption
-            // title={
-            //   isBn
-            //     ? "এখন পর্যন্ত কোন চাঁদার লিস্ট তৈরি করা হয়নাই"
-            //     : "No subscription list has been created"
-            // }
             title={" "}
             subTitle={
               isBn
-                ? "যোগ বাটন এ ক্লিক করে পেমেন্ট তৈরি করুন"
+                ? searchTerm
+                  ? "খুঁজে পাওয়া যাচ্ছে না"
+                  : "যোগ বাটন এ ক্লিক করে পেমেন্ট তৈরি করুন"
+                : searchTerm
+                ? "Not found"
                 : "Create a payment by clicking the Add button"
             }
           />
