@@ -334,7 +334,13 @@ const Component = ({
   choose,
   isBn,
 }) => {
-  //console.log();
+  const [total,setTotal]=useState(0)
+  useEffect(()=>{
+    setTotal(0)
+    sorted?.map((d)=>{
+      setTotal(c=>c+d.amount)
+    })
+  },[sorted])
   return (
     <View style={{ marginVertical: 14 }}>
       <View
@@ -349,6 +355,14 @@ const Component = ({
             } ${new Date(choose[1]).toLocaleDateString()}`}
           />
         ) : null}
+        {selected||choose?(
+          <Button fontStyle={{
+            fontWeight:"400"
+          }} style={{
+            height:25,
+            marginLeft:12
+          }} active={true} bg={["#E52D27","#B31217"]} title={isBn?`সর্বমোট ${total}৳`:`Total ${total}৳`}/>
+        ):null}
       </View>
       {sorted?.map((doc, i) => (
         <ExpensesCart

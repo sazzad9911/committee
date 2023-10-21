@@ -16,6 +16,7 @@ const Button = ({
   placeholder,
   placeholderTextColor,
   color,
+  fontStyle
 }) => {
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
@@ -62,12 +63,12 @@ const Button = ({
         {LeftIcon && title && <View style={{ width: 10 }} />}
         {title && (
           <Text
-            style={{
+            style={[{
               fontSize: style && style.fontSize ? style.fontSize : 14,
               color: active ? "white" : color ? color : borderColor,
               opacity: disabled ? 0.4 : 1,
               fontWeight: "600",
-            }}
+            },fontStyle]}
           >
             {title}
           </Text>
