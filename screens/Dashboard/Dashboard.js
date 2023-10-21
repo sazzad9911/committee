@@ -41,6 +41,7 @@ export default function Dashboard({ navigation }) {
   const borderColor = colors.getBorderColor();
   const expenseDateSort = useSelector((state) => state.expenseDateSort);
   const dispatch = useDispatch();
+  const [lastDate,setLastDate]=useState()
   //console.log(comity);
   useEffect(() => {
     dispatch(setExpenseDateSort(new Date(`${d[0]}-${d[1]}-01`)));
@@ -64,6 +65,7 @@ export default function Dashboard({ navigation }) {
               textColor={textColor}
               {...props}
               sortDate={expenseDateSort}
+              lastDate={lastDate}
             />
           }
           {...props}
@@ -71,7 +73,9 @@ export default function Dashboard({ navigation }) {
       )}
     >
       <Tab.Screen name={headlines._collection} component={Collection} />
-      <Tab.Screen name={headlines._expenses} component={Expenses} />
+      <Tab.Screen name={headlines._expenses} initialParams={{
+        setLastDate:setLastDate
+      }} component={Expenses} />
     </Tab.Navigator>
   );
 }
@@ -84,6 +88,7 @@ const Header = ({
   state,
   navigation,
   sortDate,
+  lastDate
 }) => {
   const newDate = new Date();
   const day = newDate.getDay();
@@ -96,7 +101,6 @@ const Header = ({
   const isFocused = useIsFocused();
   const [balance, setBalance] = useState(comity?.balance || 0);
   const [expense, setExpense] = useState(comity?.expense || 0);
-
   const inset = useSafeAreaInsets();
   const [number, setNumber] = useState(0);
 
@@ -181,12 +185,12 @@ const Header = ({
           ? new Date().toDateString()
           : sortDate
           ? sortDate.toDateString()
-          : new Date(comity?.createdAt).toDateString()}{" "}
+          : new Date(lastDate?.date).toDateString()}{" "}
         {!state.index == 0 && (!isBn ? "to Today" : "থেকে আজ পর্যন্ত")}
       </Text>
 
       <Pressable
-        onPress={() => {
+        onPress={() => { 
           onPress(state?.index);
         }}
         style={{
