@@ -21,8 +21,9 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import SheetCard from "../components/cart/SheetCard";
 import toast from "../data/toast";
 import loader from "../data/loader";
+import { post } from "../apis/multipleApi";
 
-export default function Support({navigation}) {
+export default function Support({ navigation }) {
   const [message, setMessage] = React.useState("");
   const [subject, setSubject] = React.useState("");
   const isDark = useSelector((state) => state.isDark);
@@ -32,6 +33,7 @@ export default function Support({navigation}) {
   const headlines = values.getValues();
   const [index, setIndex] = useState(-1);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ["60%"], []);
   const [choose, setChoose] = useState();
@@ -59,16 +61,17 @@ export default function Support({navigation}) {
 
   const handelSubmit = async () => {
     if (!subject || !message) {
-      
-      dispatch(toast.info("Please fill all the fields!"))
+      dispatch(toast.info("Please fill all the fields!"));
       return;
     }
     try {
+      console.log(subject, message);
       dispatch(loader.show());
-      await newSupport({
-        subject,
-        message,
-      });
+      await post(
+        "/contact/new/support",
+        { subject: subject, message: message },
+        user.token
+      );
       navigation.navigate("ContactSuccess");
       reset();
     } catch (error) {
@@ -107,7 +110,8 @@ export default function Support({navigation}) {
         paddingVertical: 16,
         borderBottomColor: colors.getShadowColor(),
         borderBottomWidth: 1,
-      }}>
+      }}
+    >
       <Text style={[mainStyle.subLevel, { color: colors.getTextColor() }]}>
         {title}
       </Text>
@@ -126,7 +130,8 @@ export default function Support({navigation}) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <Screen
         headlines={headlines}
         setSubject={setSubject}
@@ -137,7 +142,7 @@ export default function Support({navigation}) {
         subject={subject}
         isBn={isBn}
         backgroundColor={colors.getBackgroundColor()}
-        onBack={()=>navigation.goBack()}
+        onBack={() => navigation.goBack()}
       />
       {index != -1 && (
         <View
@@ -148,7 +153,8 @@ export default function Support({navigation}) {
             width: Dimensions.get("window").width,
             height: Dimensions.get("window").height,
             opacity: 0.1,
-          }}></View>
+          }}
+        ></View>
       )}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -157,12 +163,14 @@ export default function Support({navigation}) {
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-        onChange={handleSheetChanges}>
+        onChange={handleSheetChanges}
+      >
         <BottomSheetScrollView
           contentContainerStyle={{
             backgroundColor: colors.getSchemeColor(),
           }}
-          style={{ flex: 1 }}>
+          style={{ flex: 1 }}
+        >
           <Options
             onChoose={setChoose}
             setSubject={setSubject}
@@ -195,7 +203,7 @@ const Screen = ({
   handelSubmit,
   isBn,
   onBack,
-  backgroundColor
+  backgroundColor,
 }) => (
   <ScrollView showsVerticalScrollIndicator={false}>
     <View style={[mainStyle.pdH20]}>
@@ -209,7 +217,8 @@ const Screen = ({
             backgroundColor: "#6971FF",
           },
           mainStyle.mt12,
-        ]}>
+        ]}
+      >
         <Text style={[mainStyle.subLevel, { color: "#fff" }]}>
           {headlines._supportCaution}
         </Text>
@@ -226,7 +235,7 @@ const Screen = ({
       <TextArea
         style={{
           height: 200,
-          paddingVertical:12
+          paddingVertical: 12,
         }}
         value={message}
         onChange={setMessage}
@@ -235,14 +244,20 @@ const Screen = ({
         level={headlines._details}
       />
       <View style={[mainStyle.flexBox, mainStyle.mt12]}>
-        <Button active={true} bg={[backgroundColor,backgroundColor]}  onPress={onBack}
-          style={{ width: Dimensions.get("window").width / 2 - 30,borderWidth:1 }}
+        <Button
+          active={true}
+          bg={[backgroundColor, backgroundColor]}
+          onPress={onBack}
+          style={{
+            width: Dimensions.get("window").width / 2 - 30,
+            borderWidth: 1,
+          }}
           title={headlines._canncel}
         />
         <Button
           onPress={handelSubmit}
-          active={subject&&message?true:false}
-          disabled={subject&&message?false:true}
+          active={subject && message ? true : false}
+          disabled={subject && message ? false : true}
           style={{ width: Dimensions.get("window").width / 2 - 30 }}
           title={headlines._send}
         />

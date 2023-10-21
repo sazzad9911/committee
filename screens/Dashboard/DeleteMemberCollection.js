@@ -37,7 +37,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
     get(`/subs/get-collection-by-id/${data.id}`, user.token)
       .then((res) => {
         setData(res.data.collection);
-        //console.log(res.data.collection);
+        // console.log(res.data.collection);
         dispatch(loader.hide());
       })
       .catch((err) => {
@@ -45,10 +45,10 @@ export default function DeleteMemberCollection({ navigation, route }) {
         console.error(err.response.data.msg);
       });
   }, [isFocused]);
-  const back=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  `
+  `;
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
@@ -67,45 +67,44 @@ export default function DeleteMemberCollection({ navigation, route }) {
             height: 24,
           }}
         />
-        <View style={[mainStyle.flexBox,mainStyle.pdH20]}>
-        <Pressable
-          onPress={() => {
-            navigation.goBack()
-          }}
-          
-        >
-          <SvgXml xml={back} />
-        </Pressable>
-        <Pressable
-          onPress={async () => {
-            navigation.navigate("DeleteConfirmation", {
-              title: values.getValues()._subsMemberDeleteMessage,
-              style: st,
-              onPress: async () => {
-                dispatch(loader.show());
-                deletes(`/subs/delete/collection/${data.id}`, user.token)
-                  .then((res) => {
-                    dispatch(loader.hide());
-                    dispatch(toast.success("Success"));
-                    navigation.goBack();
-                    setTimeout(() => {
+        <View style={[mainStyle.flexBox, mainStyle.pdH20]}>
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <SvgXml xml={back} />
+          </Pressable>
+          <Pressable
+            onPress={async () => {
+              navigation.navigate("DeleteConfirmation", {
+                title: values.getValues()._subsMemberDeleteMessage,
+                style: st,
+                onPress: async () => {
+                  dispatch(loader.show());
+                  deletes(`/subs/delete/collection/${data.id}`, user.token)
+                    .then((res) => {
+                      dispatch(loader.hide());
+                      dispatch(toast.success("Success"));
                       navigation.goBack();
-                    }, 100);
-                  })
-                  .catch((err) => {
-                    dispatch(loader.hide());
-                    dispatch(toast.error(err.response.data.msg));
-                  });
-              },
-              rmTitle:isBn?"গুরুত্বপূর্ণ মেসেজ":"Important message",
-              rmMessage:isBn?"অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, কালেকশনটি স্থায়ীভাবে মুছে যাবে, এবং একবার মুছে ফেলার পর এটি কে আগের অবস্থায় ফেরানো যাবে না৷ সতর্কতার সাথে এগিয়ে যান, কারণ এই কালেকশনটি একবার মুছে ফেলার পরে পুনরায় ফিরিয়ে আনা সম্ভব নয়৷":"Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone.Proceed with caution, as this payment collection data will be irretrievable once deleted"
-
-            });
-          }}
-          
-        >
-          <SvgXml xml={deleteIcon} />
-        </Pressable>
+                      setTimeout(() => {
+                        navigation.goBack();
+                      }, 100);
+                    })
+                    .catch((err) => {
+                      dispatch(loader.hide());
+                      dispatch(toast.error(err.response.data.msg));
+                    });
+                },
+                rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+                rmMessage: isBn
+                  ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বাটনে ক্লিক করবেন, কালেকশনটি স্থায়ীভাবে মুছে যাবে, এবং একবার মুছে ফেলার পর এটি কে আগের অবস্থায় ফেরানো যাবে না৷ সতর্কতার সাথে এগিয়ে যান, কারণ এই কালেকশনটি একবার মুছে ফেলার পরে পুনরায় ফিরিয়ে আনা সম্ভব নয়৷"
+                  : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone.Proceed with caution, as this payment collection data will be irretrievable once deleted",
+              });
+            }}
+          >
+            <SvgXml xml={deleteIcon} />
+          </Pressable>
         </View>
         <View
           style={{
@@ -132,7 +131,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
               },
             ]}
           >
-            {data ? data.member.name : "Easin arafat aryan xyz"}
+            {data?.member?.name || data?.member?.user?.name}
           </Text>
           <Text
             style={[
@@ -140,7 +139,15 @@ export default function DeleteMemberCollection({ navigation, route }) {
               { color: colors.getTextColor(), marginTop: 5 },
             ]}
           >
-            {data ? data.member.gender : "Male"}
+            {data?.member?.gender || data?.member?.user?.gender || "Mele"}
+          </Text>
+          <Text
+            style={[
+              mainStyle.text14,
+              { color: colors.getTextColor(), marginTop: 5 },
+            ]}
+          >
+            {data.member?.position}
           </Text>
           <Text
             style={[
@@ -148,7 +155,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
               { color: colors.getTextColor(), marginTop: 10 },
             ]}
           >
-            {data ? data.member.mobile : "01676182543"}
+            {data?.member?.mobile}
           </Text>
           <Text
             style={[
@@ -156,9 +163,7 @@ export default function DeleteMemberCollection({ navigation, route }) {
               { color: colors.getTextColor(), marginTop: 5 },
             ]}
           >
-            {data
-              ? data.member.address
-              : "ss s road bandar narayanaganj ss s road bandar narayanaganj"}
+            {data ? data.member.address : "N/A"}
           </Text>
         </View>
         <View

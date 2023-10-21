@@ -93,7 +93,8 @@ export default function SubscriptionDetails({ navigation, route }) {
             }
             {...props}
           />
-        )}>
+        )}
+      >
         <Tab.Screen
           initialParams={{
             subscriptionId: data.id,
@@ -166,16 +167,20 @@ const Header = ({
       }}
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <View style={[mainStyle.flexBox]}>
         <View
           style={[
             mainStyle.mt24,
             { flexDirection: "row", alignItems: "center" },
-          ]}>
-          <Pressable onPress={()=>{
-            navigation.goBack();
-          }}>
+          ]}
+        >
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
             <SvgXml xml={back} />
           </Pressable>
           <Text style={[mainStyle.subLevel, { color: "#fff", marginLeft: 5 }]}>

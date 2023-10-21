@@ -120,14 +120,26 @@ export default function AddMemberSubscription({ navigation, route }) {
                 { color: colors.getTextColor(), marginVertical: 5 },
               ]}
             >
-              {(data && data.member?.name) || data?.name || data?.user?.name}
+              {data.member?.name ||
+                data?.name ||
+                data?.member?.user?.name ||
+                data?.user?.name}
             </Text>
             <Text
-              style={[mainStyle.subLevel, { color: colors.getBorderColor() }]}
+              style={[
+                mainStyle.text14,
+                { color: colors.getTextColor(), marginTop: 5 },
+              ]}
             >
-              {(data && data.member?.gender) ||
-                data?.gender ||
-                data?.user?.gender}
+              {data?.member?.gender || data?.member?.user?.gender || "Mele"}
+            </Text>
+            <Text
+              style={[
+                mainStyle.text14,
+                { color: colors.getTextColor(), marginTop: 5 },
+              ]}
+            >
+              {data.member?.position}
             </Text>
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>

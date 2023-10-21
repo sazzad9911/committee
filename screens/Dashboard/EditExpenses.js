@@ -122,7 +122,7 @@ export default function EditExpenses({ navigation, route }) {
             top: 0,
           }}
         >
-          <SvgXml xml={deleteIcon} />
+          <SvgXml xml={isDark ? deleteIcon : deleteIcon2} />
         </Pressable>
         <Input
           value={name}
@@ -226,5 +226,10 @@ export default function EditExpenses({ navigation, route }) {
 
 const deleteIcon = `<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M16 1H12L10.8571 0H5.14286L4 1H0V3H16M1.14286 16C1.14286 16.5304 1.38367 17.0391 1.81233 17.4142C2.24098 17.7893 2.82236 18 3.42857 18H12.5714C13.1776 18 13.759 17.7893 14.1877 17.4142C14.6163 17.0391 14.8571 16.5304 14.8571 16V4H1.14286V16Z" fill="white"/>
+</svg>
+`;
+
+const deleteIcon2 = `<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 1H12L10.8571 0H5.14286L4 1H0V3H16M1.14286 16C1.14286 16.5304 1.38367 17.0391 1.81233 17.4142C2.24098 17.7893 2.82236 18 3.42857 18H12.5714C13.1776 18 13.759 17.7893 14.1877 17.4142C14.6163 17.0391 14.8571 16.5304 14.8571 16V4H1.14286V16Z" fill="black" fill-opacity="0.6"/>
 </svg>
 `;

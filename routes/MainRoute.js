@@ -582,7 +582,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Edit Expense"} {...props} />
+                  <BackHeader
+                    title={isBn ? "সংশোধন" : "Edit Expense"}
+                    {...props}
+                  />
                 ),
               }}
               name="EditExpenses"
