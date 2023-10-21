@@ -34,6 +34,7 @@ function DashboardSubscription({ navigation }) {
   const isBn = useSelector((state) => state.isBn);
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
+  const [searchIp, setSearch] = useState("");
 
   const values = new AppValues(isBn);
   const headlines = values.getValues();
@@ -56,7 +57,8 @@ function DashboardSubscription({ navigation }) {
     <View
       style={{
         flex: 1,
-      }}>
+      }}
+    >
       <Tab.Navigator
         style={{ backgroundColor: colors.getBackgroundColor() }}
         tabBar={(props) => (
@@ -77,13 +79,26 @@ function DashboardSubscription({ navigation }) {
                 headlines={headlines}
                 borderColor={borderColor}
                 textColor={textColor}
+                setSearch={setSearch}
+                searchIp={searchIp}
               />
             }
             {...props}
           />
-        )}>
-        <Tab.Screen name={`${headlines._completed}`} component={Paid} />
-        <Tab.Screen name={`${headlines._incomplete}`} component={Unpaid} />
+        )}
+      >
+        <Tab.Screen
+          name={`${headlines._completed}`}
+          children={() => (
+            <Paid searchTerm={searchIp} navigation={navigation} />
+          )}
+        />
+        <Tab.Screen
+          name={`${headlines._incomplete}`}
+          children={() => (
+            <Unpaid searchTerm={searchIp} navigation={navigation} />
+          )}
+        />
       </Tab.Navigator>
       <FloatingButton
         onPress={() => {
@@ -96,7 +111,7 @@ function DashboardSubscription({ navigation }) {
   );
 }
 
-const Header = ({ textColor, borderColor, headlines }) => {
+const Header = ({ textColor, borderColor, headlines, searchIp, setSearch }) => {
   const newDate = new Date();
   const isDark = useSelector((state) => state.isDark);
   const day = newDate.getDay();
@@ -120,7 +135,8 @@ const Header = ({ textColor, borderColor, headlines }) => {
       }}
       transition={{
         type: "timing",
-      }}>
+      }}
+    >
       <Text
         style={[
           {
@@ -128,10 +144,13 @@ const Header = ({ textColor, borderColor, headlines }) => {
             fontSize: 24,
           },
           mainStyle.mt24,
-        ]}>
+        ]}
+      >
         {headlines._allSubscription}
       </Text>
       <Input
+        value={searchIp}
+        onChange={setSearch}
         leftIcon={<SvgXml xml={search} />}
         containerStyle={[
           {

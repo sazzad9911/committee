@@ -362,7 +362,7 @@ export class AppValues {
           _paid: "Paid",
           _unPaid: "Unpaid",
           _totalBalance: "Total Balance",
-          _nameDateTaka: "Name, date or Amout",
+          _nameDateTaka: "Name, date or Amount",
           _allSubscription: "All Payments",
           _details: "Details",
           _aboutSubscription: "Payment details",

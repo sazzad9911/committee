@@ -9,7 +9,7 @@ import NoOption from "../../components/main/NoOption";
 import loader from "../../data/loader";
 import { AppColors } from "../../functions/colors";
 
-export default function Paid({ navigation }) {
+export default function Paid({ navigation, searchTerm }) {
   const [paidList, setPaidList] = useState([]);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
@@ -17,6 +17,8 @@ export default function Paid({ navigation }) {
   const isFocused = useIsFocused();
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
+  const [sortedPaid, setSortedPaid] = useState();
+
   const dispatch = useDispatch();
   useEffect(() => {
     !paidList && dispatch(loader.show());
@@ -24,17 +26,31 @@ export default function Paid({ navigation }) {
       .then((res) => {
         dispatch(loader.hide());
         setPaidList(res.data.subs?.filter((sub) => sub.completed));
+        setSortedPaid(res.data.subs?.filter((sub) => sub.completed));
       })
       .catch((err) => {
         dispatch(loader.hide());
       });
   }, [isFocused]);
+
+  useEffect(() => {
+    if (searchTerm) {
+      setSortedPaid(
+        paidList.filter((sub) =>
+          sub.name.toUpperCase().includes(searchTerm.toUpperCase())
+        )
+      );
+    } else {
+      setSortedPaid(paidList);
+    }
+  }, [searchTerm]);
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: 6 }} />
-        {paidList &&
-          paidList.map((doc, i) => (
+        {sortedPaid &&
+          sortedPaid.map((doc, i) => (
             <SubscriptionCard
               data={doc}
               key={i}
@@ -45,7 +61,7 @@ export default function Paid({ navigation }) {
               title={doc.name}
             />
           ))}
-        {paidList?.length == 0 && (
+        {sortedPaid?.length == 0 && (
           <NoOption
             // title={
             //   isBn

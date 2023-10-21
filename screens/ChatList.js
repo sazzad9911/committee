@@ -207,8 +207,14 @@ export default function ChatList(props) {
               onChange={(e) => {
                 if (e && comity) {
                   setSearchList(
-                    conversations.filter((d) =>
-                      d.users[0].user.name.toUpperCase().match(e.toUpperCase())
+                    conversations.filter(
+                      (d) =>
+                        d.users[0].user.name
+                          .toUpperCase()
+                          .match(e.toUpperCase()) ||
+                        d.users[1].user.name
+                          .toUpperCase()
+                          .match(e.toUpperCase())
                     )
                   );
                   setMembersList(
@@ -479,7 +485,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
             onChangeText={onChange}
             value={value}
             style={{ flex: 1, color: colors.getSubTextColor() }}
-            placeholder="Type Name"
+            placeholder="Type here"
             placeholderTextColor={colors.getSubTextColor()}
           />
           <SvgXml xml={search} />
