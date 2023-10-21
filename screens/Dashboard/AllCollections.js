@@ -95,7 +95,8 @@ export default function AllCollections({ navigation, route }) {
         ? setSorted(
             data.filter(
               (d) =>
-                new Date(d.createdAt) >= choose[0] && new Date(d.createdAt) <= choose[1]
+                new Date(d.createdAt) >= choose[0] &&
+                new Date(d.createdAt) <= choose[1]
             )
           )
         : setSorted(res.data.collections);
@@ -142,7 +143,9 @@ export default function AllCollections({ navigation, route }) {
         } else if (index === 4) {
           return new Date(d.createdAt) >= today.setMonth(today.getMonth() - 6);
         } else {
-          return new Date(d.createdAt) >= today.setFullYear(today.getFullYear() - 1);
+          return (
+            new Date(d.createdAt) >= today.setFullYear(today.getFullYear() - 1)
+          );
         }
       })
     );
@@ -357,13 +360,13 @@ const Component = ({
   choose,
   text,
 }) => {
-  const [total,setTotal]=useState(0)
-  useEffect(()=>{
-    setTotal(0)
-    sorted?.map((d)=>{
-      setTotal(c=>c+d.amount)
-    })
-  },[sorted])
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setTotal(0);
+    sorted?.map((d) => {
+      setTotal((c) => c + d.amount);
+    });
+  }, [sorted]);
   return (
     <View style={{ marginVertical: 14 }}>
       <View
@@ -379,14 +382,19 @@ const Component = ({
             } ${new Date(choose[1]).toLocaleDateString()}`}
           />
         ) : null}
-        {selected||choose?(
-          <Button fontStyle={{
-            fontWeight:"400"
-          }} style={{
-            height:25,
-            marginLeft:12
-          }} active={true} title={isBn?`সর্বমোট ${total}৳`:`Total ${total}৳`}/>
-        ):null}
+        {selected || choose ? (
+          <Button
+            fontStyle={{
+              fontWeight: "400",
+            }}
+            style={{
+              height: 25,
+              marginLeft: 12,
+            }}
+            active={true}
+            title={isBn ? `সর্বমোট ${total}৳` : `Total ${total}৳`}
+          />
+        ) : null}
       </View>
       {sorted?.map((doc, i) => (
         <CollectionCart
@@ -395,6 +403,13 @@ const Component = ({
           textColor={textColor}
           borderColor={borderColor}
           data={doc}
+          onPress={() => {
+            navigation.navigate("MemberSubDetails", {
+              subscriptionId: doc.subscriptionId,
+              memberId: doc.memberId,
+              paid: doc.paid,
+            });
+          }}
         />
       ))}
 
