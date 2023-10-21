@@ -53,17 +53,31 @@ export default function Member({ navigation, route }) {
     setIndex && setIndex(index);
   }, []);
 
-  const [filterData, setFilterData] = useState([
-    isBn ? "সকল সদস্য" : "All Member",
-    isBn ? "বিশেষ সদস্য" : "Special Member",
-    isBn ? "সাধারণ সদস্য" : "General Member",
-    isBn ? "শুধু মহিলা" : "Only Female",
-    isBn ? "শুধু পরুষ" : "Only Male",
-    isBn ? "১-২০ বছরের ভিতর" : "Within 1-20 years",
-    isBn ? "২১-৪০ বছরের ভিতর" : "Within 21-40 years",
-    isBn ? "৪১-৬০ বছরের ভিতর" : "Within 41-60 years",
-    isBn ? "৬১-৮০ বছরের ভিতর" : "Within 61-80 years",
-  ]);
+  const [filterData, setFilterData] = useState(
+    isBn
+      ? [
+          "সকল সদস্য",
+          "বিশেষ সদস্য",
+          "সাধারণ সদস্য",
+          "শুধু মহিলা",
+          "শুধু পরুষ",
+          "১-২০ বছরের ভিতর",
+          "২১-৪০ বছরের ভিতর",
+          "৪১-৬০ বছরের ভিতর",
+          "৬১-৮০ বছরের ভিতর",
+        ]
+      : [
+          "All Member",
+          "Special Member",
+          "General Member",
+          "Only Female",
+          "Only Male",
+          "Within 1-20 years",
+          "Within 21-40 years",
+          "Within 41-60 years",
+          "Within 61-80 years",
+        ]
+  );
   const [choose, setChoose] = useState();
 
   useEffect(() => {
@@ -145,6 +159,33 @@ export default function Member({ navigation, route }) {
       setSortedMember(allMember);
     }
   }, [choose]);
+  useEffect(() => {
+    if (isBn) {
+      setFilterData([
+        "সকল সদস্য",
+        "বিশেষ সদস্য",
+        "সাধারণ সদস্য",
+        "শুধু মহিলা",
+        "শুধু পরুষ",
+        "১-২০ বছরের ভিতর",
+        "২১-৪০ বছরের ভিতর",
+        "৪১-৬০ বছরের ভিতর",
+        "৬১-৮০ বছরের ভিতর",
+      ]);
+    } else {
+      setFilterData([
+        "All Member",
+        "Special Member",
+        "General Member",
+        "Only Female",
+        "Only Male",
+        "Within 1-20 years",
+        "Within 21-40 years",
+        "Within 41-60 years",
+        "Within 61-80 years",
+      ]);
+    }
+  }, [isBn]);
 
   return (
     <HidableHeaderLayout
@@ -247,8 +288,7 @@ export default function Member({ navigation, route }) {
                 width: Dimensions.get("window").width,
                 height: Dimensions.get("window").height,
                 opacity: 0.1,
-              }}
-            ></View>
+              }}></View>
           )}
           <BottomSheet
             handleIndicatorStyle={{ backgroundColor: colors.getBorderColor() }}
@@ -257,14 +297,12 @@ export default function Member({ navigation, route }) {
             snapPoints={snapPoints}
             enablePanDownToClose={true}
             backgroundStyle={{ backgroundColor: colors.getSchemeColor() }}
-            onChange={handleSheetChanges}
-          >
+            onChange={handleSheetChanges}>
             <BottomSheetScrollView
               contentContainerStyle={{
                 backgroundColor: colors.getSchemeColor(),
               }}
-              style={{ flex: 1 }}
-            >
+              style={{ flex: 1 }}>
               <Bottom
                 value={choose}
                 onChoose={setChoose}
@@ -285,7 +323,7 @@ export default function Member({ navigation, route }) {
                 marginHorizontal: 8,
                 color: "white",
               }}
-              title={"Done"}
+              title={headlines._ok}
             />
           </BottomSheet>
         </>
@@ -335,21 +373,18 @@ const Header = ({ searchIp, setSearch, number, setIndex }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? ac : dc}
-    >
+      colors={!isDark ? ac : dc}>
       <View
         style={{
           justifyContent: "space-between",
           flexDirection: "row",
-        }}
-      >
+        }}>
         <Text
           style={{
             color: "#B0B0B0",
             fontSize: 16,
             fontWeight: "500",
-          }}
-        >
+          }}>
           {comityListText.totalMember}
           {"   "}
           <Text
@@ -357,8 +392,7 @@ const Header = ({ searchIp, setSearch, number, setIndex }) => {
               fontSize: 20,
               fontWeight: "800",
               color: "#fff",
-            }}
-          >
+            }}>
             {number}
           </Text>
         </Text>
@@ -405,14 +439,12 @@ const Bottom = ({ filterData, onChoose, value, headlines, colors }) => {
     <View
       style={{
         paddingHorizontal: 16,
-      }}
-    >
+      }}>
       <Text
         style={[
           mainStyle.level,
           { color: colors.getTextColor(), textAlign: "center" },
-        ]}
-      >
+        ]}>
         {headlines._choose}
       </Text>
       <View style={{ height: 24 }} />

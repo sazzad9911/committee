@@ -45,6 +45,7 @@ export default function ChatList(props) {
   const chatSearchRef = useSelector((state) => state.chatSearchRef);
   const comity = useSelector((state) => state.comity);
   const user = useSelector((state) => state.user);
+  const isBn = useSelector((state) => state.isBn);
   const searchX = props?.route?.params?.search;
   const sheetRef = useRef(null);
   const [index, setIndex] = useState(-1);
@@ -178,7 +179,7 @@ export default function ChatList(props) {
                   color: colors.getTextColor(),
                 }}
               >
-                You have no conversation!
+                {isBn?"কোন বার্তা নেই":"You have no conversation!"}
               </Text>
             </View>
           )}

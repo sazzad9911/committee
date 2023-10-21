@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post, socket } from "../../apis/multipleApi";
 import loader from "../../data/loader";
@@ -21,6 +21,7 @@ export default function MemberRequestCard({
   comity,
   onPress,
   onDone,
+  navigation
 }) {
   const user = useSelector((state) => state.user);
   const c = useSelector((state) => state.comity);
@@ -176,7 +177,15 @@ export default function MemberRequestCard({
         marginVertical: 12,
       }}
     >
-      <View
+      <Pressable onPress={()=>{
+        if(type === "New-Notice"){
+          if(doc.comity.noticePrivacy==="Private"){
+            navigation?.navigate("ComityProfile",{comityId:doc.comity.id})
+          }else{
+            navigation?.navigate("ViewNotice",{noticeId:doc.entityId})
+          }
+        }
+      }}
         style={{
           flexDirection: "row",
           alignItems: "center",
@@ -235,7 +244,7 @@ export default function MemberRequestCard({
               )
             )}
         </Text>
-      </View>
+      </Pressable>
       {type === "New-Member-Request" && (
         <View
           style={{

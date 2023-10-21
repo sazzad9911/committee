@@ -35,6 +35,7 @@ export default function ComityProfile({ navigation, route }) {
   const allHeadlines = values.getHeadLines();
   const dispatch = useDispatch();
   const comityId = route?.params?.comityId;
+  const notice = route?.params?.notice;
   const [comity, setComity] = React.useState(null);
   const [refetch, setRefetch] = React.useState(false);
   const user = useSelector((state) => state.user);
@@ -78,6 +79,13 @@ export default function ComityProfile({ navigation, route }) {
       const { data } = await get(`/comity/get/${comityId}`, user.token);
       //console.log(data.comity);
       setComity(data.comity);
+      if (data.comity?.noticePrivacy === "Public"&&notice) {
+        navigation.navigate("Notice", { comity: comity });
+      } else if (data.comity?.noticePrivacy === "MembersOnly"&&notice) {
+        if (data.comity?.iAmMember) {
+          navigation.navigate("Notice", { comity: comity });
+        }
+      }
     } catch (error) {
       console.log(error);
     } finally {
