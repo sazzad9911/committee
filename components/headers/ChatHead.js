@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SvgXml } from "react-native-svg";
 import Avatar from "../main/Avatar";
 import { AppColors } from "../../functions/colors";
+import icon from "../../assets/icon.png";
 
 const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
   const isDark = useSelector((state) => state.isDark);
@@ -110,14 +111,12 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
         borderBottomWidth: 1,
         borderBottomColor: colors.getShadowColor(),
         backgroundColor: colors.getSchemeColor(),
-      }}
-    >
+      }}>
       <View style={styles.box}>
         <Pressable
           onPress={() => {
             navigation.goBack();
-          }}
-        >
+          }}>
           <SvgXml xml={backIcon} />
         </Pressable>
         <Pressable
@@ -136,10 +135,9 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
                 comityId: message.comity?.id,
               });
             }
-          }}
-        >
+          }}>
           {readOnly ? (
-            <Image style={[styles.image, { borderWidth: 0.2 }]} source={logo} />
+            <Image style={[styles.image, { borderWidth: 0.2 }]} source={icon} />
           ) : (
             <Avatar
               style={styles.image}
@@ -149,15 +147,17 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
             />
           )}
 
-          {readOnly || vendor ? (
+          {!readOnly || vendor ? (
             <Text numberOfLines={1} style={[styles.text, { color: textColor }]}>
               {name ? `${name}` : "Hello World"}
-              {readOnly ? " Support" : ""}
+            </Text>
+          ) : readOnly ? (
+            <Text numberOfLines={1} style={[styles.text, { color: textColor }]}>
+              Support
             </Text>
           ) : (
             <Text numberOfLines={1} style={[styles.text, { color: textColor }]}>
               {message?.comity ? `${message?.comity?.name}` : "Hello World"}
-              {readOnly ? " Support" : ""}
             </Text>
           )}
         </Pressable>
@@ -196,8 +196,7 @@ const ChatHead = ({ navigation, name, image, user, readOnly, message }) => {
         visible={visible}
         onRequestClose={() => {
           setVisible(!visible);
-        }}
-      >
+        }}>
         <MenuBar setVisible={setVisible} />
       </Modal>
     </View>
@@ -267,14 +266,12 @@ const MenuBar = (props) => {
       onPressOutside={() => {
         // handle press outside of childRef event
         props.setVisible(false);
-      }}
-    >
+      }}>
       <View
         style={{
           width: "100%",
           height: "100%",
-        }}
-      >
+        }}>
         <View ref={childRef} style={styles.menuContainer}>
           <View style={styles.menuSubContainer}>
             <Ionicons name="ios-call" size={20} color={textColor} />
@@ -283,8 +280,7 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}
-            >
+              }}>
               Call
             </Text>
             <Switch
@@ -309,8 +305,7 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}
-            >
+              }}>
               Mute
             </Text>
             <Switch
@@ -335,8 +330,7 @@ const MenuBar = (props) => {
                 fontFamily: "Poppins-Light",
                 fontSize: 13,
                 color: textColor,
-              }}
-            >
+              }}>
               View Profile
             </Text>
             <View style={{ width: 5 }} />
