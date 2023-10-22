@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View, Alert } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,13 +9,16 @@ import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import loader from "../../data/loader";
 import { deleteNotice } from "../../apis/api";
+import { get } from "../../apis/multipleApi";
 
 export default function UserViewNotice({ route, navigation }) {
   const ref = useRef();
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
-  const { notice } = route.params;
+  const user = useSelector((state) => state.user)
+  const { noticeId } = route.params;
+  const [notice, setNotice] = useState(route.params.notice);
   const values = new AppValues(isBn);
   const headlines = values.getNoticeHeadLines();
   const colors = new AppColors(isDark);
@@ -41,14 +44,30 @@ export default function UserViewNotice({ route, navigation }) {
       dispatch(loader.hide());
     }
   };
+  useEffect(()=>{
+    noticeId&&dispatch(loader.show())
+    noticeId&&get(`/notice/get-by-id/${noticeId}`,user.token).then(res=>{
+      setNotice(res.data.notice);
+      dispatch(loader.hide())
+    })
+  },[noticeId])
+  if (!notice) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.getBackgroundColor(),
+        }}
+      />
+    );
+  }
 
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: colors.getBackgroundColor(),
-      }}
-    >
+      }}>
       <CustomHeader
         rightIcon={<></>}
         onPress={() => {
@@ -63,8 +82,7 @@ export default function UserViewNotice({ route, navigation }) {
             { color: borderColor },
             mainStyle.pdH20,
             mainStyle.text14,
-          ]}
-        >
+          ]}>
           ০১/০১/২০২৩
         </Text>
         <Text
@@ -73,8 +91,7 @@ export default function UserViewNotice({ route, navigation }) {
             { color: textColor },
             mainStyle.level,
             mainStyle.pdH20,
-          ]}
-        >
+          ]}>
           {notice.subject}
         </Text>
         <View
@@ -87,14 +104,12 @@ export default function UserViewNotice({ route, navigation }) {
               padding: "2%",
               borderRadius: 8,
             },
-          ]}
-        >
+          ]}>
           <Text
             style={[
               { color: textColor, fontWeight: "400" },
               mainStyle.mediumText,
-            ]}
-          >
+            ]}>
             {notice.details}
           </Text>
         </View>

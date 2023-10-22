@@ -291,7 +291,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <SimpleHeader title={"Search Comity"} {...props} />
+                  <SimpleHeader title={isBn?"কমিটি খুঁজুন":"Search Comity"} {...props} />
                 ),
               }}
               name="Search"

@@ -12,7 +12,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Notification() {
+export default function Notification({navigation}) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
@@ -71,7 +71,7 @@ export default function Notification() {
         ]}
       >
         <Text style={[mainStyle.level, { color: colors.getTextColor() }]}>
-          Notification
+         {isBn?"নোটিফিকেশন":"Notification"}
         </Text>
       </View>
       <ScrollView
@@ -90,6 +90,7 @@ export default function Notification() {
             shadowColor={colors.getShadowColor()}
             textColor={colors.getTextColor()}
             id={doc?.id}
+            navigation={navigation}
           />
         ))}
         {data?.length === 0 && (

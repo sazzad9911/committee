@@ -31,6 +31,11 @@ export default function MemberSubDetails({ navigation, route }) {
   const dispatch = useDispatch();
   const isFocus = useIsFocused();
 
+  const back = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  `;
+
   const ac = ["#1488CC", "#2B32B2"];
   const dc = ["#FF5C5C", "#FF6B6B"];
 
@@ -68,7 +73,9 @@ export default function MemberSubDetails({ navigation, route }) {
     fetch();
   }, [isFocus]);
   if (!data) {
-    return;
+    return (
+      <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }} />
+    );
   }
 
   return (
@@ -80,46 +87,51 @@ export default function MemberSubDetails({ navigation, route }) {
             backgroundColor: "green",
             flex: 1,
           }}
-          colors={isDark ? ["#000", "#000"] : data?.paid ? ac : dc}
-        >
+          colors={isDark ? ["#000", "#000"] : data?.paid ? ac : dc}>
           <View
             style={{
-              paddingTop: inset.top,
               flex: 1,
-            }}
-          >
+            }}>
             <View
               style={{
-                height: 32,
+                height: 24,
               }}
             />
-            <Pressable
-              onPress={async () => {
-                navigation.navigate("DeleteConfirmation", {
-                  title: values.getValues()._subsMemberDeleteMessage,
-                  onPress: () => handelDelete(),
-                  rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
-                  rmMessage: isBn
-                    ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বোতামে ক্লিক করবেন, সংগ্রহটি স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরানো যাবে না"
-                    : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone",
-                });
-              }}
+            <View
               style={{
-                position: "absolute",
-                right: 20,
-                top: inset.top + 20,
-              }}
-            >
-              <SvgXml xml={deleteIcon} />
-            </Pressable>
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingHorizontal:20,
+              }}>
+              <Pressable onPress={()=>{
+                navigation?.goBack()
+              }}>
+                <SvgXml xml={back}/>
+              </Pressable>
+              <Pressable
+                onPress={async () => {
+                  navigation.navigate("DeleteConfirmation", {
+                    title: values.getValues()._subsMemberDeleteMessage,
+                    onPress: () => handelDelete(),
+                    rmTitle: isBn ? "গুরুত্বপূর্ণ মেসেজ" : "Important message",
+                    rmMessage: isBn
+                      ? "অনুগ্রহ করে সচেতন থাকুন যে আপনি যখন 'নিশ্চিত করুন' বোতামে ক্লিক করবেন, সংগ্রহটি স্থায়ীভাবে মুছে যাবে, এবং এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরানো যাবে না"
+                      : "Please be aware that when you click the 'Confirm' button, the collection will be permanently deleted, and this action cannot be undone",
+                  });
+                }}
+               >
+                <SvgXml xml={deleteIcon} />
+              </Pressable>
+            </View>
+
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
                 paddingHorizontal: 20,
                 paddingBottom: 20,
-              }}
-            >
+              }}>
               <ProfilePicture
                 size={54}
                 source={{
@@ -135,32 +147,28 @@ export default function MemberSubDetails({ navigation, route }) {
                     marginVertical: 0,
                     marginTop: 10,
                   },
-                ]}
-              >
+                ]}>
                 {data?.member?.name || data?.member?.user?.name || "N/A"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 5 },
-                ]}
-              >
+                ]}>
                 {data?.member?.gender || data?.member?.user?.gender || "Male"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 10 },
-                ]}
-              >
+                ]}>
                 {data?.member?.mobile || data?.member?.user?.mobile || "N/A"}
               </Text>
               <Text
                 style={[
                   mainStyle.text14,
                   { color: colors.getTextColor(), marginTop: 5 },
-                ]}
-              >
+                ]}>
                 {data ? data.member.address : "N/A"}
               </Text>
             </View>
