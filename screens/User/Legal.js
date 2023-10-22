@@ -22,7 +22,8 @@ export default function Legal({ navigation }) {
           borderRadius: 12,
           borderWidth: 1,
           borderColor: colors.getShadowColor(),
-        }}>
+        }}
+      >
         <Clickable
           icon={cmt}
           subTextColor={colors.getSubTextColor()}
@@ -42,6 +43,7 @@ export default function Legal({ navigation }) {
           title={!isBn ? "Term & condition" : "শর্তাবলী"}
         />
         <Clickable
+          bottom
           icon={cmt}
           subTextColor={colors.getSubTextColor()}
           border={colors.getShadowColor()}
@@ -50,8 +52,6 @@ export default function Legal({ navigation }) {
           onPress={() => navigation?.navigate("Policy")}
           title={!isBn ? "Privacy Policy" : "গোপনীয়তা নীতি"}
         />
-      
-        
       </View>
     </ScrollView>
   );
@@ -62,14 +62,16 @@ const Card = ({ color, bg, title, border }) => {
       style={{
         paddingLeft: 12,
         paddingTop: 16,
-      }}>
+      }}
+    >
       <Text
         style={{
           color: color,
           fontSize: 14,
           fontWeight: "500",
           marginBottom: 16,
-        }}>
+        }}
+      >
         {title}
       </Text>
       {border && (

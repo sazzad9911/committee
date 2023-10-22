@@ -6,7 +6,7 @@ import { AppValues } from "../../functions/values";
 import { getPopularComities } from "../../apis/api";
 import { ComityCart } from "../../components/cart/ComityCart";
 
-export default function PopularComities() {
+export default function PopularComities({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);

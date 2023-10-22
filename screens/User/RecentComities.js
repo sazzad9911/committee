@@ -6,7 +6,7 @@ import { AppValues } from "../../functions/values";
 import { ComityCart } from "../../components/cart/ComityCart";
 import { get } from "../../apis/multipleApi";
 
-export default function RecentComities() {
+export default function RecentComities({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const user = useSelector((state) => state.user);
   const isBn = useSelector((state) => state.isBn);

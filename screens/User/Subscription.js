@@ -106,7 +106,7 @@ const Header = ({ searchIp, setSearch }) => {
           },
           mainStyle.mt24,
         ]}
-        placeholder={values.getValues()._nameDateTaka}
+        placeholder={isBn ? "খুঁজুন" : "Search"}
       />
     </LinearGradient>
   );
@@ -193,7 +193,11 @@ const Component = ({ navigation, searchIp }) => {
         <NoOption
           title={
             isBn
-              ? "আপনি এখন পর্যন্ত কোন কমিটির সদস্য হননি"
+              ? searchIp
+                ? "খুঁজে পাওয়া যাচ্ছে না"
+                : "আপনি এখন পর্যন্ত কোন কমিটির সদস্য হননি"
+              : searchIp
+              ? "Not found"
               : "You are not a member of any comity"
           }
         />

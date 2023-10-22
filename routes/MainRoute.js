@@ -291,7 +291,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <SimpleHeader title={isBn?"কমিটি খুঁজুন":"Search Comity"} {...props} />
+                  <SimpleHeader
+                    title={isBn ? "কমিটি খুঁজুন" : "Search Comity"}
+                    {...props}
+                  />
                 ),
               }}
               name="Search"
@@ -309,7 +312,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Popular Comities"} {...props} />
+                  <BackHeader title={isBn ? "জনপ্রিয়" : "Popular"} {...props} />
                 ),
               }}
               name="PopularComities"
@@ -318,7 +321,10 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Recent Comities"} {...props} />
+                  <BackHeader
+                    title={isBn ? "নতুন কমিটি" : "New Comity"}
+                    {...props}
+                  />
                 ),
               }}
               name="RecentComities"

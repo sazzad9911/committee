@@ -56,8 +56,8 @@ export default function SignUpCart({ title, onPress }) {
             }}
           >
             {isBn
-              ? "নিজের একটি শক্তিশালী কমিটি গঠন করুন"
-              : "Build a strong committee of your own"}
+              ? "নিজের একটি কমিটি গঠন করুন"
+              : "Build a committee of your own"}
           </Text>
           <View
             style={{
@@ -66,15 +66,6 @@ export default function SignUpCart({ title, onPress }) {
               alignItems: "center",
             }}
           >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "400",
-                color: "#fff",
-              }}
-            >
-              {isBn ? "একটি কমিটি গঠন করুন" : "Create a comity"}
-            </Text>
             <Pressable
               onPress={onPress}
               style={{

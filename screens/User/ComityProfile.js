@@ -77,11 +77,11 @@ export default function ComityProfile({ navigation, route }) {
     try {
       dispatch(loader.show());
       const { data } = await get(`/comity/get/${comityId}`, user.token);
-      //console.log(data.comity);
+      // console.log(data.comity);
       setComity(data.comity);
-      if (data.comity?.noticePrivacy === "Public"&&notice) {
+      if (data.comity?.noticePrivacy === "Public" && notice) {
         navigation.navigate("Notice", { comity: comity });
-      } else if (data.comity?.noticePrivacy === "MembersOnly"&&notice) {
+      } else if (data.comity?.noticePrivacy === "MembersOnly" && notice) {
         if (data.comity?.iAmMember) {
           navigation.navigate("Notice", { comity: comity });
         }

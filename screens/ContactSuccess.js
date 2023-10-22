@@ -46,46 +46,16 @@ export default function ContactSuccess({ navigation }) {
 
               color: textColor,
               paddingVertical: 30,
-              ...(!isBn && {
-                lineHeight: 70,
-              }),
             },
           ]}
         >
           {isBn ? (
             <>
-              আপনার যদি অন্য কোনো জিজ্ঞাসা থাকে, অনুগ্রহ করে{" "}
-              <Text
-                style={[
-                  mainStyle.subLevel,
-                  {
-                    textAlign: "justify",
-                    color: "#6971FF",
-                  },
-                ]}
-              >
-                সাপোর্ট সেন্টারে{" "}
-              </Text>
+              আপনার যদি অন্য কোনো জিজ্ঞাসা থাকে, অনুগ্রহ করে সাপোর্ট সেন্টারে
               ফিরে যান।
             </>
           ) : (
-            <>
-              If you have another inquiry, please go back to the{" "}
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text
-                  style={[
-                    mainStyle.subLevel,
-                    {
-                      textAlign: "justify",
-                      color: "#6971FF",
-                      paddingVertical: 30,
-                    },
-                  ]}
-                >
-                  Support Box
-                </Text>
-              </TouchableOpacity>
-            </>
+            <>If you have another inquiry, please go back to the Support Box</>
           )}
         </Text>
       </View>

@@ -27,117 +27,57 @@ export default function AboutComity() {
     <ScrollView
       style={{
         backgroundColor: colors.getBackgroundColor(),
-      }}>
+      }}
+    >
       <View style={{ marginTop: 16, marginBottom: 20, paddingHorizontal: 20 }}>
         <Text style={styles.text1}>
           {isBn
-            ? "কমিটিতে স্বাগতম - আপনার বিশ্বস্ত সম্প্রদায় ব্যবস্থাপনা সমাধান"
-            : "Welcome to Comity - Your Trusted Community Management Solution"}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          {isBn
-            ? "কমিটিকে - আমরা সমাজের শক্তি এবং দক্ষ ও নির্বিঘ্ন ব্যবস্থাপনার প্রয়োজনে বিশ্বাস করি৷ এমন একটি বিশ্বে যেখানে প্রযুক্তি একটি অবিশ্বাস্য গতিতে অগ্রসর হচ্ছে, আমরা একটি অ্যাপ তৈরি করেছি যা ব্যক্তি এবং গোষ্ঠীকে তাদের কমিউনিটিগুলিকে পরিচালনা করার উপায়কে উন্নত করার ক্ষমতা দেয়, তা ছোট হোক বা বড় হোক৷"
-            : "At Comity, we believe in the power of communities and the need for efficient and seamless management. In a world where technology is advancing at an incredible pace, we have developed an app that empowers individuals and groups to enhance the way they manage their communities, whether small or large."}
-        </Text>
-        <Text style={[styles.text2, styles.mt16]}>
-          {isBn ? "আমাদের লক্ষ্য" : "Our Vision"}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          {isBn
-            ? "আমাদের লক্ষ্য স্পষ্ট - অত্যাধুনিক প্রযুক্তির মাধ্যমে কমিউনিটি ব্যবস্থাপনায় বিপ্লব ঘটানো৷ কমিটি সমাজ এবং সামাজিক গোষ্ঠীগুলি পরিচালনার জটিলতাগুলিকে সহজ করার জন্য ডিজাইন করা হয়েছে, এটিকে সহজ, আরও নির্ভুল এবং সকলের কাছে অ্যাক্সেসযোগ্য করে তোলে৷"
-            : "Our vision is clear - to revolutionize community management through cutting-edge technology. Comity is designed to simplify the complexities of managing communities and social groups, making it easier, more accurate, and accessible to everyone."}
-        </Text>
-        <Text style={[styles.text2, styles.mt16]}>
-          {isBn ? "কমিটি কি করে" : "What Comity Does"}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          {isBn
-            ? "কমিটি হল কমিউনিটি ম্যানেজমেন্টের জন্য আপনার সর্বাত্মক সমাধান৷ এখানে আমরা যা অফার করি:"
-            : "Comity is your all-in-one solution for community management. Here's what we offer:"}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "১. কমিটি ম্যানেজমেন্ট:" : "1. Community Management:"}
-          </Text>{" "}
-          {isBn
-            ? "আপনি একটি ছোট সমাজ বা একটি বিশাল সমাজের দায়িত্বে বা যে কোনো দায়িত্বেই থাকুন না কেন, কমিটি সমগ্র ব্যবস্থাপনা প্রক্রিয়াটিকে সুগম করে৷ ইভেন্টগুলি সংগঠিত করা থেকে শুরু করে সদস্যতার রেকর্ডগুলি পরিচালনা করা পর্যন্ত, আমরা আপনাকে কভার করেছি৷"
-            : "Whether you're in charge of a small group or a vast community, Comity streamlines the entire management process. From organizing events to handling membership records, we've got you covered."}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn
-              ? "২. সাবস্ক্রিপশন এবং পেমেন্ট ম্যানেজমেন্ট:"
-              : "2. Subscription and Payment Management:"}
-          </Text>{" "}
-          {isBn
-            ? "সাবস্ক্রিপশন পরিচালনা এবং ম্যানুয়ালি পেমেন্ট সংগ্রহের ঝামেলাকে বিদায় জানান৷ কমিটি এই প্রক্রিয়াটিকে স্বয়ংক্রিয় করে, নিশ্চিত করে যে আপনি সত্যিই গুরুত্বপূর্ণ বিষয়গুলির উপর ফোকাস করতে পারেন৷"
-            : "Say goodbye to the hassle of managing subscriptions and collecting payments manually. Comity automates this process, ensuring that you can focus on what truly matters."}
-        </Text>
-
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "৩. ব্যয় ট্র্যাকিং:" : "3. Expense Tracking:"}
-          </Text>{" "}
-          {isBn
-            ? "আমাদের ব্যয় ট্র্যাকিং বৈশিষ্ট্যের সাথে আপনার সমাজের আর্থিক বিষয়গুলি চেক করুন৷ সহজে রেকর্ড করুন এবং খরচ শ্রেণীবদ্ধ করুন, আর্থিক স্বচ্ছতাকে সহজ করুন৷"
-            : "Keep your community's finances in check with our expense tracking feature. Easily record and categorize expenses, making financial transparency a breeze."}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "৪. ঘোষণা এবং নোটিশ:" : "4. Announcements and Notices:"}
-          </Text>{" "}
-          {isBn
-            ? "গুরুত্বপূর্ণ ঘোষণা করা প্রয়োজন? কমিটি আপনাকে দ্রুত এবং দক্ষতার সাথে সমস্ত সদস্যদের নোটিশ তৈরি এবং প্রকাশ করতে দেয়৷"
-            : "Need to make important announcements? Comity allows you to create and publish notices to all members quickly and efficiently."}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "৫. রিয়েল-টাইম চ্যাট:" : "5. Real-Time Chat:"}
-          </Text>{" "}
-          {isBn
-            ? "যোগাযোগ গুরুত্বপূর্ণ, এবং কমিটি নিশ্চিত করে যে আপনি আপনার সমাজের সদস্যদের সাথে রিয়েল-টাইমে সংযোগ করতে পারেন৷ এটি জরুরী আপডেট বা নৈমিত্তিক কথোপকথনের জন্যই হোক না কেন, আমাদের চ্যাট সিস্টেম আপনাকে কভার করেছে৷।"
-            : "Communication is key, and Comity ensures that you can connect with your community members in real-time. Whether it's for urgent updates or casual conversations, our chat system has you covered."}
-        </Text>
-        <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "৬. পজিশন ম্যানেজমেন্ট:" : "6. Position Management:"}
-          </Text>{" "}
-          {isBn
-            ? "আপনার সমাজের মধ্যে সহজ ভূমিকা এবং দায়িত্ব ঠিক করুন৷ এটি একজন ম্যানেজার, ক্যাশিয়ার, সহকারী বা অন্য যেকোন পদই হোক না কেন, কমিটি আপনাকে ভূমিকা এবং দায়িত্ব অনায়াসে সংজ্ঞায়িত করতে দেয়৷"
-            : "Assign roles and responsibilities within your community with ease. Whether it's a manager, cashier, assistant, or any other position, Comity lets you define roles and responsibilities effortlessly."}
+            ? "আপনি কি অনেক কাগজপত্র, মিস পেমেন্ট এবং আপনার সমাজ বা সম্পত্তি ব্যবস্থাপনার মধ্যে বিশৃঙ্খল যোগাযোগের জন্য ক্লান্ত? কমিটিকে হ্যালো বলুন, জীবন পরিবর্তনকারি অ্যাপটি আপনার সমাজকে পরিচালনা করার জন্য ডিজাইন করা হয়েছে, তা সামাজিক গোষ্ঠী হোক, রাজনৈতিক সংগঠন হোক, আবাসিক কমপ্লেক্স হোক বা বাসা বাড়ি ভাড়া হোক ৷ আমাদের প্রতিষ্ঠাতা, ইয়াছিন  আরাফাত, সমাজ পরিচালনাকে স্ট্রীমলাইন করার জন্য একটি শক্তিশালী হাতিয়ার তৈরি করেছেন৷"
+            : "Are you tired of the endless paperwork, missed payments, and chaotic communication within your community or property management? Say hello to Comity, the game-changing app designed to transform the way you manage your community, whether it's a social group, a political organization, or a residential complex.Our founder, Easin Arafat, has crafted a powerful tool to streamline community management."}
         </Text>
 
         <Text style={[styles.text2, styles.mt16]}>
-          {isBn ? "কমিটি কেন?" : "Why Comity?"}
+          {isBn
+            ? "প্রচেষ্টাহীন সমাজ এবং সম্পত্তি ব্যবস্থাপনা"
+            : "Effortless Community and Property Management"}
+        </Text>
+        <Text style={[styles.text1, styles.mt16]}>
+          {isBn
+            ? "কমিটি ছোট গোষ্ঠী থেকে বৃহৎ সমাজের সবকিছু পরিচালনাকে সহজ করে৷ এটি আপনার স্থানীয় আশেপাশের সমিতি হোক বা একটি ব্যস্ত অ্যাপার্টমেন্ট কমপ্লেক্স হোক, আমাদের অ্যাপটি আপনার চাহিদা মেটাতে তৈরি করা হয়েছে৷।এটি কেবল আপনার সমাজ পরিচালনার বিষয়ে নয়, বাড়ি এবং ফ্ল্যাট ভাড়া, সদস্যতা, অর্থপ্রদান সংগ্রহ, খরচ এবং নোটিশ, বিজ্ঞপ্তির মাধ্যমে সবাইকে অবহিত রাখাও দেখায়৷"
+            : "Comity simplifies managing everything from small groups to large communities. Whether it's your local neighborhood association or a bustling apartment complex, our app is tailored to meet your needs. It's not just about managing your community, but also overseeing house and flat rentals, subscriptions, payment collection, expenses, and keeping everyone informed with announcements."}
+        </Text>
+        <Text style={[styles.text2, styles.mt16]}>
+          {isBn ? "রিয়েল-টাইম যোগাযোগ" : "Real-Time Communication"}
+        </Text>
+        <Text style={[styles.text1, styles.mt16]}>
+          {isBn
+            ? "কমিটি এর রিয়েল-টাইম চ্যাট সিস্টেম নিশ্চিত করে যে আপনি তাৎক্ষণিকভাবে আপনার সমাজের সদস্যদের সাথে সংযোগ করতে পারেন৷ একটি জরুরী বিষয়ে আলোচনা বা একটি গুরুত্বপূর্ণ সিদ্ধান্তে মতামত সংগ্রহ করা প্রয়োজন? কমিটির যোগাযোগ ব্যবস্থা এটিকে সহজ করে তোলে। এছাড়াও, আপনার কমিউনিটি ম্যানেজমেন্ট টিম অনায়াসে সদস্যদের সাথে যোগাযোগ রাখতে পারে৷"
+            : "Comity's real-time chat system ensures that you can connect with your community members instantly. Need to discuss an urgent matter or gather opinions on an important decision? Comity makes communication a breeze. Plus, your community management team can stay in touch with members effortlessly."}
+        </Text>
+
+        <Text style={[styles.text2, styles.mt16]}>
+          {isBn ? "নমনীয় অবস্থান ব্যবস্থা" : "Flexible Position System"}
         </Text>
 
         <Text style={[styles.text1, styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "- ব্যবহারকারী-বান্ধব:" : "- User-Friendly:"}
-          </Text>{" "}
           {isBn
-            ? ` আমাদের ব্যবহারকারী ইন্টারফেসটি সহজ-সরলভাবে ডিজাইন করা হয়েছে৷ কমিটি ব্যবহার করার জন্য আপনাকে প্রযুক্তি বিশেষজ্ঞ হওয়ার দরকার নেই৷।`
-            : `Our user interface is designed with simplicity in mind. You don't need to be a tech expert to use Comity effectively.`}
+            ? "আমাদের অ্যাপটি একটি অনন্য পজিশন সিস্টেম অফার করে যা আপনাকে আপনার সমাজের মধ্যে ভূমিকা এবং দায়িত্ব বরাদ্দ করতে দেয়৷।ম্যানেজার, ক্যাশিয়ার, সহকারী এবং আরও অনেক কিছু ভূমিকা যোগ করে একটি সুগঠিত এবং দক্ষ ব্যবস্থাপনা পদ্ধতি সক্রিয় করে৷ এই বৈশিষ্ট্যটি সংগঠন এবং স্বচ্ছতার একটি স্তর যুক্ত করে যা ঐতিহ্যবাহী সমাজ ব্যবস্থাপনা পদ্ধতিতে খুব অভাব ছিল৷"
+            : "Our app offers a unique position system that allows you to assign roles and responsibilities within your community. Appoint managers, cashiers, assistants, and more, enabling a well-structured and efficient management approach. This feature adds a layer of organization and clarity that was sorely lacking in traditional community management methods."}
         </Text>
-        <Text style={[styles.text1,styles.mt16]}>
-          <Text style={styles.text2}>
-            {isBn ? "- সময়-সংরক্ষণ:" : "- Time-Saving:"}
-          </Text>
+        <Text style={[styles.text2, styles.mt16]}>
           {isBn
-            ? ` কমিটি অনেক সময়সাপেক্ষ কাজগুলিকে স্বয়ংক্রিয় করে, এটি সবচেয়ে গুরুত্বপূর্ণ যেখানে আপনি আপনার সময় বিনিয়োগ করতে পারবেন৷`
-            : `Comity automates many time-consuming tasks, allowing you to invest your time where it matters most.`}
+            ? "কমিউনিটি ম্যানেজমেন্ট উন্নত করা"
+            : "Enhancing Community Management"}
         </Text>
-        <Text style={[styles.text1,styles.mt16]}>
-          <Text style={styles.text2}>{isBn ? "- সঠিক:" : "- Accurate:"}</Text>{" "}
+        <Text style={[styles.text1, styles.mt16]}>
           {isBn
-            ? ` আমাদের সুনির্দিষ্ট সরঞ্জাম এবং বৈশিষ্ট্যগুলির সাহায্যে সমাজ পরিচালনায় ত্রুটি এবং অসঙ্গতিগুলি দূর করুন৷`
-            : `Eliminate errors and discrepancies in community management with our precise tools and features.`}
+            ? "আজকের দ্রুত-গতির বিশ্বে, প্রযুক্তি মারাত্মক গতিতে বিকশিত হচ্ছে৷।কমিটি এই প্রযুক্তিগত অগ্রগতিগুলিকে আলিঙ্গন করার জন্য ডিজাইন করা হয়েছে এবং কমিউনিটি ম্যানেজমেন্টকে আরও দক্ষ এবং সুনির্দিষ্ট করার জন্য তাদের ব্যবহার করে৷ এটি জটিল প্রক্রিয়াগুলিকে সরলীকরণ এবং সমাজ পরিচালনার ক্ষমতা বাড়ানোর বিষয়ে তৈরি করা হয়েছে, যাতে আপনি সত্যিই গুরুত্বপূর্ণ বিষয়গুলিতে ফোকাস করতে পারেন৷"
+            : "In today's fast-paced world, technology is evolving at breakneck speed. Comity is designed to embrace these technological advancements and harness them to make community management more efficient and precise. It's about simplifying complex processes and enhancing community management capabilities, so you can focus on what truly matters."}
         </Text>
-        <Text style={[styles.text1,styles.mt16]}>
-          <Text style={styles.text2}>{isBn ? "- নিরাপদ:" : "- Secure:"}</Text>{" "}
+        <Text style={[styles.text1, styles.mt16]}>
           {isBn
-            ? ` আমরা ডেটা নিরাপত্তাকে গুরুত্ব সহকারে নিই৷।আপনার সমাজের তথ্য অত্যাধুনিক নিরাপত্তা ব্যবস্থা দ্বারা সুরক্ষিত৷।`
-            : `We take data security seriously. Your community's information is safeguarded with state-of-the-art security measures.`}
+            ? "কমিটি-এর সাথে, আপনার সমাজের ভবিষ্যত আগের চেয়ে আরও উজ্জ্বল দেখাচ্ছে৷ সমাজ এবং বাসা,বাড়ি এবং ফ্লাট ভাড়া ব্যবস্থাপনার একটি নতুন যুগে স্বাগতম যা আরও সংগঠিত, দক্ষ এবং ব্যবহারকারী-বান্ধব৷ কমিটি এর সাথে কমিউনিটি ম্যানেজমেন্টের ভবিষ্যতকে আলিঙ্গন করতে আমাদের সাথে যোগ দিন৷"
+            : "With Comity, your community's future is looking brighter than ever. Welcome to a new era of community and property management that is more organized, efficient, and user-friendly. Join us in embracing the future of community management with Comity."}
         </Text>
       </View>
     </ScrollView>
