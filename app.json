@@ -55,14 +55,15 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c5ce2e0f-9c87-4c1d-b678-9bb563000533"
+        "projectId": "25508751-beab-45e3-8e02-ebd5ca5dd5ff"
       }
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/c5ce2e0f-9c87-4c1d-b678-9bb563000533"
-    }
+      "url": "https://u.expo.dev/25508751-beab-45e3-8e02-ebd5ca5dd5ff"
+    },
+    "owner": "easinarafat"
   }
 }
