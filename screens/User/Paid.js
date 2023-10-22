@@ -69,7 +69,7 @@ export default function Paid({ navigation, route }) {
             title={
               isBn
                 ? "এই কমিটিতে আপানার কোন পেমেন্ট নেই"
-                : "You have no any payment in this comity"
+                : "Paid payment not found"
             }
           />
         )}

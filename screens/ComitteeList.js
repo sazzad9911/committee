@@ -7,9 +7,11 @@ import loader from "../data/loader";
 import toast from "../data/toast";
 import { AppColors } from "../functions/colors";
 import ChatCart from "../components/cart/ChatCard";
+import NoOption from "../components/main/NoOption";
 
 export default function ComitteeList({ data, navigation, onClose }) {
   const isDark = useSelector((state) => state.isDark);
+  const isBn = useSelector((state) => state.isBn);
   const colors = new AppColors(isDark);
   const [list, setList] = useState();
   const [searched, setSearched] = useState();
@@ -17,6 +19,14 @@ export default function ComitteeList({ data, navigation, onClose }) {
   const comity = useSelector((state) => state.comity);
   const [text, setText] = useState();
   const dispatch = useDispatch();
+
+  if (data?.length == 0) {
+    return (
+      <View>
+        <NoOption title={isBn ? "খুঁজে পাওয়া যাচ্ছে না" : "Not Found"} />
+      </View>
+    );
+  }
 
   return (
     <View>

@@ -68,8 +68,10 @@ export default function ChatList(props) {
   }, []);
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const fetchConversations = async () => {
+    if (searchTerm) return;
+
     try {
       const { data } = comity?.id
         ? await getComityConversations(comity.id)
@@ -205,6 +207,7 @@ export default function ChatList(props) {
               type={type}
               value={chatSearchRef}
               onChange={(e) => {
+                setSearchTerm(e);
                 if (e && comity) {
                   setSearchList(
                     conversations.filter(

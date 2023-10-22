@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../apis/multipleApi";
 import MemberCard from "../components/cart/MemberCard";
 import loader from "../data/loader";
 import toast from "../data/toast";
 import { AppColors } from "../functions/colors";
+import NoOption from "../components/main/NoOption";
 
 export default function ContactList({ data, onClose, navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -15,7 +16,17 @@ export default function ContactList({ data, onClose, navigation }) {
   const user = useSelector((state) => state.user);
   const comity = useSelector((state) => state.comity);
   const [text, setText] = useState();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
+  const isBn = useSelector((state) => state.isBn);
+
+  if (data?.length == 0) {
+    return (
+      <View>
+        <NoOption title={isBn ? "খুঁজে পাওয়া যাচ্ছে না" : "Not Found"} />
+      </View>
+    );
+  }
+
   return (
     <View>
       {data?.map((doc, i) => (

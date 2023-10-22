@@ -57,7 +57,7 @@ export default function Unpaid({ navigation, route }) {
             title={
               isBn
                 ? "এই কমিটিতে আপানার কোন পেমেন্ট নেই"
-                : "You have no any payment in this comity"
+                : "Unpaid payment not found"
             }
           />
         )}
