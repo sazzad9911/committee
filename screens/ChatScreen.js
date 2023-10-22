@@ -108,7 +108,7 @@ const ChatScreen = (props) => {
   const ref = useRef();
   const serviceId = params?.serviceId;
   const vendor = useSelector((s) => s.comity);
-  const [readOnly, setReadOnly] = useState(false);
+  const [readOnly, setReadOnly] = useState(data.readOnly);
   const [message, setMessage] = useState();
   const [show, setShow] = useState(false);
   const isFocus = useIsFocused();
@@ -475,7 +475,7 @@ const ChatScreen = (props) => {
               এখানে উত্তর দেওয়া যাবে না। আপনার যদি অন্য কোন জিজ্ঞাসা থাকে তবে{" "}
               <Text
                 onPress={() => {
-                  props.navigation.navigate("SupportForm");
+                  props.navigation.navigate("Support");
                 }}
                 style={{
                   color: "#4ADE80",
@@ -491,7 +491,7 @@ const ChatScreen = (props) => {
               Can’t reply here. If you have other inquery go to the{" "}
               <Text
                 onPress={() => {
-                  props.navigation.navigate("SupportForm");
+                  props.navigation.navigate("Support");
                 }}
                 style={{
                   color: "#4ADE80",

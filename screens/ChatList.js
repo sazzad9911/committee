@@ -33,6 +33,7 @@ import mainStyle from "../styles/mainStyle";
 import { get, socket } from "../apis/multipleApi";
 const { height, width } = Dimensions.get("window");
 
+
 export default function ChatList(props) {
   const scrollY = new Animated.Value(0);
   const diffClamp = Animated.diffClamp(scrollY, 0, 300);
@@ -157,11 +158,13 @@ export default function ChatList(props) {
               key={index}
               index={item.id}
               onPress={() => {
+                //console.log(item);
                 props?.navigation?.navigate("ChatScreen", {
                   conversationId: item.id,
                   data: item,
                 });
               }}
+              readOnly={item.readOnly}
               conversation={item}
               active={true}
             />

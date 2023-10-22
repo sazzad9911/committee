@@ -17,6 +17,7 @@ import {
 } from "../../functions/action";
 import Avatar from "../main/Avatar";
 import { get, socket } from "../../apis/multipleApi";
+import icon from "../../assets/icon.png"
 
 const ChatCart = ({
   navigation,
@@ -118,7 +119,7 @@ const ChatCart = ({
     >
       <View style={styles.image}>
         {readOnly ? (
-          <Image source={logo} style={styles.image} />
+          <Image source={icon} style={styles.image} />
         ) : (
           <Avatar
             style={styles.image}
