@@ -109,7 +109,9 @@ export const PopularCategoryCart = ({ comity, style, onPress }) => {
           width: style?.width ? style.width : width / 3,
         }}
         source={{
-          uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
+          uri:
+            comity?.profilePhoto ||
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
         }}
       />
       <Text
