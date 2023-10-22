@@ -37,7 +37,7 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.sazzad991.committee"
+      "bundleIdentifier": "com.committee.bd"
     },
     "android": {
       "adaptiveIcon": {
@@ -48,7 +48,7 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.CAMERA"
       ],
-      "package": "com.sazzad991.committee"
+      "package": "com.committee.bd"
     },
     "web": {
       "favicon": "./assets/favicon.png"
