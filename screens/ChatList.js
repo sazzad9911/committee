@@ -33,7 +33,6 @@ import mainStyle from "../styles/mainStyle";
 import { get, socket } from "../apis/multipleApi";
 const { height, width } = Dimensions.get("window");
 
-
 export default function ChatList(props) {
   const scrollY = new Animated.Value(0);
   const diffClamp = Animated.diffClamp(scrollY, 0, 300);
@@ -41,7 +40,7 @@ export default function ChatList(props) {
     inputRange: [0, 300],
     outputRange: [0, -300],
   });
-  const [conversations, setConversations] = React.useState();
+  const [conversations, setConversations] = React.useState([]);
   const isFocused = useIsFocused();
   const chatSearchRef = useSelector((state) => state.chatSearchRef);
   const comity = useSelector((state) => state.comity);
@@ -76,12 +75,13 @@ export default function ChatList(props) {
 
     try {
       const { data } = comity?.id
-        ? await getComityConversations(comity.id)
-        : await getUserConversations();
+        ? await get(`/chat/conversation/get/${comity.id}`, user.token)
+        : await get(`/chat/conversation/get-by-user`, user.token);
       setConversations(data.conversations);
       setSearchList(data.conversations);
       dispatch(loader.hide());
     } catch (error) {
+      console.log(error);
       dispatch(loader.hide());
     }
   };
@@ -108,7 +108,7 @@ export default function ChatList(props) {
   }, []);
 
   useEffect(() => {
-    !conversations && dispatch(loader.show());
+    (!conversations || conversations?.length == 0) && dispatch(loader.show());
     fetchConversations();
     comity && fetchMembers();
   }, [isFocused]);
@@ -184,7 +184,7 @@ export default function ChatList(props) {
                   color: colors.getTextColor(),
                 }}
               >
-                {isBn?"কোন বার্তা নেই":"You have no conversation!"}
+                {isBn ? "কোন বার্তা নেই" : "You have no conversation!"}
               </Text>
             </View>
           )}

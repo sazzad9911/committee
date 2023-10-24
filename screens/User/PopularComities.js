@@ -5,6 +5,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import { getPopularComities } from "../../apis/api";
 import { ComityCart } from "../../components/cart/ComityCart";
+import { get } from "../../apis/multipleApi";
 
 export default function PopularComities({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -14,11 +15,12 @@ export default function PopularComities({ navigation }) {
   const backgroundColor = colors.getBackgroundColor();
   const textColor = colors.getTextColor();
   const [popularComities, setPopularComities] = React.useState([]);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getPopularComities();
+        const { data } = await get("/comity/get-popular", user.token);
         setPopularComities(data.comities);
       } catch (error) {
         console.log(error);

@@ -52,11 +52,14 @@ export default function EditNotice({ route, navigation }) {
   };
 
   return (
-    <ScrollView style={{
-      backgroundColor:colors.getBackgroundColor()
-    }}>
+    <ScrollView
+      style={{
+        backgroundColor: colors.getBackgroundColor(),
+      }}
+    >
       <View style={[mainStyle.pdH20]}>
         <Input
+          maxLength={30}
           level={headlines.subject}
           outSideStyle={[mainStyle.mt32]}
           optionalLevel={createCommitteeValues.required}
@@ -66,6 +69,7 @@ export default function EditNotice({ route, navigation }) {
           onChange={setSubject}
         />
         <TextArea
+          maxLength={1000}
           level={headlines.details}
           style={{
             height: 200,

@@ -81,6 +81,7 @@ export default function CreateCommitteeNext({ navigation, route }) {
             ]}
           >
             <TextArea
+              maxLength={1000}
               value={about}
               onChange={setAbout}
               optionalLevel={createCommitteeValues.required}
@@ -105,8 +106,17 @@ export default function CreateCommitteeNext({ navigation, route }) {
                   {isBn ? (
                     <Text style={[mainStyle.text14, { color: textColor }]}>
                       আমি কমিটির সকল{" "}
-                      <Text style={{ color: "#737AFF" }}>শর্তাবলী</Text> এবং{" "}
-                      <Text style={{ color: "#737AFF" }}>
+                      <Text
+                        onPress={() => navigation.navigate("Conditions")}
+                        style={{ color: "#737AFF" }}
+                      >
+                        শর্তাবলী
+                      </Text>{" "}
+                      এবং{" "}
+                      <Text
+                        onPress={() => navigation.navigate("Policy")}
+                        style={{ color: "#737AFF" }}
+                      >
                         গোপনীয়তার নীতিমালার
                       </Text>{" "}
                       বিষয়ে সম্মতি দিলাম
@@ -114,8 +124,19 @@ export default function CreateCommitteeNext({ navigation, route }) {
                   ) : (
                     <Text style={[mainStyle.text14, { color: textColor }]}>
                       I agree to all Comity's{" "}
-                      <Text style={{ color: "#737AFF" }}>terms</Text> and{" "}
-                      <Text style={{ color: "#737AFF" }}>conditions</Text>
+                      <Text
+                        onPress={() => navigation.navigate("Conditions")}
+                        style={{ color: "#737AFF" }}
+                      >
+                        terms
+                      </Text>{" "}
+                      and{" "}
+                      <Text
+                        onPress={() => navigation.navigate("Policy")}
+                        style={{ color: "#737AFF" }}
+                      >
+                        conditions
+                      </Text>
                     </Text>
                   )}
                 </View>

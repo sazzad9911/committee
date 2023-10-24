@@ -6,6 +6,8 @@ import {
   Text,
   View,
 } from "react-native";
+import ComityP from "../../assets/comity_p.jpeg";
+
 export const ComityCart = ({ comity, style, onPress }) => {
   return (
     <Pressable
@@ -23,11 +25,13 @@ export const ComityCart = ({ comity, style, onPress }) => {
           borderRadius: 16,
           width: style?.width ? style.width : width / 3,
         }}
-        source={{
-          uri:
-            comity?.profilePhoto ||
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
-        }}
+        source={
+          comity?.profilePhoto
+            ? {
+                uri: comity?.profilePhoto,
+              }
+            : ComityP
+        }
       />
       <Text
         style={{

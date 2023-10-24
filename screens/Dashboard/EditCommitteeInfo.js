@@ -102,6 +102,7 @@ export default function EditCommitteeInfo({ navigation }) {
           }}
         >
           <Input
+            maxLength={30}
             value={name}
             onChange={setName}
             level={`${createCommitteeValues.name} `}

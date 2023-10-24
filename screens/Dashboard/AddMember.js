@@ -26,7 +26,10 @@ export default function AddMember({ navigation, route }) {
   const [explain, setExplain] = useState();
 
   return (
-    <ScrollView style={{backgroundColor:colors.getBackgroundColor()}} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{ backgroundColor: colors.getBackgroundColor() }}
+      showsVerticalScrollIndicator={false}
+    >
       <View
         style={{
           flex: 1,
@@ -35,6 +38,7 @@ export default function AddMember({ navigation, route }) {
         }}
       >
         <Input
+          maxLength={20}
           level={headlines._position}
           placeholder={headlines._exampleGeneral}
           subLevel={headlines._max20}
@@ -85,7 +89,13 @@ export default function AddMember({ navigation, route }) {
                 user.token
               );
               dispatch(loader.hide());
-              dispatch(toast.success(isBn?"অনুরুধটি সফল ভাবে পাঠানো হয়েছে":"Member Request sent"));
+              dispatch(
+                toast.success(
+                  isBn
+                    ? "অনুরুধটি সফল ভাবে পাঠানো হয়েছে"
+                    : "Member Request sent"
+                )
+              );
               navigation.goBack();
             } catch (e) {
               dispatch(loader.hide());

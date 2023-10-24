@@ -41,7 +41,7 @@ import ChatHead from "../../components/headers/ChatHead";
 import { AppValues } from "../../functions/values";
 import { getMessages, sendMessage } from "../../apis/api";
 import { useRef } from "react";
-import { post, socket } from "../../apis/multipleApi";
+import { get, post, socket } from "../../apis/multipleApi";
 import loader from "../../data/loader";
 import CameraScreen from "../CameraScreen";
 //import { EvilIcons } from '@expo/vector-icons';
@@ -340,7 +340,11 @@ const ComityChatScreen = (props) => {
 
   const fetchMessages = async () => {
     try {
-      const { data } = await getMessages(conversationId, lim, 0);
+      const { data } = await get(
+        `/chat/message/get/${conversationId}?limit=${lim}&skip=${0}`,
+        user?.token
+      );
+
       setMessages(data.messages);
       //console.log(data.messages[0]);
       dispatch(loader.hide());
