@@ -2,7 +2,7 @@
   "expo": {
     "name": "Comity",
     "slug": "committee",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -37,7 +37,8 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.committee.bd"
+      "bundleIdentifier": "com.committee.bd",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -48,7 +49,8 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.CAMERA"
       ],
-      "package": "com.committee.bd"
+      "package": "com.committee.bd",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
