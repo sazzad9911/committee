@@ -23,6 +23,7 @@ import { get, post } from "../../apis/multipleApi";
 import toast from "../../data/toast";
 import MoreText from "../../components/main/MoreText";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ComityP from "../../assets/comity_p.jpeg";
 
 export default function ComityProfile({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -178,11 +179,13 @@ export default function ComityProfile({ navigation, route }) {
         style={{
           height: height / 2 + 80,
         }}
-        source={{
-          uri:
-            comity?.profilePhoto ||
-            "https://cdn.pixabay.com/photo/2017/11/12/16/19/car-2942982_640.jpg",
-        }}
+        source={
+          comity?.profilePhoto
+            ? {
+                uri: comity?.profilePhoto,
+              }
+            : ComityP
+        }
       >
         <View style={[mainStyle.mt24, mainStyle.flexBox, mainStyle.pdH20]}>
           <Pressable

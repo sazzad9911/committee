@@ -144,6 +144,7 @@ export default function AddMemberSubscription({ navigation, route }) {
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
             <Input
+              maxLength={9}
               //editable={update ? false : true}
               value={amount}
               onChange={setAmount}

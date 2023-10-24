@@ -69,6 +69,7 @@ export default function CreateOwnMember({ navigation, route }) {
             />
           </View>
           <Input
+            maxLength={20}
             value={name}
             onChange={setName}
             outSideStyle={mainStyle.mt24}
@@ -111,6 +112,7 @@ export default function CreateOwnMember({ navigation, route }) {
             />
           </View>
           <Input
+            maxLength={20}
             value={explain}
             onChange={setExplain}
             level={headlines._position}

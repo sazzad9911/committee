@@ -72,6 +72,7 @@ export default function EditSubscription({ navigation, route }) {
     >
       <View style={[mainStyle.pdH20, mainStyle.mt24]}>
         <Input
+          maxLength={20}
           value={name}
           onChange={setName}
           level={values.getValues()._subscriptionName}
@@ -80,6 +81,7 @@ export default function EditSubscription({ navigation, route }) {
           placeholder={values.getValues()._placeholder1}
         />
         <Input
+          maxLength={9}
           value={quantity}
           onChange={setQuantity}
           outSideStyle={mainStyle.mt24}

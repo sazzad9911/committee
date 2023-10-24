@@ -28,6 +28,7 @@ const TextArea = ({
   placeholderTextColor,
   outSideStyle,
   bottomLevel,
+  maxLength,
 }) => {
   const [Focus, setFocus] = React.useState(false);
   const [Error, setError] = React.useState();
@@ -50,13 +51,15 @@ const TextArea = ({
             justifyContent: "space-between",
             marginBottom: 12,
             alignItems: "center",
-          }}>
+          }}
+        >
           <Text
             style={{
               fontSize: 20,
               fontWeight: "400",
               color: textColor,
-            }}>
+            }}
+          >
             {level}
             {optionalLevel && (
               <Text
@@ -66,7 +69,8 @@ const TextArea = ({
                     color: borderColor,
                   },
                   levelStyle,
-                ]}>
+                ]}
+              >
                 ( {optionalLevel} )
               </Text>
             )}
@@ -79,7 +83,8 @@ const TextArea = ({
                   color: borderColor,
                 },
                 levelStyle,
-              ]}>
+              ]}
+            >
               {subLevel}
             </Text>
           )}
@@ -98,12 +103,13 @@ const TextArea = ({
             borderRadius: 4,
             minHeight: 90,
             paddingHorizontal: 10,
-            backgroundColor:isDark?"rgba(255, 255, 255, 0.2)":"#ffff"
+            backgroundColor: isDark ? "rgba(255, 255, 255, 0.2)" : "#ffff",
           },
           { borderColor: !Focus ? borderColor : mainColor },
           ,
           containerStyle,
-        ]}>
+        ]}
+      >
         {leftIcon}
         <TextInput
           secureTextEntry={secureTextEntry}
@@ -138,6 +144,7 @@ const TextArea = ({
             setFocus(!Focus);
           }}
           placeholder={placeholder ? placeholder : "Type here"}
+          maxLength={maxLength}
           style={[
             {
               flex: 1,
@@ -153,11 +160,13 @@ const TextArea = ({
 
         {rightIcon}
       </Pressable>
-      <View style={{
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center"
-      }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         {Error && (
           <Text
             style={[
@@ -169,9 +178,10 @@ const TextArea = ({
                 marginTop: 0,
                 marginBottom: 0,
                 marginLeft: style?.marginLeft,
-                flex:1
+                flex: 1,
               },
-            ]}>
+            ]}
+          >
             {Error}
           </Text>
         )}
@@ -181,11 +191,12 @@ const TextArea = ({
               {
                 fontSize: 14,
                 color: borderColor,
-                flex:1,
-                textAlign:"right"
+                flex: 1,
+                textAlign: "right",
               },
               levelStyle,
-            ]}>
+            ]}
+          >
             {bottomLevel}
           </Text>
         )}

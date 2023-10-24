@@ -38,7 +38,9 @@ export default function EditMemberInfo({ navigation, route }) {
   const [email, setEmail] = useState(member.email || "");
   const [gender, setGender] = useState(member.gender || member.user.gender);
   const [address, setAddress] = useState(member.address || "");
-  const [picture, setPicture] = useState({uri:member?.profilePhoto||member.user?.profilePhoto});
+  const [picture, setPicture] = useState({
+    uri: member?.profilePhoto || member.user?.profilePhoto,
+  });
   const dispatch = useDispatch();
 
   const handelSubmit = async () => {
@@ -96,6 +98,7 @@ export default function EditMemberInfo({ navigation, route }) {
             />
           </View>
           <Input
+            maxLength={20}
             value={name}
             onChange={setName}
             outSideStyle={mainStyle.mt24}
@@ -138,6 +141,7 @@ export default function EditMemberInfo({ navigation, route }) {
             />
           </View>
           <Input
+            maxLength={20}
             value={explain}
             onChange={setExplain}
             level={headlines._position}

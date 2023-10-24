@@ -44,7 +44,7 @@ export default function AddNotice({ navigation }) {
 
   const handelSubmit = async () => {
     if (!subject || !details) {
-      dispatch(toast.info("Please fill all the fields!"))
+      dispatch(toast.info("Please fill all the fields!"));
       return;
     }
     try {
@@ -57,7 +57,7 @@ export default function AddNotice({ navigation }) {
       reset();
       navigation.navigate("Profile");
     } catch (error) {
-      dispatch(toast.info(error.response.data.msg))
+      dispatch(toast.info(error.response.data.msg));
     } finally {
       dispatch(loader.hide());
     }
@@ -67,6 +67,7 @@ export default function AddNotice({ navigation }) {
     <ScrollView style={{ backgroundColor: colors.getBackgroundColor() }}>
       <View style={[mainStyle.pdH20]}>
         <Input
+          maxLength={30}
           value={subject}
           onChange={setSubject}
           level={headlines.subject}
@@ -76,6 +77,7 @@ export default function AddNotice({ navigation }) {
           subLevel={createCommitteeValues.highest30}
         />
         <TextArea
+          maxLength={1000}
           value={details}
           onChange={setDetails}
           level={headlines.details}

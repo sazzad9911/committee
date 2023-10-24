@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { get } from "../../apis/multipleApi";
 import { AppColors } from "../../functions/colors";
 const { width, height } = Dimensions.get("window");
+import ComityP from "../../assets/comity_p.jpeg";
 
 export default function FavoriteCategory({ textColor, navigation }) {
   const [comities, setComities] = React.useState([]);
@@ -106,11 +107,13 @@ export const FavoriteCategoryCart = ({
           },
           style,
         ]}
-        source={{
-          uri:
-            comity?.profilePhoto ||
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/220px-Image_created_with_a_mobile_phone.png",
-        }}
+        source={
+          comity?.profilePhoto
+            ? {
+                uri: comity?.profilePhoto,
+              }
+            : ComityP
+        }
       />
       <View
         style={{

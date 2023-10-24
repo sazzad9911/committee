@@ -41,7 +41,7 @@ export default function AcceptMember({ navigation, route }) {
       .then((res) => {
         dispatch(loader.hide());
         dispatch(toast.success("Request accepted"));
-        navigation.goBack()
+        navigation.goBack();
       })
       .catch((err) => {
         dispatch(loader.hide());
@@ -64,6 +64,7 @@ export default function AcceptMember({ navigation, route }) {
         }}
       >
         <Input
+          maxLength={20}
           level={headlines._position}
           placeholder={headlines._exampleGeneral}
           subLevel={headlines._max20}
