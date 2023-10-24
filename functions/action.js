@@ -1,3 +1,5 @@
+import { url } from "../apis/api";
+
 export const setBottomSheet = (data) => {
     return {
       type: "SET_BOTTOM_SHEET",
@@ -91,7 +93,7 @@ export const setBottomSheet = (data) => {
       return a.title > b.title;
     });
   };
-  export const url = `https://duty.com.bd`;
+  
   
   export function fileFromURL(inputURI) {
     if (inputURI == null) {
@@ -107,7 +109,28 @@ export const setBottomSheet = (data) => {
     // Upload the image using the fetch and FormData APIs
     let formData = new FormData();
     // Assume "photo" is the name of the form field the server expects
-    return { uri: localUri, name: filename, type };
+    return { uri: localUri, name: filename,filename:filename, type };
+  }
+  export async function upload(file,token) {
+    const data = new FormData();
+    data.append("files", fileFromURL(file));
+    console.log(fileFromURL(file));
+  
+    const setting = {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data;",
+        "Authorization": `Bearer ${token}`
+      },
+      body: data,
+    };
+    try {
+      const fetchResponse = await fetch(`${url}/upload`, setting);
+      const data = await fetchResponse.json();
+      return data
+    } catch (e) {
+      console.error(e);
+    }
   }
   export const dateConverter = (date) => {
     date = new Date(date);

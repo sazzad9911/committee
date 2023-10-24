@@ -13,7 +13,7 @@ import localStorage from "../../functions/localStorage";
 import Avatar from "../../components/main/Avatar";
 import { pickImage } from "../../components/main/ProfilePicture";
 import { post } from "../../apis/multipleApi";
-import { fileFromURL } from "../../functions/action";
+import { fileFromURL, upload } from "../../functions/action";
 import toast from "../../data/toast";
 
 export default function EditProfileInfo({ route, navigation }) {
@@ -53,6 +53,7 @@ export default function EditProfileInfo({ route, navigation }) {
       dispatch(loader.show());
       const img = await pickImage();
       const f = new FormData();
+
       f.append("files", fileFromURL(img));
       dispatch(loader.show());
       const { data } = await post("/upload", f, u.token);
@@ -69,6 +70,7 @@ export default function EditProfileInfo({ route, navigation }) {
       dispatch(toast.error(e.message));
     }
   };
+  //console.log("ok");
 
   return (
     <ScrollView
