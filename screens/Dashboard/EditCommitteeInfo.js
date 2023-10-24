@@ -25,7 +25,7 @@ import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
 import { updateComity } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
-import { post } from "../../apis/multipleApi";
+import { post, put } from "../../apis/multipleApi";
 
 const { width, height } = Dimensions.get("window");
 
@@ -65,7 +65,7 @@ export default function EditCommitteeInfo({ navigation }) {
     }
     try {
       dispatch(loader.show());
-      const { data } = await post(
+      const { data } = await put(
         "/comity/update",
         {
           name,
