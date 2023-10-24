@@ -43,7 +43,7 @@ import ContactSuccess from "../screens/ContactSuccess";
 import { checkUser } from "../apis/authApi";
 import * as SplashScreen from "expo-splash-screen";
 import { storeUser } from "../data/user";
-import localStorage from "../functions/localStorage";
+import localStorage, { getData } from "../functions/localStorage";
 import AddExpenses from "../screens/Dashboard/AddExpenses";
 import Search from "../screens/User/Search";
 import SimpleHeader from "../components/main/SimpleHeader";
@@ -120,6 +120,7 @@ export default function MainRoute() {
   const comity = useSelector((state) => state.comity);
   const [isReady, setIsReady] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
+  const [isFast,setIsFast] = useState(true)
 
   const MyTheme = {
     ...DefaultTheme,
@@ -141,6 +142,7 @@ export default function MainRoute() {
     },
   };
   //console.log(user.token);
+  //console.log(localStorage.isNotFirstTime());
 
   useEffect(() => {
     const fetch = async () => {
@@ -154,6 +156,10 @@ export default function MainRoute() {
       const com = await localStorage.getData("SET_COMITY");
       //console.log(com);
       dispatch({ type: "SET_COMITY", value: com });
+
+      
+      const t=await localStorage.isNotFirstTime()
+      setIsFast(!t)
       setIsReady(true);
 
       // socket.on("getUsers", (u) => {
@@ -188,7 +194,7 @@ export default function MainRoute() {
               />
             ) : (
               <>
-                {!localStorage.isNotFirstTime && (
+                {isFast && (
                   <Stack.Screen
                     options={{
                       headerShown: false,
@@ -197,6 +203,13 @@ export default function MainRoute() {
                     component={ChooseLanguage}
                   />
                 )}
+                {/* <Stack.Screen
+                    options={{
+                      headerShown: false,
+                    }}
+                    name="ChooseLanguage"
+                    component={ChooseLanguage}
+                  /> */}
                 <Stack.Screen
                   options={{
                     headerShown: false,
