@@ -25,11 +25,13 @@ import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
 import { updateComity } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
+import { post } from "../../apis/multipleApi";
 
 const { width, height } = Dimensions.get("window");
 
 export default function EditCommitteeInfo({ navigation }) {
   const comity = useSelector((state) => state.comity);
+  const user = useSelector((state) => state.user);
   const [division, setDivision] = useState(comity.division || "");
   const [district, setDistrict] = useState(comity.district || "");
   const [area, setArea] = useState(comity.thana || "");
@@ -63,16 +65,20 @@ export default function EditCommitteeInfo({ navigation }) {
     }
     try {
       dispatch(loader.show());
-      const { data } = await updateComity({
-        name,
-        phone,
-        division,
-        district,
-        thana: area,
-        address,
-        about,
-        comityId: comity.id,
-      });
+      const { data } = await post(
+        "/comity/update",
+        {
+          name,
+          phone,
+          division,
+          district,
+          thana: area,
+          address,
+          about,
+          comityId: comity.id,
+        },
+        user.token
+      );
       dispatch({ type: "SET_COMITY", value: data.comity });
       localStorage.comityLogIn(data.comity);
       navigation.goBack();
