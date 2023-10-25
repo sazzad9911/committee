@@ -21,7 +21,7 @@ import { AppColors } from "../../functions/colors";
 import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
-import committee from "./../../assets/committee.png";
+import ComityP from "../../assets/comity_p.jpeg";
 
 export default function CreateCommitteeNext({ navigation, route }) {
   const inset = useSafeAreaInsets();
@@ -49,7 +49,7 @@ export default function CreateCommitteeNext({ navigation, route }) {
       >
         <View style={[{ paddingTop: inset?.top }]}>
           <Image
-            source={committee}
+            source={ComityP}
             style={{
               position: "absolute",
               top: 0,

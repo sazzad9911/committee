@@ -101,7 +101,7 @@ export const FavoriteCategoryCart = ({
       <Image
         style={[
           {
-            height: 400,
+            height: 444,
             borderRadius: 21,
             width: width - 40,
           },

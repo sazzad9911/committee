@@ -181,19 +181,30 @@ export default function CommitteeList({ navigation }) {
           <View style={{ height: 100 }} />
         </View>
       </ScrollView>
-      <Button
-        onPress={() => {
-          navigation.navigate("CreateCommittee");
-        }}
+      <View
         style={{
+          backgroundColor: isDark ? "#000" : "#fff",
           position: "absolute",
-          width: Dimensions.get("window").width - 40,
-          bottom: 32,
-          marginHorizontal: 20,
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: 90,
+          justifyContent: "center",
+          zIndex: 10,
         }}
-        LeftIcon={() => <SvgXml xml={plus} />}
-        title={createComityText}
-      />
+      >
+        <Button
+          onPress={() => {
+            navigation.navigate("CreateCommittee");
+          }}
+          style={{
+            width: Dimensions.get("window").width - 40,
+            marginHorizontal: 20,
+          }}
+          LeftIcon={() => <SvgXml xml={plus} />}
+          title={createComityText}
+        />
+      </View>
     </View>
   );
 }

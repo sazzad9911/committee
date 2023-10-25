@@ -51,11 +51,11 @@ export default function Profile({ navigation }) {
         <View
           style={[
             mainStyle.flexBox,
-            { marginBottom: 40, alignItems: "center" },
+            { marginBottom: 20, alignItems: "center" },
           ]}
         >
           <Avatar
-            style={mainStyle.mt12}
+            style={{ marginTop: 20 }}
             source={{ uri: user.user.profilePhoto }}
           />
           <View
@@ -63,6 +63,7 @@ export default function Profile({ navigation }) {
               flex: 1,
               marginHorizontal: 12,
               justifyContent: "center",
+              paddingTop: 16,
             }}
           >
             <Text style={[mainStyle.subLevel, { color: textColor }]}>
@@ -172,7 +173,7 @@ export default function Profile({ navigation }) {
             onPress={() => {
               dispatch({ type: "SET_USER", value: null });
               localStorage.logout();
-              navigation.navigate("LoginOrRegister")
+              navigation.navigate("LoginOrRegister");
             }}
             subTextColor={subTextColor}
             border={borderColor}

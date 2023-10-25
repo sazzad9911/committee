@@ -605,24 +605,30 @@ export default function ChooseLanguage({ navigation }) {
   </svg>
   
   `;
-  
+
   return (
     <View
       style={{
         flex: 1,
         paddingTop: inset?.top,
         backgroundColor: backgroundColor,
-      }}>
+      }}
+    >
       <ScrollView>
         <View
-          style={[{
-            alignItems: "center",
-          },mainStyle.mt24]}>
+          style={[
+            {
+              alignItems: "center",
+            },
+            mainStyle.mt24,
+          ]}
+        >
           <SvgXml xml={text} />
           <SvgXml xml={ic} />
         </View>
         <View
-          style={{ alignItems: "center", marginTop: 24, paddingVertical: 24 }}>
+          style={{ alignItems: "center", marginTop: 24, paddingVertical: 24 }}
+        >
           <Text style={[mainStyle.text20, { color: colors.getTextColor() }]}>
             {isBn ? "ভাষা নির্বাচন করুন" : "Change language "}
           </Text>
@@ -636,7 +642,8 @@ export default function ChooseLanguage({ navigation }) {
               marginLeft: 0,
               marginTop: 0,
               marginBottom: 32,
-            }}>
+            }}
+          >
             <Clickable
               active={isBn ? true : false}
               subTextColor={subTextColor}
@@ -648,9 +655,9 @@ export default function ChooseLanguage({ navigation }) {
                 await localStorage.setBn(true);
               }}
               title={"বাংলা"}
-              icon={isBn?tick:undefined}
+              icon={isBn ? tick : undefined}
               outlineStyle={{
-                paddingRight:10
+                paddingRight: 10,
               }}
             />
             <Clickable
@@ -660,32 +667,42 @@ export default function ChooseLanguage({ navigation }) {
               subTextColor={subTextColor}
               border={colors.getShadowColor()}
               color={textColor}
-              icon={!isBn?tick:undefined}
+              icon={!isBn ? tick : undefined}
               onPress={async () => {
                 dispatch(setIsBn(false));
                 await localStorage.setBn(false);
               }}
               outlineStyle={{
-                paddingRight:10
+                paddingRight: 10,
               }}
               title={"English"}
             />
           </View>
         </View>
       </ScrollView>
-      <Button
-        onPress={() => {
-          navigation.navigate("LoginOrRegister");
-        }}
-        active={true}
+      <View
         style={{
           position: "absolute",
-          width: Dimensions.get("window").width - 40,
-          bottom: 32,
-          marginHorizontal: 20,
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: 90,
+          justifyContent: "center",
+          zIndex: 10,
         }}
-        title={values.createCommitteeValues().next}
-      />
+      >
+        <Button
+          onPress={() => {
+            navigation.navigate("LoginOrRegister");
+          }}
+          active={true}
+          style={{
+            width: Dimensions.get("window").width - 40,
+            marginHorizontal: 20,
+          }}
+          title={values.createCommitteeValues().next}
+        />
+      </View>
     </View>
   );
 }
@@ -699,7 +716,7 @@ const text = `<svg width="110" height="38" viewBox="0 0 110 38" fill="none" xmln
 </defs>
 </svg>
 `;
-const tick=`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+const tick = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M2.75 8.75L6.25 12.25L13.25 4.75" stroke="#6971FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
-`
+`;

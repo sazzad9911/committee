@@ -12,7 +12,7 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 
-export default function Notification({navigation}) {
+export default function Notification({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
   const isBn = useSelector((state) => state.isBn);
   const user = useSelector((state) => state.user);
@@ -71,7 +71,7 @@ export default function Notification({navigation}) {
         ]}
       >
         <Text style={[mainStyle.level, { color: colors.getTextColor() }]}>
-         {isBn?"নোটিফিকেশন":"Notification"}
+          {isBn ? "নোটিফিকেশন" : "Notification"}
         </Text>
       </View>
       <ScrollView
@@ -94,7 +94,10 @@ export default function Notification({navigation}) {
           />
         ))}
         {data?.length === 0 && (
-          <NoOption title={"Hey!"} subTitle={"No Notification available"} />
+          <NoOption
+            title={" "}
+            subTitle={isBn ? "নোটিফিকেশন নেই" : "No Notification"}
+          />
         )}
       </ScrollView>
     </View>
