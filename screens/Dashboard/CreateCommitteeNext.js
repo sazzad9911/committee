@@ -7,6 +7,7 @@ import {
   Text,
   View,
   KeyboardAvoidingView,
+  Dimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SvgXml } from "react-native-svg";
@@ -40,6 +41,7 @@ export default function CreateCommitteeNext({ navigation, route }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [image, setImage] = useState();
+  //console.log(image);
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
@@ -54,7 +56,9 @@ export default function CreateCommitteeNext({ navigation, route }) {
             style={{
               position: "absolute",
               top: 0,
-              height: 350,
+              height: 360,
+              width:Dimensions.get("window").width,
+              zIndex:0
             }}
           />
           <View style={[mainStyle.flexBox, mainStyle.pdV20, mainStyle.pdH20]}>

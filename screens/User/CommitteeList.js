@@ -163,6 +163,7 @@ export default function CommitteeList({ navigation }) {
                 subTitle={doc.thana}
                 data={doc}
                 key={i}
+                uri={doc.profilePhoto}
               />
             ))}
           {filteredData && filteredData.length == 0 && (

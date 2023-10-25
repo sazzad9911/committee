@@ -90,7 +90,7 @@ export default function CommitteeProfile({ navigation }) {
       arr.push(fileFromURL(file));
       //const { data } = await post("/upload", f, u.token);
       const images = await uploadFile(arr, user.token);
-      await put(
+    const res=  await put(
         "/comity/update",
         {
           profilePhoto: images[0],
@@ -98,7 +98,11 @@ export default function CommitteeProfile({ navigation }) {
         },
         user.token
       );
+      //console.log(res.data.comity);
       dispatch(loader.hide());
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+        //console.log(res.data.comity);
+       localStorage.comityLogIn(res.data.comity);
       dispatch(toast.success("Image updated"));
     } catch (e) {
       dispatch(toast.error("Error updating"));
