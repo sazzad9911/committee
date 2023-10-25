@@ -79,7 +79,7 @@ export default function LoginOrRegister({ navigation }) {
             >
               {isBn ? "অথবা" : "Or"}
             </Text>
-            <Button
+            <Button active={true}
               onPress={() => {
                 navigation.navigate("SignUp");
               }}

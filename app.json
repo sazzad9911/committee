@@ -2,7 +2,7 @@
   "expo": {
     "name": "Comity",
     "slug": "committee",
-    "version": "1.0.2",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",

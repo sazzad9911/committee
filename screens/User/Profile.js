@@ -172,6 +172,7 @@ export default function Profile({ navigation }) {
             onPress={() => {
               dispatch({ type: "SET_USER", value: null });
               localStorage.logout();
+              navigation.navigate("LoginOrRegister")
             }}
             subTextColor={subTextColor}
             border={borderColor}
