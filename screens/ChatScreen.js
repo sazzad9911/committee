@@ -440,7 +440,7 @@ const ChatScreen = (props) => {
       />
       <ChatHead
         user={UserInfo}
-        name={UserInfo ? `${UserInfo.name}` : null}
+        name={data?.comity?.name || UserInfo?.name || null}
         image={UserInfo ? UserInfo.profilePhoto : null}
         {...props}
         message={data}
@@ -676,10 +676,10 @@ const BottomBar = (props) => {
       >
         <ImageScreen
           onConfirm={async () => {
-            setImageLoader(true); 
-            let arr=[]
-            arr.push(fileFromURL(image))
-            const images=await uploadFile(arr,user.token)
+            setImageLoader(true);
+            let arr = [];
+            arr.push(fileFromURL(image));
+            const images = await uploadFile(arr, user.token);
             //console.log(data);
             props
               .onSend(null, images[0])

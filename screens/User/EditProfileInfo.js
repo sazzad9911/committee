@@ -61,6 +61,10 @@ export default function EditProfileInfo({ route, navigation }) {
     try {
       dispatch(loader.show());
       const img = await pickImage();
+      if (!img) {
+        dispatch(loader.hide());
+        return;
+      }
       let arr = [];
       arr.push(fileFromURL(img));
       //const { data } = await post("/upload", f, u.token);
@@ -73,7 +77,7 @@ export default function EditProfileInfo({ route, navigation }) {
         profilePhoto: images[0],
       });
       dispatch(loader.hide());
-      
+
       dispatch({ type: "SET_USER", value: res.data });
       localStorage.login(res.data);
     } catch (e) {
@@ -83,7 +87,7 @@ export default function EditProfileInfo({ route, navigation }) {
   };
   //console.log("ok");
   if (load) {
-    return
+    return;
     return (
       <View
         style={{
@@ -95,7 +99,8 @@ export default function EditProfileInfo({ route, navigation }) {
           backgroundColor: !isDark
             ? "rgba(255, 255, 255, 0.50)"
             : "rgba(0, 0, 0, 0.50)",
-        }}>
+        }}
+      >
         <ActivityIndicator color={isDark ? "#fff" : "#000"} size={"large"} />
       </View>
     );
@@ -104,12 +109,14 @@ export default function EditProfileInfo({ route, navigation }) {
   return (
     <ScrollView
       style={{ backgroundColor: backgroudColor }}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+    >
       <View style={[mainStyle.pdH20, mainStyle.mt12]}>
         <View
           style={{
             alignItems: "center",
-          }}>
+          }}
+        >
           <Avatar
             style={{
               height: 84,
@@ -121,7 +128,8 @@ export default function EditProfileInfo({ route, navigation }) {
             onPress={() => {
               dispatch(loader.show());
               updatePicture();
-            }}>
+            }}
+          >
             <Text
               style={{
                 fontSize: 14,
@@ -129,7 +137,8 @@ export default function EditProfileInfo({ route, navigation }) {
                 textDecorationLine: "underline",
                 marginBottom: 32,
                 color: colors.getTextColor(),
-              }}>
+              }}
+            >
               {isBn ? "ছবি পরিবর্তন করুন" : "Change Photo"}
             </Text>
           </Pressable>
@@ -147,13 +156,15 @@ export default function EditProfileInfo({ route, navigation }) {
             style={{
               color: textColor,
               fontSize: 20,
-            }}>
+            }}
+          >
             {createCommitteeValues.gender}{" "}
             <Text
               style={{
                 fontSize: 16,
                 color: borderColor,
-              }}>
+              }}
+            >
               ({createCommitteeValues.required})
             </Text>
           </Text>
@@ -162,7 +173,8 @@ export default function EditProfileInfo({ route, navigation }) {
               mainStyle.flexBox,
               mainStyle.mt12,
               { justifyContent: "flex-start" },
-            ]}>
+            ]}
+          >
             <RadioButton
               value={gender == "Male" ? true : false}
               onChange={() => setGender("Male")}
