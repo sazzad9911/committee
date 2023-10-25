@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { ScrollView, Text, View, Alert, Pressable } from "react-native";
+import {
+  ScrollView,
+  Text,
+  View,
+  Alert,
+  Pressable,
+  ActivityIndicator,
+  Dimensions,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "../../components/main/Button";
 import Input from "../../components/main/Input";
@@ -13,7 +21,7 @@ import localStorage from "../../functions/localStorage";
 import Avatar from "../../components/main/Avatar";
 import { pickImage } from "../../components/main/ProfilePicture";
 import { post } from "../../apis/multipleApi";
-import { fileFromURL, upload } from "../../functions/action";
+import { fileFromURL, upload, uploadFile } from "../../functions/action";
 import toast from "../../data/toast";
 
 export default function EditProfileInfo({ route, navigation }) {
@@ -48,21 +56,24 @@ export default function EditProfileInfo({ route, navigation }) {
     }
   };
   const [image, setImage] = useState(user?.profilePhoto);
+  const load = useSelector((state) => state.loader);
   const updatePicture = async () => {
     try {
       dispatch(loader.show());
       const img = await pickImage();
-      const f = new FormData();
-
-      f.append("files", fileFromURL(img));
-      dispatch(loader.show());
-      const { data } = await post("/upload", f, u.token);
-      // console.log(data.files);
+      let arr = [];
+      arr.push(fileFromURL(img));
+      //const { data } = await post("/upload", f, u.token);
+      const images = await uploadFile(arr, user.token);
+      // console.log(images);
+      // dispatch(loader.hide());
+      // return
+      setImage(images[0]);
       const res = await updateProfile({
-        profilePhoto: data.files[0],
+        profilePhoto: images[0],
       });
       dispatch(loader.hide());
-      setImage(res.data.user.profilePhoto);
+      
       dispatch({ type: "SET_USER", value: res.data });
       localStorage.login(res.data);
     } catch (e) {
@@ -71,18 +82,34 @@ export default function EditProfileInfo({ route, navigation }) {
     }
   };
   //console.log("ok");
+  if (load) {
+    return
+    return (
+      <View
+        style={{
+          flex: 1,
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: !isDark
+            ? "rgba(255, 255, 255, 0.50)"
+            : "rgba(0, 0, 0, 0.50)",
+        }}>
+        <ActivityIndicator color={isDark ? "#fff" : "#000"} size={"large"} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView
       style={{ backgroundColor: backgroudColor }}
-      showsVerticalScrollIndicator={false}
-    >
+      showsVerticalScrollIndicator={false}>
       <View style={[mainStyle.pdH20, mainStyle.mt12]}>
         <View
           style={{
             alignItems: "center",
-          }}
-        >
+          }}>
           <Avatar
             style={{
               height: 84,
@@ -94,8 +121,7 @@ export default function EditProfileInfo({ route, navigation }) {
             onPress={() => {
               dispatch(loader.show());
               updatePicture();
-            }}
-          >
+            }}>
             <Text
               style={{
                 fontSize: 14,
@@ -103,8 +129,7 @@ export default function EditProfileInfo({ route, navigation }) {
                 textDecorationLine: "underline",
                 marginBottom: 32,
                 color: colors.getTextColor(),
-              }}
-            >
+              }}>
               {isBn ? "ছবি পরিবর্তন করুন" : "Change Photo"}
             </Text>
           </Pressable>
@@ -122,15 +147,13 @@ export default function EditProfileInfo({ route, navigation }) {
             style={{
               color: textColor,
               fontSize: 20,
-            }}
-          >
+            }}>
             {createCommitteeValues.gender}{" "}
             <Text
               style={{
                 fontSize: 16,
                 color: borderColor,
-              }}
-            >
+              }}>
               ({createCommitteeValues.required})
             </Text>
           </Text>
@@ -139,8 +162,7 @@ export default function EditProfileInfo({ route, navigation }) {
               mainStyle.flexBox,
               mainStyle.mt12,
               { justifyContent: "flex-start" },
-            ]}
-          >
+            ]}>
             <RadioButton
               value={gender == "Male" ? true : false}
               onChange={() => setGender("Male")}

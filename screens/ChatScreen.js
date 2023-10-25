@@ -30,6 +30,7 @@ import {
   fileFromURL,
   serverTimeToLocal,
   timeConverter,
+  uploadFile,
 } from "../functions/action";
 
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
@@ -675,15 +676,13 @@ const BottomBar = (props) => {
       >
         <ImageScreen
           onConfirm={async () => {
-            setImageLoader(true);
-            //dispatch(loader.show());
-            const from = new FormData();
-            //console.log(fileFromURL(image));
-            from.append("files", fileFromURL(image));
-            const { data } = await post("/upload", from, user.token);
+            setImageLoader(true); 
+            let arr=[]
+            arr.push(fileFromURL(image))
+            const images=await uploadFile(arr,user.token)
             //console.log(data);
             props
-              .onSend(null, data.files[0])
+              .onSend(null, images[0])
               .then(() => {
                 setMessage("");
                 setImageLoader(false);
