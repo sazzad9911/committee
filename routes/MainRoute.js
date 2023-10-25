@@ -120,7 +120,7 @@ export default function MainRoute() {
   const comity = useSelector((state) => state.comity);
   const [isReady, setIsReady] = useState(false);
   const [isConnect, setIsConnect] = useState(false);
-
+  const [isNotFirstTime, setNotFirstTime] = useState(false);
   const MyTheme = {
     ...DefaultTheme,
     colors: {
@@ -144,6 +144,8 @@ export default function MainRoute() {
 
   useEffect(() => {
     const fetch = async () => {
+      const v = await localStorage.isNotFirstTime();
+      setNotFirstTime(v);
       const user = await checkUser();
       if (!isConnect && user) {
         socket.emit("join", user.user.id);
@@ -162,6 +164,7 @@ export default function MainRoute() {
     };
     fetch();
   }, []);
+
   if (!isReady) {
     return null;
   }
@@ -188,7 +191,7 @@ export default function MainRoute() {
               />
             ) : (
               <>
-                {!localStorage.isNotFirstTime && (
+                {!isNotFirstTime && (
                   <Stack.Screen
                     options={{
                       headerShown: false,

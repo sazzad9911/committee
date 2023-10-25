@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, Dimensions, Text, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { AppColors } from "../../functions/colors";
@@ -32,7 +32,8 @@ export default function LoginOrRegister({ navigation }) {
         flex: 1,
         backgroundColor: backgroundColor,
         paddingTop: inset?.top,
-      }}>
+      }}
+    >
       <Text
         style={[
           {
@@ -42,8 +43,8 @@ export default function LoginOrRegister({ navigation }) {
             fontSize: 20,
             fontWeight: "500",
           },
-         
-        ]}>
+        ]}
+      >
         {isBn ? "লগইন করুন" : "Login"}
       </Text>
       <ScrollView>
@@ -74,7 +75,8 @@ export default function LoginOrRegister({ navigation }) {
                 mainStyle.mediumText,
                 { color: colors.getSubTextColor() },
                 { paddingVertical: 20 },
-              ]}>
+              ]}
+            >
               {isBn ? "অথবা" : "Or"}
             </Text>
             <Button
@@ -95,13 +97,15 @@ export default function LoginOrRegister({ navigation }) {
             style={{
               marginBottom: 32,
               alignItems: "center",
-            }}>
+            }}
+          >
             <Text
               style={[
                 mainStyle.mediumText,
                 { color: colors.getSubTextColor() },
                 { paddingVertical: 20 },
-              ]}>
+              ]}
+            >
               {isBn ? "আমাদের সাথে যোগাযোগ করুন" : "Contact us"}
             </Text>
           </Pressable>
