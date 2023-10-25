@@ -22,6 +22,8 @@ import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import ComityP from "../../assets/comity_p.jpeg";
+import { pickImage } from "../../components/main/ProfilePicture";
+import { fileFromURL, uploadFile } from "../../functions/action";
 
 export default function CreateCommitteeNext({ navigation, route }) {
   const inset = useSafeAreaInsets();
@@ -37,19 +39,18 @@ export default function CreateCommitteeNext({ navigation, route }) {
   const { name, mobile, division, district, area, address } = route?.params;
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [image, setImage] = useState();
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-    >
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
       <ScrollView
         style={{ backgroundColor: backgroundColor }}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         <View style={[{ paddingTop: inset?.top }]}>
           <Image
-            source={ComityP}
+            source={image?{uri:image}:ComityP}
             style={{
               position: "absolute",
               top: 0,
@@ -63,13 +64,24 @@ export default function CreateCommitteeNext({ navigation, route }) {
               }}
               xml={back}
             />
-            <SvgXml xml={camera} />
+            <SvgXml
+              onPress={async () => {
+                dispatch(loader.show())
+                const img = await pickImage();
+                //console.log(img);
+                let arr = [];
+                arr.push(fileFromURL(img));
+                const images = await uploadFile(arr, user.token);
+                setImage(images[0])
+                dispatch(loader.hide())
+              }}
+              xml={camera}
+            />
           </View>
           <View
             style={{
               height: inset?.top + 220,
-            }}
-          ></View>
+            }}></View>
           <View
             style={[
               {
@@ -78,8 +90,7 @@ export default function CreateCommitteeNext({ navigation, route }) {
                 paddingTop: 24,
               },
               mainStyle.pdH20,
-            ]}
-          >
+            ]}>
             <TextArea
               maxLength={1000}
               value={about}
@@ -108,15 +119,13 @@ export default function CreateCommitteeNext({ navigation, route }) {
                       আমি কমিটির সকল{" "}
                       <Text
                         onPress={() => navigation.navigate("Conditions")}
-                        style={{ color: "#737AFF" }}
-                      >
+                        style={{ color: "#737AFF" }}>
                         শর্তাবলী
                       </Text>{" "}
                       এবং{" "}
                       <Text
                         onPress={() => navigation.navigate("Policy")}
-                        style={{ color: "#737AFF" }}
-                      >
+                        style={{ color: "#737AFF" }}>
                         গোপনীয়তার নীতিমালার
                       </Text>{" "}
                       বিষয়ে সম্মতি দিলাম
@@ -126,15 +135,13 @@ export default function CreateCommitteeNext({ navigation, route }) {
                       I agree to all Comity's{" "}
                       <Text
                         onPress={() => navigation.navigate("Conditions")}
-                        style={{ color: "#737AFF" }}
-                      >
+                        style={{ color: "#737AFF" }}>
                         terms
                       </Text>{" "}
                       and{" "}
                       <Text
                         onPress={() => navigation.navigate("Policy")}
-                        style={{ color: "#737AFF" }}
-                      >
+                        style={{ color: "#737AFF" }}>
                         conditions
                       </Text>
                     </Text>
@@ -153,7 +160,8 @@ export default function CreateCommitteeNext({ navigation, route }) {
                   area,
                   address,
                   about,
-                  user.token
+                  user.token,
+                  image
                 )
                   .then((res) => {
                     dispatch(loader.hide());

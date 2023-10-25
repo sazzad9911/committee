@@ -133,7 +133,8 @@ export const createComity = async (
   thana,
   address,
   about,
-  token
+  token,
+  profilePhoto
 ) => {
   const res = await axios.post(
     `${url}/comity/create`,
@@ -145,6 +146,7 @@ export const createComity = async (
       thana: thana,
       address: address,
       about: about,
+      profilePhoto:profilePhoto
     },
     {
       headers: { Authorization: `Bearer ${token}` },
