@@ -24,6 +24,8 @@ import { pickImage } from "../../components/main/ProfilePicture";
 import { useIsFocused } from "@react-navigation/native";
 import MoreText from "../../components/main/MoreText";
 import ComityP from "../../assets/comity_p.jpeg";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { fileFromURL, uploadFile } from "../../functions/action";
 
 export default function CommitteeProfile({ navigation }) {
   const isDark = useSelector((state) => state.isDark);
@@ -39,6 +41,7 @@ export default function CommitteeProfile({ navigation }) {
   const dispatch = useDispatch();
   const [background, setBackground] = useState(comity?.profilePhoto);
   const isFocused = useIsFocused();
+  const inset=useSafeAreaInsets()
 
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,13 +86,14 @@ export default function CommitteeProfile({ navigation }) {
   const uploadPicture = async (file) => {
     dispatch(loader.show());
     try {
-      const data = new FormData();
-      data.append("files", file);
-      const res = await post("/upload", data, user.token);
+      let arr = [];
+      arr.push(fileFromURL(file));
+      //const { data } = await post("/upload", f, u.token);
+      const images = await uploadFile(arr, user.token);
       await put(
         "/comity/update",
         {
-          profilePhoto: res.data.files[0],
+          profilePhoto: images[0],
           comityId: comity.id,
         },
         user.token
@@ -135,7 +139,9 @@ export default function CommitteeProfile({ navigation }) {
             <SvgXml xml={backIcon} />
           </Pressable> */}
           <View />
-          <Pressable
+          <Pressable style={{
+            marginTop:inset.top
+          }}
             onPress={async () => {
               const img = await pickImage();
               setBackground(img.uri);
