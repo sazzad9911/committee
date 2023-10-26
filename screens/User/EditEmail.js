@@ -63,7 +63,7 @@ export default function EditEmail({ navigation, route }) {
       });
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
-      navigation.goBack()
+      navigation.goBack();
     } catch (error) {
       console.log(error);
       Alert.alert(error?.response?.data?.msg);

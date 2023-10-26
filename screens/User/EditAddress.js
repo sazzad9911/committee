@@ -99,7 +99,7 @@ export default function EditLocation({ navigation }) {
       });
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
-      navigation?.goBack()
+      navigation?.goBack();
     } catch (error) {
       console.log(error);
       Alert.alert(error.response.data.msg);
@@ -147,7 +147,7 @@ export default function EditLocation({ navigation }) {
                 { marginTop: 0, color: colors.getTextColor() },
               ]}
             >
-              Division
+              {isBn ? "বিভাগ" : "Division"}
             </Text>
             <Button
               bg={bg}
@@ -158,14 +158,14 @@ export default function EditLocation({ navigation }) {
               }}
               color={colors.getTextColor()}
               style={[{ marginTop: 8, borderColor: colors.getShadowColor() }]}
-              placeholder={"Division"}
+              placeholder={isBn ? "বিভাগ" : "Division"}
               placeholderTextColor={colors.getTextColor()}
             />
 
             <View style={{ flexDirection: "row", marginTop: 12 }}>
               <View>
                 <Text style={[newStyle.text, { color: colors.getTextColor() }]}>
-                  District
+                  {isBn ? "জেলা" : "District"}
                 </Text>
                 <Button
                   bg={bg}
@@ -190,13 +190,13 @@ export default function EditLocation({ navigation }) {
                     },
                   ]}
                   placeholderTextColor={colors.getTextColor()}
-                  placeholder="District"
+                  placeholder={isBn ? "জেলা" : "District"}
                 />
               </View>
               <View style={{ width: 13 }} />
               <View>
                 <Text style={[newStyle.text, { color: colors.getTextColor() }]}>
-                  Thana
+                  {isBn ? "থানা" : "Thana"}
                 </Text>
                 <Button
                   bg={bg}
@@ -221,7 +221,7 @@ export default function EditLocation({ navigation }) {
                     },
                   ]}
                   placeholderTextColor={colors.getTextColor()}
-                  placeholder="Thana"
+                  placeholder={isBn ? "থানা" : "Thana"}
                 />
               </View>
             </View>
@@ -231,13 +231,13 @@ export default function EditLocation({ navigation }) {
                 { marginTop: 12, color: colors.getTextColor() },
               ]}
             >
-              Address
+              {isBn ? "ঠিকানা" : "Address"}
             </Text>
             <TextArea
               value={address}
               onChange={setAddress}
               style={[{ marginTop: 8, borderColor: "#a3a3a3" }]}
-              placeholder={"Address"}
+              placeholder={isBn ? "লিখুন" : "Type"}
             />
             <View
               style={{
@@ -270,7 +270,7 @@ export default function EditLocation({ navigation }) {
               active={division && district && area ? true : false}
               disabled={division && district && area ? false : true}
               style={[{ marginTop: 24, marginBottom: 32 }]}
-              title={"Update"}
+              title={isBn ? "সংশোধন করুন" : "Update"}
             />
           </View>
         </View>
@@ -360,6 +360,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
   //console.log(value)
   const isDark = useSelector((state) => state.isDark);
   const colors = new AppColors(isDark);
+  const isBn = useSelector((state) => state.isBn);
 
   const newStyles = StyleSheet.create({
     text: {
@@ -492,7 +493,7 @@ export const Screen = ({ select, value, onChange, onClose, type }) => {
           marginHorizontal: 8,
           color: "white",
         }}
-        title={"Done"}
+        title={isBn ? "নিশ্চিত করুন" : "Confirm"}
       />
     </View>
   );
