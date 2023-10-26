@@ -38,7 +38,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.committee.bd",
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
@@ -50,7 +50,8 @@
         "android.permission.CAMERA"
       ],
       "package": "com.committee.bd",
-      "versionCode": 2
+      "versionCode": 3,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
