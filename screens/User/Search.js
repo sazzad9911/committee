@@ -224,7 +224,7 @@ export default function Search({ navigation }) {
                   fontSize: 20,
                 }}
               >
-                Popular Comities
+               {isBn?"জনপ্রিয়":"Popular Comities"}
               </Text>
               <View
                 style={{
