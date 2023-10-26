@@ -212,7 +212,7 @@ export default function Search({ navigation }) {
                     marginBottom: 20,
                   }}
                 >
-                 {isBn?"কোন কমিটি খুঁজে পাওয়া যাইনি":" No comity found"}
+                 {isBn?"কমিটি খুঁজে পাওয়া যাচ্ছে না":" No comity found"}
                 </Text>
                 <SvgXml xml={isDark?dSearch: notFound} />
               </View>
