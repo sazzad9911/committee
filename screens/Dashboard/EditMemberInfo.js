@@ -93,6 +93,7 @@ export default function EditMemberInfo({ navigation, route }) {
               }}
               onEdit={async () => {
                 const res = await pickImage();
+                if (!res) return;
                 setPicture(res);
               }}
             />

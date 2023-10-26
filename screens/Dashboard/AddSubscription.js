@@ -79,15 +79,19 @@ export default function AddSubscription({ navigation, route }) {
             isBn ? (
               <>
                 <Text>
-                  <Text style={{ fontWeight: "bold" }}>
-                    ১. অর্থপ্রদানের নাম:
-                  </Text>{" "}
+                  <Text style={{ fontWeight: "bold" }}>১. পেমেন্টের নাম:</Text>{" "}
                   এখানে আপনি যে কারণে অর্থ সংগ্রহ করতে চান তার একটি নাম উল্লেখ
                   করুন। উদাহরণস্বরূপ, আপনি যদি একটি সমাজ অথবা কমিটি পরিচালনা করে
-                  থাকেন , তাহলে আপনি এটির নাম দিতে পারেন 'কমিটি/সমাজের
-                  উন্নয়ন,বেতন,ফিস বা আপনার অর্থপ্রদানের ধরনকে সেরাভাবে উপস্থাপন
-                  করে এমন একটি নাম আর যদি আপনি এটি বাড়ি ভাড়া ব্যবস্থাপনার জন্য
-                  করতে চান, তাহলে আপনি 'বাড়ি ভাড়া' বা 'অ্যাপার্টমেন্ট ভাড়া'
+                  থাকেন , তাহলে আপনি এটির নাম দিতে পারেন{" "}
+                  <Text style={{ fontWeight: "bold", color: "red" }}>
+                    'কমিটি/সমাজের উন্নয়ন,বেতন,ফি
+                  </Text>{" "}
+                  বা আপনার অর্থপ্রদানের ধরনকে সেরাভাবে উপস্থাপন করে এমন একটি নাম
+                  আর যদি আপনি এটি বাড়ি ভাড়া ব্যবস্থাপনার জন্য করতে চান, তাহলে
+                  আপনি{" "}
+                  <Text style={{ fontWeight: "bold", color: "red" }}>
+                    'বাড়ি ভাড়া' বা 'অ্যাপার্টমেন্ট ভাড়া'
+                  </Text>{" "}
                   লিখতে পারেন আপনার প্রয়োজনের সাথে সাথে আপনি সর্বদা এই নামটি
                   যেকোনো সময় পরিবর্তন করতে পারেন।{"\n\n"}{" "}
                   <Text style={{ fontWeight: "bold" }}>২. লক্ষ্য পরিমাণ:</Text>{" "}
@@ -98,7 +102,7 @@ export default function AddSubscription({ navigation, route }) {
                   {"\n\n"}নির্দ্বিধায় আপনার পেমেন্টের নাম এবং আপনার নির্দিষ্ট
                   প্রয়োজনীয়তার সাথে মানানসই লক্ষ্য পরিমাণ কাস্টমাইজ করুন আমরা
                   আপনাকে সহজ করতে এবং দক্ষতার সাথে আপনার আর্থিক পরিচালনা করতে
-                  সাহায্য করতে সর্বধা প্রস্তুত"
+                  সাহায্য করতে সর্বধা প্রস্তুত"{"\n\n"}
                 </Text>
               </>
             ) : (
@@ -107,11 +111,16 @@ export default function AddSubscription({ navigation, route }) {
                   <Text style={{ fontWeight: "bold" }}>1. Payment Name:</Text>{" "}
                   This is where you specify the purpose or category of the money
                   you want to collect. For instance, if you're managing a
-                  community, you can name it 'Development,' 'Salary,' 'Fees,' or
-                  anything that best represents the type of payment. If it's for
-                  house rent management, you might choose 'House Rent' or
-                  'Apartment Rent.' You can always edit this name as your needs
-                  evolve.{"\n\n"}{" "}
+                  community, you can name it{" "}
+                  <Text style={{ fontWeight: "bold", color: "red" }}>
+                    'Development,' 'Salary,' 'Fees,'
+                  </Text>{" "}
+                  or anything that best represents the type of payment. If it's
+                  for house rent management, you might choose{" "}
+                  <Text style={{ fontWeight: "bold", color: "red" }}>
+                    'House Rent' or 'Apartment Rent.'
+                  </Text>{" "}
+                  You can always edit this name as your needs evolve.{"\n\n"}{" "}
                   <Text style={{ fontWeight: "bold" }}>2. Target Amount:</Text>{" "}
                   This is the approximate sum you aim to collect. Whether it's
                   for your community's activities or house rent, set the desired
@@ -119,7 +128,7 @@ export default function AddSubscription({ navigation, route }) {
                   time to align with your financial goals. {"\n\n"}Feel free to
                   customize your payment name and target amount to fit your
                   specific requirements. We're here to help you simplify and
-                  manage your finances efficiently."
+                  manage your finances efficiently."{"\n\n"}
                 </Text>
               </>
             )

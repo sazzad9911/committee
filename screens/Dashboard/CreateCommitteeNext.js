@@ -46,19 +46,21 @@ export default function CreateCommitteeNext({ navigation, route }) {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+    >
       <ScrollView
         style={{ backgroundColor: backgroundColor }}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <View style={[{ paddingTop: inset?.top }]}>
           <Image
-            source={image?{uri:image}:ComityP}
+            source={image ? { uri: image } : ComityP}
             style={{
               position: "absolute",
               top: 0,
               height: 360,
-              width:Dimensions.get("window").width,
-              zIndex:0
+              width: Dimensions.get("window").width,
+              zIndex: 0,
             }}
           />
           <View style={[mainStyle.flexBox, mainStyle.pdV20, mainStyle.pdH20]}>
@@ -70,14 +72,18 @@ export default function CreateCommitteeNext({ navigation, route }) {
             />
             <SvgXml
               onPress={async () => {
-                dispatch(loader.show())
+                dispatch(loader.show());
                 const img = await pickImage();
+                if (!img) {
+                  dispatch(loader.hide());
+                  return;
+                }
                 //console.log(img);
                 let arr = [];
                 arr.push(fileFromURL(img));
                 const images = await uploadFile(arr, user.token);
-                setImage(images[0])
-                dispatch(loader.hide())
+                setImage(images[0]);
+                dispatch(loader.hide());
               }}
               xml={camera}
             />
@@ -85,7 +91,8 @@ export default function CreateCommitteeNext({ navigation, route }) {
           <View
             style={{
               height: inset?.top + 220,
-            }}></View>
+            }}
+          ></View>
           <View
             style={[
               {
@@ -94,7 +101,8 @@ export default function CreateCommitteeNext({ navigation, route }) {
                 paddingTop: 24,
               },
               mainStyle.pdH20,
-            ]}>
+            ]}
+          >
             <TextArea
               maxLength={1000}
               value={about}
@@ -123,13 +131,15 @@ export default function CreateCommitteeNext({ navigation, route }) {
                       আমি কমিটির সকল{" "}
                       <Text
                         onPress={() => navigation.navigate("Conditions")}
-                        style={{ color: "#737AFF" }}>
+                        style={{ color: "#737AFF" }}
+                      >
                         শর্তাবলী
                       </Text>{" "}
                       এবং{" "}
                       <Text
                         onPress={() => navigation.navigate("Policy")}
-                        style={{ color: "#737AFF" }}>
+                        style={{ color: "#737AFF" }}
+                      >
                         গোপনীয়তার নীতিমালার
                       </Text>{" "}
                       বিষয়ে সম্মতি দিলাম
@@ -139,13 +149,15 @@ export default function CreateCommitteeNext({ navigation, route }) {
                       I agree to all Comity's{" "}
                       <Text
                         onPress={() => navigation.navigate("Conditions")}
-                        style={{ color: "#737AFF" }}>
+                        style={{ color: "#737AFF" }}
+                      >
                         terms
                       </Text>{" "}
                       and{" "}
                       <Text
                         onPress={() => navigation.navigate("Policy")}
-                        style={{ color: "#737AFF" }}>
+                        style={{ color: "#737AFF" }}
+                      >
                         conditions
                       </Text>
                     </Text>

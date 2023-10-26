@@ -32,7 +32,7 @@ export default function Collection({ navigation }) {
   const isFocus = useIsFocused();
 
   const fetch = async () => {
-    !collectionList&&dispatch(loader.show());
+    !collectionList && dispatch(loader.show());
     try {
       const res = await get(
         `/subs/get-comity-collections/${comity.id}`,
@@ -49,11 +49,16 @@ export default function Collection({ navigation }) {
     fetch();
   }, [isFocus]);
 
-
   return (
     <View style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={[mainStyle.pdH20, mainStyle.flexBox,collectionList?.length===0&&{justifyContent:"center"}]}>
+        <View
+          style={[
+            mainStyle.pdH20,
+            mainStyle.flexBox,
+            collectionList?.length === 0 && { justifyContent: "center" },
+          ]}
+        >
           <Text
             style={{
               fontSize: 20,
@@ -65,18 +70,18 @@ export default function Collection({ navigation }) {
           >
             {headlines._latestCollection}
           </Text>
-         {collectionList?.length!=0&&(
-           <Button
-           onPress={() =>
-             navigation?.navigate("AllCollections", { data: collectionList })
-           }
-           style={{
-             borderWidth: 0,
-           }}
-           Icon={() => <SvgXml xml={right}></SvgXml>}
-           title={headlines._more}
-         />
-         )}
+          {collectionList?.length != 0 && (
+            <Button
+              onPress={() =>
+                navigation?.navigate("AllCollections", { data: collectionList })
+              }
+              style={{
+                borderWidth: 0,
+              }}
+              Icon={() => <SvgXml xml={right}></SvgXml>}
+              title={headlines._more}
+            />
+          )}
         </View>
         {collectionList?.map((doc, i) => (
           <CollectionCart
@@ -86,16 +91,19 @@ export default function Collection({ navigation }) {
             borderColor={borderColor}
             data={doc}
             onPress={() => {
-             
               navigation.navigate("MemberSubDetails", {
                 subscriptionId: doc.subscriptionId,
                 memberId: doc.memberId,
-                paid:doc.paid,
+                paid: doc.paid,
               });
             }}
           />
         ))}
-        {collectionList?.length == 0 && <NoOption title={isBn?"কোন চাঁদার কালেকশন যোগ করা হয়নি":"No collections added"} />}
+        {collectionList?.length == 0 && (
+          <NoOption
+            title={isBn ? "কোন কালেকশন যোগ করা হয়নি" : "No collections added"}
+          />
+        )}
         <View style={{ height: 32 }} />
       </ScrollView>
     </View>

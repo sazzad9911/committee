@@ -9,7 +9,7 @@ import MoreText from "./main/MoreText";
 
 export default function ReadMoreComponent({ title, message, textColor }) {
   const isDark = useSelector((state) => state.isDark);
-  const colors=new AppColors(isDark)
+  const colors = new AppColors(isDark);
   const isBn = useSelector((state) => state.isBn);
   const values = new AppValues(isBn);
 
@@ -20,7 +20,8 @@ export default function ReadMoreComponent({ title, message, textColor }) {
           mainStyle.flexBox,
           mainStyle.mt32,
           { justifyContent: "flex-start" },
-        ]}>
+        ]}
+      >
         <SvgXml xml={svg} />
         <Text
           style={{
@@ -29,13 +30,15 @@ export default function ReadMoreComponent({ title, message, textColor }) {
             color: colors.getTextColor(),
             marginLeft: 10,
             flex: 1,
-          }}>
+          }}
+        >
           {title ? title : values.getDashboardHeadlines()._importantMessage}
         </Text>
       </View>
       <View style={mainStyle.mt24} />
-      
-      <MoreText numberOfLines={3} 
+
+      <MoreText
+        numberOfLines={300}
         text={
           message
             ? message

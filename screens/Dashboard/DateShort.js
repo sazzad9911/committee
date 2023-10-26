@@ -73,7 +73,7 @@ export default function DateShort({ navigation, route }) {
             }}
           />
         )}
-        title={isBn ? "সকল কালেকশন" : "All Collection"}
+        title={isBn ? "সকল খরচ" : "All Expenses"}
       />
 
       <Text style={[mainStyle.mt12, { fontSize: 16, color: textColor }]}>
@@ -131,8 +131,8 @@ export default function DateShort({ navigation, route }) {
         title={isBn ? "গুরুত্বপূর্ণ নির্দেশাবলী" : "Important Instructions"}
         message={
           isBn
-            ? "আপনি যদি আপনার কমিটির সকল খরচ শুরু থেকে শেষ পর্যন্ত সর্বদা দেখতে চান তাহলে উপরের খরচ বাটনে ক্লিক করে নিশ্চিত করুন অথবা আপনি যদি প্রতি মাসের একটি নির্দিষ্ট তারিখ থেকে আপনার কমিটির খরচ দেখতে চান তাহলে নিচের তারিখের ঘরে ক্লিক করে একটি তারিখ পছন্দ করে নিশ্চিত করুন বাটনে ক্লিক করুন৷ মনে রাখবেন আপনি যেই তারিখটি নির্বাচন করে রাখবেন প্রতি মাসে স্বয়ংক্রিয়ভাবে সেই তারিখ থেকে বর্তমান দিন পর্যন্ত আপনার কাছে আপনার খরচ প্রদর্শিত হবে৷"
-            : "If you want to see all of your comity expenses from start to finish then confirm by clicking on the expense button above or if you want to see your comity expenses from a specific date each month then click on the date box below and choose a date and click on the confirm button . Note that whatever date you select, your expenses will automatically be shown to you every month from that date to the current day."
+            ? "আপনি যদি আপনার কমিটির সকল খরচ শুরু থেকে শেষ পর্যন্ত সর্বদা দেখতে চান তাহলে উপরের সকল খরচ বাটনে ক্লিক করে নিশ্চিত করুন অথবা আপনি যদি প্রতি মাসের একটি নির্দিষ্ট তারিখ থেকে আপনার কমিটির খরচ দেখতে চান তাহলে নিচের তারিখের ঘরে ক্লিক করে একটি তারিখ পছন্দ করে নিশ্চিত করুন বাটনে ক্লিক করুন৷ মনে রাখবেন আপনি যেই তারিখটি নির্বাচন করে রাখবেন প্রতি মাসে স্বয়ংক্রিয়ভাবে সেই তারিখ থেকে বর্তমান দিন পর্যন্ত আপনার কাছে আপনার খরচ প্রদর্শিত হবে৷"
+            : "If you want to see all of your comity expenses from start to finish then confirm by clicking on the all expense button above or if you want to see your comity expenses from a specific date each month then click on the date box below and choose a date and click on the confirm button . Note that whatever date you select, your expenses will automatically be shown to you every month from that date to the current day."
         }
       />
     </View>

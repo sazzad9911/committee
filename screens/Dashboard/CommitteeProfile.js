@@ -41,7 +41,7 @@ export default function CommitteeProfile({ navigation }) {
   const dispatch = useDispatch();
   const [background, setBackground] = useState(comity?.profilePhoto);
   const isFocused = useIsFocused();
-  const inset=useSafeAreaInsets()
+  const inset = useSafeAreaInsets();
 
   //console.log(comity);
   const location = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@ export default function CommitteeProfile({ navigation }) {
       arr.push(fileFromURL(file));
       //const { data } = await post("/upload", f, u.token);
       const images = await uploadFile(arr, user.token);
-    const res=  await put(
+      const res = await put(
         "/comity/update",
         {
           profilePhoto: images[0],
@@ -101,8 +101,8 @@ export default function CommitteeProfile({ navigation }) {
       //console.log(res.data.comity);
       dispatch(loader.hide());
       dispatch({ type: "SET_COMITY", value: res.data.comity });
-        //console.log(res.data.comity);
-       localStorage.comityLogIn(res.data.comity);
+      //console.log(res.data.comity);
+      localStorage.comityLogIn(res.data.comity);
       dispatch(toast.success("Image updated"));
     } catch (e) {
       dispatch(toast.error("Error updating"));
@@ -143,11 +143,13 @@ export default function CommitteeProfile({ navigation }) {
             <SvgXml xml={backIcon} />
           </Pressable> */}
           <View />
-          <Pressable style={{
-            marginTop:inset.top
-          }}
+          <Pressable
+            style={{
+              marginTop: inset.top,
+            }}
             onPress={async () => {
               const img = await pickImage();
+              if (!img) return;
               setBackground(img.uri);
               uploadPicture(img);
             }}

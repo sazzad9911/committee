@@ -14,7 +14,7 @@ export class AppValues {
         "প্রোফাইল",
         "সদস্য",
         "ডেশবোর্ড",
-        "নোটিফিকেশান",
+        "নোটিফিকেশন",
       ];
     } else {
       return [
@@ -148,7 +148,7 @@ export class AppValues {
         importantMessage: "",
         logOut: "লগ আউট",
         membersOnly: "শুধু মেম্বার",
-        notification: "নোটিফিকেশান",
+        notification: "নোটিফিকেশন",
         accountSettings: "অ্যাকাউন্ট সেটিং",
       };
     } else {

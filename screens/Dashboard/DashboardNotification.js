@@ -34,9 +34,7 @@ export default function DashboardNotification({ navigation }) {
   }, [isFocused, change]);
   useEffect(() => {
     socket.on("newNotification", (e) => {
-
       setChange(!change);
-
     });
     return () => {
       socket.off("newNotification");
@@ -91,7 +89,10 @@ export default function DashboardNotification({ navigation }) {
         ))}
 
         {data?.length === 0 && (
-          <NoOption title={"Hey!"} subTitle={"No Notification available"} />
+          <NoOption
+            title={" "}
+            subTitle={isBn ? "নোটিফিকেশন নেই" : "No Notification"}
+          />
         )}
         <View style={{ height: 12 }} />
       </ScrollView>

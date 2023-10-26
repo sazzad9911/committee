@@ -107,7 +107,6 @@ const Header = ({
   const [expense, setExpense] = useState(comity?.expense || 0);
   const inset = useSafeAreaInsets();
   const [number, setNumber] = useState(0);
-
   const fetchData = async () => {
     try {
       const { data } = await get(
@@ -189,7 +188,9 @@ const Header = ({
           ? new Date().toDateString()
           : sortDate
           ? sortDate.toDateString()
-          : new Date(lastDate?.date).toDateString()}{" "}
+          : lastDate?.date
+          ? new Date(lastDate?.date).toDateString()
+          : "--/--/--"}{" "}
         {!state.index == 0 && (!isBn ? "to Today" : "থেকে আজ পর্যন্ত")}
       </Text>
 
