@@ -492,7 +492,7 @@ const Header = ({ type, onConfirm, onChange, value }) => {
             onChangeText={onChange}
             value={value}
             style={{ flex: 1, color: colors.getSubTextColor() }}
-            placeholder="Type here"
+            placeholder={new AppValues(isBn).getValues().write}
             placeholderTextColor={colors.getSubTextColor()}
           />
           <SvgXml xml={search} />
