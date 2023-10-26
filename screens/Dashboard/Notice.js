@@ -249,7 +249,7 @@ export default function Notice({ navigation, route }) {
               },
               mainStyle.mt12,
             ]}
-            placeholder={comityListText.search}
+            placeholder={isBn?"সার্চ":"Search"}
           />
         </LinearGradient>
       }

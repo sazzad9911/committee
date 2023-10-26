@@ -186,6 +186,7 @@ export default function Search({ navigation }) {
                 },
                 mainStyle.mt12,
               ]}
+              returnKeyType={"search"}
               outSideStyle={{
                 marginTop: 24,
                 marginBottom: 14,
@@ -211,7 +212,7 @@ export default function Search({ navigation }) {
                     marginBottom: 20,
                   }}
                 >
-                  No comity found
+                 {isBn?"কোন কমিটি খুঁজে পাওয়া যাইনি":" No comity found"}
                 </Text>
                 <SvgXml xml={notFound} />
               </View>
@@ -344,7 +345,7 @@ export default function Search({ navigation }) {
                   color: textColor,
                 }}
               >
-                {!q && "Please enter a search query"}
+                {!q && isBn?"কমিটির নাম অথবা ফোন নম্বর দিয়ে খুঁজুন":"Search by committee name or phone number"}
               </Text>
             </View>
           )
