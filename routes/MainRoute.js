@@ -306,7 +306,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Edit Email"} {...props} />
+                  <BackHeader title={isBn ? "ইমেইল" : "Email"} {...props} />
                 ),
               }}
               name="EditEmail"
@@ -336,7 +336,7 @@ export default function MainRoute() {
             <Stack.Screen
               options={{
                 header: (props) => (
-                  <BackHeader title={"Edit Address"} {...props} />
+                  <BackHeader title={isBn ? "ঠিকানা" : "Address"} {...props} />
                 ),
               }}
               name="EditAddress"

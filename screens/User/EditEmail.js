@@ -62,7 +62,7 @@ export default function EditEmail({ navigation, route }) {
       });
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
-      navigation.goBack()
+      navigation.goBack();
     } catch (error) {
       console.log(error);
       Alert.alert(error?.response?.data?.msg);
@@ -138,7 +138,7 @@ export default function EditEmail({ navigation, route }) {
             onPress={updateUser}
             disabled={email ? false : true}
             active={email ? true : false}
-            title={"Update"}
+            title={isBn ? "নিশ্চিত করুন" : "Confirm"}
             style={[mainStyle.mt24, { marginBottom: 32 }]}
           />
         </View>
