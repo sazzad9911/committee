@@ -188,7 +188,7 @@ export default function Search({ navigation }) {
               ]}
               returnKeyType={"search"}
               outSideStyle={{
-                marginTop: 24,
+                marginTop: 0,
                 marginBottom: 14,
                 marginHorizontal: 20,
               }}
