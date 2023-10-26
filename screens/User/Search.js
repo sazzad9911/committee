@@ -291,7 +291,7 @@ export default function Search({ navigation }) {
               mainStyle.mt12,
             ]}
             outSideStyle={{
-              marginTop: 24,
+              marginTop: 0,
               marginBottom: 14,
               marginHorizontal: 20,
             }}
@@ -345,7 +345,7 @@ export default function Search({ navigation }) {
                   color: textColor,
                 }}
               >
-                {!q && isBn?"কমিটির নাম অথবা ফোন নম্বর দিয়ে খুঁজুন":"Search by committee name or phone number"}
+                {(isBn?"কমিটির নাম অথবা ফোন নম্বর দিয়ে খুঁজুন":"Search by committee name or phone number")}
               </Text>
             </View>
           )
