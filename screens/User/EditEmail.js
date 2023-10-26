@@ -21,6 +21,7 @@ import mainStyle from "../../styles/mainStyle";
 import loader from "../../data/loader";
 import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
+import { AppValues } from "../../functions/values";
 
 export default function EditEmail({ navigation, route }) {
   const user = route?.params?.user;
@@ -138,7 +139,7 @@ export default function EditEmail({ navigation, route }) {
             onPress={updateUser}
             disabled={email ? false : true}
             active={email ? true : false}
-            title={"Update"}
+            title={new AppValues(isBn).getValues()._ok}
             style={[mainStyle.mt24, { marginBottom: 32 }]}
           />
         </View>
