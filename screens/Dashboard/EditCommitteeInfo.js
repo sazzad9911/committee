@@ -223,7 +223,7 @@ export default function EditCommitteeInfo({ navigation }) {
             onPress={handelSubmit}
             active={true}
             style={mainStyle.mt24}
-            title={createCommitteeValues.next}
+            title={values.getValues()._ok}
           />
           <View style={mainStyle.ht32} />
         </View>
