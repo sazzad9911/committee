@@ -218,7 +218,7 @@ async function registerForPushNotificationsAsync() {
     }
     // Learn more about projectId:
     // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
-    token = (await Notifications.getExpoPushTokenAsync({ projectId: 'c5ce2e0f-9c87-4c1d-b678-9bb563000533' })).data;
+    token = (await Notifications.getExpoPushTokenAsync({ projectId: '25508751-beab-45e3-8e02-ebd5ca5dd5ff' })).data;
     console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
