@@ -199,7 +199,7 @@ export default function EditProfileInfo({ route, navigation }) {
           active={name && gender ? true : false}
           onPress={updateUser}
           style={mainStyle.mt32}
-          title={"Confirm"}
+          title={isBn ? "নিশ্চিত করুন" : "Confirm"}
         />
       </View>
     </ScrollView>
