@@ -237,7 +237,9 @@ export default function ComityProfile({ navigation, route }) {
               flex: 1,
             }}
           >
-            {`${comity?.address}, ${comity?.thana}, ${comity?.district}, ${comity?.division}`}
+            {`${comity?.address ? comity?.address + " ," : ""} ${
+              comity?.thana
+            }, ${comity?.district}, ${comity?.division}`}
           </Text>
         </View>
         <View

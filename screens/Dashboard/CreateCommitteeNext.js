@@ -25,6 +25,7 @@ import mainStyle from "../../styles/mainStyle";
 import ComityP from "../../assets/comity_p.jpeg";
 import { pickImage } from "../../components/main/ProfilePicture";
 import { fileFromURL, uploadFile } from "../../functions/action";
+import { post } from "../../apis/multipleApi";
 
 export default function CreateCommitteeNext({ navigation, route }) {
   const inset = useSafeAreaInsets();
@@ -168,16 +169,19 @@ export default function CreateCommitteeNext({ navigation, route }) {
             <Button
               onPress={() => {
                 dispatch(loader.show());
-                createComity(
-                  name,
-                  mobile,
-                  division,
-                  district,
-                  area,
-                  address,
-                  about,
-                  user.token,
-                  image
+                post(
+                  "/comity/create",
+                  {
+                    name,
+                    phone: mobile,
+                    division,
+                    district,
+                    thana: area,
+                    address,
+                    about,
+                    profilePhoto: image,
+                  },
+                  user.token
                 )
                   .then((res) => {
                     dispatch(loader.hide());
