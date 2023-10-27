@@ -22,9 +22,11 @@ import loader from "../../data/loader";
 import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
 import { AppValues } from "../../functions/values";
+import { put } from "../../apis/multipleApi";
 
 export default function EditEmail({ navigation, route }) {
   const user = route?.params?.user;
+  const user2 = useSelector((state) => state.user);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [layoutHeight, setLayoutHeight] = useState(0);
@@ -58,9 +60,13 @@ export default function EditEmail({ navigation, route }) {
   const updateUser = async () => {
     try {
       dispatch(loader.show());
-      const { data } = await updateProfile({
-        email,
-      });
+      const { data } = await put(
+        "/auth/profile/update",
+        {
+          email,
+        },
+        user2?.token
+      );
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
       navigation.goBack();

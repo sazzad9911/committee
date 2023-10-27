@@ -33,6 +33,7 @@ import { AppColors } from "../../functions/colors";
 import loader from "../../data/loader";
 import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
+import { put } from "../../apis/multipleApi";
 
 export default function EditLocation({ navigation }) {
   const [layoutHeight, setLayoutHeight] = useState(0);
@@ -90,13 +91,17 @@ export default function EditLocation({ navigation }) {
   const updateUser = async () => {
     try {
       dispatch(loader.show());
-      const { data } = await updateProfile({
-        division,
-        district,
-        area,
-        address,
-        addressIsPublic: type == "Only me" ? "private" : "public",
-      });
+      const { data } = await put(
+        "/auth/profile/update",
+        {
+          division,
+          district,
+          area,
+          address,
+          addressIsPublic: type == "Only me" ? "private" : "public",
+        },
+        user?.token
+      );
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
       navigation?.goBack();

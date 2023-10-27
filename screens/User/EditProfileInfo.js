@@ -20,12 +20,13 @@ import { updateProfile } from "../../apis/api";
 import localStorage from "../../functions/localStorage";
 import Avatar from "../../components/main/Avatar";
 import { pickImage } from "../../components/main/ProfilePicture";
-import { post } from "../../apis/multipleApi";
+import { post, put } from "../../apis/multipleApi";
 import { fileFromURL, upload, uploadFile } from "../../functions/action";
 import toast from "../../data/toast";
 
 export default function EditProfileInfo({ route, navigation }) {
   const { user } = route.params;
+  const user2 = useSelector((state) => state.user);
   const isBn = useSelector((state) => state.isBn);
   const u = useSelector((state) => state.user);
   const isDark = useSelector((state) => state.isDark);
@@ -41,10 +42,14 @@ export default function EditProfileInfo({ route, navigation }) {
   const updateUser = async () => {
     try {
       dispatch(loader.show());
-      const { data } = await updateProfile({
-        name,
-        gender,
-      });
+      const { data } = await put(
+        "/auth/profile/update",
+        {
+          name,
+          gender,
+        },
+        user2?.token
+      );
       dispatch({ type: "SET_USER", value: data });
       localStorage.login(data);
       navigation.goBack();
@@ -73,9 +78,13 @@ export default function EditProfileInfo({ route, navigation }) {
       // dispatch(loader.hide());
       // return
       setImage(images[0]);
-      const res = await updateProfile({
-        profilePhoto: images[0],
-      });
+      const res = await put(
+        "/auth/profile/update",
+        {
+          profilePhoto: images[0],
+        },
+        user2?.token
+      );
       dispatch(loader.hide());
 
       dispatch({ type: "SET_USER", value: res.data });
