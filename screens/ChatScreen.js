@@ -126,11 +126,15 @@ const ChatScreen = (props) => {
       //   updatedAt:new Date(),
       //   send:true
       // }
-      const { data } = await sendMessage({
-        text: message,
-        image,
-        conversationId,
-      });
+      const { data } = await post(
+        "/chat/message/new",
+        {
+          text: message,
+          image,
+          conversationId,
+        },
+        user?.token
+      );
       //console.log(data);
       setMessages((d) => [data.message, ...d]);
       //GiftedChat.append(data.message)
