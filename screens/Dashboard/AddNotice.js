@@ -12,6 +12,8 @@ import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import loader from "../../data/loader";
 import toast from "../../data/toast";
+import { get } from "../../apis/multipleApi";
+import localStorage from "../../functions/localStorage";
 
 export default function AddNotice({ navigation }) {
   const ref = useRef();
@@ -21,7 +23,7 @@ export default function AddNotice({ navigation }) {
   const [subject, setSubject] = React.useState("");
   const [details, setDetails] = React.useState("");
   const comity = useSelector((state) => state.comity);
-
+  const user = useSelector((state) => state.user);
   const values = new AppValues(isBn);
   const headlines = values.getNoticeHeadLines();
   const colors = new AppColors(isDark);
@@ -54,6 +56,9 @@ export default function AddNotice({ navigation }) {
         details,
         comityId: comity.id,
       });
+      const res = await get(`/comity/get/${comity.id}`, user.token);
+      dispatch({ type: "SET_COMITY", value: res.data.comity });
+      localStorage.comityLogIn(res.data.comity);
       reset();
       navigation.navigate("Profile");
     } catch (error) {
