@@ -86,7 +86,7 @@ export default function ViewNotice({ route, navigation }) {
             mainStyle.text14,
           ]}
         >
-          ০১/০১/২০২৩
+          {new Date(notice.createdAt).toDateString()}
         </Text>
         <Text
           style={[
