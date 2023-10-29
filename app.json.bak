@@ -25,12 +25,6 @@
           "icon": "./assets/icon.png",
           "color": "#ffffff"
         }
-      ],
-      [
-        "expo-av",
-        {
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
-        }
       ]
     ],
     "splash": {
@@ -67,6 +61,9 @@
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/25508751-beab-45e3-8e02-ebd5ca5dd5ff"
     },
     "owner": "easinarafat"
   }
