@@ -7,6 +7,7 @@ import { AppColors } from "../../functions/colors";
 
 export default function MenuItem({ visible, onClose, button, onChange }) {
     const isDark=useSelector(state=>state.isDark)
+    const isBn=useSelector(state=>state.isBn)
     const colors=new AppColors(isDark)
     const onlyme = `<svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 8.78049C9.16707 8.78049 10.2863 8.31795 11.1116 7.49462C11.9368 6.67128 12.4004 5.55461 12.4004 4.39024C12.4004 3.22588 11.9368 2.1092 11.1116 1.28587C10.2863 0.462542 9.16707 0 8 0C6.83293 0 5.71366 0.462542 4.88842 1.28587C4.06318 2.1092 3.59956 3.22588 3.59956 4.39024C3.59956 5.55461 4.06318 6.67128 4.88842 7.49462C5.71366 8.31795 6.83293 8.78049 8 8.78049ZM8 10.9756C3.59076 10.9756 0 13.9259 0 17.561C0 17.8068 0.193619 18 0.440044 18H15.56C15.8064 18 16 17.8068 16 17.561C16 13.9259 12.4092 10.9756 8 10.9756Z" fill="${colors.getTextColor()}"/>
@@ -34,7 +35,7 @@ export default function MenuItem({ visible, onClose, button, onChange }) {
           }}
           style={styles.container}>
           <SvgXml xml={onlyme} />
-          <Text style={[styles.text,{color:colors.getTextColor()}]}>Only me</Text>
+          <Text style={[styles.text,{color:colors.getTextColor()}]}>{isBn?"প্রাইভেট":"Private"}</Text>
         </Pressable>
         <View
           style={{
@@ -52,7 +53,7 @@ export default function MenuItem({ visible, onClose, button, onChange }) {
           }}
           style={styles.container}>
           <SvgXml xml={pub} />
-          <Text style={[styles.text,{color:colors.getTextColor()}]}>Public</Text>
+          <Text style={[styles.text,{color:colors.getTextColor()}]}>{isBn?"পাবলিক":"Public"}</Text>
         </Pressable>
       </View>
     </Menu>

@@ -16,23 +16,26 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
-import { EvilIcons } from "@expo/vector-icons";
+import { EvilIcons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import { Audio } from "expo-av";
+import { FontAwesome5 } from "@expo/vector-icons";
 import {
+  audioFileFromURL,
   dateDifference,
   fileFromURL,
   serverTimeToLocal,
   timeConverter,
   uploadFile,
 } from "../functions/action";
-
+import LottieView from "lottie-react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 import { MotiView, SafeAreaView } from "moti";
 import Animated, { FadeIn } from "react-native-reanimated";
@@ -50,6 +53,7 @@ import { getMessages, sendMessage } from "../apis/api";
 import { useRef } from "react";
 import { get, post, socket } from "../apis/multipleApi";
 import loader from "../data/loader";
+import mainStyle from "../styles/mainStyle";
 //import { EvilIcons } from '@expo/vector-icons';
 
 const ChatScreen = (props) => {
@@ -114,8 +118,9 @@ const ChatScreen = (props) => {
   const [show, setShow] = useState(false);
   const isFocus = useIsFocused();
   const [lim, setLim] = useState(20);
+  const [audioId, setAudioId] = useState();
 
-  const send = async (message, image) => {
+  const send = async (message, image, sound) => {
     try {
       // const msg={
       //   conversationId:conversationId,
@@ -126,6 +131,7 @@ const ChatScreen = (props) => {
       //   updatedAt:new Date(),
       //   send:true
       // }
+<<<<<<< Updated upstream
       const { data } = await post(
         "/chat/message/new",
         {
@@ -135,11 +141,22 @@ const ChatScreen = (props) => {
         },
         user?.token
       );
+=======
+      const { data } = await sendMessage({
+        text: message,
+        image,
+        conversationId,
+        audio: sound,
+      });
+
+      dispatch(loader.hide());
+>>>>>>> Stashed changes
       //console.log(data);
       setMessages((d) => [data.message, ...d]);
       //GiftedChat.append(data.message)
       //ref?.current?.scrollTo({x: 0, y: 0, animated: true})
     } catch (error) {
+      dispatch(loader.hide());
       console.log(error);
     }
   };
@@ -152,10 +169,166 @@ const ChatScreen = (props) => {
     //console.log(UserInfo)
     const regex = /((http|https|ftp):\/\/[^\s]+)/g;
     const navigation = useNavigation();
+    const [audio, setSound] = useState();
+    const [isPlaying, setIsPlaying] = useState(false);
+    const isFocus = useIsFocused();
+    const [duration, setDuration] = useState();
+    const animateRef = useRef();
+
+    const onPlaybackStatusUpdate = (status) => {
+      // console.log(status);
+      // if (status.didJustFinish) {
+      //   setIsPlaying(false);
+      //   console.log("auto Stop...");
+      //   //props?.setAudioId(null);
+      //   animateRef?.current?.reset();
+      // }
+    };
+    async function playSound(uri) {
+      setIsPlaying(true);
+      if (!audio) {
+        return;
+      }
+      //props?.setAudioId(currentMessage.id);
+      console.log("Playing Sound...");
+      await audio.playAsync();
+
+      // props?.setAudioId(currentMessage.id);
+      animateRef?.current?.play();
+    }
+    async function stopSound() {
+      setIsPlaying(false);
+      console.log("Stop Sound...");
+      //props?.setAudioId(null);
+      await audio.pauseAsync();
+      animateRef?.current?.reset();
+    }
+    function millisToMinutesAndSeconds(millis) {
+      var minutes = Math.floor(millis / 60000);
+      var seconds = ((millis % 60000) / 1000).toFixed(0);
+      return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+    const loadSound = async (uri) => {
+      try {
+        //console.log("sound loaded");
+        const { sound } = await Audio.Sound.createAsync(
+          { uri: uri },
+          { isLooping: true },
+          onPlaybackStatusUpdate
+        );
+        //console.log(await sound.getStatusAsync());
+        //console.log(sound);
+
+        const ms = await sound.getStatusAsync();
+        setDuration(millisToMinutesAndSeconds(ms.durationMillis));
+        setSound(sound);
+      } catch (e) {
+        console.error(e.message);
+      }
+    };
+    React.useEffect(() => {
+      return audio
+        ? () => {
+            animateRef?.current?.reset();
+            setIsPlaying(false);
+            //props?.setAudioId(null);
+            console.log("Unloading Sound");
+            audio.pauseAsync();
+            // setSound(null);
+          }
+        : undefined;
+    }, [audio]);
+
+    useEffect(() => {
+      if (currentMessage.audio) {
+        loadSound(currentMessage.audio);
+      }
+    }, [currentMessage.audio]);
 
     if (!currentMessage) {
       return null;
     }
+    // console.log(currentMessage);
+    if (currentMessage.audio) {
+      return (
+        <View
+          style={[
+            newStyles.imageBox,
+            {
+              alignSelf:
+                UserInfo?.id == currentMessage?.senderId
+                  ? "flex-start"
+                  : "flex-end",
+              height: "auto",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingHorizontal: 5,
+              paddingVertical: 3,
+              borderRadius: 12,
+              borderBottomLeftRadius:
+                UserInfo?.id != currentMessage?.senderId ? 12 : 4,
+              borderBottomRightRadius:
+                UserInfo?.id == currentMessage?.senderId ? 12 : 4,
+            },
+          ]}>
+          <View>
+            <LottieView
+              style={{
+                height: 40,
+                width: 50,
+              }}
+              source={require("../assets/wave.json")}
+              ref={animateRef}
+              loop
+            />
+            <Text style={{ color: colors.getBorderColor() }}>{duration}s</Text>
+          </View>
+          <View style={{ width: 10 }} />
+
+          <View
+            style={{
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+            }}>
+            <View
+              style={{
+                marginTop: 5,
+              }}>
+              {isPlaying ? (
+                audio ? (
+                  <TouchableOpacity onPress={stopSound}>
+                    <FontAwesome5
+                      name="pause-circle"
+                      size={24}
+                      color={textColor}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <ActivityIndicator size={"small"} color={textColor} />
+                )
+              ) : (
+                <TouchableOpacity
+                  onPress={() => playSound(currentMessage.audio)}>
+                  <FontAwesome5
+                    name="play-circle"
+                    size={24}
+                    color={textColor}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+            <Text style={{ color: colors.getBorderColor() }}>
+              {dateDifference(new Date(), currentMessage.createdAt) == 0
+                ? timeConverter(currentMessage.createdAt)
+                : dateDifference(new Date(), currentMessage.createdAt) == 1
+                ? "Yesterday"
+                : serverTimeToLocal(currentMessage.createdAt)}
+            </Text>
+          </View>
+        </View>
+      );
+    }
+
     if (currentMessage?.image && currentMessage?.text) {
       //console.log(currentMessage?.image)
       let arr = currentMessage?.image.split("/");
@@ -178,8 +351,7 @@ const ChatScreen = (props) => {
                   : "flex-end",
               height: "auto",
             },
-          ]}
-        >
+          ]}>
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -187,8 +359,7 @@ const ChatScreen = (props) => {
           <View style={{ flexDirection: "row", paddingHorizontal: 8, flex: 1 }}>
             <Text
               numberOfLines={1}
-              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}
-            >
+              style={[newStyles.dateText, { textAlign: "left", flex: 1 }]}>
               {arr[arr.length - 1]}
             </Text>
             <Text style={newStyles.dateText}>
@@ -212,14 +383,12 @@ const ChatScreen = (props) => {
                 color: "#000",
                 textDecorationLine: "underline",
               }}
-              linkDefault={false}
-            >
+              linkDefault={false}>
               <Text
                 style={[
                   newStyles.text,
                   { marginHorizontal: 8, marginBottom: 3 },
-                ]}
-              >
+                ]}>
                 {currentMessage?.text}
               </Text>
             </Hyperlink>
@@ -249,8 +418,7 @@ const ChatScreen = (props) => {
                   ? "flex-start"
                   : "flex-end",
             },
-          ]}
-        >
+          ]}>
           <Image
             style={newStyles.image}
             source={{ uri: currentMessage.image }}
@@ -261,13 +429,11 @@ const ChatScreen = (props) => {
               style={[
                 newStyles.dateText,
                 { textAlign: "left", flex: 1, color: colors.getTextColor() },
-              ]}
-            >
+              ]}>
               {arr[arr.length - 1]}
             </Text>
             <Text
-              style={[newStyles.dateText, { color: colors.getTextColor() }]}
-            >
+              style={[newStyles.dateText, { color: colors.getTextColor() }]}>
               {three}.{type}{" "}
             </Text>
             <View style={{ width: 8 }} />
@@ -288,8 +454,7 @@ const ChatScreen = (props) => {
           style={[
             newStyles.senderBox,
             { backgroundColor: colors.getSchemeColor() },
-          ]}
-        >
+          ]}>
           <Text style={newStyles.title}>
             {vendor ? UserInfo?.name : props.data?.comity?.name}
           </Text>
@@ -300,8 +465,7 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "blue",
               textDecorationLine: "underline",
-            }}
-          >
+            }}>
             <Text style={[newStyles.text, { color: textColor }]}>
               {currentMessage?.text}
             </Text>
@@ -325,14 +489,12 @@ const ChatScreen = (props) => {
           alignItems: "flex-end",
           marginRight: 16,
           marginVertical: 8,
-        }}
-      >
+        }}>
         <View
           style={[
             newStyles.receiverBox,
             isDark && { backgroundColor: colors.getShadowColor() },
-          ]}
-        >
+          ]}>
           <Hyperlink
             onPress={(url, text) => {
               navigation.navigate("WebViews", { url: url, title: "" });
@@ -340,8 +502,7 @@ const ChatScreen = (props) => {
             linkStyle={{
               color: "#000",
               textDecorationLine: "underline",
-            }}
-          >
+            }}>
             <Text style={[newStyles.text, { color: "white" }]}>
               {currentMessage?.text}
             </Text>
@@ -430,8 +591,7 @@ const ChatScreen = (props) => {
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.getBackgroundColor() }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
-    >
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}>
       <View
         style={{
           height: inset?.top,
@@ -461,7 +621,13 @@ const ChatScreen = (props) => {
         ref={ref}
         data={messages}
         renderItem={(pr) => (
-          <RenderBubble data={data} navigation={props.navigation} {...pr} />
+          <RenderBubble
+            setAudioId={setAudioId}
+            audioId={audioId}
+            data={data}
+            navigation={props.navigation}
+            {...pr}
+          />
         )}
         inverted
         keyExtractor={(item, i) => i.toString()}
@@ -476,8 +642,7 @@ const ChatScreen = (props) => {
             color: "#4D4E4F",
             marginHorizontal: 20,
             marginVertical: 30,
-          }}
-        >
+          }}>
           {isBn ? (
             <>
               এখানে উত্তর দেওয়া যাবে না। আপনার যদি অন্য কোন জিজ্ঞাসা থাকে তবে{" "}
@@ -488,8 +653,7 @@ const ChatScreen = (props) => {
                 style={{
                   color: "#4ADE80",
                   fontWeight: "500",
-                }}
-              >
+                }}>
                 লিঙ্কে
               </Text>{" "}
               যান।
@@ -504,8 +668,7 @@ const ChatScreen = (props) => {
                 style={{
                   color: "#4ADE80",
                   fontWeight: "500",
-                }}
-              >
+                }}>
                 support link.
               </Text>{" "}
             </>
@@ -537,7 +700,13 @@ const BottomBar = (props) => {
   const user = useSelector((state) => state.user);
   const values = new AppValues(isBn);
   const allValues = values.getValues();
+  const [recording, setRecording] = React.useState();
+  const [recordUri, setRecordUri] = React.useState();
+  const [startAudio, setStartAudio] = React.useState(false);
   const dispatch = useDispatch();
+  const [sound, setSound] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const animateRef = useRef();
   const styles = StyleSheet.create({
     view: {
       flexDirection: "row",
@@ -578,7 +747,140 @@ const BottomBar = (props) => {
 <path d="M11.5375 8.75H8.46299C8.04281 8.75 7.69437 8.41 7.69437 8C7.69437 7.59 8.04281 7.25 8.46299 7.25H11.5375C11.9577 7.25 12.3061 7.59 12.3061 8C12.3061 8.41 11.9577 8.75 11.5375 8.75ZM10.0013 18.131C10.9199 18.131 11.801 17.7749 12.4506 17.141C13.1002 16.5071 13.4652 15.6474 13.4652 14.751C13.4652 13.8546 13.1002 12.9949 12.4506 12.361C11.801 11.7271 10.9199 11.371 10.0013 11.371C9.08257 11.371 8.20151 11.7271 7.5519 12.361C6.90229 12.9949 6.53734 13.8546 6.53734 14.751C6.53734 15.6474 6.90229 16.5071 7.5519 17.141C8.20151 17.7749 9.08257 18.131 10.0013 18.131Z" fill="${colors.getBackgroundColor()}"/>
 </svg>
 `;
+  async function startRecording() {
+    try {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
+      //console.log('Recording started');
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
+  }
+  async function stopRecording() {
+    setRecording(undefined);
+    animateRef?.current?.reset();
+    await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+    });
+    const uri = recording.getURI();
+    setRecordUri(uri);
+    //console.log('Recording stopped and stored at', uri);
+  }
+  async function playSound() {
+    setIsPlaying(true);
+    console.log("Playing Sound...");
+    const { sound } = await Audio.Sound.createAsync({ uri: recordUri });
+    setSound(sound);
+    await sound.playAsync();
+  }
+  async function stopSound() {
+    setIsPlaying(false);
+    console.log("Stop Sound...");
+    await sound.pauseAsync();
+    setSound();
+  }
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
+  if (startAudio) {
+    return (
+      <View
+        style={[
+          styles.inputOutBox,
+          {
+            flex: 0,
+            marginBottom: 12,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          },
+          mainStyle.mH20,
+        ]}>
+        <TouchableOpacity
+          onPress={() => {
+            setRecordUri(null);
+            setRecording(undefined);
+            animateRef?.current?.reset();
+            setSound(null);
+            setStartAudio(false);
+            setIsPlaying(false);
+          }}>
+          <MaterialIcons name="delete" size={24} color={textColor} />
+        </TouchableOpacity>
+        <View>
+          <LottieView
+            style={{
+              height: 25,
+              width: 90,
+            }}
+            source={require("../assets/wave.json")}
+            ref={animateRef}
+            autoPlay
+            loop
+          />
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          {recordUri ? (
+            isPlaying ? (
+              sound ? (
+                <TouchableOpacity onPress={stopSound}>
+                  <FontAwesome5
+                    name="pause-circle"
+                    size={24}
+                    color={textColor}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <ActivityIndicator size={"small"} color={textColor} />
+              )
+            ) : (
+              <TouchableOpacity onPress={playSound}>
+                <FontAwesome5 name="play-circle" size={24} color={textColor} />
+              </TouchableOpacity>
+            )
+          ) : (
+            <TouchableOpacity onPress={stopRecording}>
+              <FontAwesome5 name="pause-circle" size={24} color={"red"} />
+            </TouchableOpacity>
+          )}
 
+          {recordUri ? (
+            <TouchableOpacity
+              style={{ marginLeft: 10 }}
+              onPress={async () => {
+                try {
+                  dispatch(loader.show());
+                  let arr = [];
+                  arr.push(audioFileFromURL(recordUri));
+                  setStartAudio(false);
+                  const sound = await uploadFile(arr, user.token, "AUDIO");
+                  // console.log(sound);
+                  await props.onSend(null, null, sound[0]);
+                } catch (e) {
+                  dispatch(loader.hide());
+                  console.error(e.message);
+                }
+              }}>
+              <SvgXml xml={send} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={styles.view}>
       {focused ? (
@@ -589,8 +891,7 @@ const BottomBar = (props) => {
           }}
           onPress={() => {
             setFocused(false);
-          }}
-        >
+          }}>
           <SvgXml xml={com} />
         </Pressable>
       ) : (
@@ -609,17 +910,23 @@ const BottomBar = (props) => {
                   Alert.alert("Opps!", "Could not load image");
                 });
             }}
-            style={[styles.icon]}
-          >
+            style={[styles.icon]}>
             <SvgXml xml={img} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setCameraVisible(true);
             }}
-            style={styles.icon}
-          >
+            style={styles.icon}>
             <SvgXml xml={cam} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              startRecording();
+              setStartAudio(true);
+            }}
+            style={styles.icon}>
+            <FontAwesome name="microphone" size={22} color={textColor} />
           </TouchableOpacity>
         </Animated.View>
       )}
@@ -635,8 +942,7 @@ const BottomBar = (props) => {
           type: "timing",
           duration: 200,
         }}
-        style={[styles.inputOutBox]}
-      >
+        style={[styles.inputOutBox]}>
         <TextInput
           onPressIn={() => {
             setFocused(true);
@@ -667,8 +973,7 @@ const BottomBar = (props) => {
               //setMessage("");
             });
             setMessage("");
-          }}
-        >
+          }}>
           <SvgXml xml={send} />
         </TouchableOpacity>
       </MotiView>
@@ -676,8 +981,7 @@ const BottomBar = (props) => {
         visible={Visible}
         onRequestClose={() => {
           setVisible(!Visible);
-        }}
-      >
+        }}>
         <ImageScreen
           onConfirm={async () => {
             setImageLoader(true);
@@ -715,8 +1019,7 @@ const BottomBar = (props) => {
               position: "absolute",
               width: width,
               height: height,
-            }}
-          >
+            }}>
             <ActivityIndicator size={"small"} />
           </View>
         )}
@@ -725,8 +1028,7 @@ const BottomBar = (props) => {
         visible={CameraVisible}
         onRequestClose={() => {
           setCameraVisible(!CameraVisible);
-        }}
-      >
+        }}>
         <CameraScreen
           goBack={() => setCameraVisible(false)}
           onTakePhoto={(pic) => {
@@ -779,8 +1081,7 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
         backgroundColor: "rgba(0, 0, 0, 0.786)",
         justifyContent: "center",
         alignItems: "center",
-      }}
-    >
+      }}>
       <Image
         style={{
           width: width,
@@ -797,15 +1098,13 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
           paddingHorizontal: 20,
           position: "absolute",
           bottom: 0,
-        }}
-      >
+        }}>
         <TouchableOpacity
           onPress={() => {
             if (onCancel) {
               onCancel();
             }
-          }}
-        >
+          }}>
           <Ionicons name="arrow-back" size={25} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
@@ -813,8 +1112,7 @@ const ImageScreen = ({ image, onCancel, onConfirm }) => {
             if (onConfirm) {
               onConfirm();
             }
-          }}
-        >
+          }}>
           <Ionicons name="send-outline" size={25} color={"white"} />
         </TouchableOpacity>
       </View>

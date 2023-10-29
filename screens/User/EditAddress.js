@@ -264,7 +264,7 @@ export default function EditLocation({ navigation }) {
                     )}
                     Icon={() => <SvgXml xml={arrow} />}
                     onPress={openMenu}
-                    title={type}
+                    title={isBn?type == "Only me"?"প্রাইভেট":"পাবলিক":type == "Only me"?"Private":"Public"}
                     color={colors.getTextColor()}
                   />
                 }

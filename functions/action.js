@@ -111,6 +111,22 @@ export const setBottomSheet = (data) => {
     // Assume "photo" is the name of the form field the server expects
     return { uri: localUri, name: filename,filename:filename, type };
   }
+  export function audioFileFromURL(inputURI) {
+    if (inputURI == null) {
+      return null;
+    }
+    let localUri = inputURI;
+    let filename = localUri.split("/").pop();
+  
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `audio/${match[1]}` : `image`;
+  
+    // Upload the image using the fetch and FormData APIs
+    let formData = new FormData();
+    // Assume "photo" is the name of the form field the server expects
+    return { uri: localUri, name: filename,filename:filename, type };
+  }
   export async function upload(file,token) {
     const data = new FormData();
     data.append("files", fileFromURL(file));
