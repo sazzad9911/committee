@@ -131,17 +131,7 @@ const ChatScreen = (props) => {
       //   updatedAt:new Date(),
       //   send:true
       // }
-<<<<<<< Updated upstream
-      const { data } = await post(
-        "/chat/message/new",
-        {
-          text: message,
-          image,
-          conversationId,
-        },
-        user?.token
-      );
-=======
+
       const { data } = await sendMessage({
         text: message,
         image,
@@ -150,7 +140,6 @@ const ChatScreen = (props) => {
       });
 
       dispatch(loader.hide());
->>>>>>> Stashed changes
       //console.log(data);
       setMessages((d) => [data.message, ...d]);
       //GiftedChat.append(data.message)
