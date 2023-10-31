@@ -909,14 +909,14 @@ const BottomBar = (props) => {
             style={styles.icon}>
             <SvgXml xml={cam} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               startRecording();
               setStartAudio(true);
             }}
             style={styles.icon}>
             <FontAwesome name="microphone" size={22} color={textColor} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </Animated.View>
       )}
       <MotiView
