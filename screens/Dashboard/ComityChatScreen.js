@@ -169,7 +169,7 @@ const ComityChatScreen = (props) => {
           onPlaybackStatusUpdate
         );
         //console.log(await sound.getStatusAsync());
-        //console.log(sound);
+        //console.log(sound);   
 
         const ms = await sound.getStatusAsync();
         setDuration(millisToMinutesAndSeconds(ms.durationMillis));
