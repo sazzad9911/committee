@@ -768,7 +768,7 @@ const BottomBar = (props) => {
     console.log("Playing Sound...");
     const { sound } = await Audio.Sound.createAsync({ uri: recordUri });
     setSound(sound);
-    await sound.playAsync();
+    await sound.playAsync(); 
   }
   async function stopSound() {
     setIsPlaying(false);
@@ -909,14 +909,14 @@ const BottomBar = (props) => {
             style={styles.icon}>
             <SvgXml xml={cam} />
           </TouchableOpacity>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
               startRecording();
               setStartAudio(true);
             }}
             style={styles.icon}>
             <FontAwesome name="microphone" size={22} color={textColor} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </Animated.View>
       )}
       <MotiView
