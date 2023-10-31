@@ -84,7 +84,10 @@ export default function Otp({ navigation, route }) {
     checkOTP(number, otp)
       .then((res) => {
         setLoader(false);
-        navigation.navigate("Information", { token: res.data?.token });
+        navigation.navigate("Information", {
+          token: res.data?.token,
+          phone: number,
+        });
       })
       .catch((err) => {
         setLoader(false);

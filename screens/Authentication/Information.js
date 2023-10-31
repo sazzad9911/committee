@@ -24,13 +24,12 @@ export default function Information({ navigation, route }) {
   const [visible, setVisible] = React.useState(false);
   const [gender, setGender] = useState();
   const token = route?.params?.token;
+  const phone = route?.params?.phone;
   const [name, setName] = useState();
   const [nameError, setNameError] = useState();
   const [genderError, setGenderError] = useState();
   const [age, setAge] = useState();
   const [ageError, setAgeError] = useState();
-  const [userName, setUserName] = useState();
-  const [userNameError, setUserNameError] = useState();
   const [password, setPassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [RePassword, setRePassword] = useState();
@@ -49,7 +48,6 @@ export default function Information({ navigation, route }) {
 
   const verify = async () => {
     setNameError();
-    setUserNameError();
     setPasswordError();
     setRePasswordError();
     if (!regName.test(name)) {
@@ -64,18 +62,6 @@ export default function Information({ navigation, route }) {
       setNameError("Name is too large");
       return;
     }
-    if (!regName.test(userName)) {
-      setUserNameError("Invalid name");
-      return;
-    }
-    if (userName.split("")?.length < 4) {
-      setUserNameError("Name is too small");
-      return;
-    }
-    if (userName.split("")?.length > 20) {
-      setUserNameError("Name is too large");
-      return;
-    }
     if (password.split("")?.length < 8) {
       setPasswordError("Minimum 8 character");
       return;
@@ -85,9 +71,9 @@ export default function Information({ navigation, route }) {
       return;
     }
     dispatch(loader.show());
-    registerUser(token, name, userName, password, age, gender)
+    registerUser(token, name, password, age, gender)
       .then((res) => {
-        userLogin(userName, password)
+        userLogin(phone, password)
           .then((res) => {
             dispatch(loader.hide());
             //console.log(res);
@@ -105,7 +91,6 @@ export default function Information({ navigation, route }) {
       .catch((err) => {
         //console.log()
         dispatch(loader.hide());
-        setUserNameError(err.response.data.msg);
       });
   };
 
@@ -218,21 +203,6 @@ export default function Information({ navigation, route }) {
             </View>
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text
-              style={{
-                color: "red",
-              }}
-            >
-              {userNameError}
-            </Text>
-            <Text style={{ color: textColor }}>min 4 max 20 character</Text>
-          </View>
           <Text style={[styles.label, styles.mt20, { color: textColor }]}>
             Password
           </Text>
@@ -305,12 +275,12 @@ export default function Information({ navigation, route }) {
         <Button
           onPress={verify}
           disabled={
-            name && gender && age && userName && password && RePassword && check
+            name && gender && age && password && RePassword && check
               ? false
               : true
           }
           active={
-            name && gender && age && userName && password && RePassword && check
+            name && gender && age && password && RePassword && check
               ? true
               : false
           }
