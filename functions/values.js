@@ -38,11 +38,11 @@ export class AppValues {
   getSignUpCartTitles() {
     if (this.isBn) {
       return {
-        title: "দশে মিলে করি কাজ, হারি জিতি নাহি লাজ",
+        title: "বিজনেস অ্যাকাউন্ট খুলে কমিটি পরিচালনা করুন",
       };
     } else {
       return {
-        title: "Two heads are better than one. We stand or fall together.",
+        title: "Open a business account and manage your comity",
       };
     }
   }
@@ -420,7 +420,7 @@ export class AppValues {
           _successfulMessage: "Request Successfully sent",
           _infoMessage:
             "Thank you for contacting us. Our team is reviewing your message and will be in touch with you as soon as possible.",
-          _completed: "Complited",
+          _completed: "Completed",
           _incomplete: "Incomplete",
           _amount: "Amount",
           _deleteSubscription: "Delete this payment",

@@ -55,7 +55,7 @@ export default function SignUpCart({ title, onPress }) {
               textAlign: "center",
             }}
           >
-            {isBn ? "নিজের একটি কমিটি গঠন করুন" : "Build a comity of your own"}
+            {isBn ? "বিজনেস অ্যাকাউন্ট খুলুন" : "Open a business account"}
           </Text>
           <View
             style={{
