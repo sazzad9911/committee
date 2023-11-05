@@ -48,7 +48,7 @@
         "android.permission.CAMERA"
       ],
       "package": "com.committee.bd",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json"
     },
     "web": {
