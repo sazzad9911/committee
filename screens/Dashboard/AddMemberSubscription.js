@@ -120,7 +120,7 @@ export default function AddMemberSubscription({ navigation, route }) {
                 { color: colors.getTextColor(), marginVertical: 5 },
               ]}
             >
-              {data.member?.name ||
+              {data?.member?.name ||
                 data?.name ||
                 data?.member?.user?.name ||
                 data?.user?.name}
@@ -139,7 +139,7 @@ export default function AddMemberSubscription({ navigation, route }) {
                 { color: colors.getTextColor(), marginTop: 5 },
               ]}
             >
-              {data.member?.position}
+              {data?.member?.position}
             </Text>
           </View>
           <View style={[mainStyle.pdH20, mainStyle.mt24, { flex: 1 }]}>
