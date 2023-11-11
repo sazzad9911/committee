@@ -6,8 +6,10 @@ import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
 import { SvgXml } from "react-native-svg";
+import { Button } from "react-native-paper";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function UserHome({ navigation ,onSearch}) {
+export default function UserHome({ navigation, onSearch }) {
   const inset = useSafeAreaInsets();
   const isBn = useSelector((state) => state.isBn);
   const isDark = useSelector((state) => state.isDark);
@@ -27,19 +29,49 @@ export default function UserHome({ navigation ,onSearch}) {
       style={{
         paddingTop: inset?.top,
         backgroundColor: backgroundColor,
-      }}>
-      <View style={mainStyle.paddedContainer}>
+      }}
+    >
+      <View
+        style={{
+          paddingHorizontal: 20,
+          paddingVertical: 20,
+          gap: 12,
+        }}
+      >
         <Text
           style={[
             {
               color: textColor,
             },
             style.text,
-          ]}>
+          ]}
+        >
           {appName}
         </Text>
-        <Pressable onPress={onSearch} style={[style.box, { borderColor: borderColor }]}>
-          <SvgXml  xml={searchIcon} />
+        <Pressable onPress={onSearch}>
+          <Button
+            style={{ borderRadius: 12 }}
+            contentStyle={{
+              justifyContent: "flex-start",
+            }}
+            mode="outlined"
+          >
+            <Ionicons
+              name="search"
+              size={16}
+              color={colors.getSubTextColor()}
+            />
+            <Text
+              style={[
+                {
+                  color: colors.getSubTextColor(),
+                  paddingLeft: 8,
+                },
+              ]}
+            >
+              {"  "} {isBn ? "কমিটি খুঁজুন" : "Search Comity"}
+            </Text>
+          </Button>
         </Pressable>
       </View>
     </View>
@@ -54,7 +86,7 @@ const style = StyleSheet.create({
     padding: 8,
     borderRadius: 50,
     borderWidth: 1,
-    width:40,
-    height:40
+    width: 40,
+    height: 40,
   },
 });

@@ -16,6 +16,8 @@ import CommitteeProfile from "../Dashboard/CommitteeProfile";
 import EditCommitteeInfo from "../Dashboard/EditCommitteeInfo";
 import MemberPage from "../Dashboard/MemberPage";
 import CurrentBalance from "../Dashboard/CurrentBalance";
+import ImageSlider from "../../components/cart/ImageSlider";
+import HomeCards from "../../components/cart/HomeCards";
 const Stack = createNativeStackNavigator();
 
 export default function Home({ navigation }) {
@@ -39,15 +41,16 @@ export default function Home({ navigation }) {
               backgroundColor: backgroundColor,
             }}
           >
-            <SignUpCart
+            <ImageSlider />
+            {/* <SignUpCart
               onPress={() => {
                 navigation.navigate("CreateCommittee");
               }}
               title={signUpCartTitles?.title}
-            />
-            <PopularCategory navigation={navigation} textColor={textColor} />
-            <FavoriteCategory navigation={navigation} textColor={textColor} />
+            /> */}
+            <HomeCards navigation={navigation} />
             {/* <PopularCategory navigation={navigation} textColor={textColor} /> */}
+            {/* <FavoriteCategory navigation={navigation} textColor={textColor} /> */}
             <View style={{ height: 24 }} />
           </View>
         }
