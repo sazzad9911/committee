@@ -26,12 +26,13 @@ const ImageSlider = () => {
         inactiveDotColor="#A9A9A9"
         resizeMode="contain"
         parentWidth={Dimensions.get("window").width - 40}
+        sliderBoxHeight={(Dimensions.get("window").width - 40) * 0.6}
         dotStyle={{
           padding: 0,
           width: 9,
           height: 9,
           borderRadius: 9,
-          bottom: -24,
+          bottom: -30,
         }}
       />
     </View>
