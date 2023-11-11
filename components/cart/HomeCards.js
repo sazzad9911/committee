@@ -724,7 +724,7 @@ const HomeCards = ({ navigation }) => {
     >
       <Text style={[mainStyle.headLine, { color: textColor }]}>
         {isBn
-          ? "ফ্রিতে নিচে থেকে এখনই নিজের পছন্দমত বিজনেস অ্যাকাউন্ট খুলুন"
+          ? "ফ্রিতে নিচে থেকে পছন্দমত বিজনেস অ্যাকাউন্ট খুলে নিজের সংস্থা পরিচালনা করা শুরু করুন৷"
           : "Start organizing your comity efficiently by opening a business account that suits your needs."}
       </Text>
       <View
