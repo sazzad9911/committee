@@ -72,43 +72,32 @@ export default function EditSubscription({ navigation, route }) {
       }}
       showsHorizontalScrollIndicator={false}
     >
-      <View
-        style={[
-          mainStyle.pdH20,
-          mainStyle.mt24,
-          {
-            height: Dimensions.get("window").height - 90,
-            justifyContent: "space-between",
-          },
-        ]}
-      >
-        <View>
-          <Input
-            maxLength={20}
-            value={name}
-            onChange={setName}
-            level={`${values.getValues()._subscriptionName} *`}
-            subLevel={values.getValues()._max20}
-            placeholder={values.getValues()._placeholder1}
-          />
-          <Input
-            maxLength={9}
-            value={quantity}
-            onChange={setQuantity}
-            outSideStyle={mainStyle.mt24}
-            level={values.getValues()._ammoutSubs}
-            optionalLevel={values.getValues()._required}
-            keyboardType={"numeric"}
-            placeholder={values.getValues()._placeholder2}
-          />
-          <Button
-            onPress={save}
-            disabled={name && quantity ? false : true}
-            active={name && quantity ? true : false}
-            style={mainStyle.mt32}
-            title={values.getValues()._ok}
-          />
-        </View>
+      <View style={[mainStyle.pdH20, mainStyle.mt24]}>
+        <Input
+          maxLength={20}
+          value={name}
+          onChange={setName}
+          level={`${values.getValues()._subscriptionName} *`}
+          subLevel={values.getValues()._max20}
+          placeholder={values.getValues()._placeholder1}
+        />
+        <Input
+          maxLength={9}
+          value={quantity}
+          onChange={setQuantity}
+          outSideStyle={mainStyle.mt24}
+          level={values.getValues()._ammoutSubs}
+          optionalLevel={values.getValues()._required}
+          keyboardType={"numeric"}
+          placeholder={values.getValues()._placeholder2}
+        />
+        <Button
+          onPress={save}
+          disabled={name && quantity ? false : true}
+          active={name && quantity ? true : false}
+          style={mainStyle.mt32}
+          title={values.getValues()._ok}
+        />
         <Button
           onPress={() => {
             navigation.navigate("DeleteConfirmation", {
@@ -122,7 +111,7 @@ export default function EditSubscription({ navigation, route }) {
           }}
           style={{
             zIndex: 10,
-            marginTop: 60,
+            marginTop: 12,
             width: Dimensions.get("window").width - 40,
             borderColor: "#F00",
           }}
