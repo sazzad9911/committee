@@ -65,9 +65,9 @@ export default function AddExpenses({ navigation }) {
           name,
           amount,
           date: date.toISOString(),
-          comityId: comity.id,
+          comityId: comity?.id,
         },
-        user.token
+        user?.token
       );
 
       dispatch(loader.hide());
@@ -102,7 +102,7 @@ export default function AddExpenses({ navigation }) {
           outSideStyle={mainStyle.mt12}
           keyboardType={"numeric"}
           placeholder={isBn ? "০০.০০" : "0.00"}
-          level={isBn ? "পরিমানের লক্ষ *" : "amount *"}
+          level={isBn ? "টাকার পরিমাণ *" : "amount *"}
         />
         <Text
           style={{

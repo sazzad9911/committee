@@ -276,6 +276,7 @@ export default function Search({ navigation }) {
         header={
           <Input
             onSubmitEditing={handelSubmit}
+            returnKeyType="search"
             value={q}
             onChange={(text) => {
               setQ(text);

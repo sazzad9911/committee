@@ -17,9 +17,8 @@ import mainStyle from "../../styles/mainStyle";
 import Button from "../../components/main/Button";
 import { SvgXml } from "react-native-svg";
 import loader from "../../data/loader";
-import { post } from "../../apis/multipleApi";
+import { post, put, deletes } from "../../apis/multipleApi";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { deleteExpense, updateExpense } from "../../apis/api";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppValues } from "../../functions/values";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -65,12 +64,16 @@ export default function EditExpenses({ navigation, route }) {
   const save = async () => {
     dispatch(loader.show());
     try {
-      await updateExpense({
-        name,
-        amount,
-        date: date.toISOString(),
-        expenseId: data.id,
-      });
+      await put(
+        "/comity/expense/update",
+        {
+          name,
+          amount,
+          date: date.toISOString(),
+          expenseId: data.id,
+        },
+        user?.token
+      );
 
       dispatch(loader.hide());
       navigation.goBack();
@@ -83,7 +86,7 @@ export default function EditExpenses({ navigation, route }) {
   const handelDelete = async () => {
     try {
       dispatch(loader.show());
-      await deleteExpense(data.id);
+      await deletes(`/comity/expense/delete/${data.id}`, user?.token);
       navigation.pop(2);
     } catch (error) {
       console.log(error);
@@ -141,7 +144,7 @@ export default function EditExpenses({ navigation, route }) {
           outSideStyle={mainStyle.mt12}
           keyboardType={"numeric"}
           placeholder={isBn ? "০০.০০" : "0.00"}
-          level={isBn ? "পরিমানের লক্ষ *" : "amount *"}
+          level={isBn ? "টাকার পরিমাণ *" : "amount *"}
         />
         <Text
           style={{
