@@ -62,7 +62,8 @@ export default function UserSubscriptionDetails({ navigation, route }) {
       <View
         style={{
           marginTop: 20,
-        }}>
+        }}
+      >
         {info && (
           <CollectionCart
             textColor={textColor}
@@ -113,7 +114,8 @@ const Header = ({ searchIp, setSearch, name, data, paid, navigation }) => {
         },
       ]}
       start={{ x: 0.2, y: 0 }}
-      colors={!isDark ? (paid ? ac : un) : dc}>
+      colors={!isDark ? (paid ? ac : un) : dc}
+    >
       <View
         style={{
           paddingHorizontal: 0,
@@ -121,33 +123,38 @@ const Header = ({ searchIp, setSearch, name, data, paid, navigation }) => {
         }}
         transition={{
           type: "timing",
-        }}>
+        }}
+      >
         <View
           style={[
             mainStyle.flexBox,
             { justifyContent: "flex-start" },
             mainStyle.mt24,
-          ]}>
-          <Pressable onPress={()=>{
-            navigation?.goBack()
-          }}>
+          ]}
+        >
+          <Pressable
+            onPress={() => {
+              navigation?.goBack();
+            }}
+          >
             <SvgXml xml={back} />
           </Pressable>
-          <Text style={[mainStyle.subLevel, { color: "#fff",marginLeft:5 }]}>
+          <Text style={[mainStyle.subLevel, { color: "#fff", marginLeft: 5 }]}>
             {data?.name}
           </Text>
         </View>
         <View style={[mainStyle.flexBox]}>
-          <Text
+          {/* <Text
             style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
             {values.getValues()._ammoutSubs}
             {"    "}
             <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>
               {data?.amount}
             </Text>
-          </Text>
+          </Text> */}
           <Text
-            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}>
+            style={[mainStyle.text14, { color: "#B0B0B0" }, mainStyle.mt24]}
+          >
             {paid ? values.getValues()._paid : values.getValues()._unPaid}
             {"   "}
             <Text style={{ fontSize: 16, fontWeight: "800", color: "#fff" }}>

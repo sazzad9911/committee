@@ -20,7 +20,6 @@ import toast from "../../data/toast";
 import { AppColors } from "../../functions/colors";
 import { AppValues } from "../../functions/values";
 import mainStyle from "../../styles/mainStyle";
-import { createCollection, createMember } from "../../apis/api";
 
 export default function AddMemberSubscription({ navigation, route }) {
   const isDark = useSelector((state) => state.isDark);
@@ -66,17 +65,25 @@ export default function AddMemberSubscription({ navigation, route }) {
       dispatch(loader.show());
       let newMemberId = null;
       if (memberData) {
-        const { data: res } = await createMember({
-          ...memberData,
-        });
+        const { data: res } = await post(
+          "/member/create",
+          {
+            ...memberData,
+          },
+          user?.token
+        );
         newMemberId = res?.member.id;
       }
-      await createCollection({
-        subscriptionId: subscriptionId,
-        memberId: newMemberId ? newMemberId : data?.id,
-        amount: amount,
-        paid: paid ? "true" : "",
-      });
+      await post(
+        "/subs/create/collection",
+        {
+          subscriptionId: subscriptionId,
+          memberId: newMemberId ? newMemberId : data?.id,
+          amount: amount,
+          paid: paid ? "true" : "",
+        },
+        user?.token
+      );
 
       dispatch(toast.success("Collection created"));
       navigation.navigate(`${paid ? headlines._paid : headlines._unPaid}`);

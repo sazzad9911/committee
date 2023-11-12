@@ -67,7 +67,9 @@ export default function EditSubscription({ navigation, route }) {
 
   return (
     <ScrollView
-      style={{ backgroundColor: colors.getBackgroundColor() }}
+      style={{
+        backgroundColor: colors.getBackgroundColor(),
+      }}
       showsHorizontalScrollIndicator={false}
     >
       <View style={[mainStyle.pdH20, mainStyle.mt24]}>
@@ -75,8 +77,7 @@ export default function EditSubscription({ navigation, route }) {
           maxLength={20}
           value={name}
           onChange={setName}
-          level={values.getValues()._subscriptionName}
-          optionalLevel={values.getValues()._required}
+          level={`${values.getValues()._subscriptionName} *`}
           subLevel={values.getValues()._max20}
           placeholder={values.getValues()._placeholder1}
         />
@@ -109,9 +110,9 @@ export default function EditSubscription({ navigation, route }) {
             });
           }}
           style={{
-            position: "absolute",
+            zIndex: 10,
+            marginTop: 60,
             width: Dimensions.get("window").width - 40,
-            top: Dimensions.get("window").height - 450,
             borderColor: "#F00",
           }}
           color={"#F00"}
