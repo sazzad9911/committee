@@ -110,6 +110,12 @@ export default function CommitteeProfile({ navigation }) {
     }
   };
 
+  useEffect(() => {
+    if (isFocused) {
+      fetch();
+    }
+  }, [isFocused]);
+
   return (
     <ScrollView
       style={{ backgroundColor: colors.getBackgroundColor() }}
