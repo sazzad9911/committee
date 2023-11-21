@@ -18,6 +18,7 @@ import MemberPage from "../Dashboard/MemberPage";
 import CurrentBalance from "../Dashboard/CurrentBalance";
 import ImageSlider from "../../components/cart/ImageSlider";
 import HomeCards from "../../components/cart/HomeCards";
+import Tutorial from "../../components/cart/Tutorial";
 const Stack = createNativeStackNavigator();
 
 export default function Home({ navigation }) {
@@ -41,6 +42,7 @@ export default function Home({ navigation }) {
               backgroundColor: backgroundColor,
             }}
           >
+            <Tutorial />
             <ImageSlider />
             {/* <SignUpCart
               onPress={() => {
