@@ -24,7 +24,7 @@ export default function Otp({ navigation, route }) {
   const [otp, setOtp] = useState();
   const name = route?.params?.name;
   const [error, setError] = useState(false);
-  const [counter, setCounter] = useState(90);
+  const [counter, setCounter] = useState(10);
   const [loader, setLoader] = useState(false);
   const [token, setToken] = useState();
   const reset = route?.params?.reset;
@@ -42,7 +42,7 @@ export default function Otp({ navigation, route }) {
   const resendOTP = async () => {
     setError();
     console.log(number);
-    setCounter(90);
+    setCounter(10);
     setOtp();
     if (reset) {
       try {
