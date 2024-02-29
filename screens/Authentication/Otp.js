@@ -24,7 +24,7 @@ export default function Otp({ navigation, route }) {
   const [otp, setOtp] = useState();
   const name = route?.params?.name;
   const [error, setError] = useState(false);
-  const [counter, setCounter] = useState(10);
+  const [counter, setCounter] = useState(90);
   const [loader, setLoader] = useState(false);
   const [token, setToken] = useState();
   const reset = route?.params?.reset;
@@ -42,7 +42,7 @@ export default function Otp({ navigation, route }) {
   const resendOTP = async () => {
     setError();
     console.log(number);
-    setCounter(10);
+    setCounter(90);
     setOtp();
     if (reset) {
       try {
@@ -58,6 +58,11 @@ export default function Otp({ navigation, route }) {
       await sendOTP(number);
       setLoader(false);
     } catch (err) {
+      if (error.response?.status == 429) {
+        Alert.alert(
+          "আপনি অনেকবার রিকুয়েস্ট করেছেন। দয়া করে ২৪ ঘণ্টা পর আবার চেষ্টা করুন।"
+        );
+      }
       setLoader(false);
       console.error(err.message);
     }
@@ -84,10 +89,7 @@ export default function Otp({ navigation, route }) {
     checkOTP(number, otp)
       .then((res) => {
         setLoader(false);
-        navigation.navigate("Information", {
-          token: res.data?.token,
-          phone: number,
-        });
+        navigation.navigate("Information", { token: res.data?.token });
       })
       .catch((err) => {
         setLoader(false);

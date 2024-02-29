@@ -27,7 +27,6 @@ export default function Recovery({ navigation, route }) {
   const textColor = colors.getTextColor();
   const isBn = useSelector((state) => state.isBn);
 
-
   const sendOtp = async () => {
     try {
       dispatch(loader.show());
@@ -37,7 +36,11 @@ export default function Recovery({ navigation, route }) {
       navigation?.navigate("Otp", { number: number, reset: true });
     } catch (error) {
       console.log(error);
-      dispatch(toast.error(error?.response?.data?.msg));
+      if (error.response?.status == 429) {
+        Alert.alert("আপনি অনেকবার রিকুয়েস্ট করেছেন। দয়া করে ২৪ ঘণ্টা পর আবার চেষ্টা করুন। ");
+      } else {
+        dispatch(toast.error(error?.response?.data?.msg));
+      }
     } finally {
       dispatch(loader.hide());
     }
